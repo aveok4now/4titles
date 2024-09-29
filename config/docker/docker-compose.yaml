@@ -1,0 +1,79 @@
+services:
+    postgres:
+        image: postgis/postgis:14-3.3
+        container_name: artmap-pgsql
+        environment:
+            POSTGRES_DB: ${DB_DATABASE}
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+        networks:
+            - artmap-network
+        ports:
+            - '${FORWARD_DB_PORT:-5432}:5432'
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        healthcheck:
+            test:
+                ['CMD-SHELL', 'pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}']
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        restart: unless-stopped
+
+    pgadmin:
+        image: dpage/pgadmin4
+        container_name: artmap-pgadmin
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+            PGADMIN_CONFIG_SERVER_MODE: 'False'
+        volumes:
+            - pgadmin_data:/var/lib/pgadmin
+        ports:
+            - '${PGADMIN_PORT:-5050}:80'
+        networks:
+            - artmap-network
+        depends_on:
+            - postgres
+        restart: unless-stopped
+
+    nestjs:
+        build:
+            context: ../../backend
+            dockerfile: Dockerfile
+        container_name: artmap-backend
+        ports:
+            - '${BACKEND_HOST_PORT:-3000}:3000'
+        environment:
+            PORT: ${BACKEND_HOST_PORT:-3000}
+            DATABASE_URL: postgresql://${DB_USERNAME}:${DB_PASSWORD}@postgres:5432/${DB_DATABASE}
+            NODE_ENV: development
+        volumes:
+            - ../../backend/src:/usr/src/app/src
+        networks:
+            - artmap-network
+        depends_on:
+            - postgres
+        restart: unless-stopped
+
+    nginx:
+        image: nginx:latest
+        container_name: artmap-nginx
+        ports:
+            - '80:80'
+        networks:
+            - artmap-network
+        volumes:
+            - ../nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+        depends_on:
+            - nestjs
+        restart: unless-stopped
+
+networks:
+    artmap-network:
+        name: artmap-network
+        driver: bridge
+
+volumes:
+    postgres_data:
+    pgadmin_data:
