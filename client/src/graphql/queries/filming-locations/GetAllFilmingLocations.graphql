@@ -1,53 +1,53 @@
 fragment MovieInfo on Movie {
-  tmdbId
-  imdbId
-  title
-  posterPath
-  filmingLocations {
-    address
-    coordinates {
-      latitude
-      longitude
+    tmdbId
+    imdbId
+    title
+    posterPath
+    filmingLocations {
+        address
+        coordinates {
+            latitude
+            longitude
+        }
+        description
     }
-    description
-  }
 }
 
 fragment TvShowInfo on TvShow {
-  tmdbId
-  imdbId
-  name
-  posterPath
-  filmingLocations {
-    address
-    coordinates {
-      latitude
-      longitude
+    tmdbId
+    imdbId
+    name
+    posterPath
+    filmingLocations {
+        address
+        coordinates {
+            latitude
+            longitude
+        }
+        description
     }
-    description
-  }
 }
 
 query GetAllFilmingLocations($limit: Int) {
-  popularMovies(limit: $limit) {
-    ...MovieInfo
-  }
-  trendingMovies(limit: $limit) {
-    ...MovieInfo
-  }
-  trendingTvShows(limit: $limit) {
-    ...TvShowInfo
-  }
-  searchedMovies(limit: $limit) {
-    ...MovieInfo
-  }
-  topRatedMovies(limit: $limit) {
-    ...MovieInfo
-  }
-  topRatedTvShows(limit: $limit) {
-    ...TvShowInfo
-  }
-  upcomingMovies(limit: $limit) {
-    ...MovieInfo
-  }
+    popularMovies(limit: $limit) {
+        ...MovieInfo
+    }
+    trendingMovies(limit: $limit) {
+        ...MovieInfo
+    }
+    trendingTvShows(limit: $limit) {
+        ...TvShowInfo
+    }
+    searchedMovies(limit: $limit) {
+        ...MovieInfo
+    }
+    topRatedMovies(limit: $limit) {
+        ...MovieInfo
+    }
+    topRatedTvShows(limit: $limit) {
+        ...TvShowInfo
+    }
+    upcomingMovies(limit: $limit) {
+        ...MovieInfo
+    }
 }
