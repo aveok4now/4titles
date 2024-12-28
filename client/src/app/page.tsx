@@ -10,7 +10,7 @@ export default function Home() {
     })
 
     return (
-        <div className='text-white'>
+        <div className='w-full max-w-full break-words p-2'>
             {loading ? <span>loading...</span> : JSON.stringify(data)}
         </div>
     )
