@@ -1,0 +1,38 @@
+fragment TitleInfo {
+  tmdbId
+  imdbId
+  title
+  posterPath
+  filmingLocations {
+    address
+    coordinates {
+      latitude
+      longitude
+    }
+    description
+  }
+}
+
+query GetAllFilmingLocations($limit: Int) {
+  popularMovies(limit: $limit) {
+    ...TitleInfo
+  }
+  trendingMovies(limit: $limit) {
+    ...TitleInfo
+  }
+  trendingTvShows(limit: $limit) {
+    ...TitleInfo
+  }
+  searchedMovies(limit: $limit) {
+    ...TitleInfo
+  }
+  topRatedMovies(limit: $limit) {
+    ...TitleInfo
+  }
+  topRatedTvShows(limit: $limit) {
+    ...TitleInfo
+  }
+  upcomingMovies(limit: $limit) {
+    ...TitleInfo
+  }
+}
