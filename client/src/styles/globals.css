@@ -2,20 +2,78 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    --background: #ffffff;
-    --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
     :root {
-        --background: #0a0a0a;
-        --foreground: #ededed;
+        --background: 212 79% 95%;
+        --foreground: 212 5% 10%;
+        --card: 212 50% 90%;
+        --card-foreground: 212 5% 15%;
+        --popover: 212 79% 95%;
+        --popover-foreground: 212 95% 10%;
+        --primary: 212 36% 43%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 212 30% 70%;
+        --secondary-foreground: 0 0% 0%;
+        --muted: 174 30% 85%;
+        --muted-foreground: 212 5% 40%;
+        --accent: 174 30% 80%;
+        --accent-foreground: 212 5% 15%;
+        --destructive: 0 79% 50%;
+        --destructive-foreground: 212 5% 90%;
+        --border: 212 30% 67%;
+        --input: 212 30% 50%;
+        --ring: 212 36% 43%;
+        --radius: 0.75rem;
+    }
+    .dark {
+        --background: 212 50% 10%;
+        --foreground: 212 5% 90%;
+        --card: 212 50% 10%;
+        --card-foreground: 212 5% 90%;
+        --popover: 212 50% 5%;
+        --popover-foreground: 212 5% 90%;
+        --primary: 212 36% 43%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 212 30% 20%;
+        --secondary-foreground: 0 0% 100%;
+        --muted: 174 30% 25%;
+        --muted-foreground: 212 5% 65%;
+        --accent: 174 30% 25%;
+        --accent-foreground: 212 5% 90%;
+        --destructive: 0 79% 50%;
+        --destructive-foreground: 212 5% 90%;
+        --border: 212 30% 50%;
+        --input: 212 30% 50%;
+        --ring: 212 36% 43%;
+        --radius: 0.75rem;
     }
 }
 
-body {
-    color: var(--foreground);
-    background: var(--background);
-    font-family: Arial, Helvetica, sans-serif;
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    html {
+        @apply scroll-smooth;
+    }
+
+    body {
+        @apply overscroll-none bg-background text-foreground;
+
+        font-family: var(--font-geist-sans), 'sans-serif';
+        height: 100vh;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 9px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-background;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-secondary/65 hover:bg-secondary rounded-full;
 }
