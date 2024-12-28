@@ -1,8 +1,17 @@
-import { useTranslations } from 'next-intl'
+'use client'
+
+import { useGetAllFilmingLocationsQuery } from '@/graphql/generated/output'
 
 export default function Home() {
-    const t = useTranslations('home')
+    const { data, loading } = useGetAllFilmingLocationsQuery({
+        variables: {
+            limit: 100,
+        },
+    })
 
-    //TODO
-    return <div className='p-2 text-4xl font-bold'>{t('title')}</div>
+    return (
+        <div className='text-white'>
+            {loading ? <span>loading...</span> : JSON.stringify(data)}
+        </div>
+    )
 }
