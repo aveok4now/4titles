@@ -1,0 +1,29 @@
+{
+    "theme_color": "#ffffff",
+    "background_color": "#eef4f6",
+    "color-scheme": "light dark",
+    "icons": [
+        {
+            "purpose": "maskable",
+            "sizes": "512x512",
+            "src": "icons/icon512_maskable.png",
+            "type": "image/png"
+        },
+        {
+            "purpose": "any",
+            "sizes": "512x512",
+            "src": "icons/icon512_rounded.png",
+            "type": "image/png"
+        }
+    ],
+    "orientation": "portrait",
+    "display": "standalone",
+    "dir": "ltr",
+    "lang": "ru-RU",
+    "name": "4Titles - Movie Locations Explorer",
+    "short_name": "4Titles",
+    "start_url": "/",
+    "scope": "/",
+    "description": "Movie filming locations and more. Explore iconic movie scenes, find exact filming spots, and discover cinema history around the world.",
+    "categories": ["entertainment", "travel", "movies"]
+}
