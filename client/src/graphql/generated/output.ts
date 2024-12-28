@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -6,6 +7,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -331,3 +333,106 @@ export type TvShow = {
   voteAverage: Scalars['Float']['output'];
   voteCount: Scalars['Int']['output'];
 };
+
+export type MovieInfoFragment = { __typename?: 'Movie', tmdbId: number, imdbId: string, title: string, posterPath?: string | null, filmingLocations: Array<{ __typename?: 'FilmingLocation', address: string, description?: string | null, coordinates?: { __typename?: 'Point', latitude?: number | null, longitude?: number | null } | null }> };
+
+export type TvShowInfoFragment = { __typename?: 'TvShow', tmdbId: number, imdbId: string, name: string, posterPath?: string | null, filmingLocations: Array<{ __typename?: 'FilmingLocation', address: string, description?: string | null, coordinates?: { __typename?: 'Point', latitude?: number | null, longitude?: number | null } | null }> };
+
+export type GetAllFilmingLocationsQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type GetAllFilmingLocationsQuery = { __typename?: 'Query', popularMovies: Array<{ __typename?: 'Movie', tmdbId: number, imdbId: string, title: string, posterPath?: string | null, filmingLocations: Array<{ __typename?: 'FilmingLocation', address: string, description?: string | null, coordinates?: { __typename?: 'Point', latitude?: number | null, longitude?: number | null } | null }> }>, trendingMovies: Array<{ __typename?: 'Movie', tmdbId: number, imdbId: string, title: string, posterPath?: string | null, filmingLocations: Array<{ __typename?: 'FilmingLocation', address: string, description?: string | null, coordinates?: { __typename?: 'Point', latitude?: number | null, longitude?: number | null } | null }> }>, trendingTvShows: Array<{ __typename?: 'TvShow', tmdbId: number, imdbId: string, name: string, posterPath?: string | null, filmingLocations: Array<{ __typename?: 'FilmingLocation', address: string, description?: string | null, coordinates?: { __typename?: 'Point', latitude?: number | null, longitude?: number | null } | null }> }>, searchedMovies: Array<{ __typename?: 'Movie', tmdbId: number, imdbId: string, title: string, posterPath?: string | null, filmingLocations: Array<{ __typename?: 'FilmingLocation', address: string, description?: string | null, coordinates?: { __typename?: 'Point', latitude?: number | null, longitude?: number | null } | null }> }>, topRatedMovies: Array<{ __typename?: 'Movie', tmdbId: number, imdbId: string, title: string, posterPath?: string | null, filmingLocations: Array<{ __typename?: 'FilmingLocation', address: string, description?: string | null, coordinates?: { __typename?: 'Point', latitude?: number | null, longitude?: number | null } | null }> }>, topRatedTvShows: Array<{ __typename?: 'TvShow', tmdbId: number, imdbId: string, name: string, posterPath?: string | null, filmingLocations: Array<{ __typename?: 'FilmingLocation', address: string, description?: string | null, coordinates?: { __typename?: 'Point', latitude?: number | null, longitude?: number | null } | null }> }>, upcomingMovies: Array<{ __typename?: 'Movie', tmdbId: number, imdbId: string, title: string, posterPath?: string | null, filmingLocations: Array<{ __typename?: 'FilmingLocation', address: string, description?: string | null, coordinates?: { __typename?: 'Point', latitude?: number | null, longitude?: number | null } | null }> }> };
+
+export const MovieInfoFragmentDoc = gql`
+    fragment MovieInfo on Movie {
+  tmdbId
+  imdbId
+  title
+  posterPath
+  filmingLocations {
+    address
+    coordinates {
+      latitude
+      longitude
+    }
+    description
+  }
+}
+    `;
+export const TvShowInfoFragmentDoc = gql`
+    fragment TvShowInfo on TvShow {
+  tmdbId
+  imdbId
+  name
+  posterPath
+  filmingLocations {
+    address
+    coordinates {
+      latitude
+      longitude
+    }
+    description
+  }
+}
+    `;
+export const GetAllFilmingLocationsDocument = gql`
+    query GetAllFilmingLocations($limit: Int) {
+  popularMovies(limit: $limit) {
+    ...MovieInfo
+  }
+  trendingMovies(limit: $limit) {
+    ...MovieInfo
+  }
+  trendingTvShows(limit: $limit) {
+    ...TvShowInfo
+  }
+  searchedMovies(limit: $limit) {
+    ...MovieInfo
+  }
+  topRatedMovies(limit: $limit) {
+    ...MovieInfo
+  }
+  topRatedTvShows(limit: $limit) {
+    ...TvShowInfo
+  }
+  upcomingMovies(limit: $limit) {
+    ...MovieInfo
+  }
+}
+    ${MovieInfoFragmentDoc}
+${TvShowInfoFragmentDoc}`;
+
+/**
+ * __useGetAllFilmingLocationsQuery__
+ *
+ * To run a query within a React component, call `useGetAllFilmingLocationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllFilmingLocationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllFilmingLocationsQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useGetAllFilmingLocationsQuery(baseOptions?: Apollo.QueryHookOptions<GetAllFilmingLocationsQuery, GetAllFilmingLocationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllFilmingLocationsQuery, GetAllFilmingLocationsQueryVariables>(GetAllFilmingLocationsDocument, options);
+      }
+export function useGetAllFilmingLocationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllFilmingLocationsQuery, GetAllFilmingLocationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllFilmingLocationsQuery, GetAllFilmingLocationsQueryVariables>(GetAllFilmingLocationsDocument, options);
+        }
+export function useGetAllFilmingLocationsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAllFilmingLocationsQuery, GetAllFilmingLocationsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllFilmingLocationsQuery, GetAllFilmingLocationsQueryVariables>(GetAllFilmingLocationsDocument, options);
+        }
+export type GetAllFilmingLocationsQueryHookResult = ReturnType<typeof useGetAllFilmingLocationsQuery>;
+export type GetAllFilmingLocationsLazyQueryHookResult = ReturnType<typeof useGetAllFilmingLocationsLazyQuery>;
+export type GetAllFilmingLocationsSuspenseQueryHookResult = ReturnType<typeof useGetAllFilmingLocationsSuspenseQuery>;
+export type GetAllFilmingLocationsQueryResult = Apollo.QueryResult<GetAllFilmingLocationsQuery, GetAllFilmingLocationsQueryVariables>;
