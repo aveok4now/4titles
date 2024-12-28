@@ -1,4 +1,4 @@
-import type { CodegenConfig } from "@graphql-codegen/cli"
+import type { CodegenConfig } from '@graphql-codegen/cli'
 import 'dotenv/config'
 
 const config: CodegenConfig = {
@@ -9,11 +9,11 @@ const config: CodegenConfig = {
             plugins: [
                 'typescript',
                 'typescript-operations',
-                'typescript-react-apollo'
-            ]
-        }
+                'typescript-react-apollo',
+            ],
+        },
     },
-    ignoreNoDocuments: true
+    ignoreNoDocuments: true,
 }
 
 export default config

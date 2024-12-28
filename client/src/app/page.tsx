@@ -1,5 +1,7 @@
+import { useTranslations } from 'next-intl'
+
 export default function Home() {
-  return (
-    <div className="text-white">Home Page</div>
-  );
+    const t = useTranslations('home')
+
+    return <div className='text-white'>{t('title')}</div>
 }
