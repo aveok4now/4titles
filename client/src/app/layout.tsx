@@ -19,6 +19,7 @@ export default async function RootLayout({
 
     return (
         <html lang={locale} suppressHydrationWarning>
+            <meta name='color-scheme' content='light dark'></meta>
             <body className={GeistSans.variable}>
                 <ApolloClientProvider>
                     <NextIntlClientProvider messages={messages}>
