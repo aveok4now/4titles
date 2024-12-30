@@ -1,13 +1,13 @@
 services:
   postgres:
     image: postgis/postgis:14-3.3
-    container_name: artmap-pgsql
+    container_name: titles-pgsql
     environment:
       POSTGRES_DB: ${DB_DATABASE}
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
     networks:
-      - artmap-network
+      - titles-network
     ports:
       - "${FORWARD_DB_PORT:-5432}:5432"
     volumes:
@@ -21,7 +21,7 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: artmap-pgadmin
+    container_name: titles-pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
@@ -31,16 +31,16 @@ services:
     ports:
       - "${PGADMIN_PORT:-5050}:80"
     networks:
-      - artmap-network
+      - titles-network
     depends_on:
       - postgres
     restart: unless-stopped
 
   redis:
     image: redis:alpine
-    container_name: artmap-redis
+    container_name: titles-redis
     networks:
-      - artmap-network
+      - titles-network
     ports:
       - "6379:6379"
     command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
@@ -52,7 +52,7 @@ services:
     build:
       context: ../../backend
       dockerfile: Dockerfile
-    container_name: artmap-backend
+    container_name: titles-backend
     ports:
       - "${BACKEND_HOST_PORT:-3000}:3000"
     environment:
@@ -61,8 +61,14 @@ services:
       NODE_ENV: development
     volumes:
       - ../../backend/src:/usr/src/app/src
+      - ../../backend/node_modules:/usr/src/app/node_modules
     networks:
-      - artmap-network
+      - titles-network
+    cap_add:
+      - SYS_ADMIN
+    shm_size: "4gb"
+    security_opt:
+      - seccomp=unconfined
     depends_on:
       - postgres
       - redis
@@ -70,11 +76,11 @@ services:
 
   nginx:
     image: nginx:latest
-    container_name: artmap-nginx
+    container_name: titles-nginx
     ports:
       - "80:80"
     networks:
-      - artmap-network
+      - titles-network
     volumes:
       - ../nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
@@ -82,8 +88,8 @@ services:
     restart: unless-stopped
 
 networks:
-  artmap-network:
-    name: artmap-network
+  titles-network:
+    name: titles-network
     driver: bridge
 
 volumes:
