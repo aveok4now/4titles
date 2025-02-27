@@ -1,3 +1,14 @@
+x-common-variables: &common-variables
+  POSTGRES_DB: ${DB_DATABASE}
+  POSTGRES_USER: ${DB_USERNAME}
+  POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+  REDIS_HOST: ${REDIS_HOST:-redis}
+  REDIS_PORT: ${REDIS_PORT:-6379}
+  REDIS_TTL: ${REDIS_TTL:-8600}
+  REDIS_USERNAME: ${REDIS_USERNAME:-default}
+  REDIS_PASSWORD: ${REDIS_PASSWORD}
+  REDIS_URL: redis://${REDIS_USERNAME}:${REDIS_PASSWORD}@${REDIS_HOST}:${REDIS_PORT}
+
 services:
   postgres:
     image: postgis/postgis:14-3.3
@@ -6,6 +17,7 @@ services:
       POSTGRES_DB: ${DB_DATABASE}
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+      PGDATA: /var/lib/postgresql/data/pgdata
     networks:
       - titles-network
     ports:
@@ -17,10 +29,15 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 30s
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
 
   pgadmin:
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:latest
     container_name: titles-pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
@@ -33,8 +50,13 @@ services:
     networks:
       - titles-network
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
   redis:
     image: redis:alpine
@@ -42,23 +64,60 @@ services:
     networks:
       - titles-network
     ports:
-      - "6379:6379"
-    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+      - "${REDIS_PORT:-6379}:6379"
+    command: >
+      redis-server
+      --requirepass ${REDIS_PASSWORD}
+      --save 60 1
+      --loglevel warning
+      --bind 0.0.0.0
     volumes:
       - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "--pass", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  redis-insight:
+    image: redis/redisinsight:latest
+    container_name: titles-redis-insight
+    ports:
+      - "5540:5540"
+    volumes:
+      - redis_insight_data:/db
+    networks:
+      - titles-network
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
   nestjs:
     build:
       context: ../../backend
       dockerfile: Dockerfile
+      args:
+        NODE_ENV: ${NODE_ENV:-development}
     container_name: titles-backend
     ports:
       - "${BACKEND_HOST_PORT:-3000}:3000"
     environment:
+      <<: *common-variables
       PORT: ${BACKEND_HOST_PORT:-3000}
       DATABASE_URL: postgresql://${DB_USERNAME}:${DB_PASSWORD}@postgres:5432/${DB_DATABASE}
-      NODE_ENV: development
+      NODE_ENV: ${NODE_ENV:-development}
+      REDIS_CONNECTION_RETRY_DELAY: ${REDIS_CONNECTION_RETRY_DELAY:-2000}
+      REDIS_MAX_RETRIES_PER_REQUEST: ${REDIS_MAX_RETRIES_PER_REQUEST:-5}
     volumes:
       - ../../backend/src:/usr/src/app/src
       - ../../backend/node_modules:/usr/src/app/node_modules
@@ -70,12 +129,29 @@ services:
     security_opt:
       - seccomp=unconfined
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: "1.5"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget --spider -q http://localhost:${BACKEND_HOST_PORT}/health",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   nginx:
-    image: nginx:latest
+    image: nginx:stable
     container_name: titles-nginx
     ports:
       - "80:80"
@@ -84,8 +160,37 @@ services:
     volumes:
       - ../nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
-      - nestjs
+      nestjs:
+        condition: service_healthy
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: titles-grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-adminpassword}
+    ports:
+      - "${GRAFANA_PORT:-3001}:3000"
+    networks:
+      - titles-network
+    volumes:
+      - grafana_data:/var/lib/grafana
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
 networks:
   titles-network:
@@ -94,5 +199,12 @@ networks:
 
 volumes:
   postgres_data:
+    name: titles-postgres-data
   pgadmin_data:
+    name: titles-pgadmin-data
   redis_data:
+    name: titles-redis-data
+  redis_insight_data:
+    name: titles-redis-insight-data
+  grafana_data:
+    name: titles-grafana-data
