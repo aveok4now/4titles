@@ -8,6 +8,11 @@ x-common-variables: &common-variables
   REDIS_USERNAME: ${REDIS_USERNAME:-default}
   REDIS_PASSWORD: ${REDIS_PASSWORD}
   REDIS_URL: redis://${REDIS_USERNAME}:${REDIS_PASSWORD}@${REDIS_HOST}:${REDIS_PORT}
+  MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+  MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+  MINIO_SERVER_URL: ${MINIO_SERVER_URL:-http://${MINIO_ENDPOINT:-minio}:${MINIO_PORT:-9000}}
+  MINIO_USE_SSL: ${MINIO_USE_SSL:-false}
+  MINIO_DEFAULT_BUCKET: ${MINIO_DEFAULT_BUCKET:-uploads}
 
 services:
   postgres:
@@ -102,6 +107,31 @@ services:
         limits:
           memory: 512M
 
+  minio:
+    image: bitnami/minio:latest
+    container_name: titles-minio
+    ports:
+      - "${MINIO_API_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      MINIO_DEFAULT_BUCKETS: ${MINIO_DEFAULT_BUCKETS:-uploads:public}
+    volumes:
+      - minio_data:/bitnami/minio/data
+    networks:
+      - titles-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+
   nestjs:
     build:
       context: ../../backend
@@ -118,6 +148,12 @@ services:
       NODE_ENV: ${NODE_ENV:-development}
       REDIS_CONNECTION_RETRY_DELAY: ${REDIS_CONNECTION_RETRY_DELAY:-2000}
       REDIS_MAX_RETRIES_PER_REQUEST: ${REDIS_MAX_RETRIES_PER_REQUEST:-5}
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT}
+      MINIO_PORT: ${MINIO_PORT}
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      MINIO_USE_SSL: ${MINIO_USE_SSL:-false}
+      MINIO_DEFAULT_BUCKET: ${MINIO_DEFAULT_BUCKET:-uploads}
     volumes:
       - ../../backend/src:/usr/src/app/src
       - ../../backend/node_modules:/usr/src/app/node_modules
@@ -132,6 +168,8 @@ services:
       postgres:
         condition: service_healthy
       redis:
+        condition: service_healthy
+      minio:
         condition: service_healthy
     restart: unless-stopped
     deploy:
@@ -159,6 +197,7 @@ services:
       - titles-network
     volumes:
       - ../nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../models:/usr/share/nginx/html/models:ro
     depends_on:
       nestjs:
         condition: service_healthy
@@ -208,3 +247,5 @@ volumes:
     name: titles-redis-insight-data
   grafana_data:
     name: titles-grafana-data
+  minio_data:
+    name: titles-minio-data
