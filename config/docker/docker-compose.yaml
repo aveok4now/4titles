@@ -13,6 +13,9 @@ x-common-variables: &common-variables
   MINIO_SERVER_URL: ${MINIO_SERVER_URL:-http://${MINIO_ENDPOINT:-minio}:${MINIO_PORT:-9000}}
   MINIO_USE_SSL: ${MINIO_USE_SSL:-false}
   MINIO_DEFAULT_BUCKET: ${MINIO_DEFAULT_BUCKET:-uploads}
+  ELASTICSEARCH_NODE: ${ELASTICSEARCH_NODE:-http://elasticsearch:9200}
+  ELASTICSEARCH_USERNAME: ${ELASTICSEARCH_USERNAME:-elastic}
+  ELASTICSEARCH_PASSWORD: ${ELASTICSEARCH_PASSWORD:-elastic_pass}
 
 services:
   postgres:
@@ -154,6 +157,9 @@ services:
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
       MINIO_USE_SSL: ${MINIO_USE_SSL:-false}
       MINIO_DEFAULT_BUCKET: ${MINIO_DEFAULT_BUCKET:-uploads}
+      ELASTICSEARCH_NODE: ${ELASTICSEARCH_NODE:-http://elasticsearch:9200}
+      ELASTICSEARCH_USERNAME: ${ELASTICSEARCH_USERNAME:-elastic}
+      ELASTICSEARCH_PASSWORD: ${ELASTICSEARCH_PASSWORD:-changeme}
     volumes:
       - ../../backend/src:/usr/src/app/src
       - ../../backend/node_modules:/usr/src/app/node_modules
@@ -171,6 +177,8 @@ services:
         condition: service_healthy
       minio:
         condition: service_healthy
+      elasticsearch:
+        condition: service_started
     restart: unless-stopped
     deploy:
       resources:
@@ -231,6 +239,52 @@ services:
         limits:
           memory: 512M
 
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
+    container_name: titles-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=true
+      - ELASTIC_PASSWORD=${ELASTICSEARCH_PASSWORD:-elastic_pass}
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    ports:
+      - "${ELASTICSEARCH_PORT:-9200}:9200"
+      - "${ELASTICSEARCH_TCP_PORT:-9300}:9300"
+    networks:
+      - titles-network
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.12.0
+    container_name: titles-kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=${ELASTICSEARCH_NODE}
+      - KIBANA_SERVICE_TOKEN=${KIBANA_SERVICE_TOKEN}
+    volumes:
+      - ../kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
+    ports:
+      - "${KIBANA_PORT:-5601}:5601"
+    networks:
+      - titles-network
+    depends_on:
+      - elasticsearch
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
 networks:
   titles-network:
     name: titles-network
@@ -249,3 +303,5 @@ volumes:
     name: titles-grafana-data
   minio_data:
     name: titles-minio-data
+  elasticsearch_data:
+    name: titles-elasticsearch-data
