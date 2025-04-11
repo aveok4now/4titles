@@ -37,7 +37,7 @@ export function AuthWrapper({
                 />
             </div>
             <h1 className='mb-6 text-2xl font-bold'>{heading}</h1>
-            <Card className='w-full max-w-[450px] border-border/50 bg-background/60 shadow-lg backdrop-blur-sm'>
+            <Card className='w-full max-w-[450px] border-border/50 bg-background/50 shadow-lg backdrop-blur-sm'>
                 <CardContent className='px-6 pt-6 sm:px-8'>
                     {children}
                 </CardContent>
