@@ -1,15 +1,32 @@
 import { z } from 'zod'
 
-export const createAccountSchema = z.object({
-    username: z.string().min(3, {
-        message: 'Имя пользователя должно содержать не менее 3 символов',
-    }),
-    email: z.string().email({
-        message: 'Пожалуйста, введите корректный email',
-    }),
-    password: z.string().min(8, {
-        message: 'Пароль должен содержать не менее 8 символов',
-    }),
-})
+export const createAccountSchema = (t: {
+    usernameMinLengthValidationError: string
+    usernameInvalidCharactersValidationError: string
+    emailValidationError: string
+    passwordMinLengthValidationError: string
+    passwordWeaknessError: string
+}) =>
+    z.object({
+        username: z
+            .string()
+            .min(5, {
+                message: t.usernameMinLengthValidationError,
+            })
+            .regex(/^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/, {
+                message: t.usernameInvalidCharactersValidationError,
+            }),
+        email: z.string().email({
+            message: t.emailValidationError,
+        }),
+        password: z
+            .string()
+            .min(8, { message: t.passwordMinLengthValidationError })
+            .regex(/^(?=.*\p{Ll})(?=.*\p{Lu})(?=.*\d).+$/u, {
+                message: t.passwordWeaknessError,
+            }),
+    })
 
-export type CreateAccountSchemaType = z.infer<typeof createAccountSchema>
+export type CreateAccountSchemaType = z.infer<
+    ReturnType<typeof createAccountSchema>
+>

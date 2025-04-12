@@ -3,6 +3,7 @@ import { createMetadata, viewport } from '@/config'
 import { BackgroundProvider } from '@/contexts/background-context'
 import { ApolloClientProvider } from '@/providers/ApolloClientProvider'
 import { ThemeProvider } from '@/providers/ThemeProvider'
+import { ToastProvider } from '@/providers/ToastProvider'
 import { GeistSans } from 'geist/font/sans'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
@@ -33,6 +34,7 @@ export default async function RootLayout({
                                 enableSystem
                                 disableTransitionOnChange
                             >
+                                <ToastProvider />
                                 {children}
                             </ThemeProvider>
                         </NextIntlClientProvider>

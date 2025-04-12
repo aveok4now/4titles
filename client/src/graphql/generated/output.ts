@@ -1139,6 +1139,13 @@ export type VerificationInput = {
   token: Scalars['String']['input'];
 };
 
+export type CreateAccountMutationVariables = Exact<{
+  input: CreateUserInput;
+}>;
+
+
+export type CreateAccountMutation = { __typename?: 'Mutation', createAccount: boolean };
+
 export type TitlesQueryVariables = Exact<{
   filter?: InputMaybe<TitleFilterInput>;
 }>;
@@ -1147,6 +1154,37 @@ export type TitlesQueryVariables = Exact<{
 export type TitlesQuery = { __typename?: 'Query', titles: { __typename?: 'PaginatedTitleSearchResults', total: number, hasNextPage: boolean, hasPreviousPage: boolean, items: Array<{ __typename?: 'Title', id: string, tmdbId: string, imdbId?: string | null, originalName?: string | null, type: TitleType, category: TitleCategory, status: TitleStatus, isAdult: boolean, posterPath?: string | null, backdropPath?: string | null, popularity: number, hasLocations: boolean, voteAverage?: number | null, voteCount?: number | null, releaseDate?: string | null, createdAt: any, updatedAt: any, lastSyncedAt?: any | null, details?: { __typename?: 'TitleDetails', budget?: number | null, revenue?: number | null, runtime?: number | null, vote_average?: number | null, vote_count?: number | null, release_date?: string | null } | null, keywords?: Array<{ __typename?: 'TitleKeyword', id?: number | null, name?: string | null }> | null, credits?: { __typename?: 'TitleCredits', cast?: Array<{ __typename?: 'TitleCredit', id?: number | null, adult?: boolean | null, gender?: number | null, known_for_department?: string | null, name?: string | null, original_name?: string | null, popularity?: number | null, profile_path?: string | null, character?: string | null, credit_id?: string | null, order?: number | null }> | null, crew?: Array<{ __typename?: 'TitleCredit', id?: number | null, adult?: boolean | null, gender?: number | null, known_for_department?: string | null, name?: string | null, original_name?: string | null, popularity?: number | null, profile_path?: string | null, character?: string | null, credit_id?: string | null, order?: number | null }> | null } | null, alternativeTitles?: Array<{ __typename?: 'TitleAlternativeTitle', iso_3166_1?: string | null, title?: string | null, type?: string | null }> | null, externalIds?: { __typename?: 'TitleExternalIds', imdb_id?: string | null, freebase_mid?: string | null, freebase_id?: string | null, tvdb_id?: number | null, tvrage_id?: number | null, wikidata_id?: string | null, facebook_id?: string | null, instagram_id?: string | null, twitter_id?: string | null } | null, filmingLocations: Array<{ __typename?: 'TitleFilmingLocation', id: string, titleId: string, filmingLocationId: string, createdAt: any, updatedAt: any, filmingLocation: { __typename?: 'FilmingLocation', id: string, address: string, formattedAddress?: string | null, placeId?: string | null, city?: string | null, state?: string | null, description?: string | null, enhancedDescription?: string | null, createdAt: any, updatedAt: any, coordinates?: { __typename?: 'Point', x?: number | null, y?: number | null } | null } }>, genres: Array<{ __typename?: 'TitleGenre', titleId: string, genreId: string, genre: { __typename?: 'Genre', id: string, tmdbId: string, name: string, englishName?: string | null } }>, languages: Array<{ __typename?: 'TitleLanguage', titleId: string, languageId: string, type: TitleLanguageType, language: { __typename?: 'Language', id: string, iso: string, nativeName: string, englishName: string } }>, countries: Array<{ __typename?: 'TitleCountry', titleId: string, countryId: string, type: CountryRelation, country: { __typename?: 'Country', id: string, iso: string, englishName: string, name?: string | null } }>, translations: Array<{ __typename?: 'TitleTranslation', id: string, titleId: string, languageId: string, title: string, overview?: string | null, tagline?: string | null, homepage?: string | null }>, images?: { __typename?: 'TitleImages', backdrops: Array<{ __typename?: 'TitleImage', aspect_ratio?: number | null, height?: number | null, width?: number | null, iso_639_1?: string | null, file_path?: string | null, vote_average?: number | null, vote_count?: number | null }>, logos: Array<{ __typename?: 'TitleImage', aspect_ratio?: number | null, height?: number | null, width?: number | null, iso_639_1?: string | null, file_path?: string | null, vote_average?: number | null, vote_count?: number | null }>, posters: Array<{ __typename?: 'TitleImage', aspect_ratio?: number | null, height?: number | null, width?: number | null, iso_639_1?: string | null, file_path?: string | null, vote_average?: number | null, vote_count?: number | null }> } | null }> } };
 
 
+export const CreateAccountDocument = gql`
+    mutation CreateAccount($input: CreateUserInput!) {
+  createAccount(data: $input)
+}
+    `;
+export type CreateAccountMutationFn = Apollo.MutationFunction<CreateAccountMutation, CreateAccountMutationVariables>;
+
+/**
+ * __useCreateAccountMutation__
+ *
+ * To run a mutation, you first call `useCreateAccountMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateAccountMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createAccountMutation, { data, loading, error }] = useCreateAccountMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateAccountMutation(baseOptions?: Apollo.MutationHookOptions<CreateAccountMutation, CreateAccountMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateAccountMutation, CreateAccountMutationVariables>(CreateAccountDocument, options);
+      }
+export type CreateAccountMutationHookResult = ReturnType<typeof useCreateAccountMutation>;
+export type CreateAccountMutationResult = Apollo.MutationResult<CreateAccountMutation>;
+export type CreateAccountMutationOptions = Apollo.BaseMutationOptions<CreateAccountMutation, CreateAccountMutationVariables>;
 export const TitlesDocument = gql`
     query Titles($filter: TitleFilterInput) {
   titles(filter: $filter) {

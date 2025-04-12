@@ -1,5 +1,24 @@
 {
     "home": {
         "title": "Главная страница"
+    },
+    "auth": {
+        "register": {
+            "heading": "Регистрация",
+            "backButtonLabel": "Войти",
+            "backButtonQuestion": "Уже есть аккаунт?",
+            "usernameLabel": "Имя пользователя",
+            "usernameMinLengthValidationError": "Должно содержать не менее 5 символов",
+            "usernameInvalidCharactersValidationError": "Имя пользователя содержит недопустимые символы",
+            "emailLabel": "Адрес электронной почты",
+            "emailValidationError": "Email должен быть валидным адресом",
+            "passwordLabel": "Пароль",
+            "passwordMinLengthValidationError": "Должен содержать не менее 8 символов",
+            "passwordWeaknessError": "Должен содержать минимум 1 заглавную букву и цифру",
+            "submitButton": "Продолжить",
+            "serverErrorMessage": "При обработке Вашего запроса произошла ошибка. Проверьте введённые данные или попробуйте позже",
+            "successAlertTitle": "Пожалуйста, проверьте свою почту",
+            "successAlertDescription": "На Ваш адрес электронной почты было отправлено письмо с ссылкой для подтверждения. Если Вы не видите письмо, проверьте папку «Спам»"
+        }
     }
 }

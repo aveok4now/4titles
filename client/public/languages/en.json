@@ -1,5 +1,24 @@
 {
     "home": {
         "title": "Home page"
+    },
+    "auth": {
+        "register": {
+            "heading": "Sign up",
+            "backButtonLabel": "Log in",
+            "backButtonQuestion": "Already have an account?",
+            "usernameLabel": "Username",
+            "usernameMinLengthValidationError": "Must contain at least 5 characters",
+            "usernameInvalidCharactersValidationError": "Username contains invalid characters",
+            "emailLabel": "Email address",
+            "emailValidationError": "Please enter a valid email address",
+            "passwordLabel": "Password",
+            "passwordMinLengthValidationError": "Must contain at least 8 characters",
+            "passwordWeaknessError": "Must contain at least 1 uppercase letter and 1 number",
+            "submitButton": "Continue",
+            "serverErrorMessage": "An error occurred while processing your request. Please check your input or try again later",
+            "successAlertTitle": "Please check your inbox",
+            "successAlertDescription": "A confirmation email has been sent to your email address. If you don't see the email, please check your «Spam» folder"
+        }
     }
 }

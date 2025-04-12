@@ -1,82 +1,127 @@
 'use client'
 
-import {
-    createAccountSchema,
-    CreateAccountSchemaType,
-} from '@/schemas/auth/create-account.schema'
-import { useForm } from 'react-hook-form'
-import { AuthWrapper } from '../AuthWrapper'
-
 import { Button } from '@/components/ui/common/button'
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from '@/components/ui/common/form'
 import { Input } from '@/components/ui/common/input'
+import { Separator } from '@/components/ui/common/separator'
+import FadeContent from '@/components/ui/custom/content/fade-content'
+import BlurText from '@/components/ui/custom/text/blur-text'
+import { useCreateAccountMutation } from '@/graphql/generated/output'
+import {
+    createAccountSchema,
+    CreateAccountSchemaType,
+} from '@/schemas/auth/create-account.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslations } from 'next-intl'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { AuthWrapper } from '../AuthWrapper'
 
 export function CreateAccountForm() {
+    const t = useTranslations('auth.register')
+
+    const [isSubmitted, setIsSubmitted] = useState(false)
+    const [isSuccess, setIsSuccess] = useState(true)
+
     const form = useForm<CreateAccountSchemaType>({
-        resolver: zodResolver(createAccountSchema),
+        resolver: zodResolver(
+            createAccountSchema({
+                usernameMinLengthValidationError: t(
+                    'usernameMinLengthValidationError',
+                ),
+                usernameInvalidCharactersValidationError: t(
+                    'usernameInvalidCharactersValidationError',
+                ),
+                emailValidationError: t('emailValidationError'),
+                passwordMinLengthValidationError: t(
+                    'passwordMinLengthValidationError',
+                ),
+                passwordWeaknessError: t('passwordWeaknessError'),
+            }),
+        ),
         defaultValues: {
             username: '',
             email: '',
             password: '',
         },
+        mode: 'onSubmit',
+        reValidateMode: 'onChange',
+    })
+
+    const [create, { loading: isAccountCreating }] = useCreateAccountMutation({
+        onCompleted() {
+            setIsSuccess(true)
+        },
+        onError() {
+            toast.error(t('serverErrorMessage'), {
+                position: 'top-center',
+                duration: 2000,
+            })
+        },
     })
 
     const { isValid } = form.formState
 
-    async function onSubmit(data: CreateAccountSchemaType) {
-        // setIsLoading(true)
-
-        try {
-            // Handle form submission logic here
-            console.table(data)
-
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1500))
-        } catch (error) {
-            console.error(error)
-        } finally {
-            // setIsLoading(false)
+    async function onSubmit(input: CreateAccountSchemaType) {
+        setIsSubmitted(true)
+        if (isValid) {
+            create({ variables: { input } })
         }
     }
 
     return (
         <AuthWrapper
-            heading='Регистрация'
-            backButtonQuestion='Уже есть аккаунт?'
-            backButtonLabel='Войти'
+            heading={t('heading')}
+            backButtonQuestion={t('backButtonQuestion')}
+            backButtonLabel={t('backButtonLabel')}
             backButtonHref='/account/login'
         >
-            <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className='space-y-4'
-                >
-                    <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+            {isSuccess ? (
+                <div className='flex flex-col items-center gap-4 py-4 text-center'>
+                    <BlurText
+                        className='text-md font-semibold text-foreground md:text-xl'
+                        text={t('successAlertTitle')}
+                        delay={100}
+                    />
+                    <FadeContent delay={125} duration={1500} blur={true}>
+                        <p className='max-w-fit text-sm text-muted-foreground'>
+                            {t('successAlertDescription')}
+                        </p>
+                    </FadeContent>
+                </div>
+            ) : (
+                <Form {...form}>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className='space-y-4'
+                    >
                         <FormField
                             control={form.control}
                             name='username'
                             render={({ field }) => (
                                 <FormItem className='space-y-1.5'>
                                     <FormLabel className='text-sm font-medium text-foreground'>
-                                        Имя пользователя
+                                        {t('usernameLabel')}
                                     </FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder='username'
                                             className='h-11 border-input/50 bg-muted/30 focus-visible:ring-primary'
+                                            disabled={isAccountCreating}
                                             {...field}
                                         />
                                     </FormControl>
-                                    <FormMessage className='text-xs' />
+                                    <div className='h-3.5 md:h-2.5'>
+                                        <FormMessage className='text-xs' />
+                                    </div>
                                 </FormItem>
                             )}
                         />
@@ -87,53 +132,66 @@ export function CreateAccountForm() {
                             render={({ field }) => (
                                 <FormItem className='space-y-1.5'>
                                     <FormLabel className='text-sm font-medium text-foreground'>
-                                        Электронная почта
+                                        {t('emailLabel')}
                                     </FormLabel>
                                     <FormControl>
                                         <Input
                                             type='email'
                                             placeholder='example@example.com'
                                             className='h-11 border-input/50 bg-muted/30 focus-visible:ring-primary'
+                                            disabled={isAccountCreating}
                                             {...field}
                                         />
                                     </FormControl>
-                                    <FormMessage className='text-xs' />
+                                    <div className='h-3.5 md:h-2.5'>
+                                        <FormMessage className='text-xs' />
+                                    </div>
                                 </FormItem>
                             )}
                         />
-                    </div>
 
-                    <FormField
-                        control={form.control}
-                        name='password'
-                        render={({ field }) => (
-                            <FormItem className='space-y-1.5'>
-                                <FormLabel className='text-sm font-medium text-foreground'>
-                                    Пароль
-                                </FormLabel>
-                                <FormControl>
-                                    <Input
-                                        placeholder='********'
-                                        type='password'
-                                        className='h-11 border-input/50 bg-muted/30 focus-visible:ring-primary'
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage className='text-xs' />
-                            </FormItem>
-                        )}
-                    />
+                        <FormField
+                            control={form.control}
+                            name='password'
+                            render={({ field }) => (
+                                <FormItem className='space-y-1.5'>
+                                    <FormLabel className='text-sm font-medium text-foreground'>
+                                        {t('passwordLabel')}
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder='********'
+                                            type='password'
+                                            className='h-11 border-input/50 bg-muted/30 focus-visible:ring-primary'
+                                            disabled={isAccountCreating}
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <div className='h-3.5 md:h-2.5'>
+                                        <FormMessage className='text-xs' />
+                                    </div>
+                                </FormItem>
+                            )}
+                        />
 
-                    <Button
-                        type='submit'
-                        className='mt-4 h-11 w-full bg-primary font-medium text-primary-foreground hover:bg-primary/90'
-                        disabled={!isValid}
-                    >
-                        {/* {isLoading ? 'Обработка...' : 'Продолжить'} */}
-                        Продолжить
-                    </Button>
-                </form>
-            </Form>
+                        <Separator />
+
+                        <Button
+                            type='submit'
+                            className='mt-4 h-11 w-full bg-primary font-medium text-primary-foreground hover:bg-primary/90'
+                            disabled={
+                                isAccountCreating || (isSubmitted && !isValid)
+                            }
+                        >
+                            {isAccountCreating ? (
+                                <div className='h-5 w-5 animate-spin rounded-full border-b-2 border-t-2 border-primary-foreground'></div>
+                            ) : (
+                                t('submitButton')
+                            )}
+                        </Button>
+                    </form>
+                </Form>
+            )}
         </AuthWrapper>
     )
 }
