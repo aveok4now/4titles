@@ -30,7 +30,7 @@ export function CreateAccountForm() {
     const t = useTranslations('auth.register')
 
     const [isSubmitted, setIsSubmitted] = useState(false)
-    const [isSuccess, setIsSuccess] = useState(false)
+    const [isSuccess, setIsSuccess] = useState(true)
 
     const form = useForm<CreateAccountSchemaType>({
         resolver: zodResolver(

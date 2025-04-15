@@ -77,7 +77,7 @@ const BACKGROUNDS: Record<
             particleColors: ['#9a9ffe', '#3A29FF', '#9a9ffe'],
             moveParticlesOnHover: true,
             particleBaseSize: 150,
-            particleCount: 250,
+            particleCount: 220,
             speed: 0.15,
         },
         wrapperClassName: 'z-0',

@@ -19,6 +19,11 @@
             "serverErrorMessage": "An error occurred while processing your request. Please check your input or try again later",
             "successAlertTitle": "Please check your inbox",
             "successAlertDescription": "A confirmation email has been sent to your email address. If you don't see the email, please check your «Spam» folder"
+        },
+        "verify": {
+            "heading": "Account verification",
+            "successMessage": "Account successfully verified",
+            "errorMessage": "An error occurred during account verification"
         }
     }
 }

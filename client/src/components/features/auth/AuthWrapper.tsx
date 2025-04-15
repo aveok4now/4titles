@@ -49,7 +49,7 @@ export function AuthWrapper({
                     />
                 </div>
             </AnimatedContent>
-            <Card className='w-full max-w-[450px] border-border/50 bg-background/60 shadow-lg backdrop-blur-sm'>
+            <Card className='w-full max-w-[450px] border-border/50 bg-background/60 shadow-md backdrop-blur-sm'>
                 <CardContent className='px-6 pt-6 sm:px-8'>
                     <AnimatedContent
                         distance={100}
@@ -58,15 +58,13 @@ export function AuthWrapper({
                         {children}
                     </AnimatedContent>
                 </CardContent>
-                <AnimatedContent
-                    distance={150}
-                    config={{ tension: 80, friction: 15 }}
-                    direction='horizontal'
-                >
-                    <CardFooter className='px-6 pb-6 sm:px-8'>
-                        {backButtonLabel &&
-                        backButtonHref &&
-                        backButtonQuestion ? (
+                {backButtonLabel && backButtonHref && backButtonQuestion ? (
+                    <AnimatedContent
+                        distance={150}
+                        config={{ tension: 80, friction: 15 }}
+                        direction='horizontal'
+                    >
+                        <CardFooter className='px-6 pb-6 sm:px-8'>
                             <div className='flex w-full flex-row items-center justify-center gap-x-1'>
                                 <span className='text-sm text-muted-foreground'>
                                     {backButtonQuestion}
@@ -78,9 +76,9 @@ export function AuthWrapper({
                                     {backButtonLabel}
                                 </Link>
                             </div>
-                        ) : null}
-                    </CardFooter>
-                </AnimatedContent>
+                        </CardFooter>
+                    </AnimatedContent>
+                ) : null}
             </Card>
         </div>
     )
