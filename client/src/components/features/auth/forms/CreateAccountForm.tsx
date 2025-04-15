@@ -12,6 +12,7 @@ import {
 import { Input } from '@/components/ui/common/input'
 import { Separator } from '@/components/ui/common/separator'
 import FadeContent from '@/components/ui/custom/content/fade-content'
+import { PasswordInput } from '@/components/ui/custom/password-input'
 import BlurText from '@/components/ui/custom/text/blur-text'
 import { useCreateAccountMutation } from '@/graphql/generated/output'
 import {
@@ -29,7 +30,7 @@ export function CreateAccountForm() {
     const t = useTranslations('auth.register')
 
     const [isSubmitted, setIsSubmitted] = useState(false)
-    const [isSuccess, setIsSuccess] = useState(true)
+    const [isSuccess, setIsSuccess] = useState(false)
 
     const form = useForm<CreateAccountSchemaType>({
         resolver: zodResolver(
@@ -114,7 +115,6 @@ export function CreateAccountForm() {
                                     <FormControl>
                                         <Input
                                             placeholder='username'
-                                            className='h-11 border-input/50 bg-muted/30 focus-visible:ring-primary'
                                             disabled={isAccountCreating}
                                             {...field}
                                         />
@@ -138,7 +138,6 @@ export function CreateAccountForm() {
                                         <Input
                                             type='email'
                                             placeholder='example@example.com'
-                                            className='h-11 border-input/50 bg-muted/30 focus-visible:ring-primary'
                                             disabled={isAccountCreating}
                                             {...field}
                                         />
@@ -159,10 +158,8 @@ export function CreateAccountForm() {
                                         {t('passwordLabel')}
                                     </FormLabel>
                                     <FormControl>
-                                        <Input
+                                        <PasswordInput
                                             placeholder='********'
-                                            type='password'
-                                            className='h-11 border-input/50 bg-muted/30 focus-visible:ring-primary'
                                             disabled={isAccountCreating}
                                             {...field}
                                         />
