@@ -15,6 +15,7 @@ import {
     InputOTPGroup,
     InputOTPSlot,
 } from '@/components/ui/common/input-otp'
+import { Link } from '@/components/ui/custom/link'
 import { PasswordInput } from '@/components/ui/custom/password-input'
 import { Spinner } from '@/components/ui/custom/spinner'
 import { useLoginAccountMutation } from '@/graphql/generated/output'
@@ -157,9 +158,17 @@ export function LoginForm() {
                                 name='password'
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>
-                                            {t('passwordLabel')}
-                                        </FormLabel>
+                                        <div className='flex items-center justify-center'>
+                                            <FormLabel>
+                                                {t('passwordLabel')}
+                                            </FormLabel>
+                                            <Link
+                                                href='/account/recovery'
+                                                className='ml-auto inline-block'
+                                            >
+                                                {t('forgotPassword')}
+                                            </Link>
+                                        </div>
                                         <FormControl>
                                             <PasswordInput
                                                 placeholder='********'

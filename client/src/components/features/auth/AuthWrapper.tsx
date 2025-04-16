@@ -1,9 +1,9 @@
 import { Card, CardContent, CardFooter } from '@/components/ui/common/card'
 import AnimatedContent from '@/components/ui/custom/content/animated-content'
+import { Link } from '@/components/ui/custom/link'
 import ShinyText from '@/components/ui/custom/text/shiny-text'
 import { useBackground } from '@/contexts/background-context'
 import Image from 'next/image'
-import Link from 'next/link'
 import { PropsWithChildren, ReactNode, useEffect } from 'react'
 
 interface AuthWrapperProps {
@@ -69,10 +69,7 @@ export function AuthWrapper({
                                 <span className='text-sm text-muted-foreground'>
                                     {backButtonQuestion}
                                 </span>
-                                <Link
-                                    href={backButtonHref}
-                                    className='text-sm text-primary transition-colors hover:text-primary/80 hover:underline'
-                                >
+                                <Link href={backButtonHref}>
                                     {backButtonLabel}
                                 </Link>
                             </div>
