@@ -144,7 +144,7 @@ export function LoginForm() {
                                         <FormLabel>{t('loginLabel')}</FormLabel>
                                         <FormControl>
                                             <Input
-                                                placeholder='loner44'
+                                                placeholder='nostylist44'
                                                 disabled={isLoadingLogin}
                                                 {...field}
                                             />
@@ -184,7 +184,7 @@ export function LoginForm() {
 
                     <Button
                         type='submit'
-                        className='mt-4 h-11 w-full bg-primary font-medium text-primary-foreground hover:bg-primary/90'
+                        className='h-11 w-full'
                         disabled={isLoadingLogin || !isFormValid}
                     >
                         {isLoadingLogin ? <Spinner /> : t('submitButton')}

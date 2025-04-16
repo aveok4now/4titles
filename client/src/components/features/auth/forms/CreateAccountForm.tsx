@@ -67,11 +67,11 @@ export function CreateAccountForm() {
         },
     })
 
-    const { isValid } = form.formState
+    const { isValid: isFormValid } = form.formState
 
     async function onSubmit(input: CreateAccountSchemaType) {
         setIsSubmitted(true)
-        if (isValid) {
+        if (isFormValid) {
             create({ variables: { input } })
         }
     }
@@ -110,7 +110,7 @@ export function CreateAccountForm() {
                                     <FormLabel>{t('usernameLabel')}</FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder='username'
+                                            placeholder='nostylist44'
                                             disabled={isAccountCreating}
                                             {...field}
                                         />
@@ -131,7 +131,7 @@ export function CreateAccountForm() {
                                     <FormControl>
                                         <Input
                                             type='email'
-                                            placeholder='example@example.com'
+                                            placeholder='nostylist@gmail.com'
                                             disabled={isAccountCreating}
                                             {...field}
                                         />
@@ -167,9 +167,10 @@ export function CreateAccountForm() {
 
                         <Button
                             type='submit'
-                            className='mt-4 h-11 w-full bg-primary font-medium text-primary-foreground hover:bg-primary/90'
+                            className='h-11 w-full'
                             disabled={
-                                isAccountCreating || (isSubmitted && !isValid)
+                                isAccountCreating ||
+                                (isSubmitted && !isFormValid)
                             }
                         >
                             {isAccountCreating ? (

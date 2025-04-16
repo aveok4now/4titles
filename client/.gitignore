@@ -44,3 +44,6 @@ next-env.d.ts
 /public/service-worker.js
 /public/swe-worker-development.js
 /public/workbox-*.js
+
+# graphql
+**/generated/output.ts
