@@ -16,6 +16,7 @@ import FadeContent from '@/components/ui/custom/content/fade-content'
 import { Spinner } from '@/components/ui/custom/spinner'
 import BlurText from '@/components/ui/custom/text/blur-text'
 import { useResetPasswordMutation } from '@/graphql/generated/output'
+import { useFormValidation } from '@/hooks/useFormValidation'
 import {
     resetPasswordSchema,
     ResetPasswordSchemaType,
@@ -28,9 +29,7 @@ import { toast } from 'sonner'
 import { AuthWrapper } from '../AuthWrapper'
 
 export function ResetPasswordForm() {
-    const t = useTranslations('auth.recovery')
-
-    const [isSubmitted, setIsSubmitted] = useState(false)
+    const t = useTranslations('auth.recovery.resetPassword')
     const [isSuccess, setIsSuccess] = useState(false)
 
     const form = useForm<ResetPasswordSchemaType>({
@@ -46,7 +45,14 @@ export function ResetPasswordForm() {
         reValidateMode: 'onChange',
     })
 
-    const [resertPassword, { loading: isLoadingReset }] =
+    const {
+        setIsSubmitted,
+        handleFormSubmit,
+        shouldShowErrors,
+        isSubmitDisabled,
+    } = useFormValidation(form)
+
+    const [resetPassword, { loading: isLoadingPasswordReset }] =
         useResetPasswordMutation({
             onCompleted() {
                 setIsSuccess(true)
@@ -58,12 +64,10 @@ export function ResetPasswordForm() {
             },
         })
 
-    const { isValid } = form.formState
-
     async function onSubmit(data: ResetPasswordSchemaType) {
         setIsSubmitted(true)
-        if (isValid) {
-            resertPassword({ variables: { data } })
+        if (form.formState.isValid) {
+            resetPassword({ variables: { data } })
         }
     }
 
@@ -91,6 +95,7 @@ export function ResetPasswordForm() {
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
+                        onSubmitCapture={handleFormSubmit}
                         className='space-y-4'
                     >
                         <FormField
@@ -103,15 +108,17 @@ export function ResetPasswordForm() {
                                         <Input
                                             type='email'
                                             placeholder='nostylist@gmail.com'
-                                            disabled={isLoadingReset}
+                                            disabled={isLoadingPasswordReset}
                                             {...field}
                                         />
                                     </FormControl>
                                     <FormDescription>
                                         {t('emailFieldDescription')}
                                     </FormDescription>
-                                    <div className='h-2.5 md:h-1.5'>
-                                        <FormMessage className='text-xs' />
+                                    <div className='h-2.5 md:h-1'>
+                                        {shouldShowErrors && (
+                                            <FormMessage className='text-xs' />
+                                        )}
                                     </div>
                                 </FormItem>
                             )}
@@ -122,11 +129,13 @@ export function ResetPasswordForm() {
                         <Button
                             type='submit'
                             className='h-11 w-full'
-                            disabled={
-                                isLoadingReset || (isSubmitted && !isValid)
-                            }
+                            disabled={isSubmitDisabled(isLoadingPasswordReset)}
                         >
-                            {isLoadingReset ? <Spinner /> : t('submitButton')}
+                            {isLoadingPasswordReset ? (
+                                <Spinner />
+                            ) : (
+                                t('submitButton')
+                            )}
                         </Button>
                     </form>
                 </Form>

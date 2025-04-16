@@ -4,10 +4,7 @@ export const resetPasswordSchema = (t: {
     emailValidationErrorMessage: string
 }) =>
     z.object({
-        email: z
-            .string()
-            .email({ message: t.emailValidationErrorMessage })
-            .transform(val => val.trim()),
+        email: z.string().email({ message: t.emailValidationErrorMessage }),
     })
 
 export type ResetPasswordSchemaType = z.infer<

@@ -44,17 +44,33 @@
             "successMessage": "Вы успешно вошли в аккаунт"
         },
         "recovery": {
-            "heading": "Сброс пароля",
-            "backButtonLabel": "Войти",
-            "backButtonQuestion": "Уже есть аккаунт?",
-            "emailLabel": "Адрес электронной почты",
-            "emailValidationError": "Email должен быть валидным адресом",
-            "emailFieldDescription": "Email, под которым зарегестрирован Ваш аккаунт",
-            "submitButton": "Сбросить",
-            "successAlertTitle": "Пожалуйста, проверьте свою почту",
-            "successAlertDescription": "На указанный адрес электронной почты была отправлена ссылка для сброса пароля. Если у Вас включены уведомления в Telegram, доступ к ссылке также можете получить и там.",
-            "errorMessage": "Произошла ошибка при сбросе пароля",
-            "errorMessageDescription": "Проверть указанный адрес электронной почты или повторите попытку позже."
+            "resetPassword": {
+                "heading": "Сброс пароля",
+                "backButtonLabel": "Войти",
+                "backButtonQuestion": "Уже есть аккаунт?",
+                "emailLabel": "Адрес электронной почты",
+                "emailValidationError": "Email должен быть валидным адресом",
+                "emailFieldDescription": "Email, под которым зарегестрирован Ваш аккаунт",
+                "submitButton": "Сбросить",
+                "successAlertTitle": "Пожалуйста, проверьте свою почту",
+                "successAlertDescription": "На указанный адрес электронной почты была отправлена ссылка для сброса пароля. Если у Вас включены уведомления в Telegram, доступ к ссылке также можете получить и там.",
+                "errorMessage": "Произошла ошибка при сбросе пароля",
+                "errorMessageDescription": "Проверть указанный адрес электронной почты или повторите попытку позже."
+            },
+            "newPassword": {
+                "heading": "Новый пароль",
+                "backButtonLabel": "Войти",
+                "backButtonQuestion": "Уже есть аккаунт?",
+                "passwordLabel": "Новый пароль",
+                "passwordRepeatLabel": "Повтор пароля",
+                "submitButton": "Продолжить",
+                "successMessage": "Пароль успешно изменён",
+                "errorMessage": "Ошибка при установке нового пароля",
+                "errorMessageDescription": "Попробуйте позже или запросите сброс пароля ещё раз.",
+                "passwordMinLengthValidationError": "Должен содержать не менее 8 символов",
+                "passwordWeaknessError": "Должен иметь как минимум 1 заглавную букву и цифру",
+                "passwordRepeatError": "Пароли не совпадают"
+            }
         }
     }
 }

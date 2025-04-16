@@ -16,6 +16,7 @@ import { PasswordInput } from '@/components/ui/custom/password-input'
 import { Spinner } from '@/components/ui/custom/spinner'
 import BlurText from '@/components/ui/custom/text/blur-text'
 import { useCreateAccountMutation } from '@/graphql/generated/output'
+import { useFormValidation } from '@/hooks/useFormValidation'
 import {
     createAccountSchema,
     CreateAccountSchemaType,
@@ -29,8 +30,6 @@ import { AuthWrapper } from '../AuthWrapper'
 
 export function CreateAccountForm() {
     const t = useTranslations('auth.register')
-
-    const [isSubmitted, setIsSubmitted] = useState(false)
     const [isSuccess, setIsSuccess] = useState(false)
 
     const form = useForm<CreateAccountSchemaType>({
@@ -58,6 +57,13 @@ export function CreateAccountForm() {
         reValidateMode: 'onChange',
     })
 
+    const {
+        setIsSubmitted,
+        handleFormSubmit,
+        shouldShowErrors,
+        isSubmitDisabled,
+    } = useFormValidation(form)
+
     const [create, { loading: isAccountCreating }] = useCreateAccountMutation({
         onCompleted() {
             setIsSuccess(true)
@@ -67,11 +73,9 @@ export function CreateAccountForm() {
         },
     })
 
-    const { isValid: isFormValid } = form.formState
-
     async function onSubmit(input: CreateAccountSchemaType) {
         setIsSubmitted(true)
-        if (isFormValid) {
+        if (form.formState.isValid) {
             create({ variables: { input } })
         }
     }
@@ -100,6 +104,7 @@ export function CreateAccountForm() {
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
+                        onSubmitCapture={handleFormSubmit}
                         className='space-y-4'
                     >
                         <FormField
@@ -115,8 +120,10 @@ export function CreateAccountForm() {
                                             {...field}
                                         />
                                     </FormControl>
-                                    <div className='h-3.5 md:h-2.5'>
-                                        <FormMessage className='text-xs' />
+                                    <div className='h-3.5 md:h-1'>
+                                        {shouldShowErrors && (
+                                            <FormMessage className='text-xs' />
+                                        )}
                                     </div>
                                 </FormItem>
                             )}
@@ -136,8 +143,10 @@ export function CreateAccountForm() {
                                             {...field}
                                         />
                                     </FormControl>
-                                    <div className='h-3.5 md:h-2.5'>
-                                        <FormMessage className='text-xs' />
+                                    <div className='h-3.5 md:h-1'>
+                                        {shouldShowErrors && (
+                                            <FormMessage className='text-xs' />
+                                        )}
                                     </div>
                                 </FormItem>
                             )}
@@ -156,8 +165,10 @@ export function CreateAccountForm() {
                                             {...field}
                                         />
                                     </FormControl>
-                                    <div className='h-3.5 md:h-2.5'>
-                                        <FormMessage className='text-xs' />
+                                    <div className='h-3.5 md:h-1'>
+                                        {shouldShowErrors && (
+                                            <FormMessage className='text-xs' />
+                                        )}
                                     </div>
                                 </FormItem>
                             )}
@@ -168,10 +179,7 @@ export function CreateAccountForm() {
                         <Button
                             type='submit'
                             className='h-11 w-full'
-                            disabled={
-                                isAccountCreating ||
-                                (isSubmitted && !isFormValid)
-                            }
+                            disabled={isSubmitDisabled(isAccountCreating)}
                         >
                             {isAccountCreating ? (
                                 <Spinner />

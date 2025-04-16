@@ -42,6 +42,35 @@
             "credentialsValidationErrorDescription": "Please check your credentials or try again later",
             "serverErrorMessage": "An error occurred while processing your request. Please check your input or try again later",
             "successMessage": "You have successfully logged in"
+        },
+        "recovery": {
+            "resetPassword": {
+                "heading": "Password reset",
+                "backButtonLabel": "Log in",
+                "backButtonQuestion": "Already have an account?",
+                "emailLabel": "Email address",
+                "emailValidationError": "Please enter a valid email address",
+                "emailFieldDescription": "Email associated with your account",
+                "submitButton": "Reset password",
+                "successAlertTitle": "Please check your inbox",
+                "successAlertDescription": "A password reset link has been sent to the provided email address. If you have Telegram notifications enabled, you may also receive the link there.",
+                "errorMessage": "An error occurred while resetting password",
+                "errorMessageDescription": "Please verify the email address or try again later"
+            },
+            "newPassword": {
+                "heading": "New password",
+                "backButtonLabel": "Log in",
+                "backButtonQuestion": "Already have an account?",
+                "passwordLabel": "New password",
+                "passwordRepeatLabel": "Repeat password",
+                "submitButton": "Continue",
+                "successMessage": "Password successfully changed",
+                "errorMessage": "Error setting new password",
+                "errorMessageDescription": "Please try again later or request another password reset",
+                "passwordMinLengthValidationError": "Must contain at least 8 characters",
+                "passwordWeaknessError": "Must contain at least 1 uppercase letter and 1 number",
+                "passwordRepeatError": "Passwords don't match"
+            }
         }
     }
 }
