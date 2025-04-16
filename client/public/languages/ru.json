@@ -23,7 +23,25 @@
         "verify": {
             "heading": "Верификация аккаунта",
             "successMessage": "Аккаунт успешно верифицирован",
-            "errorMessage": "Произошла ошибка при верификации аккаунта"
+            "errorMessage": "Произошла ошибка при верификации аккаунта",
+            "errorMessageDescription": "Повторите попытку позже или обратитесь в службу поддержки"
+        },
+        "login": {
+            "heading": "Вход в аккаунт",
+            "backButtonLabel": "Зарегестрироваться",
+            "backButtonQuestion": "Нет аккаунта?",
+            "loginLabel": "Логин",
+            "passwordLabel": "Пароль",
+            "pinLabel": "6-значный код",
+            "pinDescription": "Введите код из Вашего приложения для аутентификации",
+            "forgotPassword": "Забыли пароль?",
+            "submitButton": "Продолжить",
+            "totpValidationError": "Неверный код подтверждения",
+            "totpValidationErrorDescription": "Убедитесь в корректности кода или повторите попытку позже.",
+            "credentialsValidationError": "Неверный логин или пароль",
+            "credentialsValidatonErrorDescription": "Проверьте вводимые данные или повторите попытку позже.",
+            "serverErrorMessage": "При обработке Вашего запроса произошла ошибка. Проверьте введённые данные или попробуйте позже",
+            "successMessage": "Вы успешно вошли в аккаунт"
         }
     }
 }

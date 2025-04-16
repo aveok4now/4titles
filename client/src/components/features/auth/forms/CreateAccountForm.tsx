@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/common/input'
 import { Separator } from '@/components/ui/common/separator'
 import FadeContent from '@/components/ui/custom/content/fade-content'
 import { PasswordInput } from '@/components/ui/custom/password-input'
+import { Spinner } from '@/components/ui/custom/spinner'
 import BlurText from '@/components/ui/custom/text/blur-text'
 import { useCreateAccountMutation } from '@/graphql/generated/output'
 import {
@@ -30,7 +31,7 @@ export function CreateAccountForm() {
     const t = useTranslations('auth.register')
 
     const [isSubmitted, setIsSubmitted] = useState(false)
-    const [isSuccess, setIsSuccess] = useState(true)
+    const [isSuccess, setIsSuccess] = useState(false)
 
     const form = useForm<CreateAccountSchemaType>({
         resolver: zodResolver(
@@ -62,10 +63,7 @@ export function CreateAccountForm() {
             setIsSuccess(true)
         },
         onError() {
-            toast.error(t('serverErrorMessage'), {
-                position: 'top-center',
-                duration: 2000,
-            })
+            toast.error(t('serverErrorMessage'))
         },
     })
 
@@ -109,9 +107,7 @@ export function CreateAccountForm() {
                             name='username'
                             render={({ field }) => (
                                 <FormItem className='space-y-1.5'>
-                                    <FormLabel className='text-sm font-medium text-foreground'>
-                                        {t('usernameLabel')}
-                                    </FormLabel>
+                                    <FormLabel>{t('usernameLabel')}</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder='username'
@@ -131,9 +127,7 @@ export function CreateAccountForm() {
                             name='email'
                             render={({ field }) => (
                                 <FormItem className='space-y-1.5'>
-                                    <FormLabel className='text-sm font-medium text-foreground'>
-                                        {t('emailLabel')}
-                                    </FormLabel>
+                                    <FormLabel>{t('emailLabel')}</FormLabel>
                                     <FormControl>
                                         <Input
                                             type='email'
@@ -154,9 +148,7 @@ export function CreateAccountForm() {
                             name='password'
                             render={({ field }) => (
                                 <FormItem className='space-y-1.5'>
-                                    <FormLabel className='text-sm font-medium text-foreground'>
-                                        {t('passwordLabel')}
-                                    </FormLabel>
+                                    <FormLabel>{t('passwordLabel')}</FormLabel>
                                     <FormControl>
                                         <PasswordInput
                                             placeholder='********'
@@ -181,7 +173,7 @@ export function CreateAccountForm() {
                             }
                         >
                             {isAccountCreating ? (
-                                <div className='h-5 w-5 animate-spin rounded-full border-b-2 border-t-2 border-primary-foreground'></div>
+                                <Spinner />
                             ) : (
                                 t('submitButton')
                             )}

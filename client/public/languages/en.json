@@ -23,7 +23,25 @@
         "verify": {
             "heading": "Account verification",
             "successMessage": "Account successfully verified",
-            "errorMessage": "An error occurred during account verification"
+            "errorMessage": "An error occurred during account verification",
+            "errorMessageDescription": "Please try again later or contact support"
+        },
+        "login": {
+            "heading": "Account login",
+            "backButtonLabel": "Sign up",
+            "backButtonQuestion": "Don't have an account?",
+            "loginLabel": "Login",
+            "passwordLabel": "Password",
+            "pinLabel": "6-digit code",
+            "pinDescription": "Enter the code from your authenticator app",
+            "forgotPassword": "Forgot password?",
+            "submitButton": "Continue",
+            "totpValidationError": "Invalid verification code",
+            "totpValidationErrorDescription": "Please verify the code is correct or try again later",
+            "credentialsValidationError": "Invalid login or password",
+            "credentialsValidationErrorDescription": "Please check your credentials or try again later",
+            "serverErrorMessage": "An error occurred while processing your request. Please check your input or try again later",
+            "successMessage": "You have successfully logged in"
         }
     }
 }

@@ -5,13 +5,19 @@ import { Toaster as Sonner } from 'sonner'
 
 type ToasterProps = React.ComponentProps<typeof Sonner>
 
-export function ToastProvider({ ...props }: ToasterProps) {
+export function ToastProvider({
+    position = 'top-center',
+    duration = 2000,
+    ...props
+}: ToasterProps) {
     const { theme = 'system' } = useTheme()
 
     return (
         <Sonner
             theme={theme as ToasterProps['theme']}
             className='toaster group'
+            position={position}
+            duration={duration}
             toastOptions={{
                 classNames: {
                     toast: 'group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg',

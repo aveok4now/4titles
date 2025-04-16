@@ -1,7 +1,7 @@
 'use client'
 
+import { Spinner } from '@/components/ui/custom/spinner'
 import { useVerifyAccountMutation } from '@/graphql/generated/output'
-import { LoaderPinwheel } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
@@ -10,6 +10,7 @@ import { AuthWrapper } from '../AuthWrapper'
 
 export function VerfiyAccountForm() {
     const t = useTranslations('auth.verify')
+    const REDIRECT_ON_ERROR_TIMEOUT_IN_MS = 1500
 
     const router = useRouter()
     const searchParams = useSearchParams()
@@ -18,16 +19,18 @@ export function VerfiyAccountForm() {
 
     const [verify] = useVerifyAccountMutation({
         onCompleted() {
-            toast.success(t('successMessage'), {
-                position: 'top-center',
-            })
-            router.push('/homepage')
+            toast.success(t('successMessage'))
+            router.push('/')
         },
         onError() {
             toast.error(t('errorMessage'), {
-                position: 'top-center',
-                duration: 1500,
+                description: t('errorMessageDescription'),
+                duration: REDIRECT_ON_ERROR_TIMEOUT_IN_MS,
             })
+            setTimeout(
+                () => router.push('/account/login'),
+                REDIRECT_ON_ERROR_TIMEOUT_IN_MS,
+            )
         },
     })
 
@@ -42,8 +45,7 @@ export function VerfiyAccountForm() {
     return (
         <AuthWrapper heading={t('heading')}>
             <div className='flex items-center justify-center'>
-                {/* <LoaderPinwheel className='text-primary-background size-12 animate-spin' /> */}
-                <div className='size-8 animate-spin rounded-full border-b-2 border-t-2 border-primary'></div>
+                <Spinner size='xl' color='border-primary' />
             </div>
         </AuthWrapper>
     )
