@@ -1,7 +1,7 @@
 import type { Config } from 'tailwindcss'
 
 export default {
-    darkMode: ['class'],
+    darkMode: 'class',
     content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
     theme: {
         extend: {
@@ -59,6 +59,38 @@ export default {
                 lg: 'var(--radius)',
                 md: 'calc(var(--radius) - 2px)',
                 sm: 'calc(var(--radius) - 4px)',
+            },
+            keyframes: {
+                gradient: {
+                    '0%': { backgroundPosition: '0% 50%' },
+                    '50%': { backgroundPosition: '100% 50%' },
+                    '100%': { backgroundPosition: '0% 50%' },
+                },
+                shine: {
+                    '0%': { 'background-position': '100%' },
+                    '100%': { 'background-position': '-100%' },
+                },
+                'star-movement-bottom': {
+                    '0%': { transform: 'translate(0%, 0%)', opacity: '1' },
+                    '100%': { transform: 'translate(-100%, 0%)', opacity: '0' },
+                },
+                'star-movement-top': {
+                    '0%': { transform: 'translate(0%, 0%)', opacity: '1' },
+                    '100%': { transform: 'translate(100%, 0%)', opacity: '0' },
+                },
+                'caret-blink': {
+                    '0%,70%,100%': { opacity: '1' },
+                    '20%,50%': { opacity: '0' },
+                },
+            },
+            animation: {
+                gradient: 'gradient 8s linear infinite',
+                shine: 'shine 5s linear infinite',
+                'star-movement-bottom':
+                    'star-movement-bottom linear infinite alternate',
+                'star-movement-top':
+                    'star-movement-top linear infinite alternate',
+                'caret-blink': 'caret-blink 1.25s ease-out infinite',
             },
         },
     },

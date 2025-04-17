@@ -1,16 +1,16 @@
 'use client'
 
-import { useGetAllFilmingLocationsQuery } from '@/graphql/generated/output'
+import { useTitlesQuery } from '@/graphql/generated/output'
 
 export default function Home() {
-    const { data, loading } = useGetAllFilmingLocationsQuery({
+    const { data, loading } = useTitlesQuery({
         variables: {
-            limit: 100,
+            filter: { limit: 100 },
         },
     })
 
     return (
-        <div className='w-full max-w-full break-words p-2'>
+        <div className='w-full max-w-full p-2 break-words'>
             {loading ? <span>loading...</span> : JSON.stringify(data)}
         </div>
     )
