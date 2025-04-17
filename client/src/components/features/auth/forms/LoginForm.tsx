@@ -27,7 +27,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { REGEXP_ONLY_DIGITS } from 'input-otp'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { ComponentRef, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { AuthWrapper } from '../AuthWrapper'
@@ -38,6 +38,7 @@ export function LoginForm() {
 
     const [isShowTwoFactor, setIsShowTwoFactor] = useState(false)
     const [isPinValid, setIsPinValid] = useState(false)
+    const otpRef = useRef<ComponentRef<typeof InputOTP>>(null)
 
     const form = useForm<LoginAccountSchemaType>({
         resolver: zodResolver(loginAccountSchema),
@@ -54,6 +55,15 @@ export function LoginForm() {
             setIsPinValid(pinValue?.length === 6)
         }
     }, [form.watch('pin'), isShowTwoFactor])
+
+    useEffect(() => {
+        if (isShowTwoFactor && otpRef.current) {
+            const input = otpRef.current.querySelector('input')
+            if (input) {
+                input.focus()
+            }
+        }
+    }, [isShowTwoFactor])
 
     const [login, { loading: isLoadingLogin }] = useLoginAccountMutation({
         onCompleted(data) {
@@ -107,26 +117,28 @@ export function LoginForm() {
                                 <FormItem>
                                     <FormLabel>{t('pinLabel')}</FormLabel>
                                     <FormControl>
-                                        <InputOTP
-                                            maxLength={6}
-                                            pattern={REGEXP_ONLY_DIGITS}
-                                            {...field}
-                                            onChange={value => {
-                                                field.onChange(value)
-                                                setIsPinValid(
-                                                    value.length === 6,
-                                                )
-                                            }}
-                                        >
-                                            <InputOTPGroup>
-                                                <InputOTPSlot index={0} />
-                                                <InputOTPSlot index={1} />
-                                                <InputOTPSlot index={2} />
-                                                <InputOTPSlot index={3} />
-                                                <InputOTPSlot index={4} />
-                                                <InputOTPSlot index={5} />
-                                            </InputOTPGroup>
-                                        </InputOTP>
+                                        <div ref={otpRef}>
+                                            <InputOTP
+                                                maxLength={6}
+                                                pattern={REGEXP_ONLY_DIGITS}
+                                                {...field}
+                                                onChange={value => {
+                                                    field.onChange(value)
+                                                    setIsPinValid(
+                                                        value.length === 6,
+                                                    )
+                                                }}
+                                            >
+                                                <InputOTPGroup>
+                                                    <InputOTPSlot index={0} />
+                                                    <InputOTPSlot index={1} />
+                                                    <InputOTPSlot index={2} />
+                                                    <InputOTPSlot index={3} />
+                                                    <InputOTPSlot index={4} />
+                                                    <InputOTPSlot index={5} />
+                                                </InputOTPGroup>
+                                            </InputOTP>
+                                        </div>
                                     </FormControl>
                                     <FormDescription>
                                         {t('pinDescription')}
