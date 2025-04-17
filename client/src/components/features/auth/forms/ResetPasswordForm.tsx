@@ -1,18 +1,8 @@
 'use client'
 
-import { Button } from '@/components/ui/common/button'
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/common/form'
-import { Input } from '@/components/ui/common/input'
+import { Form } from '@/components/ui/common/form'
 import { Separator } from '@/components/ui/common/separator'
-import { Spinner } from '@/components/ui/custom/spinner'
+import { SubmitButton } from '@/components/ui/custom/submit-button'
 import { AUTH_ROUTES } from '@/constants/auth'
 import { useResetPasswordMutation } from '@/graphql/generated/output'
 import { useFormValidation } from '@/hooks/useFormValidation'
@@ -21,13 +11,14 @@ import {
     ResetPasswordSchemaMessages,
     ResetPasswordSchemaType,
 } from '@/schemas/auth/reset-password.schema'
+import { createFormNotificationHandlers } from '@/utils/form-notifications'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { AuthFeedback } from '../AuthFeedback'
 import { AuthWrapper } from '../AuthWrapper'
+import { EmailField } from './fields'
 
 export function ResetPasswordForm() {
     const t = useTranslations('auth.recovery.resetPassword')
@@ -49,26 +40,26 @@ export function ResetPasswordForm() {
     const {
         setIsSubmitted,
         handleFormSubmit,
-        shouldShowErrors,
         resetSubmitState,
         isEmptyFormDisabled,
     } = useFormValidation(form)
+
+    const { handleError } = createFormNotificationHandlers({
+        errorMessage: t('errorMessage'),
+        errorDescription: t('errorMessageDescription'),
+    })
 
     const handleResetSuccess = useCallback(() => {
         setIsSuccess(true)
     }, [])
 
-    const handleResetError = useCallback(() => {
-        toast.error(t('errorMessage'), {
-            description: t('errorMessageDescription'),
-        })
-        resetSubmitState()
-    }, [t, resetSubmitState])
-
     const [resetPassword, { loading: isLoadingPasswordReset }] =
         useResetPasswordMutation({
             onCompleted: handleResetSuccess,
-            onError: handleResetError,
+            onError: () => {
+                handleError()
+                resetSubmitState()
+            },
         })
 
     const onSubmit = useCallback(
@@ -101,48 +92,24 @@ export function ResetPasswordForm() {
                         className='space-y-4'
                         noValidate
                     >
-                        <FormField
-                            control={form.control}
+                        <EmailField
+                            form={form}
                             name='email'
-                            render={({ field }) => (
-                                <FormItem className='space-y-1.5'>
-                                    <FormLabel>{t('emailLabel')}</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type='email'
-                                            placeholder='nostylist@gmail.com'
-                                            disabled={isLoadingPasswordReset}
-                                            autoComplete='email'
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormDescription>
-                                        {t('emailFieldDescription')}
-                                    </FormDescription>
-                                    <div className='h-2.5 md:h-1'>
-                                        {shouldShowErrors && (
-                                            <FormMessage className='text-xs' />
-                                        )}
-                                    </div>
-                                </FormItem>
-                            )}
+                            label={t('emailLabel')}
+                            disabled={isLoadingPasswordReset}
+                            description={t('emailFieldDescription')}
+                            shouldShowErrors
                         />
 
                         <Separator />
 
-                        <Button
-                            type='submit'
-                            className='h-11 w-full'
+                        <SubmitButton
+                            loading={isLoadingPasswordReset}
                             disabled={isEmptyFormDisabled(
                                 isLoadingPasswordReset,
                             )}
-                        >
-                            {isLoadingPasswordReset ? (
-                                <Spinner />
-                            ) : (
-                                t('submitButton')
-                            )}
-                        </Button>
+                            label={t('submitButton')}
+                        />
                     </form>
                 </Form>
             )}

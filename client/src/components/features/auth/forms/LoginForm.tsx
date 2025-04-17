@@ -1,37 +1,22 @@
 'use client'
 
-import { Button } from '@/components/ui/common/button'
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-} from '@/components/ui/common/form'
-import { Input } from '@/components/ui/common/input'
-import {
-    InputOTP,
-    InputOTPGroup,
-    InputOTPSlot,
-} from '@/components/ui/common/input-otp'
+import { Form } from '@/components/ui/common/form'
 import { Link } from '@/components/ui/custom/link'
-import { PasswordInput } from '@/components/ui/custom/password-input'
-import { Spinner } from '@/components/ui/custom/spinner'
+import { SubmitButton } from '@/components/ui/custom/submit-button'
 import { AUTH_ROUTES } from '@/constants/auth'
 import { useLoginAccountMutation } from '@/graphql/generated/output'
 import {
     loginAccountSchema,
     LoginAccountSchemaType,
 } from '@/schemas/auth/login.schema'
+import { createFormNotificationHandlers } from '@/utils/form-notifications'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { REGEXP_ONLY_DIGITS } from 'input-otp'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
-import { ComponentRef, useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { AuthWrapper } from '../AuthWrapper'
+import { PasswordField, PinField, UsernameField } from './fields'
 
 export function LoginForm() {
     const t = useTranslations('auth.login')
@@ -39,7 +24,7 @@ export function LoginForm() {
 
     const [isShowTwoFactor, setIsShowTwoFactor] = useState(false)
     const [isPinValid, setIsPinValid] = useState(false)
-    const otpRef = useRef<ComponentRef<typeof InputOTP>>(null)
+    const otpRef = useRef<HTMLDivElement>(null)
 
     const form = useForm<LoginAccountSchemaType>({
         resolver: zodResolver(loginAccountSchema),
@@ -51,13 +36,6 @@ export function LoginForm() {
     })
 
     useEffect(() => {
-        if (isShowTwoFactor) {
-            const pinValue = form.watch('pin')
-            setIsPinValid(pinValue?.length === 6)
-        }
-    }, [form.watch('pin'), isShowTwoFactor])
-
-    useEffect(() => {
         if (isShowTwoFactor && otpRef.current) {
             const input = otpRef.current.querySelector('input')
             if (input) {
@@ -66,36 +44,36 @@ export function LoginForm() {
         }
     }, [isShowTwoFactor])
 
+    const { handleSuccess, handleError } = createFormNotificationHandlers({
+        successMessage: t('successMessage'),
+        errorMessage: isShowTwoFactor
+            ? t('totpValidationError')
+            : t('credentialsValidationError'),
+        errorDescription: isShowTwoFactor
+            ? t('totpValidationErrorDescription')
+            : t('credentialsValidatonErrorDescription'),
+    })
+
     const handleLoginSuccess = useCallback(
         (data: any) => {
             if (data.login.message) {
                 setIsShowTwoFactor(true)
             } else {
-                toast.success(t('successMessage'))
-                router.push('/dashboard/settings')
+                handleSuccess()
+                router.push(AUTH_ROUTES.AFTER_LOGIN)
             }
         },
-        [t, router],
+        [handleSuccess, router],
     )
-
-    const handleLoginError = useCallback(() => {
-        const formValues = form.getValues()
-
-        if (formValues.pin) {
-            toast.error(t('totpValidationError'), {
-                description: t('totpValidationErrorDescription'),
-            })
-        } else {
-            toast.error(t('credentialsValidationError'), {
-                description: t('credentialsValidatonErrorDescription'),
-            })
-        }
-    }, [form, t])
 
     const [login, { loading: isLoadingLogin }] = useLoginAccountMutation({
         onCompleted: handleLoginSuccess,
-        onError: handleLoginError,
+        onError: handleError,
     })
+
+    const handlePinChange = useCallback((pin: string, isValid: boolean) => {
+        setIsPinValid(isValid)
+    }, [])
 
     const isFormValid = isShowTwoFactor ? isPinValid : form.formState.isValid
 
@@ -121,99 +99,42 @@ export function LoginForm() {
                     className='space-y-4'
                 >
                     {isShowTwoFactor ? (
-                        <FormField
-                            control={form.control}
+                        <PinField
+                            form={form}
                             name='pin'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>{t('pinLabel')}</FormLabel>
-                                    <FormControl>
-                                        <div ref={otpRef}>
-                                            <InputOTP
-                                                maxLength={6}
-                                                pattern={REGEXP_ONLY_DIGITS}
-                                                {...field}
-                                                onChange={value => {
-                                                    field.onChange(value)
-                                                    setIsPinValid(
-                                                        value.length === 6,
-                                                    )
-                                                }}
-                                            >
-                                                <InputOTPGroup>
-                                                    <InputOTPSlot index={0} />
-                                                    <InputOTPSlot index={1} />
-                                                    <InputOTPSlot index={2} />
-                                                    <InputOTPSlot index={3} />
-                                                    <InputOTPSlot index={4} />
-                                                    <InputOTPSlot index={5} />
-                                                </InputOTPGroup>
-                                            </InputOTP>
-                                        </div>
-                                    </FormControl>
-                                    <FormDescription>
-                                        {t('pinDescription')}
-                                    </FormDescription>
-                                </FormItem>
-                            )}
+                            label={t('pinLabel')}
+                            description={t('pinDescription')}
+                            onPinChange={handlePinChange}
+                            otpRef={otpRef}
                         />
                     ) : (
                         <>
-                            <FormField
-                                control={form.control}
+                            <UsernameField
+                                form={form}
                                 name='login'
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>{t('loginLabel')}</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder='nostylist44'
-                                                disabled={isLoadingLogin}
-                                                autoComplete='username'
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
+                                label={t('loginLabel')}
+                                disabled={isLoadingLogin}
                             />
 
-                            <FormField
-                                control={form.control}
+                            <PasswordField
+                                form={form}
                                 name='password'
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <div className='flex items-center justify-center'>
-                                            <FormLabel>
-                                                {t('passwordLabel')}
-                                            </FormLabel>
-                                            <Link
-                                                href={AUTH_ROUTES.RECOVERY}
-                                                className='ml-auto inline-block'
-                                            >
-                                                {t('forgotPassword')}
-                                            </Link>
-                                        </div>
-                                        <FormControl>
-                                            <PasswordInput
-                                                placeholder='********'
-                                                disabled={isLoadingLogin}
-                                                autoComplete='current-password'
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
+                                label={t('passwordLabel')}
+                                disabled={isLoadingLogin}
+                                action={
+                                    <Link href={AUTH_ROUTES.RECOVERY}>
+                                        {t('forgotPassword')}
+                                    </Link>
+                                }
                             />
                         </>
                     )}
 
-                    <Button
-                        type='submit'
-                        className='h-11 w-full'
-                        disabled={isLoadingLogin || !isFormValid}
-                    >
-                        {isLoadingLogin ? <Spinner /> : t('submitButton')}
-                    </Button>
+                    <SubmitButton
+                        loading={isLoadingLogin}
+                        disabled={!isFormValid}
+                        label={t('submitButton')}
+                    />
                 </form>
             </Form>
         </AuthWrapper>

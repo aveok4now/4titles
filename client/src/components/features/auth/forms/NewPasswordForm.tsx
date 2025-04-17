@@ -1,17 +1,8 @@
 'use client'
 
-import { Button } from '@/components/ui/common/button'
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/common/form'
+import { Form } from '@/components/ui/common/form'
 import { Separator } from '@/components/ui/common/separator'
-import { PasswordInput } from '@/components/ui/custom/password-input'
-import { Spinner } from '@/components/ui/custom/spinner'
+import { SubmitButton } from '@/components/ui/custom/submit-button'
 import { AUTH_ROUTES } from '@/constants/auth'
 import { useNewPasswordMutation } from '@/graphql/generated/output'
 import { useFormValidation } from '@/hooks/useFormValidation'
@@ -20,13 +11,14 @@ import {
     NewPasswordSchemaMessages,
     NewPasswordSchemaType,
 } from '@/schemas/auth/new-password.schema'
+import { createFormNotificationHandlers } from '@/utils/form-notifications'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import { useParams, useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { AuthWrapper } from '../AuthWrapper'
+import { PasswordField } from './fields'
 
 export function NewPasswordForm() {
     const t = useTranslations('auth.recovery.newPassword')
@@ -52,27 +44,28 @@ export function NewPasswordForm() {
     const {
         setIsSubmitted,
         handleFormSubmit,
-        shouldShowErrors,
         resetSubmitState,
         isEmptyFormDisabled,
     } = useFormValidation(form)
 
-    const handleSuccess = useCallback(() => {
-        toast.success(t('successMessage'))
-        router.push(AUTH_ROUTES.LOGIN)
-    }, [t, router])
+    const { handleSuccess, handleError } = createFormNotificationHandlers({
+        successMessage: t('successMessage'),
+        errorMessage: t('errorMessage'),
+        errorDescription: t('errorMessageDescription'),
+    })
 
-    const handleError = useCallback(() => {
-        toast.error(t('errorMessage'), {
-            description: t('errorMessageDescription'),
-        })
-        resetSubmitState()
-    }, [t, resetSubmitState])
+    const handleResetSuccess = useCallback(() => {
+        handleSuccess()
+        router.push(AUTH_ROUTES.LOGIN)
+    }, [handleSuccess, router])
 
     const [newPassword, { loading: isLoadingNewPassword }] =
         useNewPasswordMutation({
-            onCompleted: handleSuccess,
-            onError: handleError,
+            onCompleted: handleResetSuccess,
+            onError: () => {
+                handleError()
+                resetSubmitState()
+            },
         })
 
     const onSubmit = useCallback(
@@ -101,62 +94,30 @@ export function NewPasswordForm() {
                     className='space-y-4'
                     noValidate
                 >
-                    <FormField
-                        control={form.control}
+                    <PasswordField
+                        form={form}
                         name='password'
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>{t('passwordLabel')}</FormLabel>
-                                <FormControl>
-                                    <PasswordInput
-                                        placeholder='********'
-                                        disabled={isLoadingNewPassword}
-                                        autoComplete='new-password'
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <div className='h-3.5 md:h-1'>
-                                    {shouldShowErrors && (
-                                        <FormMessage className='text-xs' />
-                                    )}
-                                </div>
-                            </FormItem>
-                        )}
+                        label={t('passwordLabel')}
+                        disabled={isLoadingNewPassword}
+                        autoComplete='new-password'
+                        shouldShowErrors
                     />
 
-                    <FormField
-                        control={form.control}
+                    <PasswordField
+                        form={form}
                         name='passwordRepeat'
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>
-                                    {t('passwordRepeatLabel')}
-                                </FormLabel>
-                                <FormControl>
-                                    <PasswordInput
-                                        placeholder='********'
-                                        disabled={isLoadingNewPassword}
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <div className='h-3.5 md:h-1'>
-                                    {shouldShowErrors && (
-                                        <FormMessage className='text-xs' />
-                                    )}
-                                </div>
-                            </FormItem>
-                        )}
+                        label={t('passwordRepeatLabel')}
+                        disabled={isLoadingNewPassword}
+                        shouldShowErrors
                     />
 
                     <Separator />
 
-                    <Button
-                        type='submit'
-                        className='h-11 w-full'
+                    <SubmitButton
+                        loading={isLoadingNewPassword}
                         disabled={isEmptyFormDisabled(isLoadingNewPassword)}
-                    >
-                        {isLoadingNewPassword ? <Spinner /> : t('submitButton')}
-                    </Button>
+                        label={t('submitButton')}
+                    />
                 </form>
             </Form>
         </AuthWrapper>

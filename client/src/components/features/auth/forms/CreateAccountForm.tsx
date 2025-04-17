@@ -1,18 +1,8 @@
 'use client'
 
-import { Button } from '@/components/ui/common/button'
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/common/form'
-import { Input } from '@/components/ui/common/input'
+import { Form } from '@/components/ui/common/form'
 import { Separator } from '@/components/ui/common/separator'
-import { PasswordInput } from '@/components/ui/custom/password-input'
-import { Spinner } from '@/components/ui/custom/spinner'
+import { SubmitButton } from '@/components/ui/custom/submit-button'
 import { AUTH_ROUTES } from '@/constants/auth'
 import { useCreateAccountMutation } from '@/graphql/generated/output'
 import { useFormValidation } from '@/hooks/useFormValidation'
@@ -21,13 +11,14 @@ import {
     CreateAccountSchemaMessages,
     CreateAccountSchemaType,
 } from '@/schemas/auth/create-account.schema'
+import { createFormNotificationHandlers } from '@/utils/form-notifications'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { AuthFeedback } from '../AuthFeedback'
 import { AuthWrapper } from '../AuthWrapper'
+import { EmailField, PasswordField, UsernameField } from './fields'
 
 export function CreateAccountForm() {
     const t = useTranslations('auth.register')
@@ -57,23 +48,24 @@ export function CreateAccountForm() {
     const {
         setIsSubmitted,
         handleFormSubmit,
-        shouldShowErrors,
         isSubmitDisabled,
         resetSubmitState,
     } = useFormValidation(form)
+
+    const { handleError } = createFormNotificationHandlers({
+        errorMessage: t('serverErrorMessage'),
+    })
 
     const handleCreateSuccess = useCallback(() => {
         setIsSuccess(true)
     }, [])
 
-    const handleCreateError = useCallback(() => {
-        toast.error(t('serverErrorMessage'))
-        resetSubmitState()
-    }, [t, resetSubmitState])
-
     const [create, { loading: isAccountCreating }] = useCreateAccountMutation({
         onCompleted: handleCreateSuccess,
-        onError: handleCreateError,
+        onError: () => {
+            handleError()
+            resetSubmitState()
+        },
     })
 
     const onSubmit = useCallback(
@@ -104,90 +96,40 @@ export function CreateAccountForm() {
                         onSubmit={form.handleSubmit(onSubmit)}
                         onSubmitCapture={handleFormSubmit}
                         className='space-y-4'
+                        noValidate
                     >
-                        <FormField
-                            control={form.control}
+                        <UsernameField
+                            form={form}
                             name='username'
-                            render={({ field }) => (
-                                <FormItem className='space-y-1.5'>
-                                    <FormLabel>{t('usernameLabel')}</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder='nostylist44'
-                                            disabled={isAccountCreating}
-                                            autoComplete='username'
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <div className='h-3.5 md:h-1'>
-                                        {shouldShowErrors && (
-                                            <FormMessage className='text-xs' />
-                                        )}
-                                    </div>
-                                </FormItem>
-                            )}
+                            label={t('usernameLabel')}
+                            disabled={isAccountCreating}
+                            shouldShowErrors
                         />
 
-                        <FormField
-                            control={form.control}
+                        <EmailField
+                            form={form}
                             name='email'
-                            render={({ field }) => (
-                                <FormItem className='space-y-1.5'>
-                                    <FormLabel>{t('emailLabel')}</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type='email'
-                                            placeholder='nostylist@gmail.com'
-                                            disabled={isAccountCreating}
-                                            autoComplete='email'
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <div className='h-3.5 md:h-1'>
-                                        {shouldShowErrors && (
-                                            <FormMessage className='text-xs' />
-                                        )}
-                                    </div>
-                                </FormItem>
-                            )}
+                            label={t('emailLabel')}
+                            disabled={isAccountCreating}
+                            shouldShowErrors
                         />
 
-                        <FormField
-                            control={form.control}
+                        <PasswordField
+                            form={form}
                             name='password'
-                            render={({ field }) => (
-                                <FormItem className='space-y-1.5'>
-                                    <FormLabel>{t('passwordLabel')}</FormLabel>
-                                    <FormControl>
-                                        <PasswordInput
-                                            placeholder='********'
-                                            disabled={isAccountCreating}
-                                            autoComplete='new-password'
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <div className='h-3.5 md:h-1'>
-                                        {shouldShowErrors && (
-                                            <FormMessage className='text-xs' />
-                                        )}
-                                    </div>
-                                </FormItem>
-                            )}
+                            label={t('passwordLabel')}
+                            disabled={isAccountCreating}
+                            autoComplete='new-password'
+                            shouldShowErrors
                         />
 
                         <Separator />
 
-                        <Button
-                            type='submit'
-                            className='h-11 w-full'
+                        <SubmitButton
+                            loading={isAccountCreating}
                             disabled={isSubmitDisabled(isAccountCreating)}
-                        >
-                            {isAccountCreating ? (
-                                <Spinner />
-                            ) : (
-                                t('submitButton')
-                            )}
-                        </Button>
+                            label={t('submitButton')}
+                        />
                     </form>
                 </Form>
             )}

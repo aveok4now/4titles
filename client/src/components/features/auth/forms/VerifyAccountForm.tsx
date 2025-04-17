@@ -54,7 +54,7 @@ export function VerifyAccountForm() {
 
     return (
         <AuthWrapper heading={t('heading')}>
-            <div className='flex items-center justify-center py-6'>
+            <div className='flex items-center justify-center'>
                 <Spinner size='xl' color='border-primary' />
             </div>
         </AuthWrapper>
