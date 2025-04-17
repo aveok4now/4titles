@@ -2,22 +2,23 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export default function middleware(request: NextRequest) {
     const { cookies, url, nextUrl } = request
+    const pathname = nextUrl.pathname
 
-    const session = cookies.get(process.env.SESSION_COOKIE_NAME || '')?.value
+    const sessionCookieName = process.env.SESSION_COOKIE_NAME || ''
+    const session = cookies.get(sessionCookieName)?.value
+    const isAuthenticated = Boolean(session)
 
-    const isAuthRoute = nextUrl.pathname.startsWith('/account')
-    const isDeactivateRoute = nextUrl.pathname === '/account/deactivate'
-    const isDashboardRoute = nextUrl.pathname.startsWith('/dashboard')
+    const isAuthRoute = pathname.startsWith('/account')
+    const isDeactivateRoute = pathname === '/account/deactivate'
+    const isDashboardRoute = pathname.startsWith('/dashboard')
 
-    if (!session && isDashboardRoute) {
-        return NextResponse.redirect(new URL('/account/login', url))
+    if (!isAuthenticated) {
+        if (isDashboardRoute || isDeactivateRoute) {
+            return NextResponse.redirect(new URL('/account/login', url))
+        }
     }
 
-    if (!session && isDeactivateRoute) {
-        return NextResponse.redirect(new URL('/account/login', url))
-    }
-
-    if (session && isAuthRoute && !isDeactivateRoute) {
+    if (isAuthenticated && isAuthRoute && !isDeactivateRoute) {
         return NextResponse.redirect(new URL('/dashboard/settings', url))
     }
 
