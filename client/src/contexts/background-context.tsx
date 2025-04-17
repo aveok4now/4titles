@@ -5,11 +5,9 @@ import { createContext, useContext, useState } from 'react'
 export type BackgroundType =
     | 'default'
     | 'aurora'
-    | 'grid'
     | 'iridescence'
     | 'squares'
     | 'particles'
-    | 'chrome'
 
 interface BackgroundContextType {
     backgroundType: BackgroundType
