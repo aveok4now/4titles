@@ -5,6 +5,7 @@ import { Link } from '@/components/ui/custom/link'
 import { SubmitButton } from '@/components/ui/custom/submit-button'
 import { AUTH_ROUTES } from '@/constants/auth'
 import { useLoginAccountMutation } from '@/graphql/generated/output'
+import { useAuth } from '@/hooks/useAuth'
 import {
     loginAccountSchema,
     LoginAccountSchemaType,
@@ -21,6 +22,8 @@ import { PasswordField, PinField, UsernameField } from './fields'
 export function LoginForm() {
     const t = useTranslations('auth.login')
     const router = useRouter()
+
+    const { authorize } = useAuth()
 
     const [isShowTwoFactor, setIsShowTwoFactor] = useState(false)
     const [isPinValid, setIsPinValid] = useState(false)
@@ -59,6 +62,7 @@ export function LoginForm() {
             if (data.login.message) {
                 setIsShowTwoFactor(true)
             } else {
+                authorize()
                 handleSuccess()
                 router.push(AUTH_ROUTES.AFTER_LOGIN)
             }
