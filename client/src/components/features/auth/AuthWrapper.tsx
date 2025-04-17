@@ -4,7 +4,7 @@ import { Link } from '@/components/ui/custom/link'
 import ShinyText from '@/components/ui/custom/text/shiny-text'
 import { useBackground } from '@/contexts/background-context'
 import Image from 'next/image'
-import { PropsWithChildren, ReactNode, useEffect } from 'react'
+import { memo, PropsWithChildren, ReactNode, useEffect } from 'react'
 
 interface AuthWrapperProps {
     children: ReactNode
@@ -14,7 +14,7 @@ interface AuthWrapperProps {
     backButtonQuestion?: string
 }
 
-export function AuthWrapper({
+export const AuthWrapper = memo(function AuthWrapper({
     children,
     heading,
     backButtonLabel,
@@ -27,6 +27,10 @@ export function AuthWrapper({
         setBackgroundType('particles')
         return () => setBackgroundType('default')
     }, [setBackgroundType])
+
+    const showBackButton = Boolean(
+        backButtonLabel && backButtonHref && backButtonQuestion,
+    )
 
     return (
         <div className='flex min-h-screen flex-col items-center justify-center p-4'>
@@ -58,7 +62,7 @@ export function AuthWrapper({
                         {children}
                     </AnimatedContent>
                 </CardContent>
-                {backButtonLabel && backButtonHref && backButtonQuestion ? (
+                {showBackButton && (
                     <AnimatedContent
                         distance={150}
                         config={{ tension: 80, friction: 15 }}
@@ -69,14 +73,14 @@ export function AuthWrapper({
                                 <span className='text-sm text-muted-foreground'>
                                     {backButtonQuestion}
                                 </span>
-                                <Link href={backButtonHref}>
+                                <Link href={backButtonHref!}>
                                     {backButtonLabel}
                                 </Link>
                             </div>
                         </CardFooter>
                     </AnimatedContent>
-                ) : null}
+                )}
             </Card>
         </div>
     )
-}
+})

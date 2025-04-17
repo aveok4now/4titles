@@ -1,26 +1,31 @@
+import { MIN_PASSWORD_LENGTH, VALIDATION_REGEX } from '@/constants/auth'
 import { z } from 'zod'
 
-export const newPasswordSchema = (t: {
+export interface NewPasswordSchemaMessages {
     passwordMinLengthValidationError: string
     passwordWeaknessError: string
     passwordRepeatError: string
-}) =>
+}
+
+export const newPasswordSchema = (messages: NewPasswordSchemaMessages) =>
     z
         .object({
             password: z
                 .string()
-                .min(8, { message: t.passwordMinLengthValidationError })
-                .regex(/^(?=.*\p{Ll})(?=.*\p{Lu})(?=.*\d).+$/u, {
-                    message: t.passwordWeaknessError,
+                .min(MIN_PASSWORD_LENGTH, {
+                    message: messages.passwordMinLengthValidationError,
+                })
+                .regex(VALIDATION_REGEX.STRONG_PASSWORD, {
+                    message: messages.passwordWeaknessError,
                 }),
 
-            passwordRepeat: z
-                .string()
-                .min(8, { message: t.passwordMinLengthValidationError }),
+            passwordRepeat: z.string().min(MIN_PASSWORD_LENGTH, {
+                message: messages.passwordMinLengthValidationError,
+            }),
         })
         .refine(data => data.password === data.passwordRepeat, {
             path: ['passwordRepeat'],
-            message: t.passwordRepeatError,
+            message: messages.passwordRepeatError,
         })
 
 export type NewPasswordSchemaType = z.infer<

@@ -1,10 +1,16 @@
 import { z } from 'zod'
 
-export const resetPasswordSchema = (t: {
-    emailValidationErrorMessage: string
-}) =>
+export interface ResetPasswordSchemaMessages {
+    emailValidationError: string
+}
+
+export const resetPasswordSchema = (messages: ResetPasswordSchemaMessages) =>
     z.object({
-        email: z.string().email({ message: t.emailValidationErrorMessage }),
+        email: z
+            .string()
+            .email({ message: messages.emailValidationError })
+            .trim()
+            .toLowerCase(),
     })
 
 export type ResetPasswordSchemaType = z.infer<

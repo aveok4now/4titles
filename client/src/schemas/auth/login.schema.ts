@@ -1,8 +1,9 @@
+import { MIN_PASSWORD_LENGTH, MIN_USERNAME_LENGTH } from '@/constants/auth'
 import { z } from 'zod'
 
 export const loginAccountSchema = z.object({
-    login: z.string().min(5),
-    password: z.string().min(8),
+    login: z.string().min(MIN_USERNAME_LENGTH).trim(),
+    password: z.string().min(MIN_PASSWORD_LENGTH),
     pin: z.string().optional(),
 })
 

@@ -1,75 +1,77 @@
 {
     "home": {
-        "title": "Home page"
+        "title": "Home Page"
     },
     "auth": {
         "register": {
-            "heading": "Sign up",
-            "backButtonLabel": "Log in",
+            "heading": "Sign Up",
+            "backButtonLabel": "Sign In",
             "backButtonQuestion": "Already have an account?",
             "usernameLabel": "Username",
-            "usernameMinLengthValidationError": "Must contain at least 5 characters",
-            "usernameInvalidCharactersValidationError": "Username contains invalid characters",
+            "usernameMinLengthValidationError": "Must be at least 5 characters",
+            "usernameInvalidCharactersValidationError": "Username may only contain letters, numbers, and hyphens",
             "emailLabel": "Email address",
             "emailValidationError": "Please enter a valid email address",
             "passwordLabel": "Password",
-            "passwordMinLengthValidationError": "Must contain at least 8 characters",
-            "passwordWeaknessError": "Must contain at least 1 uppercase letter and 1 number",
-            "submitButton": "Continue",
-            "serverErrorMessage": "An error occurred while processing your request. Please check your input or try again later",
-            "successAlertTitle": "Please check your inbox",
-            "successAlertDescription": "A confirmation email has been sent to your email address. If you don't see the email, please check your «Spam» folder"
+            "passwordPlaceholder": "Create a strong password",
+            "passwordMinLengthValidationError": "Password must be at least 8 characters",
+            "passwordWeaknessError": "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+            "submitButton": "Sign Up",
+            "serverErrorMessage": "An error occurred. Please check your information or try again later",
+            "successAlertTitle": "Verify your email",
+            "successAlertDescription": "We've sent a verification link to your email address. If you don't see it, please check your spam folder"
         },
         "verify": {
-            "heading": "Account verification",
-            "successMessage": "Account successfully verified",
-            "errorMessage": "An error occurred during account verification",
-            "errorMessageDescription": "Please try again later or contact support"
+            "heading": "Account Verification",
+            "successMessage": "Your account has been successfully verified",
+            "errorMessage": "Account verification failed",
+            "errorMessageDescription": "The verification link may be invalid or expired. Please try again or contact support"
         },
         "login": {
-            "heading": "Account login",
-            "backButtonLabel": "Sign up",
+            "heading": "Sign In",
+            "backButtonLabel": "Sign Up",
             "backButtonQuestion": "Don't have an account?",
-            "loginLabel": "Login",
+            "loginLabel": "Username",
             "passwordLabel": "Password",
-            "pinLabel": "6-digit code",
-            "pinDescription": "Enter the code from your authenticator app",
+            "pinLabel": "Verification code",
+            "pinDescription": "Enter the 6-digit code from your authenticator app",
             "forgotPassword": "Forgot password?",
-            "submitButton": "Continue",
+            "submitButton": "Sign In",
             "totpValidationError": "Invalid verification code",
-            "totpValidationErrorDescription": "Please verify the code is correct or try again later",
-            "credentialsValidationError": "Invalid login or password",
-            "credentialsValidationErrorDescription": "Please check your credentials or try again later",
-            "serverErrorMessage": "An error occurred while processing your request. Please check your input or try again later",
-            "successMessage": "You have successfully logged in"
+            "totpValidationErrorDescription": "Please check your code and try again",
+            "credentialsValidationError": "Invalid username or password",
+            "credentialsValidatonErrorDescription": "Please check your credentials and try again",
+            "serverErrorMessage": "An error occurred while signing in. Please try again later",
+            "successMessage": "Signed in successfully"
         },
         "recovery": {
             "resetPassword": {
-                "heading": "Password reset",
-                "backButtonLabel": "Log in",
-                "backButtonQuestion": "Already have an account?",
+                "heading": "Password Recovery",
+                "backButtonLabel": "Back to Sign In",
+                "backButtonQuestion": "Remembered your password?",
                 "emailLabel": "Email address",
+                "emailPlaceholder": "Enter your email address",
                 "emailValidationError": "Please enter a valid email address",
-                "emailFieldDescription": "Email associated with your account",
-                "submitButton": "Reset password",
-                "successAlertTitle": "Please check your inbox",
-                "successAlertDescription": "A password reset link has been sent to the provided email address. If you have Telegram notifications enabled, you may also receive the link there.",
-                "errorMessage": "An error occurred while resetting password",
-                "errorMessageDescription": "Please verify the email address or try again later"
+                "emailFieldDescription": "Enter the email associated with your account",
+                "submitButton": "Reset Password",
+                "successAlertTitle": "Check your email",
+                "successAlertDescription": "We've sent a password reset link to your email address. If you have Telegram notifications enabled, you'll also receive the link there",
+                "errorMessage": "Password reset failed",
+                "errorMessageDescription": "Please check your email address or try again later"
             },
             "newPassword": {
-                "heading": "New password",
-                "backButtonLabel": "Log in",
-                "backButtonQuestion": "Already have an account?",
+                "heading": "Create New Password",
+                "backButtonLabel": "Back to Sign In",
+                "backButtonQuestion": "Remembered your password?",
                 "passwordLabel": "New password",
-                "passwordRepeatLabel": "Repeat password",
-                "submitButton": "Continue",
+                "passwordRepeatLabel": "Confirm password",
+                "submitButton": "Save Password",
                 "successMessage": "Password successfully changed",
                 "errorMessage": "Error setting new password",
-                "errorMessageDescription": "Please try again later or request another password reset",
-                "passwordMinLengthValidationError": "Must contain at least 8 characters",
-                "passwordWeaknessError": "Must contain at least 1 uppercase letter and 1 number",
-                "passwordRepeatError": "Passwords don't match"
+                "errorMessageDescription": "The reset link may have expired. Please request a new password reset",
+                "passwordMinLengthValidationError": "Password must be at least 8 characters",
+                "passwordWeaknessError": "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+                "passwordRepeatError": "Passwords do not match"
             }
         }
     }

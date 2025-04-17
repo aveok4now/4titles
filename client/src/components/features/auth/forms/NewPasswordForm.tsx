@@ -12,15 +12,18 @@ import {
 import { Separator } from '@/components/ui/common/separator'
 import { PasswordInput } from '@/components/ui/custom/password-input'
 import { Spinner } from '@/components/ui/custom/spinner'
+import { AUTH_ROUTES } from '@/constants/auth'
 import { useNewPasswordMutation } from '@/graphql/generated/output'
 import { useFormValidation } from '@/hooks/useFormValidation'
 import {
     newPasswordSchema,
+    NewPasswordSchemaMessages,
     NewPasswordSchemaType,
 } from '@/schemas/auth/new-password.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import { useParams, useRouter } from 'next/navigation'
+import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { AuthWrapper } from '../AuthWrapper'
@@ -30,16 +33,14 @@ export function NewPasswordForm() {
     const router = useRouter()
     const params = useParams<{ token: string }>()
 
+    const validationMessages: NewPasswordSchemaMessages = {
+        passwordMinLengthValidationError: t('passwordMinLengthValidationError'),
+        passwordWeaknessError: t('passwordWeaknessError'),
+        passwordRepeatError: t('passwordRepeatError'),
+    }
+
     const form = useForm<NewPasswordSchemaType>({
-        resolver: zodResolver(
-            newPasswordSchema({
-                passwordMinLengthValidationError: t(
-                    'passwordMinLengthValidationError',
-                ),
-                passwordWeaknessError: t('passwordWeaknessError'),
-                passwordRepeatError: t('passwordRepeatError'),
-            }),
-        ),
+        resolver: zodResolver(newPasswordSchema(validationMessages)),
         defaultValues: {
             password: '',
             passwordRepeat: '',
@@ -52,43 +53,53 @@ export function NewPasswordForm() {
         setIsSubmitted,
         handleFormSubmit,
         shouldShowErrors,
-        isSubmitDisabled,
+        resetSubmitState,
+        isEmptyFormDisabled,
     } = useFormValidation(form)
+
+    const handleSuccess = useCallback(() => {
+        toast.success(t('successMessage'))
+        router.push(AUTH_ROUTES.LOGIN)
+    }, [t, router])
+
+    const handleError = useCallback(() => {
+        toast.error(t('errorMessage'), {
+            description: t('errorMessageDescription'),
+        })
+        resetSubmitState()
+    }, [t, resetSubmitState])
 
     const [newPassword, { loading: isLoadingNewPassword }] =
         useNewPasswordMutation({
-            onCompleted() {
-                toast.success(t('successMessage'))
-                router.push('/account/login')
-            },
-            onError() {
-                toast.error(t('errorMessage'), {
-                    description: t('errorMessageDescription'),
-                })
-            },
+            onCompleted: handleSuccess,
+            onError: handleError,
         })
 
-    async function onSubmit(data: NewPasswordSchemaType) {
-        setIsSubmitted(true)
-        if (form.formState.isValid) {
-            newPassword({
-                variables: { data: { ...data, token: params.token } },
-            })
-        }
-    }
+    const onSubmit = useCallback(
+        (data: NewPasswordSchemaType) => {
+            setIsSubmitted(true)
+            if (form.formState.isValid) {
+                newPassword({
+                    variables: { data: { ...data, token: params.token } },
+                })
+            }
+        },
+        [setIsSubmitted, form.formState.isValid, newPassword, params.token],
+    )
 
     return (
         <AuthWrapper
             heading={t('heading')}
             backButtonQuestion={t('backButtonQuestion')}
             backButtonLabel={t('backButtonLabel')}
-            backButtonHref='/account/login'
+            backButtonHref={AUTH_ROUTES.LOGIN}
         >
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
                     onSubmitCapture={handleFormSubmit}
                     className='space-y-4'
+                    noValidate
                 >
                     <FormField
                         control={form.control}
@@ -100,6 +111,7 @@ export function NewPasswordForm() {
                                     <PasswordInput
                                         placeholder='********'
                                         disabled={isLoadingNewPassword}
+                                        autoComplete='new-password'
                                         {...field}
                                     />
                                 </FormControl>
@@ -141,7 +153,7 @@ export function NewPasswordForm() {
                     <Button
                         type='submit'
                         className='h-11 w-full'
-                        disabled={isSubmitDisabled(isLoadingNewPassword)}
+                        disabled={isEmptyFormDisabled(isLoadingNewPassword)}
                     >
                         {isLoadingNewPassword ? <Spinner /> : t('submitButton')}
                     </Button>

@@ -1,4 +1,4 @@
-import { VerfiyAccountForm } from '@/components/features/auth/forms/VerifyAccountForm'
+import { VerifyAccountForm } from '@/components/features/auth/forms/VerifyAccountForm'
 import { redirect } from 'next/navigation'
 
 export default async function VerifyAccountPage(props: {
@@ -8,5 +8,5 @@ export default async function VerifyAccountPage(props: {
 
     if (!searchParams.token) return redirect('/account/create')
 
-    return <VerfiyAccountForm />
+    return <VerifyAccountForm />
 }

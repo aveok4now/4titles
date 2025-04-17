@@ -18,6 +18,7 @@ import {
 import { Link } from '@/components/ui/custom/link'
 import { PasswordInput } from '@/components/ui/custom/password-input'
 import { Spinner } from '@/components/ui/custom/spinner'
+import { AUTH_ROUTES } from '@/constants/auth'
 import { useLoginAccountMutation } from '@/graphql/generated/output'
 import {
     loginAccountSchema,
@@ -27,7 +28,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { REGEXP_ONLY_DIGITS } from 'input-otp'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
-import { ComponentRef, useEffect, useRef, useState } from 'react'
+import { ComponentRef, useCallback, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { AuthWrapper } from '../AuthWrapper'
@@ -65,8 +66,8 @@ export function LoginForm() {
         }
     }, [isShowTwoFactor])
 
-    const [login, { loading: isLoadingLogin }] = useLoginAccountMutation({
-        onCompleted(data) {
+    const handleLoginSuccess = useCallback(
+        (data: any) => {
             if (data.login.message) {
                 setIsShowTwoFactor(true)
             } else {
@@ -74,35 +75,45 @@ export function LoginForm() {
                 router.push('/dashboard/settings')
             }
         },
-        onError() {
-            const formValues = form.getValues()
+        [t, router],
+    )
 
-            if (formValues.pin) {
-                toast.error(t('totpValidationError'), {
-                    description: t('totpValidationErrorDescription'),
-                })
-            } else {
-                toast.error(t('credentialsValidationError'), {
-                    description: t('credentialsValidatonErrorDescription'),
-                })
-            }
-        },
+    const handleLoginError = useCallback(() => {
+        const formValues = form.getValues()
+
+        if (formValues.pin) {
+            toast.error(t('totpValidationError'), {
+                description: t('totpValidationErrorDescription'),
+            })
+        } else {
+            toast.error(t('credentialsValidationError'), {
+                description: t('credentialsValidatonErrorDescription'),
+            })
+        }
+    }, [form, t])
+
+    const [login, { loading: isLoadingLogin }] = useLoginAccountMutation({
+        onCompleted: handleLoginSuccess,
+        onError: handleLoginError,
     })
 
     const isFormValid = isShowTwoFactor ? isPinValid : form.formState.isValid
 
-    async function onSubmit(data: LoginAccountSchemaType) {
-        if (isFormValid) {
-            login({ variables: { data } })
-        }
-    }
+    const onSubmit = useCallback(
+        (data: LoginAccountSchemaType) => {
+            if (isFormValid) {
+                login({ variables: { data } })
+            }
+        },
+        [isFormValid, login],
+    )
 
     return (
         <AuthWrapper
             heading={t('heading')}
             backButtonQuestion={t('backButtonQuestion')}
             backButtonLabel={t('backButtonLabel')}
-            backButtonHref='/account/create'
+            backButtonHref={AUTH_ROUTES.REGISTER}
         >
             <Form {...form}>
                 <form
@@ -158,6 +169,7 @@ export function LoginForm() {
                                             <Input
                                                 placeholder='nostylist44'
                                                 disabled={isLoadingLogin}
+                                                autoComplete='username'
                                                 {...field}
                                             />
                                         </FormControl>
@@ -185,6 +197,7 @@ export function LoginForm() {
                                             <PasswordInput
                                                 placeholder='********'
                                                 disabled={isLoadingLogin}
+                                                autoComplete='current-password'
                                                 {...field}
                                             />
                                         </FormControl>

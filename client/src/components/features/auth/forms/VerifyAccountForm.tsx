@@ -1,14 +1,15 @@
 'use client'
 
 import { Spinner } from '@/components/ui/custom/spinner'
+import { AUTH_ROUTES } from '@/constants/auth'
 import { useVerifyAccountMutation } from '@/graphql/generated/output'
 import { useTranslations } from 'next-intl'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { toast } from 'sonner'
 import { AuthWrapper } from '../AuthWrapper'
 
-export function VerfiyAccountForm() {
+export function VerifyAccountForm() {
     const t = useTranslations('auth.verify')
     const REDIRECT_ON_ERROR_TIMEOUT_IN_MS = 1500
 
@@ -17,34 +18,43 @@ export function VerfiyAccountForm() {
 
     const token = searchParams.get('token') ?? ''
 
+    const handleVerifySuccess = useCallback(() => {
+        toast.success(t('successMessage'))
+        router.push(AUTH_ROUTES.AFTER_LOGIN)
+    }, [t, router])
+
+    const handleVerifyError = useCallback(() => {
+        toast.error(t('errorMessage'), {
+            description: t('errorMessageDescription'),
+            duration: REDIRECT_ON_ERROR_TIMEOUT_IN_MS,
+        })
+
+        setTimeout(
+            () => router.push(AUTH_ROUTES.LOGIN),
+            REDIRECT_ON_ERROR_TIMEOUT_IN_MS,
+        )
+    }, [t, router])
+
     const [verify] = useVerifyAccountMutation({
-        onCompleted() {
-            toast.success(t('successMessage'))
-            router.push('/dashboard/settings')
-        },
-        onError() {
-            toast.error(t('errorMessage'), {
-                description: t('errorMessageDescription'),
-                duration: REDIRECT_ON_ERROR_TIMEOUT_IN_MS,
-            })
-            setTimeout(
-                () => router.push('/account/login'),
-                REDIRECT_ON_ERROR_TIMEOUT_IN_MS,
-            )
-        },
+        onCompleted: handleVerifySuccess,
+        onError: handleVerifyError,
     })
 
     useEffect(() => {
-        verify({
-            variables: {
-                data: { token },
-            },
-        })
-    }, [token])
+        if (token) {
+            verify({
+                variables: {
+                    data: { token },
+                },
+            })
+        } else {
+            handleVerifyError()
+        }
+    }, [token, verify, handleVerifyError])
 
     return (
         <AuthWrapper heading={t('heading')}>
-            <div className='flex items-center justify-center'>
+            <div className='flex items-center justify-center py-6'>
                 <Spinner size='xl' color='border-primary' />
             </div>
         </AuthWrapper>
