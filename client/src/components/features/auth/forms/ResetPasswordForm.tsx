@@ -12,9 +12,7 @@ import {
 } from '@/components/ui/common/form'
 import { Input } from '@/components/ui/common/input'
 import { Separator } from '@/components/ui/common/separator'
-import FadeContent from '@/components/ui/custom/content/fade-content'
 import { Spinner } from '@/components/ui/custom/spinner'
-import BlurText from '@/components/ui/custom/text/blur-text'
 import { AUTH_ROUTES } from '@/constants/auth'
 import { useResetPasswordMutation } from '@/graphql/generated/output'
 import { useFormValidation } from '@/hooks/useFormValidation'
@@ -28,6 +26,7 @@ import { useTranslations } from 'next-intl'
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import { AuthFeedback } from '../AuthFeedback'
 import { AuthWrapper } from '../AuthWrapper'
 
 export function ResetPasswordForm() {
@@ -90,18 +89,10 @@ export function ResetPasswordForm() {
             backButtonHref={AUTH_ROUTES.LOGIN}
         >
             {isSuccess ? (
-                <div className='flex flex-col items-center gap-4 py-4 text-center'>
-                    <BlurText
-                        className='text-md justify-center font-semibold text-foreground md:text-xl'
-                        text={t('successAlertTitle')}
-                        delay={100}
-                    />
-                    <FadeContent delay={125} duration={1500} blur={true}>
-                        <p className='max-w-fit text-sm text-muted-foreground'>
-                            {t('successAlertDescription')}
-                        </p>
-                    </FadeContent>
-                </div>
+                <AuthFeedback
+                    title={t('successAlertTitle')}
+                    description={t('successAlertDescription')}
+                />
             ) : (
                 <Form {...form}>
                     <form

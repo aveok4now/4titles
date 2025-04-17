@@ -187,7 +187,7 @@ export function LoginForm() {
                                                 {t('passwordLabel')}
                                             </FormLabel>
                                             <Link
-                                                href='/account/recovery'
+                                                href={AUTH_ROUTES.RECOVERY}
                                                 className='ml-auto inline-block'
                                             >
                                                 {t('forgotPassword')}
