@@ -71,7 +71,7 @@ export function LoginForm() {
                 setIsShowTwoFactor(true)
             } else {
                 toast.success(t('successMessage'))
-                router.push('/')
+                router.push('/dashboard/settings')
             }
         },
         onError() {

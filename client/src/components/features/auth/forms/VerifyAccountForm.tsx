@@ -20,7 +20,7 @@ export function VerfiyAccountForm() {
     const [verify] = useVerifyAccountMutation({
         onCompleted() {
             toast.success(t('successMessage'))
-            router.push('/')
+            router.push('/dashboard/settings')
         },
         onError() {
             toast.error(t('errorMessage'), {
