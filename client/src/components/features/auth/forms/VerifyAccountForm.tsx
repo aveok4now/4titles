@@ -1,6 +1,6 @@
 'use client'
 
-import { Spinner } from '@/components/ui/custom/spinner'
+import { Spinner } from '@/components/ui/custom/content/spinner'
 import { AUTH_ROUTES } from '@/constants/auth'
 import { useVerifyAccountMutation } from '@/graphql/generated/output'
 import { useAuth } from '@/hooks/useAuth'

@@ -37,7 +37,6 @@ const BlurText: React.FC<BlurTextProps> = ({
     const ref = useRef<HTMLParagraphElement>(null)
     const animatedCount = useRef(0)
 
-    // Default animations based on direction
     const defaultFrom: Record<string, any> =
         direction === 'top'
             ? {

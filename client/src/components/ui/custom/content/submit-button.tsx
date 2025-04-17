@@ -1,8 +1,8 @@
 import { Button, ButtonProps } from '@/components/ui/common/button'
-import { Spinner } from '@/components/ui/custom/spinner'
 import { forwardRef } from 'react'
 
 import { cn } from '@/utils/tw-merge'
+import { Spinner } from './spinner'
 
 export interface SubmitButtonProps extends ButtonProps {
     loading?: boolean

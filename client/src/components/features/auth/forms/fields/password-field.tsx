@@ -6,7 +6,7 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/common/form'
-import { PasswordInput } from '@/components/ui/custom/password-input'
+import { PasswordInput } from '@/components/ui/custom/content/password-input'
 import { FieldPath, FieldValues, UseFormReturn } from 'react-hook-form'
 
 interface PasswordFieldProps<
