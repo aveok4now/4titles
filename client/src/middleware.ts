@@ -7,6 +7,11 @@ export default function middleware(request: NextRequest) {
 
     const isAuthRoute = nextUrl.pathname.startsWith('/account')
     const isDeactivateRoute = nextUrl.pathname === '/account/deactivate'
+    const isDashboardRoute = nextUrl.pathname.startsWith('/dashboard')
+
+    if (!session && isDashboardRoute) {
+        return NextResponse.redirect(new URL('/account/login', url))
+    }
 
     if (!session && isDeactivateRoute) {
         return NextResponse.redirect(new URL('/account/login', url))
