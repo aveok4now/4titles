@@ -1,3 +1,5 @@
+import '../styles/globals.css'
+
 import { Background } from '@/components/features/background/Background'
 import { createMetadata, viewport } from '@/config'
 import { BackgroundProvider } from '@/contexts/background-context'
@@ -7,7 +9,6 @@ import { ToastProvider } from '@/providers/ToastProvider'
 import { GeistSans } from 'geist/font/sans'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
-import '../styles/globals.css'
 
 export const metadata = createMetadata()
 export { viewport }
