@@ -1,4 +1,4 @@
-export { EmailField } from './email-field'
-export { PasswordField } from './password-field'
-export { PinField } from './pin-field'
-export { UsernameField } from './username-field'
+export { EmailField } from './EmailField'
+export { PasswordField } from './PasswordField'
+export { PinField } from './PinField'
+export { UsernameField } from './UsernameField'
