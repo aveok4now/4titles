@@ -1,4 +1,7 @@
-import { MIN_PASSWORD_LENGTH, VALIDATION_REGEX } from '@/constants/auth'
+import {
+    MIN_PASSWORD_LENGTH,
+    VALIDATION_REGEX,
+} from '@/libs/constants/auth.constants'
 import { z } from 'zod'
 
 export interface NewPasswordSchemaMessages {

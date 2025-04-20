@@ -3,9 +3,9 @@
 import { Form } from '@/components/ui/common/form'
 import { Link } from '@/components/ui/custom/content/link'
 import { SubmitButton } from '@/components/ui/custom/content/submit-button'
-import { AUTH_ROUTES } from '@/constants/auth'
 import { useLoginAccountMutation } from '@/graphql/generated/output'
 import { useAuth } from '@/hooks/useAuth'
+import { AUTH_ROUTES } from '@/libs/constants/auth.constants'
 import {
     loginAccountSchema,
     LoginAccountSchemaType,

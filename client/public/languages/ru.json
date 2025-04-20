@@ -1,6 +1,50 @@
 {
-    "home": {
-        "title": "Главная страница"
+    "layout": {
+        "header": {
+            "logo": {
+                "description": "Локации съёмок кино"
+            },
+            "search": {
+                "placeholder": "Глобальный поиск"
+            },
+            "menu": {
+                "login": "Войти",
+                "register": "Регистрация",
+                "profile": {
+                    "notifications": {
+                        "heading": "Уведомления",
+                        "loading": "Загрузка...",
+                        "empty": "Уведомлений пока нет"
+                    },
+                    "me": "Профиль",
+                    "successMessage": "Вы успешно вышли из системы",
+                    "errorMessage": "Ошибка при выходе",
+                    "dashboard": "Дашборд",
+                    "logout": "Выйти"
+                }
+            }
+        },
+        "sidebar": {
+            "header": {
+                "expand": "Развернуть",
+                "collapse": "Свернуть",
+                "navigation": "Навигация"
+            },
+            "userNav": {
+                "home": "Главная",
+                "overview": "Обзор",
+                "routes": "Маршруты",
+                "feed": "Лента",
+                "faq": "ЧаВо"
+            },
+            "popularTitleSearches": {
+                "title": "Ищут чаще всего"
+            },
+            "dashboardNav": {
+                "settings": "Настройки",
+                "followers": "Подписчики"
+            }
+        }
     },
     "auth": {
         "register": {
@@ -71,6 +115,86 @@
                 "passwordWeaknessError": "Должен иметь как минимум 1 заглавную букву и цифру",
                 "passwordRepeatError": "Пароли не совпадают"
             }
+        }
+    },
+    "dashboard": {
+        "settings": {
+            "header": {
+                "heading": "Настройки",
+                "description": "Здесь Вы можете управлять Вашими настройками",
+                "profile": "Профиль",
+                "account": "Аккаунт",
+                "appearance": "Внешний вид",
+                "notifications": "Уведомления",
+                "sessions": "Сессии"
+            },
+            "profile": {
+                "header": {
+                    "heading": "Профиль",
+                    "description": "Настройте Ваш профиль, обновите аватар, измените информацию о себе и добавьте ссылки на социальные сети, чтобы сделать вашу страницу более привлекательной для других пользователей."
+                },
+                "avatar": {
+                    "heading": "Изображение профиля",
+                    "updateButton": "Обновить изображение профиля",
+                    "smallUpdateButton": "Обновить аватар",
+                    "confirmDialog": {
+                        "heading": "Удаление аватара",
+                        "message": "Вы уверены, что хотите удалить изображение профиля? Это действие нельзя будет отменить."
+                    },
+                    "info": "Поддерживаемые форматы: JPG, JPEG, PNG, WEBP или GIF. Макс. размер: 10 МБ.",
+                    "successUpdateMessage": "Изображение профиля успешно обновлено",
+                    "errorUpdateMessage": "Ошибка при обновлении изображения профиля",
+                    "errorUpdateMessageDescription": "Убедитесь, что изображение не содержит неприемлемый контент или повторите попытку позже",
+                    "successRemoveMessage": "Изображение профиля успешно удалено",
+                    "errorRemoveMessage": "Ошибка при удалении изображения профиля",
+                    "errorRemoveMessageDescription": "Попробуйте ещё раз или повторите попытку позже"
+                },
+                "info": {
+                    "heading": "Настройки профиля",
+                    "usernameLabel": "Имя пользователя",
+                    "usernamePlaceholder": "johndoe",
+                    "usernameDescription": "Под этим именем вас будут знать другие пользователи.",
+                    "displayNameLabel": "Отображаемое имя",
+                    "displayNamePlaceholder": "John Doe",
+                    "displayNameDescription": "Проставьте прописные буквы в имени пользователя по своему желанию.",
+                    "bioLabel": "О себе",
+                    "bioPlaceholder": "Я люблю программировать",
+                    "bioDescription": "Информация о себе должна содержать не более 300 символов.",
+                    "submitButton": "Сохранить изменения",
+                    "successMessage": "Профиль успешно обновлён",
+                    "errorMessage": "Ошибка при обновлении профиля"
+                },
+                "socialLinks": {
+                    "createForm": {
+                        "heading": "Ссылки на соцсети",
+                        "titleLabel": "Название ссылки",
+                        "titlePlaceholder": "Youtube",
+                        "titleDescription": "Текст ссылки",
+                        "urlLabel": "URL ссылки",
+                        "urlPlaceholder": "https://reddit.com/nostylist44",
+                        "urlDescription": "Куда ведет эта ссылка? Введите полный URL-адрес, например https://reddit.com/nostylist",
+                        "submitButton": "Добавить",
+                        "successMessage": "Ссылка на соц. сеть успешно добавлена",
+                        "errorMessage": "Ошибка при добавлении ссылки на соц. сеть"
+                    },
+                    "editForm": {
+                        "cancelButton": "Отмена",
+                        "submitButton": "Сохранить",
+                        "successUpdateMessage": "Ссылка на соц. сеть успешно изменена",
+                        "errorUpdateMessage": "Ошибка при обновлении соц. сети",
+                        "successRemoveMessage": "Ссылка на соц. сеть успешно удалена",
+                        "errorRemoveMessage": "Ошибка при удалении соц. сети"
+                    },
+                    "successReorderMessage": "Порядок ссылок на соц. сети изменен",
+                    "errorReorderMessage": "Ошибка при изменении порядка соц. сетей"
+                }
+            }
+        }
+    },
+    "components": {
+        "confirmDialog": {
+            "cancel": "Отмена",
+            "continue": "Продолжить"
         }
     }
 }

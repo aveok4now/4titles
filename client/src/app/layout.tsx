@@ -1,14 +1,15 @@
 import '../styles/globals.css'
 
 import { Background } from '@/components/features/background/Background'
-import { createMetadata, viewport } from '@/config'
 import { BackgroundProvider } from '@/contexts/background-context'
 import { ApolloClientProvider } from '@/providers/ApolloClientProvider'
 import { ThemeProvider } from '@/providers/ThemeProvider'
 import { ToastProvider } from '@/providers/ToastProvider'
+import { createMetadata } from '@/utils/create-metadata'
 import { GeistSans } from 'geist/font/sans'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
+import { viewport } from '../utils/create-metadata'
 
 export const metadata = createMetadata()
 export { viewport }

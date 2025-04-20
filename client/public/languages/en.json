@@ -1,6 +1,11 @@
 {
-    "home": {
-        "title": "Home Page"
+    "layout": {
+        "logo": {
+            "description": "Filming locations"
+        },
+        "search": {
+            "placeholder": "Global Search"
+        }
     },
     "auth": {
         "register": {
@@ -73,6 +78,27 @@
                 "passwordWeaknessError": "Password must contain at least one uppercase letter, one lowercase letter, and one number",
                 "passwordRepeatError": "Passwords do not match"
             }
+        }
+    },
+    "sidebar": {
+        "header": {
+            "expand": "Expand",
+            "collapse": "Collapse",
+            "navigation": "Navigation"
+        },
+        "userNav": {
+            "home": "Home",
+            "overview": "Overview",
+            "routes": "Routes",
+            "feed": "Feed",
+            "faq": "FAQ"
+        },
+        "popularTitles": {
+            "title": "Popular"
+        },
+        "dashboardNav": {
+            "settings": "Settings",
+            "followers": "Followers"
         }
     }
 }

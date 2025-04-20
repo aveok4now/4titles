@@ -3,9 +3,9 @@
 import { Form } from '@/components/ui/common/form'
 import { Separator } from '@/components/ui/common/separator'
 import { SubmitButton } from '@/components/ui/custom/content/submit-button'
-import { AUTH_ROUTES } from '@/constants/auth'
 import { useResetPasswordMutation } from '@/graphql/generated/output'
 import { useFormValidation } from '@/hooks/useFormValidation'
+import { AUTH_ROUTES } from '@/libs/constants/auth.constants'
 import {
     resetPasswordSchema,
     ResetPasswordSchemaMessages,

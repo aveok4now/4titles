@@ -39,10 +39,12 @@ const BACKGROUNDS: Record<
     aurora: {
         component: Aurora as FC<AuroraProps>,
         props: {
-            colorStops: ['#3A29FF', '#FF94B4', '#FF3232'],
-            blend: 1.0,
+            useThemeColors: true,
+            blend: 0.3,
             amplitude: 0.5,
-            speed: 0.5,
+            speed: 0.4,
+            size: 1,
+            shadowOpacity: 0.4,
         },
     },
     iridescence: {
