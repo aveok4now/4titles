@@ -1,13 +1,11 @@
 'use client'
 
 import { Button } from '@/components/ui/common/button'
-import { BorderBeam } from '@/components/ui/custom/content/border-beam'
 import { Hint } from '@/components/ui/elements/Hint'
 import { useSidebar } from '@/hooks/useSidebar'
-import { cn } from '@/utils/tw-merge'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Route } from './route.interface'
+import { Route } from '../types/sidebar.types'
 
 interface SidebarItemProps {
     route: Route

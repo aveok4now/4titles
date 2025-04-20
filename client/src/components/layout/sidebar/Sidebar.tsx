@@ -16,13 +16,17 @@ export function Sidebar() {
     return (
         <aside
             className={cn(
-                'fixed left-0 z-50 mt-20 flex h-full flex-col border-r border-border bg-card/90 transition-all duration-200 ease-in-out',
+                'fixed left-0 z-50 mt-20 flex h-[calc(100vh-5rem)] flex-col border-r border-border bg-card/90 transition-all duration-200 ease-in-out',
                 isCollapsed ? 'w-16' : 'w-64',
             )}
         >
             <SidebarHeader />
 
-            {isDashboardPage ? <DashboardNav /> : <UserNav />}
+            <div className='flex flex-1 flex-col overflow-hidden'>
+                <div className='flex-1 overflow-y-auto overflow-x-hidden'>
+                    {isDashboardPage ? <DashboardNav /> : <UserNav />}
+                </div>
+            </div>
 
             <BorderBeam
                 duration={10}

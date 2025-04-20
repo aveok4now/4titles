@@ -6,6 +6,7 @@ import {
     useTransform,
 } from 'motion/react'
 import { PropsWithChildren, useState } from 'react'
+import { createPortal } from 'react-dom'
 import {
     Tooltip,
     TooltipContent,
@@ -32,6 +33,10 @@ export function Hint({
     animationIntensity = 0.7,
 }: PropsWithChildren<HintProps>) {
     const [isHovered, setIsHovered] = useState(false)
+    const [elementRect, setElementRect] = useState<DOMRect | null>(null)
+    const [containerRef, setContainerRef] = useState<HTMLDivElement | null>(
+        null,
+    )
 
     const springConfig = { stiffness: 80, damping: 12 }
     const x = useMotionValue(0)
@@ -59,6 +64,11 @@ export function Hint({
         x.set(event.nativeEvent.offsetX - halfWidth)
     }
 
+    const handleMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
+        setIsHovered(true)
+        setElementRect(event.currentTarget.getBoundingClientRect())
+    }
+
     if (!animated) {
         return (
             <TooltipProvider>
@@ -67,9 +77,10 @@ export function Hint({
                         {children}
                     </TooltipTrigger>
                     <TooltipContent
-                        className='bg-popover text-popover-foreground'
+                        className='z-[9999] bg-popover text-popover-foreground' // Increased z-index
                         side={side}
                         align={align}
+                        sideOffset={5}
                     >
                         <p className='font-semibold'>{label}</p>
                     </TooltipContent>
@@ -151,81 +162,56 @@ export function Hint({
         }
     }
 
-    const getPositionClass = () => {
-        let positionClass = ''
-        let originClass = ''
+    const getPositionStyle = () => {
+        if (!elementRect) return {}
+
+        let positionStyle: React.CSSProperties = {
+            position: 'fixed',
+            zIndex: 9999,
+        }
 
         switch (side) {
             case 'top':
-                positionClass = 'bottom-full mb-2'
+                positionStyle.bottom = window.innerHeight - elementRect.top + 8
+                positionStyle.left = elementRect.left + elementRect.width / 2
+                positionStyle.transform = 'translateX(-50%)'
                 break
             case 'bottom':
-                positionClass = 'top-full mt-2'
+                positionStyle.top = elementRect.bottom + 8
+                positionStyle.left = elementRect.left + elementRect.width / 2
+                positionStyle.transform = 'translateX(-50%)'
                 break
             case 'left':
-                positionClass = 'right-full mr-2'
+                positionStyle.right = window.innerWidth - elementRect.left + 8
+                positionStyle.top = elementRect.top + elementRect.height / 2
+                positionStyle.transform = 'translateY(-50%)'
                 break
             case 'right':
-                positionClass = 'left-full ml-2'
+                positionStyle.left = elementRect.right + 8
+                positionStyle.top = elementRect.top + elementRect.height / 2
+                positionStyle.transform = 'translateY(-50%)'
                 break
         }
 
-        if (side === 'top' || side === 'bottom') {
-            switch (align) {
-                case 'start':
-                    originClass =
-                        side === 'top'
-                            ? 'origin-bottom-left'
-                            : 'origin-top-left'
-                    break
-                case 'end':
-                    originClass =
-                        side === 'top'
-                            ? 'origin-bottom-right'
-                            : 'origin-top-right'
-                    break
-                default:
-                    originClass =
-                        side === 'top'
-                            ? 'origin-bottom left-1/2 -translate-x-1/2'
-                            : 'origin-top left-1/2 -translate-x-1/2'
-            }
-        } else {
-            switch (align) {
-                case 'start':
-                    originClass =
-                        side === 'left' ? 'origin-top-right' : 'origin-top-left'
-                    break
-                case 'end':
-                    originClass =
-                        side === 'left'
-                            ? 'origin-bottom-right'
-                            : 'origin-bottom-left'
-                    break
-                default:
-                    originClass =
-                        side === 'left'
-                            ? 'origin-right top-1/2 -translate-y-1/2'
-                            : 'origin-left top-1/2 -translate-y-1/2'
-            }
-        }
-
-        return `${positionClass} ${originClass}`
+        return positionStyle
     }
 
     const animationProps = getAnimationProps()
 
     return (
-        <TooltipProvider>
-            <div
-                className='relative inline-block'
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-                onMouseMove={handleMouseMove}
-            >
-                {children}
-                <AnimatePresence>
-                    {isHovered && (
+        <div
+            ref={setContainerRef}
+            className='relative inline-block'
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={() => setIsHovered(false)}
+            onMouseMove={handleMouseMove}
+        >
+            {children}
+            {typeof document !== 'undefined' &&
+                isHovered &&
+                containerRef &&
+                createPortal(
+                    <AnimatePresence>
                         <motion.div
                             initial={animationProps.initial}
                             animate={{
@@ -238,18 +224,19 @@ export function Hint({
                             }}
                             exit={animationProps.exit}
                             style={{
+                                ...getPositionStyle(),
                                 translateX: translateX,
                                 rotate: rotate,
                                 whiteSpace: 'nowrap',
                             }}
-                            className={`absolute z-50 overflow-hidden rounded-md bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md ${getPositionClass()}`}
+                            className='overflow-hidden rounded-md bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md'
                         >
                             {renderGradients()}
                             <p className='font-semibold'>{label}</p>
                         </motion.div>
-                    )}
-                </AnimatePresence>
-            </div>
-        </TooltipProvider>
+                    </AnimatePresence>,
+                    document.body,
+                )}
+        </div>
     )
 }

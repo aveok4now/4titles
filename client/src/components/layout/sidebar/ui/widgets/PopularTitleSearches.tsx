@@ -17,7 +17,7 @@ export function PopularTitleSearches() {
     const topSearches = data?.popularTitles || []
 
     return (
-        <div>
+        <div className='pb-4'>
             {!isCollapsed && (
                 <ShinyText
                     className='mb-2 p-3 text-lg font-semibold text-foreground/90'
