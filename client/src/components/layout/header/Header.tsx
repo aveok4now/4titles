@@ -1,12 +1,9 @@
 import { BorderBeam } from '@/components/ui/custom/content/border-beam'
-import { useTranslations } from 'next-intl'
 import { HeaderMenu } from './HeaderMenu'
 import { Logo } from './Logo'
 import { Search } from './Search'
 
 export function Header() {
-    const t = useTranslations('layout.header')
-
     return (
         <header className='relative flex h-full items-center gap-x-4 border-b border-border bg-card/90 p-4'>
             <Logo />

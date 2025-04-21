@@ -22,7 +22,10 @@ export function Logo() {
                 height={40}
             />
             <div className='hidden flex-col leading-tight md:flex'>
-                <AuroraText className='text-lg font-bold tracking-wider'>
+                <AuroraText
+                    className='text-lg font-bold tracking-wider'
+                    variant='vibrant'
+                >
                     {SITE_NAME}
                 </AuroraText>
                 <ShinyText

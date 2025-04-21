@@ -79,7 +79,7 @@ export function NotificationsList() {
                             return (
                                 <Fragment key={notification.id || index}>
                                     <div className='flex items-center gap-x-3 text-sm'>
-                                        <div className='rounded-full bg-foreground p-2'>
+                                        <div className='rounded-full bg-border p-2'>
                                             <Icon className='size-6 text-secondary' />
                                         </div>
                                         <div className='flex-1'>

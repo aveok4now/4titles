@@ -10,6 +10,8 @@ import { useBackground } from '@/contexts/background-context'
 import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
 import { ChangeAvatarForm } from './profile/ChangeAvatarForm'
+import { ChangeInfoForm } from './profile/ChangeInfoForm'
+import { SocialLinksForm } from './profile/SocialLinksForm/SocialLinksForm'
 
 export function UserSettings() {
     const t = useTranslations('dashboard.settings')
@@ -72,6 +74,8 @@ export function UserSettings() {
                             description={t('profile.header.description')}
                         />
                         <ChangeAvatarForm />
+                        <ChangeInfoForm />
+                        <SocialLinksForm />
                     </div>
                 </TabsContent>
                 <TabsContent value='account'>Аккаунт</TabsContent>

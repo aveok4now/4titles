@@ -21,7 +21,7 @@ export function LayoutContainer({ children }: PropsWithChildren<unknown>) {
     return (
         <main
             className={cn(
-                'mt-20 flex-1 p-8',
+                'mt-20 flex-1 p-4 lg:p-8',
                 isCollapsed ? 'ml-16' : 'ml-16 lg:ml-64',
             )}
         >

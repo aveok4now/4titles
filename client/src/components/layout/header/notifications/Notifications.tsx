@@ -29,8 +29,8 @@ export function Notifications() {
                 <Bell className='size-5 text-foreground' />
             </PopoverTrigger>
             <PopoverContent
-                align='end'
                 className='max-h-[30rem] w-[24rem] overflow-y-auto'
+                align='end'
             >
                 <NotificationsList />
             </PopoverContent>

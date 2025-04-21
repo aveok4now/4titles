@@ -5,6 +5,7 @@ import { Form, FormField } from '@/components/ui/common/form'
 import { Skeleton } from '@/components/ui/common/skeleton'
 import { ConfirmDialog } from '@/components/ui/elements/ConfirmDialog'
 import { FormWrapper } from '@/components/ui/elements/FormWrapper'
+import { Hint } from '@/components/ui/elements/Hint'
 import { ProfileAvatar } from '@/components/ui/elements/ProfileAvatar'
 import {
     useChangeAvatarMutation,
@@ -89,6 +90,8 @@ export function ChangeAvatarForm() {
         }
     }
 
+    const isLoading = isLoadingAvatarUpdate || isLoadingAvatarRemove
+
     return isLoadingProfile ? (
         <ChangeAvatarFormSkeleton />
     ) : (
@@ -121,10 +124,7 @@ export function ChangeAvatarForm() {
                                             onClick={() =>
                                                 inputRef.current?.click()
                                             }
-                                            disabled={
-                                                isLoadingAvatarUpdate ||
-                                                isLoadingAvatarRemove
-                                            }
+                                            disabled={isLoading}
                                             className='w-fit'
                                         >
                                             {isMobile
@@ -146,16 +146,18 @@ export function ChangeAvatarForm() {
                                                 )}
                                                 onConfirm={() => remove()}
                                             >
-                                                <Button
-                                                    variant='ghost'
-                                                    size='icon'
-                                                    disabled={
-                                                        isLoadingAvatarUpdate ||
-                                                        isLoadingAvatarRemove
-                                                    }
+                                                <Hint
+                                                    label={t('deleteButton')}
+                                                    side='right'
                                                 >
-                                                    <Trash className='size-4' />
-                                                </Button>
+                                                    <Button
+                                                        variant='ghost'
+                                                        size='icon'
+                                                        disabled={isLoading}
+                                                    >
+                                                        <Trash className='size-4' />
+                                                    </Button>
+                                                </Hint>
                                             </ConfirmDialog>
                                         )}
                                     </div>

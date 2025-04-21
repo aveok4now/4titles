@@ -5,7 +5,7 @@
                 "description": "Локации съёмок кино"
             },
             "search": {
-                "placeholder": "Глобальный поиск"
+                "placeholder": "Искать фильмы, сериалы, локации..."
             },
             "menu": {
                 "login": "Войти",
@@ -14,7 +14,7 @@
                     "notifications": {
                         "heading": "Уведомления",
                         "loading": "Загрузка...",
-                        "empty": "Уведомлений пока нет"
+                        "empty": "Нет новых уведомлений"
                     },
                     "me": "Профиль",
                     "successMessage": "Вы успешно вышли из системы",
@@ -131,17 +131,18 @@
             "profile": {
                 "header": {
                     "heading": "Профиль",
-                    "description": "Настройте Ваш профиль, обновите аватар, измените информацию о себе и добавьте ссылки на социальные сети, чтобы сделать вашу страницу более привлекательной для других пользователей."
+                    "description": "Управление персональной информацией и публичными данными"
                 },
                 "avatar": {
-                    "heading": "Изображение профиля",
+                    "heading": "Аватар профиля",
                     "updateButton": "Обновить изображение профиля",
                     "smallUpdateButton": "Обновить аватар",
+                    "deleteButton": "Удалить",
                     "confirmDialog": {
-                        "heading": "Удаление аватара",
+                        "heading": "Подтверждение удаления",
                         "message": "Вы уверены, что хотите удалить изображение профиля? Это действие нельзя будет отменить."
                     },
-                    "info": "Поддерживаемые форматы: JPG, JPEG, PNG, WEBP или GIF. Макс. размер: 10 МБ.",
+                    "info": "Поддерживаемые форматы: JPG, JPEG, PNG, WEBP или GIF (макс. 10 МБ)",
                     "successUpdateMessage": "Изображение профиля успешно обновлено",
                     "errorUpdateMessage": "Ошибка при обновлении изображения профиля",
                     "errorUpdateMessageDescription": "Убедитесь, что изображение не содержит неприемлемый контент или повторите попытку позже",
@@ -152,41 +153,44 @@
                 "info": {
                     "heading": "Настройки профиля",
                     "usernameLabel": "Имя пользователя",
-                    "usernamePlaceholder": "johndoe",
-                    "usernameDescription": "Под этим именем вас будут знать другие пользователи.",
+                    "usernamePlaceholder": "nostylist44",
+                    "usernameDescription": "Используется для входа в систему",
                     "displayNameLabel": "Отображаемое имя",
-                    "displayNamePlaceholder": "John Doe",
-                    "displayNameDescription": "Проставьте прописные буквы в имени пользователя по своему желанию.",
+                    "displayNamePlaceholder": "Kim Foose",
+                    "displayNameDescription": "Под данным именем Вас будут знать другие пользователи",
                     "bioLabel": "О себе",
-                    "bioPlaceholder": "Я люблю программировать",
-                    "bioDescription": "Информация о себе должна содержать не более 300 символов.",
+                    "bioPlaceholder": "Расскажите о себе",
+                    "bioDescription": "Информация о себе должна содержать не более 200 символов.",
                     "submitButton": "Сохранить изменения",
                     "successMessage": "Профиль успешно обновлён",
-                    "errorMessage": "Ошибка при обновлении профиля"
+                    "errorMessage": "Ошибка при обновлении профиля",
+                    "errorMessageDescription": "Проверьте корректность введённых данных или повторите попытку позже."
                 },
                 "socialLinks": {
                     "createForm": {
-                        "heading": "Ссылки на соцсети",
-                        "titleLabel": "Название ссылки",
-                        "titlePlaceholder": "Youtube",
-                        "titleDescription": "Текст ссылки",
-                        "urlLabel": "URL ссылки",
-                        "urlPlaceholder": "https://reddit.com/nostylist44",
-                        "urlDescription": "Куда ведет эта ссылка? Введите полный URL-адрес, например https://reddit.com/nostylist",
-                        "submitButton": "Добавить",
-                        "successMessage": "Ссылка на соц. сеть успешно добавлена",
-                        "errorMessage": "Ошибка при добавлении ссылки на соц. сеть"
+                        "heading": "Социальные сети",
+                        "titleLabel": "Название платформы",
+                        "titlePlaceholder": "Пример: Reddit, RuTube",
+                        "titleDescription": "Укажите название социальной сети",
+                        "urlLabel": "Ссылка на профиль",
+                        "urlPlaceholder": "https://reddit.com/ваш_профиль",
+                        "urlDescription": "Полный URL-адрес вашего профиля",
+                        "submitButton": "Добавить ссылку",
+                        "successMessage": "Ссылка на социальную сеть успешно добавлена",
+                        "errorMessage": "Ошибка при добавлении ссылки на социальную сеть"
                     },
                     "editForm": {
                         "cancelButton": "Отмена",
                         "submitButton": "Сохранить",
-                        "successUpdateMessage": "Ссылка на соц. сеть успешно изменена",
-                        "errorUpdateMessage": "Ошибка при обновлении соц. сети",
-                        "successRemoveMessage": "Ссылка на соц. сеть успешно удалена",
-                        "errorRemoveMessage": "Ошибка при удалении соц. сети"
+                        "successUpdateMessage": "Ссылка на социальную сеть успешно изменена",
+                        "errorUpdateMessage": "Ошибка при обновлении социальной сети",
+                        "successRemoveMessage": "Ссылка на социальную сеть успешно удалена",
+                        "errorRemoveMessage": "Ошибка при удалении социальной сети",
+                        "editButton": "Редактировать",
+                        "deleteButton": "Удалить"
                     },
-                    "successReorderMessage": "Порядок ссылок на соц. сети изменен",
-                    "errorReorderMessage": "Ошибка при изменении порядка соц. сетей"
+                    "successReorderMessage": "Порядок ссылок на социальные сети изменён",
+                    "errorReorderMessage": "Ошибка при изменении порядка социальных сетей"
                 }
             }
         }

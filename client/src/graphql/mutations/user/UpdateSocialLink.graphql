@@ -1,0 +1,6 @@
+mutation UpdateSocialLink(
+    $updateSocialLinkId: String!
+    $data: SocialLinkInput!
+) {
+    updateSocialLink(id: $updateSocialLinkId, data: $data)
+}
