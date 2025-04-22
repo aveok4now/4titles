@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/common/input'
 import { Separator } from '@/components/ui/common/separator'
 import { Skeleton } from '@/components/ui/common/skeleton'
 import { Textarea } from '@/components/ui/common/textarea'
+import { UsernameField } from '@/components/ui/elements/form-fields'
 import { FormWrapper } from '@/components/ui/elements/FormWrapper'
 import { useChangeProfileInfoMutation } from '@/graphql/generated/output'
 import { useCurrent } from '@/hooks/useCurrent'
@@ -73,50 +74,33 @@ export function ChangeInfoForm() {
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className='grid gap-y-3'
+                    className='grid gap-y-2'
                 >
-                    <FormField
-                        control={form.control}
+                    <UsernameField
+                        form={form}
                         name='username'
-                        render={({ field }) => (
-                            <FormItem className='px-5'>
-                                <FormLabel>{t('usernameLabel')}</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        placeholder={t('usernamePlaceholder')}
-                                        disabled={isLoadingProfileInfoUpdate}
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormDescription>
-                                    {t('usernameDescription')}
-                                </FormDescription>
-                            </FormItem>
-                        )}
+                        label={t('usernameLabel')}
+                        placeholder={t('usernamePlaceholder')}
+                        description={t('usernameDescription')}
+                        disabled={isLoadingProfileInfoUpdate}
+                        className='w-full px-5'
                     />
+
                     <Separator />
-                    <FormField
-                        control={form.control}
+
+                    <UsernameField
+                        form={form}
                         name='displayName'
-                        render={({ field }) => (
-                            <FormItem className='px-5'>
-                                <FormLabel>{t('displayNameLabel')}</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        placeholder={t(
-                                            'displayNamePlaceholder',
-                                        )}
-                                        disabled={isLoadingProfileInfoUpdate}
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormDescription>
-                                    {t('displayNameDescription')}
-                                </FormDescription>
-                            </FormItem>
-                        )}
+                        label={t('displayNameLabel')}
+                        placeholder={t('displayNamePlaceholder')}
+                        description={t('displayNameDescription')}
+                        disabled={isLoadingProfileInfoUpdate}
+                        autoComplete=''
+                        className='w-full px-5'
                     />
+
                     <Separator />
+
                     <FormField
                         control={form.control}
                         name='bio'
@@ -136,7 +120,9 @@ export function ChangeInfoForm() {
                             </FormItem>
                         )}
                     />
+
                     <Separator />
+
                     <div className='flex items-center justify-end p-4'>
                         <Button
                             variant='secondary'

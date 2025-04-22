@@ -16,8 +16,12 @@ import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import {
+    PasswordField,
+    PinField,
+    UsernameField,
+} from '../../../ui/elements/form-fields'
 import { AuthWrapper } from '../AuthWrapper'
-import { PasswordField, PinField, UsernameField } from './fields'
 
 export function LoginForm() {
     const t = useTranslations('auth.login')

@@ -7,6 +7,7 @@ import {
     FormMessage,
 } from '@/components/ui/common/form'
 import { PasswordInput } from '@/components/ui/custom/content/password-input'
+import { cn } from '@/utils/tw-merge'
 import { FieldPath, FieldValues, UseFormReturn } from 'react-hook-form'
 
 interface PasswordFieldProps<
@@ -22,6 +23,7 @@ interface PasswordFieldProps<
     shouldShowErrors?: boolean
     autoComplete?: string
     action?: React.ReactNode
+    className?: string
 }
 
 export function PasswordField<
@@ -37,13 +39,14 @@ export function PasswordField<
     shouldShowErrors,
     autoComplete = 'current-password',
     action,
+    className,
 }: PasswordFieldProps<TFieldValues, TName>) {
     return (
         <FormField
             control={form.control}
             name={name}
             render={({ field }) => (
-                <FormItem className='space-y-1.5'>
+                <FormItem className={cn('space-y-1.5', className)}>
                     {action ? (
                         <div className='flex items-center justify-center'>
                             <FormLabel>{label}</FormLabel>

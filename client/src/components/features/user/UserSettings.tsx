@@ -9,6 +9,8 @@ import { Heading } from '@/components/ui/elements/Heading'
 import { useBackground } from '@/contexts/background-context'
 import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
+import { ChangeEmailForm } from './account/ChangeEmailForm'
+import { ChangePasswordForm } from './account/ChangePasswordForm'
 import { ChangeAvatarForm } from './profile/ChangeAvatarForm'
 import { ChangeInfoForm } from './profile/ChangeInfoForm'
 import { SocialLinksForm } from './profile/SocialLinksForm/SocialLinksForm'
@@ -78,7 +80,16 @@ export function UserSettings() {
                         <SocialLinksForm />
                     </div>
                 </TabsContent>
-                <TabsContent value='account'>Аккаунт</TabsContent>
+                <TabsContent value='account'>
+                    <div className='mt-5 space-y-6'>
+                        <Heading
+                            title={t('account.header.heading')}
+                            description={t('account.header.description')}
+                        />
+                        <ChangeEmailForm />
+                        <ChangePasswordForm />
+                    </div>
+                </TabsContent>
                 <TabsContent value='appearance'>Внешний вид</TabsContent>
                 <TabsContent value='notifications'>Уведомления</TabsContent>
                 <TabsContent value='sessions'>Сессии</TabsContent>

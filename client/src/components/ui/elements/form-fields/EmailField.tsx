@@ -9,6 +9,8 @@ import {
 import { Input } from '@/components/ui/common/input'
 import { FieldPath, FieldValues, UseFormReturn } from 'react-hook-form'
 
+import { cn } from '@/utils/tw-merge'
+
 interface EmailFieldProps<
     TFieldValues extends FieldValues = FieldValues,
     TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
@@ -21,6 +23,7 @@ interface EmailFieldProps<
     disabled?: boolean
     shouldShowErrors?: boolean
     autoComplete?: string
+    className?: string
 }
 
 export function EmailField<
@@ -35,13 +38,14 @@ export function EmailField<
     disabled,
     shouldShowErrors,
     autoComplete = 'email',
+    className,
 }: EmailFieldProps<TFieldValues, TName>) {
     return (
         <FormField
             control={form.control}
             name={name}
             render={({ field }) => (
-                <FormItem className='space-y-1.5'>
+                <FormItem className={cn('space-y-1.5', className)}>
                     <FormLabel>{label}</FormLabel>
                     <FormControl>
                         <Input

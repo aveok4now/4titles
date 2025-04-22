@@ -7,6 +7,7 @@ import {
     FormMessage,
 } from '@/components/ui/common/form'
 import { Input } from '@/components/ui/common/input'
+import { cn } from '@/utils/tw-merge'
 import { FieldPath, FieldValues, UseFormReturn } from 'react-hook-form'
 
 interface UsernameFieldProps<
@@ -21,6 +22,7 @@ interface UsernameFieldProps<
     disabled?: boolean
     shouldShowErrors?: boolean
     autoComplete?: string
+    className?: string
 }
 
 export function UsernameField<
@@ -35,13 +37,14 @@ export function UsernameField<
     disabled,
     shouldShowErrors,
     autoComplete = 'username',
+    className,
 }: UsernameFieldProps<TFieldValues, TName>) {
     return (
         <FormField
             control={form.control}
             name={name}
             render={({ field }) => (
-                <FormItem className='space-y-1.5'>
+                <FormItem className={cn('space-y-1.5', className)}>
                     <FormLabel>{label}</FormLabel>
                     <FormControl>
                         <Input

@@ -17,8 +17,8 @@ import { useTranslations } from 'next-intl'
 import { useParams, useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
+import { PasswordField } from '../../../ui/elements/form-fields'
 import { AuthWrapper } from '../AuthWrapper'
-import { PasswordField } from './fields'
 
 export function NewPasswordForm() {
     const t = useTranslations('auth.recovery.newPassword')

@@ -16,9 +16,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import {
+    EmailField,
+    PasswordField,
+    UsernameField,
+} from '../../../ui/elements/form-fields'
 import { AuthFeedback } from '../AuthFeedback'
 import { AuthWrapper } from '../AuthWrapper'
-import { EmailField, PasswordField, UsernameField } from './fields'
 
 export function CreateAccountForm() {
     const t = useTranslations('auth.register')
