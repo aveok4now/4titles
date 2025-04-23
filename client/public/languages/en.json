@@ -1,104 +1,307 @@
 {
     "layout": {
-        "logo": {
-            "description": "Filming locations"
+        "header": {
+            "logo": {
+                "description": "Film Shooting Locations"
+            },
+            "search": {
+                "placeholder": "Search movies, series, locations..."
+            },
+            "menu": {
+                "login": "Sign In",
+                "register": "Sign Up",
+                "profile": {
+                    "notifications": {
+                        "heading": "Notifications",
+                        "loading": "Loading...",
+                        "empty": "No new notifications"
+                    },
+                    "me": "Profile",
+                    "successMessage": "Successfully signed out",
+                    "errorMessage": "Sign out error",
+                    "dashboard": "Dashboard",
+                    "logout": "Log Out"
+                }
+            }
         },
-        "search": {
-            "placeholder": "Global Search"
+        "sidebar": {
+            "header": {
+                "expand": "Expand",
+                "collapse": "Collapse",
+                "navigation": "Navigation"
+            },
+            "userNav": {
+                "home": "Home",
+                "overview": "Catalog",
+                "routes": "Thematic Routes",
+                "feed": "News Feed",
+                "faq": "Support Center"
+            },
+            "popularTitleSearches": {
+                "title": "Popular Film Locations"
+            },
+            "dashboardNav": {
+                "settings": "Personal Settings",
+                "followers": "My Followers"
+            }
         }
     },
     "auth": {
         "register": {
-            "heading": "Sign Up",
+            "heading": "Create Account",
             "backButtonLabel": "Sign In",
-            "backButtonQuestion": "Already have an account?",
+            "backButtonQuestion": "Already registered?",
             "usernameLabel": "Username",
-            "usernameMinLengthValidationError": "Must be at least 5 characters",
-            "usernameInvalidCharactersValidationError": "Username may only contain letters, numbers, and hyphens",
-            "emailLabel": "Email address",
-            "emailValidationError": "Please enter a valid email address",
+            "usernameMinLengthValidationError": "Minimum 5 characters",
+            "usernameInvalidCharactersValidationError": "Invalid characters in username",
+            "emailLabel": "Email",
+            "emailValidationError": "Invalid email format",
             "passwordLabel": "Password",
-            "passwordPlaceholder": "Create a strong password",
-            "passwordMinLengthValidationError": "Password must be at least 8 characters",
-            "passwordWeaknessError": "Password must contain at least one uppercase letter, one lowercase letter, and one number",
-            "submitButton": "Sign Up",
-            "serverErrorMessage": "An error occurred. Please check your information or try again later",
-            "successAlertTitle": "Verify your email",
-            "successAlertDescription": "We've sent a verification link to your email address. If you don't see it, please check your spam folder"
+            "passwordMinLengthValidationError": "Minimum 8 characters",
+            "passwordWeaknessError": "Requires at least 1 uppercase letter and number",
+            "submitButton": "Create Account",
+            "serverErrorMessage": "Request processing error. Check data or try later",
+            "successAlertTitle": "Registration Confirmation",
+            "successAlertDescription": "Verification email sent. Check spam folder if not received."
         },
         "verify": {
             "heading": "Account Verification",
-            "successMessage": "Your account has been successfully verified",
-            "errorMessage": "Account verification failed",
-            "errorMessageDescription": "The verification link may be invalid or expired. Please try again or contact support"
+            "successMessage": "Account successfully activated",
+            "errorMessage": "Verification Error",
+            "errorMessageDescription": "Link invalid or expired. Contact support."
         },
         "login": {
-            "heading": "Sign In",
+            "heading": "Authentication",
             "backButtonLabel": "Sign Up",
-            "backButtonQuestion": "Don't have an account?",
-            "loginLabel": "Username",
+            "backButtonQuestion": "No account?",
+            "loginLabel": "Login",
             "passwordLabel": "Password",
-            "pinLabel": "Verification code",
-            "pinDescription": "Enter the 6-digit code from your authenticator app",
-            "forgotPassword": "Forgot password?",
-            "submitButton": "Sign In",
-            "totpValidationError": "Invalid verification code",
-            "totpValidationErrorDescription": "Please check your code and try again",
-            "credentialsValidationError": "Invalid username or password",
-            "credentialsValidatonErrorDescription": "Please check your credentials and try again",
-            "serverErrorMessage": "An error occurred while signing in. Please try again later",
-            "successMessage": "Signed in successfully"
+            "pinLabel": "Verification Code",
+            "pinDescription": "Enter 6-digit code from authenticator app",
+            "forgotPassword": "Recover Access",
+            "submitButton": "Continue",
+            "totpValidationError": "Invalid security code",
+            "totpValidationErrorDescription": "Verify code or request new one",
+            "credentialsValidationError": "Invalid credentials",
+            "credentialsValidatonErrorDescription": "Check login and password",
+            "serverErrorMessage": "Authorization error. Try again later",
+            "successMessage": "Successfully authenticated"
         },
         "recovery": {
             "resetPassword": {
                 "heading": "Password Recovery",
-                "backButtonLabel": "Back to Sign In",
-                "backButtonQuestion": "Remembered your password?",
-                "emailLabel": "Email address",
-                "emailPlaceholder": "Enter your email address",
-                "emailValidationError": "Please enter a valid email address",
-                "emailFieldDescription": "Enter the email associated with your account",
+                "backButtonLabel": "Sign In",
+                "backButtonQuestion": "Remember password?",
+                "emailLabel": "Email",
+                "emailValidationError": "Valid email required",
+                "emailFieldDescription": "Email used for registration",
                 "submitButton": "Reset Password",
-                "successAlertTitle": "Check your email",
-                "successAlertDescription": "We've sent a password reset link to your email address. If you have Telegram notifications enabled, you'll also receive the link there",
-                "errorMessage": "Password reset failed",
-                "errorMessageDescription": "Please check your email address or try again later"
+                "successAlertTitle": "Instructions Sent",
+                "successAlertDescription": "Check email to complete reset procedure",
+                "errorMessage": "Recovery Error",
+                "errorMessageDescription": "Verify email or retry later"
             },
             "newPassword": {
                 "heading": "Create New Password",
-                "backButtonLabel": "Back to Sign In",
-                "backButtonQuestion": "Remembered your password?",
-                "passwordLabel": "New password",
-                "passwordRepeatLabel": "Confirm password",
-                "submitButton": "Save Password",
-                "successMessage": "Password successfully changed",
-                "errorMessage": "Error setting new password",
-                "errorMessageDescription": "The reset link may have expired. Please request a new password reset",
-                "passwordMinLengthValidationError": "Password must be at least 8 characters",
-                "passwordWeaknessError": "Password must contain at least one uppercase letter, one lowercase letter, and one number",
-                "passwordRepeatError": "Passwords do not match"
+                "backButtonLabel": "Cancel",
+                "backButtonQuestion": "Cancel recovery?",
+                "passwordLabel": "New Password",
+                "passwordRepeatLabel": "Confirm Password",
+                "submitButton": "Update Password",
+                "successMessage": "Password changed successfully",
+                "errorMessage": "Password Update Error",
+                "errorMessageDescription": "Use current link from email",
+                "passwordMinLengthValidationError": "Minimum 8 characters",
+                "passwordWeaknessError": "Requires uppercase letter and number",
+                "passwordRepeatError": "Passwords don't match"
+            }
+        },
+        "deactivate": {
+            "heading": "Account Deactivation",
+            "backButtonLabel": "Go to Dashboard",
+            "emailLabel": "Email",
+            "emailDescription": "Your registration email",
+            "passwordLabel": "Password",
+            "passwordDescription": "Your registration password",
+            "pinLabel": "6-digit Code",
+            "pinDescription": "Code sent to your email. Also available via Telegram notifications.",
+            "submitButton": "Deactivate",
+            "successMessage": "Account deactivated successfully",
+            "errorMessage": "Deactivation Error",
+            "confirmationCodeError": "Invalid deactivation code",
+            "confirmationCodeErrorDescription": "Verify code or retry later",
+            "credentialsValidationError": "Invalid email or password",
+            "credentialsValidatonErrorDescription": "Check input data or retry later"
+        }
+    },
+    "dashboard": {
+        "settings": {
+            "header": {
+                "heading": "Profile Management",
+                "description": "Account personalization and settings",
+                "profile": "Public Profile",
+                "account": "Security",
+                "appearance": "Interface",
+                "notifications": "Notifications",
+                "sessions": "Active Sessions"
+            },
+            "profile": {
+                "header": {
+                    "heading": "Edit Profile",
+                    "description": "Manage personal information and public data"
+                },
+                "avatar": {
+                    "heading": "Profile Avatar",
+                    "updateButton": "Change Image",
+                    "smallUpdateButton": "Update Photo",
+                    "deleteButton": "Delete Avatar",
+                    "confirmDialog": {
+                        "heading": "Deletion Confirmation",
+                        "message": "Confirm avatar deletion?"
+                    },
+                    "info": "Supported formats: JPG, PNG, WEBP (max 10MB)",
+                    "successUpdateMessage": "Image updated successfully",
+                    "errorUpdateMessage": "Upload Error",
+                    "errorUpdateMessageDescription": "Check file format and size",
+                    "successRemoveMessage": "Avatar removed",
+                    "errorRemoveMessage": "Deletion Error",
+                    "errorRemoveMessageDescription": "Try again later"
+                },
+                "info": {
+                    "heading": "Personal Data",
+                    "usernameLabel": "System Login",
+                    "usernamePlaceholder": "Enter unique ID",
+                    "usernameDescription": "Used for system access",
+                    "displayNameLabel": "Public Name",
+                    "displayNamePlaceholder": "Enter display name",
+                    "displayNameDescription": "Visible to other users",
+                    "bioLabel": "Personal Description",
+                    "bioPlaceholder": "Tell about yourself",
+                    "bioDescription": "Max 200 characters",
+                    "submitButton": "Save Changes",
+                    "successMessage": "Data updated successfully",
+                    "errorMessage": "Save Error",
+                    "errorMessageDescription": "Verify input data"
+                },
+                "socialLinks": {
+                    "createForm": {
+                        "heading": "Social Networks",
+                        "titleLabel": "Platform Name",
+                        "titlePlaceholder": "Example: YouTube, Instagram",
+                        "titleDescription": "Social network name",
+                        "urlLabel": "Profile URL",
+                        "urlPlaceholder": "https://example.com/your-profile",
+                        "urlDescription": "Full profile URL",
+                        "submitButton": "Add Link",
+                        "successMessage": "Link added",
+                        "errorMessage": "Addition Error"
+                    },
+                    "editForm": {
+                        "cancelButton": "Discard Changes",
+                        "submitButton": "Update Data",
+                        "successUpdateMessage": "Changes saved",
+                        "errorUpdateMessage": "Update Error",
+                        "successRemoveMessage": "Link removed",
+                        "errorRemoveMessage": "Deletion Error",
+                        "editButton": "Edit",
+                        "deleteButton": "Remove Link"
+                    },
+                    "successReorderMessage": "Display order changed",
+                    "errorReorderMessage": "Sorting Error"
+                }
+            },
+            "account": {
+                "header": {
+                    "heading": "Account Settings",
+                    "description": "Manage account security and access",
+                    "securityHeading": "Security Settings",
+                    "securityDescription": "Configure two-factor authentication",
+                    "deactivationHeading": "Account Deactivation",
+                    "deactivationDescription": "Temporary or permanent account suspension"
+                },
+                "email": {
+                    "heading": "Email Address",
+                    "emailLabel": "Email",
+                    "emailDescription": "Enter new email address",
+                    "submitButton": "Save",
+                    "successMessage": "Email updated",
+                    "errorMessage": "Update Error"
+                },
+                "password": {
+                    "heading": "Account Password",
+                    "oldPasswordLabel": "Current Password",
+                    "oldPasswordDescription": "Verify identity for password change",
+                    "newPasswordLabel": "New Password",
+                    "newPasswordDescription": "8+ characters with uppercase and number",
+                    "submitButton": "Save",
+                    "successMessage": "Password updated",
+                    "errorMessage": "Update Error",
+                    "errorMessageDescription": "Invalid data format"
+                },
+                "twoFactor": {
+                    "heading": "TOTP Authentication",
+                    "description": "Enable two-factor security",
+                    "enable": {
+                        "trigger": "Enable",
+                        "heading": "Enable TOTP",
+                        "qrInstructions": "Scan QR code to add TOTP",
+                        "secretCodeLabel": "Secret Code: ",
+                        "pinLabel": "PIN Code",
+                        "pinDescription": "Enter 6-digit code from authenticator",
+                        "submitButton": "Confirm",
+                        "successMessage": "TOTP enabled",
+                        "errorMessage": "Verification Error",
+                        "errorMessageDescription": "Invalid code"
+                    },
+                    "disable": {
+                        "trigger": "Disable",
+                        "heading": "Disable TOTP?",
+                        "message": "This reduces account security",
+                        "successMessage": "TOTP disabled",
+                        "errorMessage": "Deactivation Error"
+                    }
+                },
+                "deactivation": {
+                    "heading": "Account Deactivation",
+                    "description": "Full data deletion after 7 days",
+                    "confirmModal": {
+                        "heading": "Deactivation Confirmation",
+                        "message": "Account recovery possible within 7 days"
+                    },
+                    "button": "Deactivate"
+                }
+            },
+            "appearance": {
+                "header": {
+                    "heading": "Interface Customization",
+                    "description": "Personalize site appearance"
+                },
+                "theme": {
+                    "heading": "Theme",
+                    "description": "Select preferred theme mode",
+                    "successMessage": "Theme changed",
+                    "toggle": "Toggle Theme",
+                    "light": "Light",
+                    "dark": "Dark",
+                    "system": "System Default"
+                },
+                "language": {
+                    "heading": "Site Language",
+                    "description": "Select interface language",
+                    "selectPlaceholder": "Choose language",
+                    "successMessage": "Language changed"
+                },
+                "color": {
+                    "heading": "Accent Color",
+                    "description": "Choose interface accent color"
+                }
             }
         }
     },
-    "sidebar": {
-        "header": {
-            "expand": "Expand",
-            "collapse": "Collapse",
-            "navigation": "Navigation"
-        },
-        "userNav": {
-            "home": "Home",
-            "overview": "Overview",
-            "routes": "Routes",
-            "feed": "Feed",
-            "faq": "FAQ"
-        },
-        "popularTitles": {
-            "title": "Popular"
-        },
-        "dashboardNav": {
-            "settings": "Settings",
-            "followers": "Followers"
+    "components": {
+        "confirmDialog": {
+            "cancel": "Cancel",
+            "continue": "Confirm"
         }
     }
 }
