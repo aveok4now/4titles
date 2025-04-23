@@ -3,7 +3,10 @@
 import { Form } from '@/components/ui/common/form'
 import { Link } from '@/components/ui/custom/content/link'
 import { SubmitButton } from '@/components/ui/custom/content/submit-button'
-import { useLoginAccountMutation } from '@/graphql/generated/output'
+import {
+    LoginAccountMutation,
+    useLoginAccountMutation,
+} from '@/graphql/generated/output'
 import { useAuth } from '@/hooks/useAuth'
 import { AUTH_ROUTES } from '@/libs/constants/auth.constants'
 import {
@@ -14,13 +17,14 @@ import { createFormNotificationHandlers } from '@/utils/form-notifications'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+
 import {
     PasswordField,
     PinField,
     UsernameField,
-} from '../../../ui/elements/form-fields'
+} from '@/components/ui/elements/form-fields'
 import { AuthWrapper } from '../AuthWrapper'
 
 export function LoginForm() {
@@ -31,7 +35,6 @@ export function LoginForm() {
 
     const [isShowTwoFactor, setIsShowTwoFactor] = useState(false)
     const [isPinValid, setIsPinValid] = useState(false)
-    const otpRef = useRef<HTMLDivElement>(null)
 
     const form = useForm<LoginAccountSchemaType>({
         resolver: zodResolver(loginAccountSchema),
@@ -42,14 +45,11 @@ export function LoginForm() {
         mode: 'onSubmit',
     })
 
+    const { setFocus } = form
+
     useEffect(() => {
-        if (isShowTwoFactor && otpRef.current) {
-            const input = otpRef.current.querySelector('input')
-            if (input) {
-                input.focus()
-            }
-        }
-    }, [isShowTwoFactor])
+        if (isShowTwoFactor) setFocus('pin')
+    }, [isShowTwoFactor, setFocus])
 
     const { handleSuccess, handleError } = createFormNotificationHandlers({
         successMessage: t('successMessage'),
@@ -62,7 +62,7 @@ export function LoginForm() {
     })
 
     const handleLoginSuccess = useCallback(
-        (data: any) => {
+        (data: LoginAccountMutation) => {
             if (data.login.message) {
                 setIsShowTwoFactor(true)
             } else {
@@ -79,10 +79,6 @@ export function LoginForm() {
         onError: handleError,
     })
 
-    const handlePinChange = useCallback((pin: string, isValid: boolean) => {
-        setIsPinValid(isValid)
-    }, [])
-
     const isFormValid = isShowTwoFactor ? isPinValid : form.formState.isValid
 
     const onSubmit = useCallback(
@@ -93,6 +89,10 @@ export function LoginForm() {
         },
         [isFormValid, login],
     )
+
+    const handlePinChange = useCallback((_: string, isValid: boolean) => {
+        setIsPinValid(isValid)
+    }, [])
 
     return (
         <AuthWrapper
@@ -113,7 +113,6 @@ export function LoginForm() {
                             label={t('pinLabel')}
                             description={t('pinDescription')}
                             onPinChange={handlePinChange}
-                            otpRef={otpRef}
                         />
                     ) : (
                         <>

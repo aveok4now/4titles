@@ -11,6 +11,7 @@ import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
 import { ChangeEmailForm } from './account/ChangeEmailForm'
 import { ChangePasswordForm } from './account/ChangePasswordForm'
+import { DeactivateCard } from './account/DeactivateCard'
 import { TotpWrapper } from './account/totp/TotpWrapper'
 import { ChangeAvatarForm } from './profile/ChangeAvatarForm'
 import { ChangeInfoForm } from './profile/ChangeInfoForm'
@@ -96,6 +97,13 @@ export function UserSettings() {
                             )}
                         />
                         <TotpWrapper />
+                        <Heading
+                            title={t('account.header.deactivationHeading')}
+                            description={t(
+                                'account.header.deactivationDescription',
+                            )}
+                        />
+                        <DeactivateCard />
                     </div>
                 </TabsContent>
                 <TabsContent value='appearance'>Внешний вид</TabsContent>
