@@ -24,6 +24,7 @@ interface PinFieldProps<
     onPinChange?: (pin: string, isValid: boolean) => void
     pinLength?: number
     otpRef?: React.RefObject<HTMLDivElement | null>
+    className?: string
 }
 
 export function PinField<
@@ -37,13 +38,14 @@ export function PinField<
     onPinChange,
     pinLength = 6,
     otpRef,
+    className,
 }: PinFieldProps<TFieldValues, TName>) {
     return (
         <FormField
             control={form.control}
             name={name}
             render={({ field }) => (
-                <FormItem>
+                <FormItem className={className}>
                     <FormLabel>{label}</FormLabel>
                     <FormControl>
                         <div ref={otpRef}>
@@ -63,6 +65,7 @@ export function PinField<
                                             <InputOTPSlot
                                                 key={index}
                                                 index={index}
+                                                className='w-12 md:w-14'
                                             />
                                         ),
                                     )}

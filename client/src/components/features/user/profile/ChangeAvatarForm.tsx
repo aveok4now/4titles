@@ -133,6 +133,26 @@ export function ChangeAvatarForm() {
                                         </Button>
 
                                         {profile?.avatar && (
+                                            <Hint
+                                                label={t('deleteButton')}
+                                                side='right'
+                                            >
+                                                <Button
+                                                    variant='ghost'
+                                                    size='icon'
+                                                    disabled={isLoading}
+                                                    onClick={() =>
+                                                        setIsRemoveConfirmDialogOpen(
+                                                            true,
+                                                        )
+                                                    }
+                                                >
+                                                    <Trash className='size-4' />
+                                                </Button>
+                                            </Hint>
+                                        )}
+
+                                        {profile?.avatar && (
                                             <ConfirmDialog
                                                 open={isRemoveConfirmDialogOpen}
                                                 onOpenChange={
@@ -145,20 +165,7 @@ export function ChangeAvatarForm() {
                                                     'confirmDialog.message',
                                                 )}
                                                 onConfirm={() => remove()}
-                                            >
-                                                <Hint
-                                                    label={t('deleteButton')}
-                                                    side='right'
-                                                >
-                                                    <Button
-                                                        variant='ghost'
-                                                        size='icon'
-                                                        disabled={isLoading}
-                                                    >
-                                                        <Trash className='size-4' />
-                                                    </Button>
-                                                </Hint>
-                                            </ConfirmDialog>
+                                            />
                                         )}
                                     </div>
                                     <p className='text-sm text-muted-foreground'>

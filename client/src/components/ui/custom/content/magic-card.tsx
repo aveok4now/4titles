@@ -4,6 +4,7 @@ import { motion, useMotionTemplate, useMotionValue } from 'motion/react'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import { cn } from '@/utils/tw-merge'
+import { useTheme } from 'next-themes'
 
 interface MagicCardProps {
     children?: React.ReactNode
@@ -20,10 +21,12 @@ export function MagicCard({
     className,
     gradientSize = 200,
     gradientColor = '#262626',
-    gradientOpacity = 0.8,
+    gradientOpacity = 0.4,
     gradientFrom = '#9E7AFF',
     gradientTo = '#FE8BBB',
 }: MagicCardProps) {
+    const { resolvedTheme: theme } = useTheme()
+
     const cardRef = useRef<HTMLDivElement>(null)
     const mouseX = useMotionValue(-gradientSize)
     const mouseY = useMotionValue(-gradientSize)
@@ -90,7 +93,7 @@ export function MagicCard({
 
     const hoverGradient = useMotionTemplate`
         radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, 
-        ${gradientColor}, 
+        ${theme === 'dark' ? gradientColor : '#D9D9D955'}, 
         transparent 100%)
     `
 
@@ -112,7 +115,7 @@ export function MagicCard({
                         className='pointer-events-none absolute inset-px rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100'
                         style={{
                             background: hoverGradient,
-                            opacity: gradientOpacity,
+                            opacity: theme === 'dark' ? 0.1 : gradientOpacity,
                         }}
                     />
                 </>

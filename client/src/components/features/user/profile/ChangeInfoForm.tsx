@@ -41,20 +41,21 @@ export function ChangeInfoForm() {
         },
     })
 
-    const { handleSuccess, handleError } = createFormNotificationHandlers({
-        successMessage: t('successMessage'),
-        errorMessage: t('errorMessage'),
-        errorDescription: t('errorMessageDescription'),
-    })
+    const { handleSuccess: showSuccessMessage, handleError: showErrorMessage } =
+        createFormNotificationHandlers({
+            successMessage: t('successMessage'),
+            errorMessage: t('errorMessage'),
+            errorDescription: t('errorMessageDescription'),
+        })
 
     const [update, { loading: isLoadingProfileInfoUpdate }] =
         useChangeProfileInfoMutation({
             onCompleted() {
                 refetch()
-                handleSuccess()
+                showSuccessMessage()
             },
             onError() {
-                handleError()
+                showErrorMessage()
             },
         })
 

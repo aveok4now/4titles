@@ -11,6 +11,7 @@ import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
 import { ChangeEmailForm } from './account/ChangeEmailForm'
 import { ChangePasswordForm } from './account/ChangePasswordForm'
+import { TotpWrapper } from './account/totp/TotpWrapper'
 import { ChangeAvatarForm } from './profile/ChangeAvatarForm'
 import { ChangeInfoForm } from './profile/ChangeInfoForm'
 import { SocialLinksForm } from './profile/SocialLinksForm/SocialLinksForm'
@@ -35,7 +36,7 @@ export function UserSettings() {
             <Tabs defaultValue='profile' className='mt-3 w-full'>
                 <div className='w-full md:max-w-3xl'>
                     <TabsList className='w-full'>
-                        <div className='flex w-full items-center justify-between overflow-x-auto'>
+                        <div className='no-scrollbar flex w-full items-center justify-between overflow-x-auto'>
                             <TabsTrigger
                                 value='profile'
                                 className='flex-1 text-center'
@@ -88,6 +89,13 @@ export function UserSettings() {
                         />
                         <ChangeEmailForm />
                         <ChangePasswordForm />
+                        <Heading
+                            title={t('account.header.securityHeading')}
+                            description={t(
+                                'account.header.securityDescription',
+                            )}
+                        />
+                        <TotpWrapper />
                     </div>
                 </TabsContent>
                 <TabsContent value='appearance'>Внешний вид</TabsContent>

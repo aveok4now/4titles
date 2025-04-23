@@ -77,7 +77,7 @@ export function Hint({
                         {children}
                     </TooltipTrigger>
                     <TooltipContent
-                        className='z-[9999] bg-popover text-popover-foreground' // Increased z-index
+                        className='z-[9999] bg-popover text-popover-foreground'
                         side={side}
                         align={align}
                         sideOffset={5}
