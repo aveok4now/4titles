@@ -1,12 +1,12 @@
 'use client'
 
 import { Form } from '@/components/ui/common/form'
-import { SubmitButton } from '@/components/ui/custom/content/submit-button'
 import {
     EmailField,
     PasswordField,
     PinField,
 } from '@/components/ui/elements/form-fields'
+import { SubmitButton } from '@/components/ui/elements/SubmitButton'
 import {
     DeactivateAccountMutation,
     useDeactivateAccountMutation,

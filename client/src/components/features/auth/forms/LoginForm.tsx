@@ -1,8 +1,8 @@
 'use client'
 
 import { Form } from '@/components/ui/common/form'
-import { Link } from '@/components/ui/custom/content/link'
-import { SubmitButton } from '@/components/ui/custom/content/submit-button'
+import { Link } from '@/components/ui/elements/Link'
+import { SubmitButton } from '@/components/ui/elements/SubmitButton'
 import {
     LoginAccountMutation,
     useLoginAccountMutation,

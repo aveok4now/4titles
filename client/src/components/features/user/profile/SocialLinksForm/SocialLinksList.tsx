@@ -60,7 +60,7 @@ export function SocialLinksList() {
     return socialLinks.length ? (
         <>
             <Separator />
-            <div className='mt-5 px-5'>
+            <div className='mt-5 px-1 md:px-5'>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId='socialLinks'>
                         {provided => (

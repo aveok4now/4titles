@@ -14,6 +14,7 @@ import { ChangeEmailForm } from './account/ChangeEmailForm'
 import { ChangePasswordForm } from './account/ChangePasswordForm'
 import { DeactivateCard } from './account/DeactivateCard'
 import { TotpWrapper } from './account/totp/TotpWrapper'
+import { ChangeColorForm } from './appearance/ChangeColorForm'
 import { ChangeLanguageForm } from './appearance/ChangeLanguageForm'
 import { ChangeThemeForm } from './appearance/ChangeThemeForm'
 import { ChangeAvatarForm } from './profile/ChangeAvatarForm'
@@ -117,6 +118,7 @@ export function UserSettings() {
                         />
                         <ChangeThemeForm />
                         <ChangeLanguageForm />
+                        <ChangeColorForm />
                     </div>
                 </TabsContent>
                 <TabsContent value='notifications'>Уведомления</TabsContent>

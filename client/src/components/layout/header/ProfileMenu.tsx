@@ -7,9 +7,9 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/common/dropdown-menu'
-import { Spinner } from '@/components/ui/custom/content/spinner'
 import ShinyText from '@/components/ui/custom/text/shiny-text'
 import { ProfileAvatar } from '@/components/ui/elements/ProfileAvatar'
+import { Spinner } from '@/components/ui/elements/Spinner'
 import { useLogoutMutation } from '@/graphql/generated/output'
 import { useAuth } from '@/hooks/useAuth'
 import { useCurrent } from '@/hooks/useCurrent'

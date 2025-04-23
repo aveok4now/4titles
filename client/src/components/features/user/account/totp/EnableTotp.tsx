@@ -10,8 +10,8 @@ import {
     DialogTrigger,
 } from '@/components/ui/common/dialog'
 import { Form } from '@/components/ui/common/form'
-import { SubmitButton } from '@/components/ui/custom/content/submit-button'
 import { PinField } from '@/components/ui/elements/form-fields'
+import { SubmitButton } from '@/components/ui/elements/SubmitButton'
 import {
     useEnableTotpMutation,
     useGenerateTotpSecretQuery,

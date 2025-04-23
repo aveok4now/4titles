@@ -1,6 +1,8 @@
 import '../styles/globals.css'
+import '../styles/themes.css'
 
 import { Background } from '@/components/features/background/Background'
+import { ColorSwitcher } from '@/components/ui/elements/ColorSwitcher'
 import { BackgroundProvider } from '@/contexts/background-context'
 import { ApolloClientProvider } from '@/providers/ApolloClientProvider'
 import { ThemeProvider } from '@/providers/ThemeProvider'
@@ -28,6 +30,7 @@ export default async function RootLayout({
             <body className={GeistSans.variable}>
                 <BackgroundProvider>
                     <Background />
+                    <ColorSwitcher />
                     <ApolloClientProvider>
                         <NextIntlClientProvider messages={messages}>
                             <ThemeProvider

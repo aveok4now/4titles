@@ -40,11 +40,9 @@ const BACKGROUNDS: Record<
         component: Aurora as FC<AuroraProps>,
         props: {
             useThemeColors: true,
-            blend: 0.3,
             amplitude: 0.5,
             speed: 0.4,
             size: 1,
-            shadowOpacity: 0.4,
         },
     },
     iridescence: {
@@ -66,7 +64,7 @@ const BACKGROUNDS: Record<
     particles: {
         component: Particles as FC<ParticlesProps>,
         props: {
-            particleColors: ['#9a9ffe', '#3A29FF', '#9a9ffe'],
+            // particleColors: ['#9a9ffe', '#3A29FF', '#9a9ffe'],
             moveParticlesOnHover: true,
             particleBaseSize: 150,
             particleCount: 220,

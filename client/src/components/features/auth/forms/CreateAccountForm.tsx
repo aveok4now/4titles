@@ -2,7 +2,7 @@
 
 import { Form } from '@/components/ui/common/form'
 import { Separator } from '@/components/ui/common/separator'
-import { SubmitButton } from '@/components/ui/custom/content/submit-button'
+import { SubmitButton } from '@/components/ui/elements/SubmitButton'
 import { useCreateAccountMutation } from '@/graphql/generated/output'
 import { useFormValidation } from '@/hooks/useFormValidation'
 import { AUTH_ROUTES } from '@/libs/constants/auth.constants'

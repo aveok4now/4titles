@@ -98,6 +98,6 @@
     }
 
     ::-webkit-scrollbar-thumb {
-        @apply rounded-full bg-secondary/65 hover:bg-secondary;
+        @apply rounded-full bg-primary/65 hover:bg-primary;
     }
 }

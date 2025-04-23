@@ -1,3 +1,5 @@
+import { getThemeColors } from '@/utils/get-theme-colors'
+import { hexToRgb } from '@/utils/hex-to-rgb'
 import { Camera, Geometry, Mesh, Program, Renderer } from 'ogl'
 import React, { useEffect, useRef } from 'react'
 
@@ -14,23 +16,7 @@ export interface ParticlesProps {
     cameraDistance?: number
     disableRotation?: boolean
     className?: string
-}
-
-const defaultColors: string[] = ['#ffffff', '#ffffff', '#ffffff']
-
-const hexToRgb = (hex: string): [number, number, number] => {
-    hex = hex.replace(/^#/, '')
-    if (hex.length === 3) {
-        hex = hex
-            .split('')
-            .map(c => c + c)
-            .join('')
-    }
-    const int = parseInt(hex, 16)
-    const r = ((int >> 16) & 255) / 255
-    const g = ((int >> 8) & 255) / 255
-    const b = (int & 255) / 255
-    return [r, g, b]
+    useThemeColors?: boolean
 }
 
 const vertex = /* glsl */ `
@@ -105,9 +91,21 @@ const Particles: React.FC<ParticlesProps> = ({
     cameraDistance = 20,
     disableRotation = false,
     className,
+    useThemeColors = true,
 }) => {
     const containerRef = useRef<HTMLDivElement>(null)
     const mouseRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
+    const defaultColors: string[] = ['#9a9ffe', '#3A29FF', '#9a9ffe']
+
+    const getColorStops = (): string[] => {
+        if (!useThemeColors) return defaultColors
+        return getThemeColors()
+    }
+
+    const colors =
+        particleColors && particleColors.length > 0
+            ? particleColors
+            : getColorStops()
 
     useEffect(() => {
         const container = containerRef.current
@@ -144,11 +142,8 @@ const Particles: React.FC<ParticlesProps> = ({
         const count = particleCount
         const positions = new Float32Array(count * 3)
         const randoms = new Float32Array(count * 4)
-        const colors = new Float32Array(count * 3)
-        const palette =
-            particleColors && particleColors.length > 0
-                ? particleColors
-                : defaultColors
+        const colorsArray = new Float32Array(count * 3)
+        const palette = colors
 
         for (let i = 0; i < count; i++) {
             let x: number, y: number, z: number, len: number
@@ -167,13 +162,13 @@ const Particles: React.FC<ParticlesProps> = ({
             const col = hexToRgb(
                 palette[Math.floor(Math.random() * palette.length)],
             )
-            colors.set(col, i * 3)
+            colorsArray.set(col, i * 3)
         }
 
         const geometry = new Geometry(gl, {
             position: { size: 3, data: positions },
             random: { size: 4, data: randoms },
-            color: { size: 3, data: colors },
+            color: { size: 3, data: colorsArray },
         })
 
         const program = new Program(gl, {
@@ -237,6 +232,7 @@ const Particles: React.FC<ParticlesProps> = ({
         particleCount,
         particleSpread,
         speed,
+        colors,
         moveParticlesOnHover,
         particleHoverFactor,
         alphaParticles,

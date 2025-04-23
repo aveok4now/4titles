@@ -1,5 +1,7 @@
 'use client'
 
+import { useConfig } from '@/hooks/useConfig'
+import { getThemeColors } from '@/utils/get-theme-colors'
 import { useTheme } from 'next-themes'
 import { Color, Mesh, Program, Renderer, Triangle } from 'ogl'
 import { useEffect, useRef } from 'react'
@@ -141,58 +143,25 @@ interface AuroraProps {
 
 export default function Aurora(props: AuroraProps) {
     const { resolvedTheme } = useTheme()
+    const { theme } = useConfig()
     const isDarkMode = resolvedTheme === 'dark'
 
-    const getThemeColors = () => {
+    const getColorStop = () => {
         if (!props.useThemeColors) return props.colorStops
-
-        const primaryColor = getComputedStyle(document.documentElement)
-            .getPropertyValue('--primary')
-            .trim()
-        const secondaryColor = getComputedStyle(document.documentElement)
-            .getPropertyValue('--secondary')
-            .trim()
-        const accentColor = getComputedStyle(document.documentElement)
-            .getPropertyValue('--accent')
-            .trim()
-
-        const toHex = (cssVar: string) => {
-            if (cssVar.startsWith('#')) return cssVar
-
-            const [h, s, l] = cssVar.split(' ').map(val => parseFloat(val))
-
-            const toRGB = (h: number, s: number, l: number) => {
-                s /= 100
-                l /= 100
-                const a = s * Math.min(l, 1 - l)
-                const f = (n: number) => {
-                    const k = (n + h / 30) % 12
-                    const color =
-                        l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1)
-                    return Math.round(255 * color)
-                        .toString(16)
-                        .padStart(2, '0')
-                }
-                return `#${f(0)}${f(8)}${f(4)}`
-            }
-
-            return toRGB(h, s, l)
-        }
-
-        return [toHex(primaryColor), toHex(secondaryColor), toHex(accentColor)]
+        return getThemeColors()
     }
 
     const {
         amplitude = isDarkMode ? 0.8 : 0.5,
         blend = isDarkMode ? 0.5 : 0.3,
         size = 0.85,
-        shadowOpacity = isDarkMode ? 0.6 : 0.3,
+        shadowOpacity = isDarkMode ? 0.8 : 0.4,
         useThemeColors = true,
     } = props
 
     const defaultColorStops = ['#00d8ff', '#7cff67', '#00d8ff']
     const colorStops = useThemeColors
-        ? getThemeColors() || defaultColorStops
+        ? getColorStop() || defaultColorStops
         : props.colorStops || defaultColorStops
 
     const propsRef = useRef<AuroraProps & { isDarkMode: boolean }>({
@@ -278,7 +247,7 @@ export default function Aurora(props: AuroraProps) {
                 program.uniforms.uShadowOpacity.value =
                     propsRef.current.shadowOpacity ?? (isDarkMode ? 0.6 : 0.3)
 
-                const themeColors = getThemeColors()
+                const themeColors = getColorStop()
                 const stops = themeColors || defaultColorStops
                 program.uniforms.uColorStops.value = stops.map(
                     (hex: string) => {
@@ -301,7 +270,7 @@ export default function Aurora(props: AuroraProps) {
             }
             gl.getExtension('WEBGL_lose_context')?.loseContext()
         }
-    }, [amplitude, blend, colorStops, isDarkMode, size, shadowOpacity])
+    }, [amplitude, blend, colorStops, isDarkMode, size, shadowOpacity, theme])
 
     return <div ref={ctnDom} className='h-full w-full' />
 }
