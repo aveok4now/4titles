@@ -47,7 +47,7 @@ export function ChangeThemeForm() {
                                 darkLabel={t('dark')}
                                 systemLabel={t('system')}
                                 toggleLabel={t('toggle')}
-                                showLabel={true}
+                                showLabel
                                 contentAlign={isSmallScreen ? 'center' : 'end'}
                             />
                         }

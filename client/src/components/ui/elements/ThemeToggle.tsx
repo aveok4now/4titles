@@ -1,16 +1,15 @@
 'use client'
 
-import { Button } from '@/components/ui/common/button'
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/components/ui/common/dropdown-menu'
-import { useMediaQuery } from '@/hooks/useMediaQuery'
+import { ThemeType } from '@/schemas/user/change-theme.schema'
 import { cn } from '@/utils/tw-merge'
 import { Monitor, Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+} from '../common/select'
 
 export interface ThemeToggleProps {
     lightLabel?: string
@@ -58,34 +57,41 @@ export function ThemeToggle({
     }
 
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button
-                    variant='outline'
-                    className={cn('w-36', className)}
-                    size={showLabel ? 'default' : 'icon'}
-                >
+        <Select
+            value={currentTheme}
+            onValueChange={value => setTheme(value as ThemeType)}
+        >
+            <SelectTrigger
+                className={cn('w-40', className)}
+                aria-label={toggleLabel}
+            >
+                <div className='flex items-center gap-x-2'>
                     {getThemeIcon()}
                     {showLabel && (
-                        <span className='truncate'>{getThemeLabel()}</span>
+                        <span className='mtruncate'>{getThemeLabel()}</span>
                     )}
-                    <span className='sr-only'>{toggleLabel}</span>
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align={contentAlign}>
-                <DropdownMenuItem onClick={() => setTheme('light')}>
-                    <Sun className='mr-2 h-4 w-4' />
-                    <span>{lightLabel}</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme('dark')}>
-                    <Moon className='mr-2 h-4 w-4' />
-                    <span>{darkLabel}</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme('system')}>
-                    <Monitor className='mr-2 h-4 w-4' />
-                    <span>{systemLabel}</span>
-                </DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
+                </div>
+            </SelectTrigger>
+            <SelectContent align={contentAlign} side='bottom'>
+                <SelectItem value='light'>
+                    <div className='flex items-center gap-2'>
+                        <Sun className='size-4' />
+                        <span>{lightLabel}</span>
+                    </div>
+                </SelectItem>
+                <SelectItem value='dark'>
+                    <div className='flex items-center gap-2'>
+                        <Moon className='size-4' />
+                        <span>{darkLabel}</span>
+                    </div>
+                </SelectItem>
+                <SelectItem value='system'>
+                    <div className='flex items-center gap-2'>
+                        <Monitor className='size-4' />
+                        <span>{systemLabel}</span>
+                    </div>
+                </SelectItem>
+            </SelectContent>
+        </Select>
     )
 }
