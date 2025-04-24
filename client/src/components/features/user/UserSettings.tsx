@@ -17,6 +17,7 @@ import { TotpWrapper } from './account/totp/TotpWrapper'
 import { ChangeColorForm } from './appearance/ChangeColorForm'
 import { ChangeLanguageForm } from './appearance/ChangeLanguageForm'
 import { ChangeThemeForm } from './appearance/ChangeThemeForm'
+import { ChangeNotificationSettingsForm } from './notifications/ChangeNotificationSettingsForm'
 import { ChangeAvatarForm } from './profile/ChangeAvatarForm'
 import { ChangeInfoForm } from './profile/ChangeInfoForm'
 import { SocialLinksForm } from './profile/SocialLinksForm/SocialLinksForm'
@@ -121,7 +122,15 @@ export function UserSettings() {
                         <ChangeColorForm />
                     </div>
                 </TabsContent>
-                <TabsContent value='notifications'>Уведомления</TabsContent>
+                <TabsContent value='notifications'>
+                    <div className='mt-5 space-y-6'>
+                        <Heading
+                            title={t('notifications.header.heading')}
+                            description={t('notifications.header.description')}
+                        />
+                        <ChangeNotificationSettingsForm />
+                    </div>
+                </TabsContent>
                 <TabsContent value='sessions'>Сессии</TabsContent>
             </Tabs>
         </div>

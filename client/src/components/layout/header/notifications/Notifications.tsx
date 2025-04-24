@@ -6,12 +6,23 @@ import {
     PopoverTrigger,
 } from '@/components/ui/common/popover'
 import { useFindUnreadNotificationsCountQuery } from '@/graphql/generated/output'
+import { useCurrent } from '@/hooks/useCurrent'
 import { Bell } from 'lucide-react'
 import { NotificationsList } from './NotificationsList'
 
 export function Notifications() {
+    const { profile, isLoadingProfile } = useCurrent()
+
+    if (isLoadingProfile || !profile) return null
+
+    const isSiteNotificationsEnabled = Boolean(
+        profile.notificationSettings?.isSiteNotificationsEnabled,
+    )
+
     const { data, loading: isLoadingCount } =
-        useFindUnreadNotificationsCountQuery()
+        useFindUnreadNotificationsCountQuery({
+            skip: !isSiteNotificationsEnabled,
+        })
 
     const count = data?.findUnreadCount ?? 0
     const displayCount = count > 10 ? '+9' : count
@@ -32,7 +43,7 @@ export function Notifications() {
                 className='max-h-[30rem] w-[24rem] overflow-y-auto'
                 align='end'
             >
-                <NotificationsList />
+                <NotificationsList isEnabled={isSiteNotificationsEnabled} />
             </PopoverContent>
         </Popover>
     )

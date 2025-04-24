@@ -14,7 +14,8 @@
                     "notifications": {
                         "heading": "Notifications",
                         "loading": "Loading...",
-                        "empty": "No new notifications"
+                        "empty": "No new notifications",
+                        "disabled": "Notifications are disabled"
                     },
                     "me": "Profile",
                     "successMessage": "Successfully signed out",

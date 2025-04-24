@@ -11,9 +11,16 @@ import { getNotificationIcon } from '@/utils/get-notification-icon'
 import parse from 'html-react-parser'
 import { useTranslations } from 'next-intl'
 import { Fragment, useCallback, useEffect, useState } from 'react'
+import { EmptyNotifications } from './EmptyNotifications'
 
-export function NotificationsList() {
+interface NotificationsListProps {
+    isEnabled: boolean
+}
+
+export function NotificationsList({ isEnabled }: NotificationsListProps) {
     const t = useTranslations('layout.header.menu.profile.notifications')
+
+    if (!isEnabled) return <EmptyNotifications message={t('disabled')} />
 
     const [showSkeleton, setShowSkeleton] = useState(false)
 
@@ -93,9 +100,7 @@ export function NotificationsList() {
                             )
                         })
                     ) : (
-                        <div className='flex items-center justify-center py-4 text-center text-muted-foreground'>
-                            {t('empty')}
-                        </div>
+                        <EmptyNotifications message={t('empty')} />
                     )}
                 </>
             )}
