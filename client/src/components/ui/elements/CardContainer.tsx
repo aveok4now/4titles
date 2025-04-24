@@ -1,5 +1,7 @@
 import type { LucideIcon } from 'lucide-react'
 import type { PropsWithChildren, ReactNode } from 'react'
+import type { IconType } from 'react-icons'
+
 import ShinyText from '../custom/text/shiny-text'
 import { BeamAnimatedCard } from './BeamAnimatedCard'
 
@@ -9,7 +11,7 @@ import { cn } from '@/utils/tw-merge'
 interface CardContainerProps {
     heading: string
     description?: string
-    Icon?: LucideIcon
+    Icon?: LucideIcon | IconType
     isRightContentFull?: boolean
     rightContent?: ReactNode
 }
@@ -34,7 +36,7 @@ export function CardContainer({
             >
                 <div className='flex flex-row items-center gap-x-4'>
                     {Icon && (
-                        <div className='rounded-full bg-foreground p-2.5'>
+                        <div className='rounded-full bg-background p-2.5'>
                             <Icon className='size-7 text-secondary' />
                         </div>
                     )}
@@ -56,7 +58,6 @@ export function CardContainer({
                     <div
                         className={cn(
                             isSmallScreen ? 'ml-0 mt-3 w-full' : '',
-                            isSmallScreen && Icon ? 'ml-11' : '',
                             !isSmallScreen && isRightContentFull
                                 ? 'ml-6 w-full'
                                 : '',

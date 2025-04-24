@@ -138,7 +138,7 @@ export function ChangeAvatarForm() {
                                                 side='right'
                                             >
                                                 <Button
-                                                    variant='ghost'
+                                                    variant='outline'
                                                     size='icon'
                                                     disabled={isLoading}
                                                     onClick={() =>
