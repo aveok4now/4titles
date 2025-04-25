@@ -11,7 +11,8 @@ import { ConfirmDialog } from '@/components/ui/elements/ConfirmDialog'
 import {
     DataTable,
     DataTableSkeleton,
-} from '@/components/ui/elements/DataTable'
+} from '@/components/ui/elements/data-table/DataTable'
+import { DataTableColumnHeader } from '@/components/ui/elements/data-table/DataTableColumnHeader'
 import { Heading } from '@/components/ui/elements/Heading'
 import { ProfileAvatar } from '@/components/ui/elements/ProfileAvatar'
 import {
@@ -80,21 +81,40 @@ export function FollowersTable() {
         FindFollowersQuery['findUserFollowers'][0]
     >[] = [
         {
+            id: 'date',
             accessorKey: 'createdAt',
-            header: t('columns.date'),
+            header: ({ column }) => (
+                <DataTableColumnHeader
+                    column={column}
+                    title={t('columns.date')}
+                />
+            ),
             cell: ({ row }) => formatDate(row.original.createdAt, true),
+            enableSorting: true,
+            enableHiding: true,
+            meta: { title: t('columns.date') },
         },
         {
-            accessorKey: 'follower',
-            header: t('columns.user'),
+            id: 'user',
+            accessorFn: row => row.follower?.username,
+            header: ({ column }) => (
+                <DataTableColumnHeader
+                    column={column}
+                    title={t('columns.user')}
+                />
+            ),
             cell: ({ row }) => (
                 <div className='flex items-center gap-x-2'>
                     <ProfileAvatar profile={row.original.follower!} size='sm' />
                     <h2>{row.original.follower?.username}</h2>
                 </div>
             ),
+            enableSorting: true,
+            enableHiding: true,
+            meta: { title: t('columns.user') },
         },
         {
+            id: 'actions',
             accessorKey: 'actions',
             header: t('columns.actions.header'),
             cell: ({ row }) => (
@@ -128,6 +148,8 @@ export function FollowersTable() {
                     </DropdownMenuContent>
                 </DropdownMenu>
             ),
+            enableSorting: false,
+            enableHiding: false,
         },
     ]
 
@@ -142,7 +164,12 @@ export function FollowersTable() {
                 {isLoadingFollowers ? (
                     <DataTableSkeleton />
                 ) : (
-                    <DataTable columns={followersColumns} data={followers} />
+                    <DataTable
+                        columns={followersColumns}
+                        data={followers}
+                        searchColumn='user'
+                        searchPlaceholder={t('search.placeholder')}
+                    />
                 )}
             </div>
 

@@ -3,7 +3,7 @@
 import { Form, FormField } from '@/components/ui/common/form'
 import { CardContainer } from '@/components/ui/elements/CardContainer'
 import { ThemeToggle } from '@/components/ui/elements/ThemeToggle'
-import { useMediaQuery } from '@/hooks/useMediaQuery'
+import { useDeviceSize } from '@/hooks/useDeviceSize'
 import {
     changeThemeSchema,
     ChangeThemeSchemaType,
@@ -17,8 +17,10 @@ import { useForm } from 'react-hook-form'
 
 export function ChangeThemeForm() {
     const t = useTranslations('dashboard.settings.appearance.theme')
-    const isSmallScreen = useMediaQuery('(max-width: 640px)')
+
     const { theme } = useTheme()
+    const { isMobile } = useDeviceSize()
+
     const [mounted, setMounted] = useState(false)
 
     useEffect(() => {
@@ -48,7 +50,7 @@ export function ChangeThemeForm() {
                                 systemLabel={t('system')}
                                 toggleLabel={t('toggle')}
                                 showLabel
-                                contentAlign={isSmallScreen ? 'center' : 'end'}
+                                contentAlign={isMobile ? 'center' : 'end'}
                             />
                         }
                     />

@@ -296,6 +296,77 @@
                     "heading": "Accent Color",
                     "description": "Choose interface accent color"
                 }
+            },
+            "notifications": {
+                "header": {
+                    "heading": "Notifications",
+                    "description": "Configure how you want to receive notifications about title changes, followed locations and new followers."
+                },
+                "siteNotifications": {
+                    "heading": "Site Notifications",
+                    "description": "Disabling will stop all in-site notifications about title changes and followers activity."
+                },
+                "telegramNotifications": {
+                    "heading": "Telegram Notifications",
+                    "description": "Enabling will connect your 4Titles account to Telegram for event notifications."
+                },
+                "successMessage": "Notification settings updated",
+                "errorMessage": "Error updating notification settings"
+            },
+            "sessions": {
+                "header": {
+                    "heading": "Active Sessions",
+                    "description": "All currently authorized sessions and connections to your account."
+                },
+                "info": {
+                    "current": "Current Session",
+                    "active": "Active Connections",
+                    "notFound": "No active sessions found"
+                },
+                "sessionItem": {
+                    "deleteButton": "Terminate",
+                    "detailsButton": "Details",
+                    "confirmDialog": {
+                        "heading": "Confirmation",
+                        "message": "Terminating session will immediately disconnect all associated devices."
+                    },
+                    "successMessage": "Session terminated",
+                    "errorMessage": "Error terminating session"
+                },
+                "sessionModal": {
+                    "heading": "Session Details",
+                    "device": "Device:",
+                    "location": "Location:",
+                    "ipAddress": "IP Address:",
+                    "createdAt": "Created At:"
+                }
+            }
+        },
+        "followers": {
+            "header": {
+                "heading": "Followers",
+                "description": "List of all your followers"
+            },
+            "search": {
+                "placeholder": "Search followers..."
+            },
+            "columns": {
+                "date": "Subscription Date",
+                "user": "User",
+                "actions": {
+                    "header": "Actions",
+                    "viewProfile": "View Profile",
+                    "removeFollower": "Remove Follower"
+                }
+            },
+            "messages": {
+                "followerRemovedMessage": "Follower removed successfully",
+                "followerRemoveErrorMessage": "Error removing follower",
+                "followerRemoveErrorMessageDescription": "Please try again later"
+            },
+            "removeFollowerConfirmDialog": {
+                "heading": "Remove follower?",
+                "message": "4Titles will not notify this user about your action"
             }
         }
     },
@@ -303,6 +374,56 @@
         "confirmDialog": {
             "cancel": "Cancel",
             "continue": "Confirm"
+        },
+        "dataTable": {
+            "notFound": "No records found",
+            "search": "Search...",
+            "pagination": {
+                "showing": "Showing",
+                "from": "from",
+                "to": "to",
+                "of": "of",
+                "entries": "entries",
+                "rowsPerPage": "Rows per page",
+                "page": "Page",
+                "firstPage": "First page",
+                "previousPage": "Previous page",
+                "nextPage": "Next page",
+                "lastPage": "Last page"
+            },
+            "viewOptions": {
+                "view": "View",
+                "columns": "Columns"
+            },
+            "columnHeader": {
+                "sortAscending": "Sort ascending",
+                "sortDescending": "Sort descending",
+                "hideColumn": "Hide column"
+            }
+        },
+        "map": {
+            "error": {
+                "title": "Initialization Error",
+                "description": "Failed to load map. Please try again later."
+            }
+        }
+    },
+    "utils": {
+        "formatDate": {
+            "months": {
+                "january": "January",
+                "february": "February",
+                "march": "March",
+                "april": "April",
+                "may": "May",
+                "june": "June",
+                "july": "July",
+                "august": "August",
+                "september": "September",
+                "october": "October",
+                "november": "November",
+                "december": "December"
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/common/dialog'
-import { Map } from '@/components/ui/elements/maps/Map'
+import { Map } from '@/components/ui/elements/map'
 import { FindSessionsByUserQuery } from '@/graphql/generated/output'
 import { formatDate } from '@/utils/format-date'
 import { getSessionDisplayData } from '@/utils/session-utils'

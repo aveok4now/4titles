@@ -18,7 +18,7 @@ export const BeamAnimatedCard = ({
 }: BeamAnimatedCardProps) => {
     return (
         <Card className={cn('relative overflow-hidden bg-card/90', className)}>
-            <MagicCard className={cn('p-4', magicCardClassName)}>
+            <MagicCard className={cn('p-2 md:p-4', magicCardClassName)}>
                 {children}
             </MagicCard>
             <BorderBeam

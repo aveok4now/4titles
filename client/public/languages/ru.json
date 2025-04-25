@@ -349,6 +349,9 @@
                 "heading": "Подписчики",
                 "description": "Здесь отображается список всех Ваших подписчиков."
             },
+            "search": {
+                "placeholder": "Поиск подписчиков..."
+            },
             "columns": {
                 "date": "Дата подписки",
                 "user": "Пользователь",
@@ -381,7 +384,30 @@
             }
         },
         "dataTable": {
-            "notFound": "Ничего не найдено"
+            "notFound": "Записи не найдены",
+            "search": "Поиск...",
+            "pagination": {
+                "showing": "Показано",
+                "from": "с",
+                "to": "по",
+                "of": "из",
+                "entries": "записей",
+                "rowsPerPage": "Записей на странице",
+                "page": "Страница",
+                "firstPage": "Первая страница",
+                "previousPage": "Предыдущая",
+                "nextPage": "Следующая",
+                "lastPage": "Последняя страница"
+            },
+            "viewOptions": {
+                "view": "Вид",
+                "columns": "Столбцы"
+            },
+            "columnHeader": {
+                "sortAscending": "Сортировать по возрастанию",
+                "sortDescending": "Сортировать по убыванию",
+                "hideColumn": "Скрыть колонку"
+            }
         }
     },
     "utils": {

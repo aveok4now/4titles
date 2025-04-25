@@ -12,7 +12,7 @@ import {
     useRemoveAvatarMutation,
 } from '@/graphql/generated/output'
 import { useCurrent } from '@/hooks/useCurrent'
-import { useMediaQuery } from '@/hooks/useMediaQuery'
+import { useDeviceSize } from '@/hooks/useDeviceSize'
 import {
     uploadFileSchema,
     UploadFileSchemaType,
@@ -26,8 +26,9 @@ import { toast } from 'sonner'
 
 export function ChangeAvatarForm() {
     const t = useTranslations('dashboard.settings.profile.avatar')
-    const isMobile = useMediaQuery('(max-width: 1024px)')
+
     const { profile, isLoadingProfile, refetch } = useCurrent()
+    const { isMobile } = useDeviceSize()
 
     const inputRef = useRef<HTMLInputElement>(null)
     const [isRemoveConfirmDialogOpen, setIsRemoveConfirmDialogOpen] =
