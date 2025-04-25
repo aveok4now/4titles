@@ -358,13 +358,15 @@
                 "actions": {
                     "header": "Действия",
                     "viewProfile": "Перейти в профиль",
-                    "removeFollower": "Удалить из подписок"
+                    "removeFollower": "Удалить из подписок",
+                    "copyUsername": "Скопировать имя"
                 }
             },
             "messages": {
                 "followerRemovedMessage": "Пользователь успешно удалён из списка подписчиков",
                 "followerRemoveErrorMessage": "Ошибка удаления пользователя из списка подписчиков",
-                "followerRemoveErrorMessageDescription": "Повторите попытку позже"
+                "followerRemoveErrorMessageDescription": "Повторите попытку позже",
+                "followerUsernameCopied": "Имя пользователя скопировано в буфер обмена"
             },
             "removeFollowerConfirmDialog": {
                 "heading": "Удалить попдисчика?",

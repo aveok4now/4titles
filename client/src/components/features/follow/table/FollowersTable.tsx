@@ -22,7 +22,7 @@ import {
 } from '@/graphql/generated/output'
 import { formatDate } from '@/utils/format-date'
 import { ColumnDef } from '@tanstack/react-table'
-import { MoreHorizontal, User, UserMinus } from 'lucide-react'
+import { Copy, MoreHorizontal, User, UserMinus } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useCallback, useState } from 'react'
@@ -144,6 +144,19 @@ export function FollowersTable() {
                         >
                             <UserMinus className='mr-2 size-4' />
                             {t('columns.actions.removeFollower')}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={async () => {
+                                await navigator.clipboard.writeText(
+                                    row.original.follower?.username || '',
+                                )
+                                toast.success(
+                                    t('messages.followerUsernameCopied'),
+                                )
+                            }}
+                        >
+                            <Copy className='mr-2 size-4' />
+                            {t('columns.actions.copyUsername')}
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

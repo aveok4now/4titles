@@ -356,13 +356,15 @@
                 "actions": {
                     "header": "Actions",
                     "viewProfile": "View Profile",
-                    "removeFollower": "Remove Follower"
+                    "removeFollower": "Remove Follower",
+                    "copyUsername": "Copy username"
                 }
             },
             "messages": {
                 "followerRemovedMessage": "Follower removed successfully",
                 "followerRemoveErrorMessage": "Error removing follower",
-                "followerRemoveErrorMessageDescription": "Please try again later"
+                "followerRemoveErrorMessageDescription": "Please try again later",
+                "followerUsernameCopied": "The username has been copied to the clipboard"
             },
             "removeFollowerConfirmDialog": {
                 "heading": "Remove follower?",
