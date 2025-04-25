@@ -31,7 +31,8 @@ export function ProfileAvatar({ size, profile }: ProfileAvatarProps) {
                     className='object-cover'
                     src={
                         profile.avatar
-                            ? profile.avatar.startsWith('blob:')
+                            ? profile.avatar.startsWith('blob:') ||
+                              profile.avatar.startsWith('https:')
                                 ? profile.avatar
                                 : getMediaSource(profile.avatar)
                             : undefined

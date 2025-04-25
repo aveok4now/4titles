@@ -343,6 +343,30 @@
                     "createdAt": "Дата создания:"
                 }
             }
+        },
+        "followers": {
+            "header": {
+                "heading": "Подписчики",
+                "description": "Здесь отображается список всех Ваших подписчиков."
+            },
+            "columns": {
+                "date": "Дата подписки",
+                "user": "Пользователь",
+                "actions": {
+                    "header": "Действия",
+                    "viewProfile": "Перейти в профиль",
+                    "removeFollower": "Удалить из подписок"
+                }
+            },
+            "messages": {
+                "followerRemovedMessage": "Пользователь успешно удалён из списка подписчиков",
+                "followerRemoveErrorMessage": "Ошибка удаления пользователя из списка подписчиков",
+                "followerRemoveErrorMessageDescription": "Повторите попытку позже"
+            },
+            "removeFollowerConfirmDialog": {
+                "heading": "Удалить попдисчика?",
+                "message": "4Titles не будет сообщать данному пользователю, о том что Вы удалили его из своих подписчиков"
+            }
         }
     },
     "components": {
@@ -355,6 +379,9 @@
                 "title": "Ошибка инициализации",
                 "description": "Карта не может быть загружена. Повторите попытку позже."
             }
+        },
+        "dataTable": {
+            "notFound": "Ничего не найдено"
         }
     },
     "utils": {
