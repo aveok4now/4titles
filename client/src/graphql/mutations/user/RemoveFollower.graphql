@@ -1,0 +1,3 @@
+mutation RemoveFollower($followerId: String!) {
+    removeFollower(followerId: $followerId)
+}

@@ -2,10 +2,10 @@
 
 import { Form } from '@/components/ui/common/form'
 import { Separator } from '@/components/ui/common/separator'
-import { SubmitButton } from '@/components/ui/custom/content/submit-button'
-import { AUTH_ROUTES } from '@/constants/auth'
+import { SubmitButton } from '@/components/ui/elements/SubmitButton'
 import { useNewPasswordMutation } from '@/graphql/generated/output'
 import { useFormValidation } from '@/hooks/useFormValidation'
+import { AUTH_ROUTES } from '@/libs/constants/auth.constants'
 import {
     newPasswordSchema,
     NewPasswordSchemaMessages,
@@ -17,8 +17,8 @@ import { useTranslations } from 'next-intl'
 import { useParams, useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
+import { PasswordField } from '../../../ui/elements/form-fields'
 import { AuthWrapper } from '../AuthWrapper'
-import { PasswordField } from './fields'
 
 export function NewPasswordForm() {
     const t = useTranslations('auth.recovery.newPassword')

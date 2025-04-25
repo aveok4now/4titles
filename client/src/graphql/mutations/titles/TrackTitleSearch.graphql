@@ -1,0 +1,3 @@
+mutation TrackTitleSearch($titleId: String, $slug: String) {
+    trackTitleSearch(titleId: $titleId, slug: $slug)
+}

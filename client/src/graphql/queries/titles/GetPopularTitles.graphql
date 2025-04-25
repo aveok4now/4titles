@@ -1,0 +1,18 @@
+query GetPopularTitles($limit: Int) {
+    popularTitles(limit: $limit) {
+        id
+        originalName
+        slug
+        type
+        category
+        posterPath
+        popularity
+        translations {
+            id
+            title
+            language {
+                iso
+            }
+        }
+    }
+}

@@ -1,12 +1,11 @@
 import { Card, CardContent, CardFooter } from '@/components/ui/common/card'
 import AnimatedContent from '@/components/ui/custom/content/animated-content'
 import { BorderBeam } from '@/components/ui/custom/content/border-beam'
-import { Link } from '@/components/ui/custom/content/link'
 import { MagicCard } from '@/components/ui/custom/content/magic-card'
 import ShinyText from '@/components/ui/custom/text/shiny-text'
+import { Link } from '@/components/ui/elements/Link'
+import { LogoImage } from '@/components/ui/elements/LogoImage'
 import { useBackground } from '@/contexts/background-context'
-import { useTheme } from 'next-themes'
-import Image from 'next/image'
 import { memo, PropsWithChildren, ReactNode, useEffect } from 'react'
 
 interface AuthWrapperProps {
@@ -25,7 +24,6 @@ export const AuthWrapper = memo(function AuthWrapper({
     backButtonQuestion,
 }: PropsWithChildren<AuthWrapperProps>) {
     const { setBackgroundType } = useBackground()
-    const { resolvedTheme: theme } = useTheme()
 
     useEffect(() => {
         setBackgroundType('particles')
@@ -44,12 +42,7 @@ export const AuthWrapper = memo(function AuthWrapper({
                 reverse
             >
                 <div className='mb-6 flex flex-col items-center gap-y-2'>
-                    <Image
-                        src='/images/logo.svg'
-                        alt='4Titles'
-                        width={40}
-                        height={40}
-                    />
+                    <LogoImage />
                     <ShinyText
                         className='text-2xl font-bold text-foreground/80'
                         text={heading}
@@ -59,11 +52,7 @@ export const AuthWrapper = memo(function AuthWrapper({
             </AnimatedContent>
 
             <Card className='relative w-full max-w-[450px] overflow-hidden border-border/50 bg-background/60 shadow-md backdrop-blur-sm'>
-                <MagicCard
-                    gradientColor={theme === 'dark' ? '#262626' : '#D9D9D955'}
-                    gradientOpacity={theme === 'dark' ? 0.1 : 0.4}
-                    className='p-0'
-                >
+                <MagicCard className='p-0'>
                     <CardContent className='px-6 pt-6 sm:px-8'>
                         <AnimatedContent
                             distance={100}

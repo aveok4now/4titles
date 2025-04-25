@@ -1,8 +1,9 @@
+import { SERVER_URL } from '@/libs/constants/url.constants'
 import 'dotenv/config'
 
 export const service = {
     endpoint: {
-        url: process.env.NEXT_PUBLIC_SERVER_URL,
+        url: SERVER_URL,
         skipSSLValidation: true,
     },
 }

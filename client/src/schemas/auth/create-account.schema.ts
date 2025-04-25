@@ -2,7 +2,7 @@ import {
     MIN_PASSWORD_LENGTH,
     MIN_USERNAME_LENGTH,
     VALIDATION_REGEX,
-} from '@/constants/auth'
+} from '@/libs/constants/auth.constants'
 import { z } from 'zod'
 
 export interface CreateAccountSchemaMessages {

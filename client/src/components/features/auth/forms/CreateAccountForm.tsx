@@ -2,10 +2,10 @@
 
 import { Form } from '@/components/ui/common/form'
 import { Separator } from '@/components/ui/common/separator'
-import { SubmitButton } from '@/components/ui/custom/content/submit-button'
-import { AUTH_ROUTES } from '@/constants/auth'
+import { SubmitButton } from '@/components/ui/elements/SubmitButton'
 import { useCreateAccountMutation } from '@/graphql/generated/output'
 import { useFormValidation } from '@/hooks/useFormValidation'
+import { AUTH_ROUTES } from '@/libs/constants/auth.constants'
 import {
     createAccountSchema,
     CreateAccountSchemaMessages,
@@ -16,9 +16,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import {
+    EmailField,
+    PasswordField,
+    UsernameField,
+} from '../../../ui/elements/form-fields'
 import { AuthFeedback } from '../AuthFeedback'
 import { AuthWrapper } from '../AuthWrapper'
-import { EmailField, PasswordField, UsernameField } from './fields'
 
 export function CreateAccountForm() {
     const t = useTranslations('auth.register')

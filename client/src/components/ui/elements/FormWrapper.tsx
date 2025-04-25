@@ -1,0 +1,24 @@
+import type { PropsWithChildren } from 'react'
+import { CardContent, CardHeader, CardTitle } from '../common/card'
+import { BeamAnimatedCard } from './BeamAnimatedCard'
+import { Heading } from './Heading'
+
+interface FormWrapperProps {
+    heading: string
+}
+
+export function FormWrapper({
+    children,
+    heading,
+}: PropsWithChildren<FormWrapperProps>) {
+    return (
+        <BeamAnimatedCard>
+            <CardHeader className='p-4'>
+                <CardTitle>
+                    <Heading title={heading} size='sm' />
+                </CardTitle>
+            </CardHeader>
+            <CardContent className='p-0'>{children}</CardContent>
+        </BeamAnimatedCard>
+    )
+}

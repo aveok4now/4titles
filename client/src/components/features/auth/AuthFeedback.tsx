@@ -14,7 +14,7 @@ export function AuthFeedback({ title, description }: AuthFeedbackProps) {
                 text={title}
                 delay={100}
             />
-            <FadeContent delay={125} duration={1500} blur={true}>
+            <FadeContent delay={125} duration={1500} blur>
                 <p className='max-w-fit text-sm text-muted-foreground'>
                     {description}
                 </p>

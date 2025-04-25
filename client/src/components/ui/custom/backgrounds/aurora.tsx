@@ -1,5 +1,8 @@
 'use client'
 
+import { useConfig } from '@/hooks/useConfig'
+import { getThemeColors } from '@/utils/get-theme-colors'
+import { useTheme } from 'next-themes'
 import { Color, Mesh, Program, Renderer, Triangle } from 'ogl'
 import { useEffect, useRef } from 'react'
 
@@ -18,6 +21,9 @@ uniform float uAmplitude;
 uniform vec3 uColorStops[3];
 uniform vec2 uResolution;
 uniform float uBlend;
+uniform bool uIsDarkMode;
+uniform float uSize;
+uniform float uShadowOpacity;
 
 out vec4 fragColor;
 
@@ -87,25 +93,40 @@ struct ColorStop {
 void main() {
   vec2 uv = gl_FragCoord.xy / uResolution;
   
+  vec2 centered = (uv - 0.5) / uSize + 0.5;
+  
   ColorStop colors[3];
   colors[0] = ColorStop(uColorStops[0], 0.0);
   colors[1] = ColorStop(uColorStops[1], 0.5);
   colors[2] = ColorStop(uColorStops[2], 1.0);
   
   vec3 rampColor;
-  COLOR_RAMP(colors, uv.x, rampColor);
+  COLOR_RAMP(colors, centered.x, rampColor);
   
-  float height = snoise(vec2(uv.x * 2.0 + uTime * 0.1, uTime * 0.25)) * 0.5 * uAmplitude;
+  float height = snoise(vec2(centered.x * 2.0 + uTime * 0.1, uTime * 0.25)) * 0.5 * uAmplitude;
   height = exp(height);
-  height = (uv.y * 2.0 - height + 0.2);
-  float intensity = 0.6 * height;
   
-  float midPoint = 0.20;
+  float yOffset = uIsDarkMode ? 0.3 : 0.6;
+  height = (centered.y * 2.0 - height + yOffset);
+  
+  float intensity = uIsDarkMode ? 0.6 * height : 0.35 * height;
+  
+  float midPoint = uIsDarkMode ? 0.20 : 0.30;
   float auroraAlpha = smoothstep(midPoint - uBlend * 0.5, midPoint + uBlend * 0.5, intensity);
+  
+  auroraAlpha *= uIsDarkMode ? uShadowOpacity : uShadowOpacity * 0.7;
+  
+  float distFromCenter = length((centered - 0.5) * 2.0);
+  float edgeFade = 1.0 - smoothstep(0.8, 1.0, distFromCenter);
+  auroraAlpha *= edgeFade;
   
   vec3 auroraColor = intensity * rampColor;
   
-  fragColor = vec4(auroraColor * auroraAlpha, auroraAlpha);
+  if (centered.x < 0.0 || centered.x > 1.0 || centered.y < 0.0 || centered.y > 1.0) {
+    fragColor = vec4(0.0);
+  } else {
+    fragColor = vec4(auroraColor * auroraAlpha, auroraAlpha);
+  }
 }
 `
 
@@ -115,16 +136,39 @@ interface AuroraProps {
     blend?: number
     time?: number
     speed?: number
+    useThemeColors?: boolean
+    size?: number
+    shadowOpacity?: number
 }
 
 export default function Aurora(props: AuroraProps) {
+    const { resolvedTheme } = useTheme()
+    const { theme } = useConfig()
+    const isDarkMode = resolvedTheme === 'dark'
+
+    const getColorStop = () => {
+        if (!props.useThemeColors) return props.colorStops
+        return getThemeColors()
+    }
+
     const {
-        colorStops = ['#00d8ff', '#7cff67', '#00d8ff'],
-        amplitude = 1.0,
-        blend = 0.5,
+        amplitude = isDarkMode ? 0.8 : 0.5,
+        blend = isDarkMode ? 0.5 : 0.3,
+        size = 0.85,
+        shadowOpacity = isDarkMode ? 0.8 : 0.4,
+        useThemeColors = true,
     } = props
-    const propsRef = useRef<AuroraProps>(props)
-    propsRef.current = props
+
+    const defaultColorStops = ['#00d8ff', '#7cff67', '#00d8ff']
+    const colorStops = useThemeColors
+        ? getColorStop() || defaultColorStops
+        : props.colorStops || defaultColorStops
+
+    const propsRef = useRef<AuroraProps & { isDarkMode: boolean }>({
+        ...props,
+        isDarkMode,
+    })
+    propsRef.current = { ...props, isDarkMode }
 
     const ctnDom = useRef<HTMLDivElement>(null)
 
@@ -158,7 +202,6 @@ export default function Aurora(props: AuroraProps) {
 
         const geometry = new Triangle(gl)
         if (geometry.attributes.uv) {
-            // TypeScript may require a type assertion here.
             delete (geometry.attributes as any).uv
         }
 
@@ -176,6 +219,9 @@ export default function Aurora(props: AuroraProps) {
                 uColorStops: { value: colorStopsArray },
                 uResolution: { value: [ctn.offsetWidth, ctn.offsetHeight] },
                 uBlend: { value: blend },
+                uIsDarkMode: { value: isDarkMode },
+                uSize: { value: size },
+                uShadowOpacity: { value: shadowOpacity },
             },
         })
 
@@ -185,13 +231,24 @@ export default function Aurora(props: AuroraProps) {
         let animateId = 0
         const update = (t: number) => {
             animateId = requestAnimationFrame(update)
-            const { time = t * 0.01, speed = 1.0 } = propsRef.current
+            const {
+                time = t * 0.01,
+                speed = 1.0,
+                isDarkMode,
+            } = propsRef.current
             if (program) {
                 program.uniforms.uTime.value = time * speed * 0.1
                 program.uniforms.uAmplitude.value =
-                    propsRef.current.amplitude ?? 1.0
-                program.uniforms.uBlend.value = propsRef.current.blend ?? blend
-                const stops = propsRef.current.colorStops ?? colorStops
+                    propsRef.current.amplitude ?? (isDarkMode ? 0.8 : 0.5)
+                program.uniforms.uBlend.value =
+                    propsRef.current.blend ?? (isDarkMode ? 0.5 : 0.3)
+                program.uniforms.uIsDarkMode.value = isDarkMode
+                program.uniforms.uSize.value = propsRef.current.size ?? 0.85
+                program.uniforms.uShadowOpacity.value =
+                    propsRef.current.shadowOpacity ?? (isDarkMode ? 0.6 : 0.3)
+
+                const themeColors = getColorStop()
+                const stops = themeColors || defaultColorStops
                 program.uniforms.uColorStops.value = stops.map(
                     (hex: string) => {
                         const c = new Color(hex)
@@ -213,7 +270,7 @@ export default function Aurora(props: AuroraProps) {
             }
             gl.getExtension('WEBGL_lose_context')?.loseContext()
         }
-    }, [amplitude])
+    }, [amplitude, blend, colorStops, isDarkMode, size, shadowOpacity, theme])
 
     return <div ref={ctnDom} className='h-full w-full' />
 }
