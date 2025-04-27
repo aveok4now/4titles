@@ -64,7 +64,6 @@ const BACKGROUNDS: Record<
     particles: {
         component: Particles as FC<ParticlesProps>,
         props: {
-            // particleColors: ['#9a9ffe', '#3A29FF', '#9a9ffe'],
             moveParticlesOnHover: true,
             particleBaseSize: 150,
             particleCount: 220,

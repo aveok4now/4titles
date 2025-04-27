@@ -7,9 +7,7 @@ import {
     TabsTrigger,
 } from '@/components/ui/common/tabs'
 import { Heading } from '@/components/ui/elements/Heading'
-import { useBackground } from '@/contexts/background-context'
 import { useTranslations } from 'next-intl'
-import { useEffect } from 'react'
 import { ChangeEmailForm } from './account/ChangeEmailForm'
 import { ChangePasswordForm } from './account/ChangePasswordForm'
 import { DeactivateCard } from './account/DeactivateCard'
@@ -25,13 +23,6 @@ import { SessionsList } from './sessions/SessionsList'
 
 export function UserSettings() {
     const t = useTranslations('dashboard.settings')
-
-    const { setBackgroundType } = useBackground()
-
-    useEffect(() => {
-        setBackgroundType('aurora')
-        return () => setBackgroundType('default')
-    }, [setBackgroundType])
 
     return (
         <div className='lg:px-10'>

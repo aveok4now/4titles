@@ -1,7 +1,7 @@
 'use client'
 
 import ShinyText from '@/components/ui/custom/text/shiny-text'
-import { useGetPopularTitlesQuery } from '@/graphql/generated/output'
+import { useFindPopularTitlesQuery } from '@/graphql/generated/output'
 import { useSidebar } from '@/hooks/useSidebar'
 import { useTranslations } from 'next-intl'
 import { PopularTitleItem, PopularTitleItemSkeleton } from './PopularTItleItem'
@@ -11,10 +11,12 @@ export function PopularTitleSearches() {
 
     const { isCollapsed } = useSidebar()
 
-    const { data, loading: isLoadingPopularTitles } = useGetPopularTitlesQuery({
-        variables: { limit: 7 },
-    })
-    const topSearches = data?.popularTitles || []
+    const { data, loading: isLoadingPopularTitles } = useFindPopularTitlesQuery(
+        {
+            variables: { limit: 7 },
+        },
+    )
+    const topSearches = data?.findPopularTitles || []
 
     return (
         <div className='pb-4'>

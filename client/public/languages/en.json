@@ -39,13 +39,28 @@
                 "faq": "Support Center"
             },
             "popularTitleSearches": {
-                "title": "Popular Film Locations"
+                "title": "Popular searches"
             },
             "dashboardNav": {
                 "settings": "Personal Settings",
                 "followers": "My Followers"
             }
         }
+    },
+    "home": {
+        "movies": {
+            "heading": "Movies",
+            "description": "Do you know where 'The Shawshank Redemption' or 'Interstellar' were filmed? Explore these and thousands of other locations, add your own discoveries and share your experiences!"
+        },
+        "series": {
+            "heading": "TV Series",
+            "description": "From King's Landing in 'Game of Thrones' to Albuquerque in 'Breaking Bad' - explore real places where the events of your favorite TV series took place."
+        },
+        "countries": {
+            "heading": "Countries",
+            "description": "Explore filming locations by geography. Find out which countries were used for filming your favorite movies and TV shows."
+        },
+        "viewAll": "View all"
     },
     "auth": {
         "register": {
@@ -284,7 +299,7 @@
                     "toggle": "Toggle Theme",
                     "light": "Light",
                     "dark": "Dark",
-                    "system": "System Default"
+                    "system": "System"
                 },
                 "language": {
                     "heading": "Site Language",
@@ -408,6 +423,12 @@
                 "title": "Initialization Error",
                 "description": "Failed to load map. Please try again later."
             }
+        },
+        "contentSection": {
+            "viewAll": "View all"
+        },
+        "hint": {
+            "default": "Go to"
         }
     },
     "utils": {
@@ -427,5 +448,9 @@
                 "december": "December"
             }
         }
+    },
+    "countries": {
+        "goToCountry": "Explore",
+        "statistics": "{moviesCount, plural, =0 {No movies} one {# movie} other {# movies}}, {seriesCount, plural, =0 {no TV series} one {# TV series} other {# TV series}} and {locationsCount, plural, =0 {no locations} one {# location} other {# locations}}"
     }
 }

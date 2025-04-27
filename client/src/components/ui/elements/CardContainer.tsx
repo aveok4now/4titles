@@ -30,7 +30,7 @@ export function CardContainer({
         <BeamAnimatedCard>
             <div
                 className={cn(
-                    'flex',
+                    'flex p-2',
                     isSmallScreen ? 'flex-col' : 'items-center justify-between',
                 )}
             >

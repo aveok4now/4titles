@@ -2,15 +2,19 @@ import { Button } from '@/components/ui/common/button'
 import { Skeleton } from '@/components/ui/common/skeleton'
 import { Hint } from '@/components/ui/elements/Hint'
 import { TitleAvatar } from '@/components/ui/elements/TitleAvatar'
-import { GetPopularTitlesQuery, Title } from '@/graphql/generated/output'
+import { FindPopularTitlesQuery, Title } from '@/graphql/generated/output'
 import { useSidebar } from '@/hooks/useSidebar'
-import { getLocalizedTitleName } from '@/utils/get-localized-title-name'
+import {
+    getLocalizedTitleName,
+    getTitleLogoUrl,
+    getTitlePosterUrl,
+} from '@/utils/localization/title-localization'
 import { useLocale } from 'next-intl'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 interface PopularTitleItemProps {
-    title: GetPopularTitlesQuery['popularTitles'][0]
+    title: FindPopularTitlesQuery['findPopularTitles'][0]
 }
 
 export function PopularTitleItem({ title }: PopularTitleItemProps) {
@@ -22,6 +26,7 @@ export function PopularTitleItem({ title }: PopularTitleItemProps) {
     const titleUrl = `/titles/${title.slug}`
     const isActive = pathname === titleUrl
     const displayName = getLocalizedTitleName(title as Title, locale)
+    const logoUrl = getTitlePosterUrl(title as Title, locale)
 
     return isCollapsed ? (
         <div className='mt-3 flex w-full items-center justify-center'>
@@ -30,10 +35,7 @@ export function PopularTitleItem({ title }: PopularTitleItemProps) {
                     href={titleUrl}
                     className='flex items-center justify-center'
                 >
-                    <TitleAvatar
-                        posterPath={title.posterPath || null}
-                        name={displayName}
-                    />
+                    <TitleAvatar imagePath={logoUrl} name={displayName} />
                 </Link>
             </Hint>
         </div>
@@ -45,11 +47,7 @@ export function PopularTitleItem({ title }: PopularTitleItemProps) {
         >
             <Link href={titleUrl} className='flex w-full items-center'>
                 <Hint label={displayName} side='bottom'>
-                    <TitleAvatar
-                        posterPath={title.posterPath || null}
-                        name={displayName}
-                        size='default'
-                    />
+                    <TitleAvatar imagePath={logoUrl} name={displayName} />
                 </Hint>
                 <h2 className='truncate pl-3'>{displayName}</h2>
             </Link>

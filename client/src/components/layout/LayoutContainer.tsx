@@ -1,5 +1,6 @@
 'use client'
 
+import { useBackground } from '@/contexts/background-context'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { useSidebar } from '@/hooks/useSidebar'
 import { PropsWithChildren, useEffect } from 'react'
@@ -9,6 +10,7 @@ export function LayoutContainer({ children }: PropsWithChildren<unknown>) {
     const isMobile = useMediaQuery('(max-width: 1024px)')
 
     const { isCollapsed, open, close } = useSidebar()
+    const { setBackgroundType } = useBackground()
 
     useEffect(() => {
         if (isMobile) {
@@ -17,6 +19,11 @@ export function LayoutContainer({ children }: PropsWithChildren<unknown>) {
             if (isCollapsed) open()
         }
     }, [isMobile])
+
+    useEffect(() => {
+        setBackgroundType('aurora')
+        return () => setBackgroundType('default')
+    }, [setBackgroundType])
 
     return (
         <main
