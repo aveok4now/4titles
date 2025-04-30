@@ -1,4 +1,6 @@
-export function hexToRgb(hex: string): [number, number, number] {
+export type RGBColor = [number, number, number]
+
+export function hexToRgb(hex: string): RGBColor {
     hex = hex.replace(/^#/, '')
     if (hex.length === 3) {
         hex = hex
