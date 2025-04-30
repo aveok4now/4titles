@@ -48,6 +48,36 @@
         }
     },
     "home": {
+        "about": {
+            "filmingLocations": {
+                "heading": "Filming Locations",
+                "description": "Over 10,000 filming locations updated hourly.",
+                "cta": "Explore"
+            },
+            "notifications": {
+                "heading": "Notifications",
+                "description": "Receive website or Telegram notifications about changes to your favorite movies, series, and locations.",
+                "cta": "Configure",
+                "list": {
+                    "newFollower": {
+                        "name": "New follower",
+                        "time": "10m ago"
+                    },
+                    "siteUpdate": {
+                        "name": "Site update",
+                        "time": "2h ago"
+                    },
+                    "feedbackResponse": {
+                        "name": "Thanks for your feedback!",
+                        "time": "34m ago"
+                    },
+                    "totpEnabled": {
+                        "name": "TOTP enabled",
+                        "time": "Just now"
+                    }
+                }
+            }
+        },
         "movies": {
             "heading": "Movies",
             "description": "Do you know where 'The Shawshank Redemption' or 'Interstellar' were filmed? Explore these and thousands of other locations, add your own discoveries and share your experiences!"
@@ -449,8 +479,15 @@
             }
         }
     },
+
     "countries": {
         "goToCountry": "Explore",
-        "statistics": "{moviesCount, plural, =0 {No movies} one {# movie} other {# movies}}, {seriesCount, plural, =0 {no TV series} one {# TV series} other {# TV series}} and {locationsCount, plural, =0 {no locations} one {# location} other {# locations}}"
+        "statistics": {
+            "movies": "{count, plural, one {# movie} other {# movies}}",
+            "series": "{count, plural, one {# TV series} other {# TV series}}",
+            "locations": "{count, plural, one {# filming location} other {# filming locations}}",
+            "and": "and",
+            "noData": "No Data"
+        }
     }
 }

@@ -48,6 +48,36 @@
         }
     },
     "home": {
+        "about": {
+            "filmingLocations": {
+                "heading": "Кинолокации",
+                "description": "Более 10000 кинолокаций, пополняемых ежечасно.",
+                "cta": "Исследовать"
+            },
+            "notifications": {
+                "heading": "Уведомления",
+                "description": "Получайте уведомления на сайте или в Telegram об изменениях в избранных фильмах, сериалах и локациях.",
+                "cta": "Настроить",
+                "list": {
+                    "newFollower": {
+                        "name": "Новый подписчик",
+                        "time": "10м назад"
+                    },
+                    "siteUpdate": {
+                        "name": "Обновление на сайте",
+                        "time": "2ч назад"
+                    },
+                    "feedbackResponse": {
+                        "name": "Спасибо за обратную связь!",
+                        "time": "34м назад"
+                    },
+                    "totpEnabled": {
+                        "name": "TOTP подключено",
+                        "time": "Только что"
+                    }
+                }
+            }
+        },
         "movies": {
             "heading": "Фильмы",
             "description": "Знаете, где снимали «Побег из Шоушенка» или «Интерстеллар»? Исследуйте эти и тысячи других локаций, добавляйте свои открытия и делитесь впечатлениями!"
@@ -453,6 +483,12 @@
     },
     "countries": {
         "goToCountry": "Исследовать",
-        "statistics": "{moviesCount, plural, =0 {Нет фильмов} one {# фильм} few {# фильма} other {# фильмов}}, {seriesCount, plural, =0 {нет сериалов} one {# сериал} few {# сериала} other {# сериалов}} и {locationsCount, plural, =0 {нет локаций} one {# локация} few {# локации} other {# локаций}}"
+        "statistics": {
+            "movies": "{count, plural, one {# фильм} few {# фильма} other {# фильмов}}",
+            "series": "{count, plural, one {# сериал} few {# сериала} other {# сериалов}}",
+            "locations": "{count, plural, one {# кинолокация} few {# кинолокации} other {# кинолокаций}}",
+            "and": "и",
+            "noData": "Нет данных"
+        }
     }
 }

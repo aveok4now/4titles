@@ -1,7 +1,7 @@
 import '../styles/globals.css'
 import '../styles/themes.css'
 
-import { Background } from '@/components/features/background/Background'
+import { Background } from '@/components/ui/elements/Background'
 import { ColorSwitcher } from '@/components/ui/elements/ColorSwitcher'
 import { BackgroundProvider } from '@/contexts/background-context'
 import { ApolloClientProvider } from '@/providers/ApolloClientProvider'

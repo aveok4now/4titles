@@ -1,7 +1,4 @@
-'use client'
-
 import { AvatarFallback } from '@/components/ui/common/avatar'
-import { Marquee } from '@/components/ui/custom/content/marquee'
 import { Hint } from '@/components/ui/elements/Hint'
 import { Country, CountryStatistics } from '@/graphql/generated/output'
 import { getLocalizedCountryName } from '@/utils/localization/country-localization'
@@ -10,11 +7,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
-interface CountriesMarqueeProps {
-    countries: CountryStatistics[]
-}
-
-const CountryCard = ({ country }: { country: CountryStatistics }) => {
+export function CountryCard({ country }: { country: CountryStatistics }) {
     const t = useTranslations('countries')
     const locale = useLocale()
     const router = useRouter()
@@ -22,11 +15,34 @@ const CountryCard = ({ country }: { country: CountryStatistics }) => {
     const displayName = getLocalizedCountryName(country as Country, locale)
 
     const formatStats = () => {
-        return t('statistics', {
-            moviesCount: country.moviesCount,
-            seriesCount: country.seriesCount,
-            locationsCount: country.locationsCount,
-        })
+        const { moviesCount, seriesCount, locationsCount } = country
+
+        const parts = []
+
+        if (moviesCount > 0) {
+            parts.push(t('statistics.movies', { count: moviesCount }))
+        }
+
+        if (seriesCount > 0) {
+            parts.push(t('statistics.series', { count: seriesCount }))
+        }
+
+        if (locationsCount > 0) {
+            parts.push(t('statistics.locations', { count: locationsCount }))
+        }
+
+        if (parts.length === 0) {
+            return t('statistics.noData')
+        }
+
+        if (parts.length === 1) {
+            return parts[0]
+        } else if (parts.length === 2) {
+            return `${parts[0]} ${t('statistics.and')} ${parts[1]}`
+        } else {
+            const lastPart = parts.pop()
+            return `${parts.join(', ')} ${t('statistics.and')} ${lastPart}`
+        }
     }
 
     return (
@@ -37,7 +53,7 @@ const CountryCard = ({ country }: { country: CountryStatistics }) => {
                 }
                 className={cn(
                     'relative h-full w-64 cursor-pointer overflow-hidden rounded-xl border p-4',
-                    'border-border/[.1] bg-primary/[.01] hover:bg-primary/[.05]',
+                    'border-border/[50] bg-primary/[.01] hover:bg-primary/[.05]',
                     'dark:border-border/[.1] dark:bg-primary/[.10] dark:hover:bg-primary/[.15]',
                 )}
             >
@@ -69,28 +85,5 @@ const CountryCard = ({ country }: { country: CountryStatistics }) => {
                 </blockquote>
             </figure>
         </Hint>
-    )
-}
-
-export function CountriesMarquee({ countries }: CountriesMarqueeProps) {
-    const halfLength = Math.ceil(countries.length / 2)
-    const firstRow = countries.slice(0, halfLength)
-    const secondRow = countries.slice(halfLength)
-
-    return (
-        <div className='relative flex w-full flex-col items-center justify-center overflow-hidden'>
-            <Marquee pauseOnHover className='[--duration:45s]'>
-                {firstRow.map(country => (
-                    <CountryCard key={country.id} country={country} />
-                ))}
-            </Marquee>
-            <Marquee reverse pauseOnHover className='[--duration:45s]'>
-                {secondRow.map(country => (
-                    <CountryCard key={country.id} country={country} />
-                ))}
-            </Marquee>
-            <div className='pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background'></div>
-            <div className='pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background'></div>
-        </div>
     )
 }

@@ -12,7 +12,7 @@ export function HeaderMenu() {
     const { isAuthenticated } = useAuth()
 
     return (
-        <div className='ml-auto flex items-center gap-x-4'>
+        <div className='flex items-center gap-x-4'>
             {isAuthenticated ? (
                 <ProfileMenu />
             ) : (
