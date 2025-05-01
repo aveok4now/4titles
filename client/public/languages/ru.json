@@ -59,6 +59,14 @@
                 "description": "Получайте уведомления на сайте или в Telegram об изменениях в избранных фильмах, сериалах и локациях.",
                 "cta": "Настроить",
                 "list": {
+                    "newTitleLocations": {
+                        "name": "Новые локации «YOU»",
+                        "time": "14м назад"
+                    },
+                    "favTitleUpdated": {
+                        "name": "Избранный тайтл был обновлён",
+                        "time": "1ч назад"
+                    },
                     "newFollower": {
                         "name": "Новый подписчик",
                         "time": "10м назад"
@@ -70,6 +78,10 @@
                     "feedbackResponse": {
                         "name": "Спасибо за обратную связь!",
                         "time": "34м назад"
+                    },
+                    "commentReply": {
+                        "name": "Кто-то ответил на Ваш комментарий",
+                        "time": "5м назад"
                     },
                     "totpEnabled": {
                         "name": "TOTP подключено",
@@ -490,5 +502,24 @@
             "and": "и",
             "noData": "Нет данных"
         }
+    },
+    "titleDetails": {
+        "overview": "Обзор",
+        "releaseDate": "Дата выхода",
+        "runtime": "Длительность",
+        "userScore": "Рейтинг",
+        "popularity": "Популярность",
+        "popularityPoints": "баллов популярности",
+        "productionCountry": "Страна производства",
+        "cast": {
+            "heading": "В ролях",
+            "viewDialog": {
+                "triggerHint": "Открыть",
+                "character": "Персонаж"
+            }
+        },
+        "genres": "Жанры",
+        "noCastFound": "Информация об актерах не найдена",
+        "min": "мин."
     }
 }

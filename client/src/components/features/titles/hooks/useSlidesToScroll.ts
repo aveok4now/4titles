@@ -1,4 +1,4 @@
-import { useMediaQuery } from './useMediaQuery'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 
 export function useSlidesToScroll() {
     const isMd = useMediaQuery('(min-width: 768px)')

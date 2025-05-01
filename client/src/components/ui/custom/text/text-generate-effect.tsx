@@ -7,12 +7,14 @@ import { useEffect } from 'react'
 export const TextGenerateEffect = ({
     words,
     className,
+    textClassName,
     filter = true,
     duration = 0.5,
     highlightWords = [],
 }: {
     words: string
     className?: string
+    textClassName?: string
     filter?: boolean
     duration?: number
     highlightWords?: string[]
@@ -53,7 +55,7 @@ export const TextGenerateEffect = ({
                     return (
                         <motion.span
                             key={word + idx}
-                            className={`${shouldHighlight ? 'text-primary' : 'text-black dark:text-white'} opacity-0`}
+                            className={`${shouldHighlight && 'text-primary'} opacity-0`}
                             style={{
                                 filter: filter ? 'blur(10px)' : 'none',
                             }}
@@ -69,7 +71,12 @@ export const TextGenerateEffect = ({
     return (
         <div className={cn('font-bold', className)}>
             <div className='my-4'>
-                <div className='leading-snug tracking-wide text-black dark:text-white'>
+                <div
+                    className={cn(
+                        // 'leading-snug tracking-wide text-black dark:text-white',
+                        textClassName,
+                    )}
+                >
                     {renderWords()}
                 </div>
             </div>

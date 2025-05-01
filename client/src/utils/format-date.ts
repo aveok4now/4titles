@@ -7,6 +7,7 @@ export function formatDate(
     const t = useTranslations('utils.formatDate')
 
     const date = new Date(dateString)
+    if (isNaN(date.getTime())) return ''
 
     const day = date.getDate()
     const monthIndex = date.getMonth()

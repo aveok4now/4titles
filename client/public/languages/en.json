@@ -36,7 +36,7 @@
                 "overview": "Catalog",
                 "routes": "Thematic Routes",
                 "feed": "News Feed",
-                "faq": "Support Center"
+                "faq": "FAQ"
             },
             "popularTitleSearches": {
                 "title": "Popular searches"
@@ -56,9 +56,17 @@
             },
             "notifications": {
                 "heading": "Notifications",
-                "description": "Receive website or Telegram notifications about changes to your favorite movies, series, and locations.",
+                "description": "Receive website or Telegram notifications about changes to your favorite movies, series and locations.",
                 "cta": "Configure",
                 "list": {
+                    "newTitleLocations": {
+                        "name": "New locations for «YOU»",
+                        "time": "14m ago"
+                    },
+                    "favTitleUpdated": {
+                        "name": "Favorite title updated",
+                        "time": "1h ago"
+                    },
                     "newFollower": {
                         "name": "New follower",
                         "time": "10m ago"
@@ -70,6 +78,10 @@
                     "feedbackResponse": {
                         "name": "Thanks for your feedback!",
                         "time": "34m ago"
+                    },
+                    "commentReply": {
+                        "name": "Someone replied to your comment",
+                        "time": "5m ago"
                     },
                     "totpEnabled": {
                         "name": "TOTP enabled",
@@ -489,5 +501,24 @@
             "and": "and",
             "noData": "No Data"
         }
+    },
+    "titleDetails": {
+        "overview": "Overview",
+        "releaseDate": "Release Date",
+        "runtime": "Runtime",
+        "userScore": "User Score",
+        "popularity": "Popularity",
+        "popularityPoints": "popularity points",
+        "productionCountry": "Production Country",
+        "cast": {
+            "heading": "Cast",
+            "viewDialog": {
+                "triggerHint": "Open",
+                "character": "Character"
+            }
+        },
+        "genres": "Genres",
+        "noCastFound": "No cast information found",
+        "min": "min"
     }
 }
