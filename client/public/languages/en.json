@@ -39,13 +39,58 @@
                 "faq": "Support Center"
             },
             "popularTitleSearches": {
-                "title": "Popular Film Locations"
+                "title": "Popular searches"
             },
             "dashboardNav": {
                 "settings": "Personal Settings",
                 "followers": "My Followers"
             }
         }
+    },
+    "home": {
+        "about": {
+            "filmingLocations": {
+                "heading": "Filming Locations",
+                "description": "Over 10,000 filming locations updated hourly.",
+                "cta": "Explore"
+            },
+            "notifications": {
+                "heading": "Notifications",
+                "description": "Receive website or Telegram notifications about changes to your favorite movies, series, and locations.",
+                "cta": "Configure",
+                "list": {
+                    "newFollower": {
+                        "name": "New follower",
+                        "time": "10m ago"
+                    },
+                    "siteUpdate": {
+                        "name": "Site update",
+                        "time": "2h ago"
+                    },
+                    "feedbackResponse": {
+                        "name": "Thanks for your feedback!",
+                        "time": "34m ago"
+                    },
+                    "totpEnabled": {
+                        "name": "TOTP enabled",
+                        "time": "Just now"
+                    }
+                }
+            }
+        },
+        "movies": {
+            "heading": "Movies",
+            "description": "Do you know where 'The Shawshank Redemption' or 'Interstellar' were filmed? Explore these and thousands of other locations, add your own discoveries and share your experiences!"
+        },
+        "series": {
+            "heading": "TV Series",
+            "description": "From King's Landing in 'Game of Thrones' to Albuquerque in 'Breaking Bad' - explore real places where the events of your favorite TV series took place."
+        },
+        "countries": {
+            "heading": "Countries",
+            "description": "Explore filming locations by geography. Find out which countries were used for filming your favorite movies and TV shows."
+        },
+        "viewAll": "View all"
     },
     "auth": {
         "register": {
@@ -284,7 +329,7 @@
                     "toggle": "Toggle Theme",
                     "light": "Light",
                     "dark": "Dark",
-                    "system": "System Default"
+                    "system": "System"
                 },
                 "language": {
                     "heading": "Site Language",
@@ -408,6 +453,12 @@
                 "title": "Initialization Error",
                 "description": "Failed to load map. Please try again later."
             }
+        },
+        "contentSection": {
+            "viewAll": "View all"
+        },
+        "hint": {
+            "default": "Go to"
         }
     },
     "utils": {
@@ -426,6 +477,17 @@
                 "november": "November",
                 "december": "December"
             }
+        }
+    },
+
+    "countries": {
+        "goToCountry": "Explore",
+        "statistics": {
+            "movies": "{count, plural, one {# movie} other {# movies}}",
+            "series": "{count, plural, one {# TV series} other {# TV series}}",
+            "locations": "{count, plural, one {# filming location} other {# filming locations}}",
+            "and": "and",
+            "noData": "No Data"
         }
     }
 }

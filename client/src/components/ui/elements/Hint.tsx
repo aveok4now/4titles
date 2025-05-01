@@ -5,6 +5,7 @@ import {
     useSpring,
     useTransform,
 } from 'motion/react'
+import { useTranslations } from 'next-intl'
 import { PropsWithChildren, useState } from 'react'
 import { createPortal } from 'react-dom'
 import {
@@ -15,7 +16,7 @@ import {
 } from '../common/tooltip'
 
 interface HintProps {
-    label: string
+    label?: string
     asChild?: boolean
     side?: 'top' | 'bottom' | 'left' | 'right'
     align?: 'start' | 'center' | 'end'
@@ -32,6 +33,8 @@ export function Hint({
     animated = true,
     animationIntensity = 0.7,
 }: PropsWithChildren<HintProps>) {
+    const t = useTranslations('components.hint')
+
     const [isHovered, setIsHovered] = useState(false)
     const [elementRect, setElementRect] = useState<DOMRect | null>(null)
     const [containerRef, setContainerRef] = useState<HTMLDivElement | null>(
@@ -82,7 +85,7 @@ export function Hint({
                         align={align}
                         sideOffset={5}
                     >
-                        <p className='font-semibold'>{label}</p>
+                        <p className='font-semibold'>{label || t('default')}</p>
                     </TooltipContent>
                 </Tooltip>
             </TooltipProvider>
@@ -201,7 +204,7 @@ export function Hint({
     return (
         <div
             ref={setContainerRef}
-            className='relative inline-block'
+            className='relative block'
             onMouseEnter={handleMouseEnter}
             onMouseLeave={() => setIsHovered(false)}
             onMouseMove={handleMouseMove}
@@ -232,7 +235,9 @@ export function Hint({
                             className='overflow-hidden rounded-md bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md'
                         >
                             {renderGradients()}
-                            <p className='font-semibold'>{label}</p>
+                            <p className='font-semibold'>
+                                {label || t('default')}
+                            </p>
                         </motion.div>
                     </AnimatePresence>,
                     document.body,

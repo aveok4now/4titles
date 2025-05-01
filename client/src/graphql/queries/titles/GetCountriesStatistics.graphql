@@ -1,0 +1,12 @@
+query GetCountriesStatistics($input: CountryStatisticsInput) {
+    getCountriesStatistics(input: $input) {
+        id
+        iso
+        englishName
+        name
+        flagUrl
+        moviesCount
+        seriesCount
+        locationsCount
+    }
+}

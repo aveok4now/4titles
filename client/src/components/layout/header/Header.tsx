@@ -7,8 +7,11 @@ export function Header() {
     return (
         <header className='relative flex h-full items-center gap-x-4 border-b border-border bg-card/90 p-4'>
             <Logo />
-            <Search />
-            <HeaderMenu />
+
+            <div className='ml-auto flex flex-row gap-x-4'>
+                <Search />
+                <HeaderMenu />
+            </div>
 
             <BorderBeam
                 duration={10}

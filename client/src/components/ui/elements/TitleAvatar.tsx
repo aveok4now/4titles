@@ -1,6 +1,7 @@
 import { cn } from '@/utils/tw-merge'
 import { cva, VariantProps } from 'class-variance-authority'
 import { Avatar, AvatarFallback, AvatarImage } from '../common/avatar'
+import { BorderBeam } from '../custom/content/border-beam'
 
 const avatarSizes = cva('', {
     variants: {
@@ -17,29 +18,26 @@ const avatarSizes = cva('', {
 })
 
 interface TitleAvatarProps extends VariantProps<typeof avatarSizes> {
-    posterPath: string | null
+    imagePath: string
     name: string
     className?: string
 }
 
 export function TitleAvatar({
     size,
-    posterPath,
+    imagePath,
     name,
     className,
 }: TitleAvatarProps) {
     return (
         <div className={cn('relative', className)}>
             <Avatar className={avatarSizes({ size })}>
-                <AvatarImage
-                    className='object-cover'
-                    src={
-                        posterPath
-                            ? `https://image.tmdb.org/t/p/w92${posterPath}`
-                            : ''
-                    }
-                />
+                <AvatarImage className='object-center' src={imagePath} />
                 <AvatarFallback>{name[0]?.toUpperCase() || 'T'}</AvatarFallback>
+                <BorderBeam
+                    size={30}
+                    className='from-transparent via-primary/40 to-transparent'
+                />
             </Avatar>
         </div>
     )

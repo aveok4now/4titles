@@ -4,7 +4,7 @@ export default function middleware(request: NextRequest) {
     const { cookies, url, nextUrl } = request
     const pathname = nextUrl.pathname
 
-    const sessionCookieName = process.env.SESSION_COOKIE_NAME || ''
+    const sessionCookieName = process.env.NEXT_PUBLIC_SESSION_COOKIE_NAME || ''
     const session = cookies.get(sessionCookieName)?.value
     const isAuthenticated = Boolean(session)
 
