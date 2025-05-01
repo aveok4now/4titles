@@ -192,6 +192,10 @@
             "credentialsValidatonErrorDescription": "Check input data or retry later"
         }
     },
+    "notFound": {
+        "description": "The page you’re looking for has wandered off, but don’t worry! Let’s get you back on track.",
+        "backToHome": "Take Me Home"
+    },
     "dashboard": {
         "settings": {
             "header": {
@@ -491,7 +495,6 @@
             }
         }
     },
-
     "countries": {
         "goToCountry": "Explore",
         "statistics": {

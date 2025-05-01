@@ -1,22 +1,12 @@
 'use client'
 
-import { Badge } from '@/components/ui/common/badge'
-import { Button } from '@/components/ui/common/button'
-import { CircularProgress } from '@/components/ui/custom/content/circular-progress'
-import FadeContent from '@/components/ui/custom/content/fade-content'
-import CountUp from '@/components/ui/custom/text/count-up'
-import { TextGenerateEffect } from '@/components/ui/custom/text/text-generate-effect'
-import { Heading } from '@/components/ui/elements/Heading'
-import { Hint } from '@/components/ui/elements/Hint'
-import { Title, TitleCountry, TitleGenre } from '@/graphql/generated/output'
-import { formatDate } from '@/utils/format-date'
-import { getLocalizedCountryName } from '@/utils/localization/country-localization'
-import { CalendarIcon, ClockIcon } from 'lucide-react'
+import type {
+    Title,
+    TitleCountry,
+    TitleGenre,
+} from '@/graphql/generated/output'
+
 import { useTranslations } from 'next-intl'
-import Image from 'next/image'
-import Link from 'next/link'
-import { ComponentType } from 'react'
-import { FaImdb, FaInstagram, FaTwitter, FaWikipediaW } from 'react-icons/fa'
 import { TitleBackdrop } from './TitleBackdrop'
 import { TitleCountries } from './TitleCountries'
 import { TitleGenres } from './TitleGenres'

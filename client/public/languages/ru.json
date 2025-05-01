@@ -192,6 +192,10 @@
             "credentialsValidatonErrorDescription": "Проверьте введённые данные или повторите попытку позже."
         }
     },
+    "notFound": {
+        "description": "Страница, которую Вы ищете, куда-то пропала. Но не волнуйтесь! Давайте вернём вас в нужное место.",
+        "backToHome": "на главную"
+    },
     "dashboard": {
         "settings": {
             "header": {
