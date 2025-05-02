@@ -1,13 +1,15 @@
 'use client'
 
-import { ScrollArea } from '@/components/ui/common/scroll-area'
-import { Map, MapMarker } from '@/components/ui/elements/map/Map'
-import { FilmingLocation, Title } from '@/graphql/generated/output'
-import { getLocalizedFilmingLocationDescription } from '@/utils/localization/filming-location-localization'
+import type { FilmingLocation, Title } from '@/graphql/generated/output'
+
 import { cn } from '@/utils/tw-merge'
+
+import { ScrollArea } from '@/components/ui/common/scroll-area'
+import { Map, type MapMarker } from '@/components/ui/elements/map/Map'
+import { getLocalizedFilmingLocationDescription } from '@/utils/localization/filming-location-localization'
 import { MapStyle } from '@maptiler/sdk'
 import { useTranslations } from 'next-intl'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { getLocalizedTitleName } from '../../../../../utils/localization/title-localization'
 import { TitleSectionContainer } from '../TitleSectionContainer'
 import { TitleFilmingLocationsListItem } from './TitleFilmingLocationsListItem'
@@ -27,6 +29,8 @@ export function TitleFilmingLocationsSection({
     const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
         null,
     )
+    const scrollAreaRef = useRef<HTMLDivElement>(null)
+    const locationItemRefs = useRef<Record<string, HTMLDivElement>>({})
 
     const resolveLocationDescription = useCallback(
         (location: FilmingLocation) => {
@@ -65,13 +69,7 @@ export function TitleFilmingLocationsSection({
                         number,
                     ],
                     title: location.address || '',
-                    popupContent: `
-                        <div class="p-2 max-w-xs">
-                            <h4 class="font-semibold text-sm mb-1 text-muted">${location.address || ''}</h4>
-                            <p class="text-xs text-muted-foreground mb-2">${location.formattedAddress || ''}</p>
-                            <p class="text-xs text-muted">${location.enhancedDescription}</p>
-                        </div>
-                    `,
+                    id: location.id,
                     iconClassName: cn(
                         'fill-black',
                         selectedLocationId === location.id
@@ -79,6 +77,7 @@ export function TitleFilmingLocationsSection({
                             : 'text-primary',
                     ),
                     color: 'hsl(var(--primary))',
+                    className: 'cursor-pointer',
                 }
             })
     }, [enhancedLocations, selectedLocationId])
@@ -114,9 +113,37 @@ export function TitleFilmingLocationsSection({
         return [0, 0] as [number, number]
     }, [enhancedLocations, selectedLocationId])
 
-    const handleLocationClick = useCallback((locationId: string) => {
-        setSelectedLocationId(locationId)
+    const scrollToLocation = useCallback((locationId: string) => {
+        const locationElement = locationItemRefs.current[locationId]
+        if (locationElement && scrollAreaRef.current) {
+            locationElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+            })
+        }
     }, [])
+
+    const handleLocationClick = useCallback(
+        (locationId: string) => {
+            setSelectedLocationId(locationId)
+            scrollToLocation(locationId)
+        },
+        [scrollToLocation],
+    )
+
+    const handleMarkerClick = useCallback(
+        (locationId: string) => {
+            setSelectedLocationId(locationId)
+            scrollToLocation(locationId)
+        },
+        [scrollToLocation],
+    )
+
+    useEffect(() => {
+        if (selectedLocationId) {
+            scrollToLocation(selectedLocationId)
+        }
+    }, [selectedLocationId, scrollToLocation])
 
     if (filmingLocations.length === 0) {
         return null
@@ -141,11 +168,12 @@ export function TitleFilmingLocationsSection({
                         width='100%'
                         style={MapStyle.HYBRID}
                         terrain={true}
+                        onMarkerClick={handleMarkerClick}
                     />
                 </div>
                 <div className='h-[25rem] w-full md:w-1/2'>
                     <ScrollArea className='h-[25rem] w-fit'>
-                        <div className='space-y-4 pr-4'>
+                        <div className='space-y-4 pr-4' ref={scrollAreaRef}>
                             {enhancedLocations
                                 .filter(item => item.filmingLocation)
                                 .map(item => (
@@ -161,6 +189,13 @@ export function TitleFilmingLocationsSection({
                                                 item.filmingLocation!.id,
                                             )
                                         }
+                                        ref={(el: HTMLDivElement | null) => {
+                                            if (el) {
+                                                locationItemRefs.current[
+                                                    item.filmingLocation!.id
+                                                ] = el
+                                            }
+                                        }}
                                     />
                                 ))}
                         </div>

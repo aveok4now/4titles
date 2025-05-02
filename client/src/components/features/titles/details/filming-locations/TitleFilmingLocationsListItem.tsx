@@ -2,6 +2,7 @@
 
 import { Title } from '@/graphql/generated/output'
 import { cn } from '@/utils/tw-merge'
+import { forwardRef } from 'react'
 
 interface TitleFilmingLocationsListItemProps {
     location: NonNullable<
@@ -13,13 +14,13 @@ interface TitleFilmingLocationsListItemProps {
     onClick: () => void
 }
 
-export function TitleFilmingLocationsListItem({
-    location,
-    isSelected,
-    onClick,
-}: TitleFilmingLocationsListItemProps) {
+export const TitleFilmingLocationsListItem = forwardRef<
+    HTMLDivElement,
+    TitleFilmingLocationsListItemProps
+>(({ location, isSelected, onClick }, ref) => {
     return (
         <div
+            ref={ref}
             className={cn(
                 'cursor-pointer rounded-md border p-4 transition-all',
                 isSelected
@@ -44,4 +45,4 @@ export function TitleFilmingLocationsListItem({
             )}
         </div>
     )
-}
+})

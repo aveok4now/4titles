@@ -19,6 +19,8 @@ export interface MapMarker {
     icon?: LucideIcon
     iconClassName?: string
     iconSize?: number
+    id?: string
+    className?: string
 }
 
 export interface MapProps {
@@ -30,6 +32,7 @@ export interface MapProps {
     onMapLoaded?: (map: maptilersdk.Map) => void
     style?: maptilersdk.ReferenceMapStyle
     terrain?: boolean
+    onMarkerClick?: (markerId: string) => void
 }
 
 function MapComponent({
@@ -41,6 +44,7 @@ function MapComponent({
     onMapLoaded,
     style = maptilersdk.MapStyle.STREETS,
     terrain = false,
+    onMarkerClick,
 }: MapProps) {
     const locale = useLocale()
 
@@ -66,6 +70,7 @@ function MapComponent({
                 terrain,
                 terrainControl: terrain!!,
                 projectionControl: true,
+                fullscreenControl: true,
             })
 
             newMap.on('load', async () => {
@@ -135,9 +140,13 @@ function MapComponent({
                     .addTo(mapInstance)
             } else {
                 const markerOptions: maptilersdk.MarkerOptions = {}
+                const { color, className } = marker
 
-                if (marker.color) {
-                    markerOptions.color = marker.color
+                if (color) {
+                    markerOptions.color = color
+                }
+                if (className) {
+                    markerOptions.className = className
                 }
 
                 newMarker = new maptilersdk.Marker(markerOptions)
@@ -145,14 +154,22 @@ function MapComponent({
                     .addTo(mapInstance)
             }
 
-            const popupContent =
-                marker.popupContent ||
-                (marker.title ? `<p>${marker.title}</p>` : null)
+            if (onMarkerClick && marker.id) {
+                newMarker.getElement().addEventListener('click', () => {
+                    if (marker.id && onMarkerClick) {
+                        onMarkerClick(marker.id)
+                    }
+                })
+            } else if (marker.popupContent || marker.title) {
+                const popupContent =
+                    marker.popupContent ||
+                    (marker.title ? `<p>${marker.title}</p>` : null)
 
-            if (popupContent) {
-                newMarker.setPopup(
-                    new maptilersdk.Popup().setHTML(popupContent),
-                )
+                if (popupContent) {
+                    newMarker.setPopup(
+                        new maptilersdk.Popup().setHTML(popupContent),
+                    )
+                }
             }
 
             markerRefs.current.push(newMarker)
@@ -161,7 +178,7 @@ function MapComponent({
         if (markers.length > 0) {
             mapInstance.setCenter(markers[0].coordinates)
         }
-    }, [markers, mapLoaded])
+    }, [markers, mapLoaded, onMarkerClick])
 
     useEffect(() => {
         if (!mapLoaded || !map.current) return
