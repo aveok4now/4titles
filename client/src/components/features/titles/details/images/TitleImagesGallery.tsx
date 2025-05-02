@@ -179,7 +179,7 @@ export function TitleImagesGallery({
                             <CarouselItem
                                 key={`${image.file_path}-${index}`}
                                 className={cn(
-                                    'basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6',
+                                    'basis-full select-none sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6',
                                 )}
                             >
                                 <Hint
@@ -245,7 +245,7 @@ export function TitleImagesGallery({
                                         )}
                                         alt={t('imageAlt')}
                                         className={cn(
-                                            'max-h-[80vh] object-contain',
+                                            'max-h-[80vh] select-none object-contain',
                                             activeTab === 'backdrops'
                                                 ? 'w-full max-w-full'
                                                 : activeTab === 'posters'
