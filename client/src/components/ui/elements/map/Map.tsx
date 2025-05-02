@@ -32,6 +32,7 @@ export interface MapProps {
     onMapLoaded?: (map: maptilersdk.Map) => void
     style?: maptilersdk.ReferenceMapStyle
     terrain?: boolean
+    projection?: boolean
     onMarkerClick?: (markerId: string) => void
 }
 
@@ -44,6 +45,7 @@ function MapComponent({
     onMapLoaded,
     style = maptilersdk.MapStyle.STREETS,
     terrain = false,
+    projection = false,
     onMarkerClick,
 }: MapProps) {
     const locale = useLocale()
@@ -69,7 +71,7 @@ function MapComponent({
                 zoom,
                 terrain,
                 terrainControl: terrain!!,
-                projectionControl: true,
+                projectionControl: projection,
                 fullscreenControl: true,
             })
 

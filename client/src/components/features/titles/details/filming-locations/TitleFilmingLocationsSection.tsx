@@ -167,8 +167,9 @@ export function TitleFilmingLocationsSection({
                         height='25rem'
                         width='100%'
                         style={MapStyle.HYBRID}
-                        terrain={true}
                         onMarkerClick={handleMarkerClick}
+                        terrain
+                        projection
                     />
                 </div>
                 <div className='h-[25rem] w-full md:w-1/2'>
