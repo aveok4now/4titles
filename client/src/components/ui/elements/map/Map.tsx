@@ -8,6 +8,7 @@ import type { LucideIcon } from 'lucide-react'
 import { memo, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 
+import { useLocale } from 'next-intl'
 import { MapSkeleton } from './MapSkeleton'
 
 export interface MapMarker {
@@ -28,6 +29,7 @@ export interface MapProps {
     width?: string | number
     onMapLoaded?: (map: maptilersdk.Map) => void
     style?: maptilersdk.ReferenceMapStyle
+    terrain?: boolean
 }
 
 function MapComponent({
@@ -38,7 +40,10 @@ function MapComponent({
     width = '100%',
     onMapLoaded,
     style = maptilersdk.MapStyle.STREETS,
+    terrain = false,
 }: MapProps) {
+    const locale = useLocale()
+
     const mapContainer = useRef<HTMLDivElement>(null)
     const map = useRef<maptilersdk.Map | null>(null)
     const markerRefs = useRef<maptilersdk.Marker[]>([])
@@ -58,9 +63,22 @@ function MapComponent({
                 style,
                 center,
                 zoom,
+                terrain,
+                terrainControl: terrain!!,
+                projectionControl: true,
             })
 
-            newMap.on('load', () => {
+            newMap.on('load', async () => {
+                try {
+                    newMap.setLanguage(`name:${locale}`)
+                } catch {
+                    const geolocationIP = await maptilersdk.geolocation.info()
+                    const { country_languages: countryLanguages } =
+                        geolocationIP
+                    if (countryLanguages && countryLanguages.length > 0)
+                        newMap.setLanguage(`name:${countryLanguages[0]}`)
+                }
+
                 setMapLoaded(true)
 
                 if (onMapLoaded) {

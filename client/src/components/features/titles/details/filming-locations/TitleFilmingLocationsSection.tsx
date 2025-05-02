@@ -139,7 +139,8 @@ export function TitleFilmingLocationsSection({
                         markers={markers}
                         height='25rem'
                         width='100%'
-                        style={MapStyle.SATELLITE}
+                        style={MapStyle.HYBRID}
+                        terrain={true}
                     />
                 </div>
                 <div className='h-[25rem] w-full md:w-1/2'>
