@@ -6,8 +6,8 @@ import type {
     TitleGenre,
 } from '@/graphql/generated/output'
 
+import FadeContent from '@/components/ui/custom/content/fade-content'
 import { useTranslations } from 'next-intl'
-import { TitleBackdrop } from './TitleBackdrop'
 import { TitleCountries } from './TitleCountries'
 import { TitleGenres } from './TitleGenres'
 import { TitleHeader } from './TitleHeader'
@@ -50,52 +50,57 @@ export function TitleHeroSection({
     locale,
     externalIds,
 }: TitleHeroSectionProps) {
-    const t = useTranslations('titleDetails')
+    const t = useTranslations('titleDetails.hero')
+    // <div className='w-full bg-gradient-to-b from-background/90 via-background/50 to-background/90 px-4 backdrop-blur-sm dark:from-background/90 dark:via-background dark:to-background/90'>
 
     return (
-        <div className='w-full bg-gradient-to-b from-background/90 via-background/50 to-background/90 px-4 backdrop-blur-sm dark:from-background/90 dark:via-background dark:to-background/90'>
-            {backdropUrl && (
+        <FadeContent blur>
+            <section className='w-full px-4'>
+                {/* {backdropUrl && (
                 <TitleBackdrop backdropUrl={backdropUrl} name={name} />
-            )}
-            <div className='container relative z-10 mx-auto py-8'>
-                <div className='flex flex-col items-start gap-8 md:flex-row'>
-                    <div className='w-full md:w-1/3 lg:w-1/4'>
-                        <TitlePoster posterUrl={posterUrl} title={name} />
-                    </div>
-                    <div className='w-full space-y-4 md:w-2/3 lg:w-3/4'>
-                        <TitleHeader
-                            name={name}
-                            releaseYear={releaseYear}
-                            tagline={tagline}
-                        />
-                        <TitleReleaseInfo
-                            releaseDate={releaseDate}
-                            runtime={runtime}
-                            t={t}
-                        />
-                        <TitleScores
-                            voteAverage={voteAverage}
-                            popularity={popularity}
-                            t={t}
-                        />
-                        {countries.length > 0 && (
-                            <TitleCountries
-                                countries={countries}
-                                locale={locale}
+            )} */}
+                <div className='container relative mx-auto py-8'>
+                    <div className='flex flex-col items-start gap-8 md:flex-row'>
+                        <div className='w-full md:w-1/3 lg:w-1/4'>
+                            <TitlePoster posterUrl={posterUrl} title={name} />
+                        </div>
+                        <div className='w-full space-y-4 md:w-2/3 lg:w-3/4'>
+                            <TitleHeader
+                                name={name}
+                                releaseYear={releaseYear}
+                                tagline={tagline}
+                            />
+                            <TitleReleaseInfo
+                                releaseDate={releaseDate}
+                                runtime={runtime}
                                 t={t}
                             />
-                        )}
-                        {genres.length > 0 && (
-                            <TitleGenres genres={genres} locale={locale} />
-                        )}
-                        {externalIds &&
-                            Object.values(externalIds).some(id => id) && (
-                                <TitleSocialLinks externalIds={externalIds} />
+                            <TitleScores
+                                voteAverage={voteAverage}
+                                popularity={popularity}
+                                t={t}
+                            />
+                            {countries.length > 0 && (
+                                <TitleCountries
+                                    countries={countries}
+                                    locale={locale}
+                                    t={t}
+                                />
                             )}
-                        <TitleOverview overview={overview} t={t} />
+                            {genres.length > 0 && (
+                                <TitleGenres genres={genres} locale={locale} />
+                            )}
+                            {externalIds &&
+                                Object.values(externalIds).some(id => id) && (
+                                    <TitleSocialLinks
+                                        externalIds={externalIds}
+                                    />
+                                )}
+                            <TitleOverview overview={overview} t={t} />
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </section>
+        </FadeContent>
     )
 }

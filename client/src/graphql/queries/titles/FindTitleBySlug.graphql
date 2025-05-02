@@ -13,6 +13,10 @@ query FindTitleBySlug($slug: String!) {
                 iso_639_1
                 file_path
             }
+            logos {
+                iso_639_1
+                file_path
+            }
         }
         budget
         revenue

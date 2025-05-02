@@ -1,1 +1,1 @@
-export { CastCarousel } from './CastCarousel'
+export { TitleCastCarouselSection } from './TitleCastCarouselSection'

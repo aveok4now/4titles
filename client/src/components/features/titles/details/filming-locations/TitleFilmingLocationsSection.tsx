@@ -8,18 +8,22 @@ import { cn } from '@/utils/tw-merge'
 import { MapStyle } from '@maptiler/sdk'
 import { useTranslations } from 'next-intl'
 import { useCallback, useMemo, useState } from 'react'
+import { getLocalizedTitleName } from '../../../../../utils/localization/title-localization'
+import { TitleSectionContainer } from '../TitleSectionContainer'
 import { TitleFilmingLocationsListItem } from './TitleFilmingLocationsListItem'
 
 interface TitleLocationsSectionProps {
     filmingLocations: NonNullable<Title['filmingLocations']>
-    locale?: string
+    title: Title
+    locale: string
 }
 
 export function TitleFilmingLocationsSection({
     filmingLocations,
+    title,
     locale,
 }: TitleLocationsSectionProps) {
-    const t = useTranslations('titleDetails')
+    const t = useTranslations('titleDetails.filmingLocations')
     const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
         null,
     )
@@ -119,8 +123,14 @@ export function TitleFilmingLocationsSection({
     }
 
     return (
-        <div className='container relative'>
-            <h2 className='mb-6 text-2xl font-bold'>{t('filmingLocations')}</h2>
+        <TitleSectionContainer
+            delay={300}
+            className='relative'
+            title={t('heading')}
+            description={t('description', {
+                title: getLocalizedTitleName(title, locale),
+            })}
+        >
             <div className='flex flex-col gap-6 md:flex-row'>
                 <div className='h-[25rem] w-full md:w-1/2'>
                     <Map
@@ -156,6 +166,6 @@ export function TitleFilmingLocationsSection({
                     </ScrollArea>
                 </div>
             </div>
-        </div>
+        </TitleSectionContainer>
     )
 }

@@ -9,9 +9,10 @@ import { getLocalizedTitleData } from '@/utils/localization/title-localization'
 import { useLocale } from 'next-intl'
 import { useSortedCast } from '../hooks/useSortedCast'
 
-import { CastCarousel } from './cast/CastCarousel'
+import { TitleCastCarouselSection } from './cast/TitleCastCarouselSection'
 import { TitleFilmingLocationsSection } from './filming-locations'
 import { TitleHeroSection } from './hero/TitleHeroSection'
+import { TitleImagesSection } from './images/TitleImagesSection'
 import { TitleProductionCompaniesSection } from './production-companies'
 
 interface TitleDetailsProps {
@@ -67,6 +68,12 @@ export function TitleDetails({ title }: TitleDetailsProps) {
 
     const productionCompanies = originalTitle?.productionCompanies || []
 
+    const backdrops = originalTitle?.images?.backdrops || []
+    const posters = originalTitle?.images?.posters || []
+    const logos = originalTitle?.images?.logos || []
+    const hasImages =
+        backdrops.length > 0 || posters.length > 0 || logos.length > 0
+
     return (
         <div className='relative h-full overflow-hidden'>
             <TitleHeroSection
@@ -87,7 +94,18 @@ export function TitleDetails({ title }: TitleDetailsProps) {
             />
 
             <div className='mx-auto flex flex-col items-center gap-y-8 py-4'>
-                <CastCarousel cast={sortedCast} />
+                {hasImages && (
+                    <TitleImagesSection
+                        backdrops={backdrops}
+                        posters={posters}
+                        logos={logos}
+                        locale={locale}
+                    />
+                )}
+
+                {cast.length > 0 && (
+                    <TitleCastCarouselSection cast={sortedCast} />
+                )}
 
                 {productionCompanies.length > 0 && (
                     <TitleProductionCompaniesSection
@@ -98,6 +116,7 @@ export function TitleDetails({ title }: TitleDetailsProps) {
                 {hasLocations && (
                     <TitleFilmingLocationsSection
                         filmingLocations={filmingLocations}
+                        title={title as Title}
                         locale={locale}
                     />
                 )}

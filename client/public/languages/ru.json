@@ -508,13 +508,28 @@
         }
     },
     "titleDetails": {
-        "overview": "Обзор",
-        "releaseDate": "Дата выхода",
-        "runtime": "Длительность",
-        "userScore": "Рейтинг",
-        "popularity": "Популярность",
-        "popularityPoints": "баллов популярности",
-        "productionCountry": "Страна производства",
+        "hero": {
+            "overview": "Обзор",
+            "releaseDate": "Дата выхода",
+            "runtime": "Длительность",
+            "userScore": "Рейтинг",
+            "popularity": "Популярность",
+            "popularityPoints": "баллов популярности",
+            "productionCountry": "Страна производства",
+            "genres": "Жанры",
+            "min": "мин.",
+            "minutes": "минут",
+            "voteAverage": "Рейтинг",
+            "noOverview": "Описание отсутствует"
+        },
+        "images": {
+            "heading": "Изображения",
+            "backdrops": "Фоны",
+            "posters": "Постеры",
+            "logos": "Логотипы",
+            "imageAlt": "Изображение",
+            "clickToView": "Нажмите для просмотра"
+        },
         "cast": {
             "heading": "В ролях",
             "viewDialog": {
@@ -522,14 +537,12 @@
                 "character": "Персонаж"
             }
         },
-        "genres": "Жанры",
-        "noCastFound": "Информация об актерах не найдена",
-        "min": "мин.",
-        "minutes": "минут",
-        "voteAverage": "Рейтинг",
-        "countries": "Страны",
-        "noOverview": "Описание отсутствует",
-        "filmingLocations": "Локации съёмок",
-        "productionCompanies": "Производственные компании"
+        "productionCompanies": {
+            "heading": "Производственные компании"
+        },
+        "filmingLocations": {
+            "heading": "Локации съёмок",
+            "description": "На данной карте собрана большая часть локаций, где проходили съёмки «{title}». Вы можете увидеть точное расположение каждого места, прочитать описание и узнать, какие сцены были сняты в этих местах. Кликайте по маркерам или выбирайте из списка для получения дополнительной информации."
+        }
     }
 }

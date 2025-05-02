@@ -506,13 +506,28 @@
         }
     },
     "titleDetails": {
-        "overview": "Overview",
-        "releaseDate": "Release Date",
-        "runtime": "Runtime",
-        "userScore": "User Score",
-        "popularity": "Popularity",
-        "popularityPoints": "popularity points",
-        "productionCountry": "Production Country",
+        "hero": {
+            "overview": "Overview",
+            "releaseDate": "Release Date",
+            "runtime": "Runtime",
+            "userScore": "User Score",
+            "popularity": "Popularity",
+            "popularityPoints": "popularity points",
+            "productionCountry": "Production Country",
+            "genres": "Genres",
+            "min": "min",
+            "minutes": "minutes",
+            "voteAverage": "Rating",
+            "noOverview": "No description available"
+        },
+        "images": {
+            "heading": "Images",
+            "backdrops": "Backdrops",
+            "posters": "Posters",
+            "logos": "Logos",
+            "imageAlt": "Image",
+            "clickToView": "Click to view"
+        },
         "cast": {
             "heading": "Cast",
             "viewDialog": {
@@ -520,14 +535,12 @@
                 "character": "Character"
             }
         },
-        "genres": "Genres",
-        "noCastFound": "No cast information found",
-        "min": "min",
-        "minutes": "minutes",
-        "voteAverage": "Rating",
-        "countries": "Countries",
-        "noOverview": "No description available",
-        "filmingLocations": "Filming Locations",
-        "productionCompanies": "Production Companies"
+        "productionCompanies": {
+            "heading": "Production Companies"
+        },
+        "filmingLocations": {
+            "heading": "Filming Locations",
+            "description": "This map features most of the locations where '{title}' was filmed. You can see the exact position of each site, read descriptions, and discover which scenes were shot there. Click on the markers or select from the list to get more information."
+        }
     }
 }

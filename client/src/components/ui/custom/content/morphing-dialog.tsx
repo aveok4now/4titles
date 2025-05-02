@@ -44,15 +44,36 @@ function useMorphingDialog() {
 export type MorphingDialogProviderProps = {
     children: React.ReactNode
     transition?: Transition
+    open?: boolean
+    onOpenChange?: (open: boolean) => void
 }
 
 function MorphingDialogProvider({
     children,
     transition,
+    open,
+    onOpenChange,
 }: MorphingDialogProviderProps) {
-    const [isOpen, setIsOpen] = useState(false)
+    const [internalOpen, setInternalOpen] = useState(false)
+
+    const isControlled = open !== undefined
+    const isOpen = isControlled ? open : internalOpen
+
     const uniqueId = useId()
     const triggerRef = useRef<HTMLButtonElement>(null!)
+
+    const setIsOpen = useCallback(
+        (value: boolean | ((prevState: boolean) => boolean)) => {
+            const newValue = typeof value === 'function' ? value(isOpen) : value
+
+            if (isControlled) {
+                onOpenChange?.(newValue)
+            } else {
+                setInternalOpen(newValue)
+            }
+        },
+        [isControlled, isOpen, onOpenChange],
+    )
 
     const contextValue = useMemo(
         () => ({
@@ -61,7 +82,7 @@ function MorphingDialogProvider({
             uniqueId,
             triggerRef,
         }),
-        [isOpen, uniqueId],
+        [isOpen, setIsOpen, uniqueId],
     )
 
     return (
@@ -74,11 +95,22 @@ function MorphingDialogProvider({
 export type MorphingDialogProps = {
     children: React.ReactNode
     transition?: Transition
+    open?: boolean
+    onOpenChange?: (open: boolean) => void
 }
 
-function MorphingDialog({ children, transition }: MorphingDialogProps) {
+function MorphingDialog({
+    children,
+    transition,
+    open,
+    onOpenChange,
+}: MorphingDialogProps) {
     return (
-        <MorphingDialogProvider>
+        <MorphingDialogProvider
+            open={open}
+            onOpenChange={onOpenChange}
+            transition={transition}
+        >
             <MotionConfig transition={transition}>{children}</MotionConfig>
         </MorphingDialogProvider>
     )
