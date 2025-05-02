@@ -1,7 +1,5 @@
 'use client'
 
-import { Card } from '@/components/ui/common/card'
-import { BorderBeam } from '@/components/ui/custom/content/border-beam'
 import {
     CountryRelation,
     FindTitleBySlugQuery,
@@ -9,10 +7,12 @@ import {
 } from '@/graphql/generated/output'
 import { getLocalizedTitleData } from '@/utils/localization/title-localization'
 import { useLocale } from 'next-intl'
-
 import { useSortedCast } from '../hooks/useSortedCast'
-import { CastCarousel } from './CastCarousel'
+
+import { CastCarousel } from './cast/CastCarousel'
+import { TitleFilmingLocationsSection } from './filming-locations'
 import { TitleHeroSection } from './hero/TitleHeroSection'
+import { TitleProductionCompaniesSection } from './production-companies'
 
 interface TitleDetailsProps {
     title: FindTitleBySlugQuery['findTitleBySlug']
@@ -43,12 +43,12 @@ export function TitleDetails({ title }: TitleDetailsProps) {
         originalTitle,
     } = getLocalizedTitleData(title as Title, locale)
 
-    const releaseDate = originalTitle?.details?.release_date
-        ? parseReleaseDate(originalTitle.details.release_date)
+    const releaseDate = originalTitle.releaseDate
+        ? parseReleaseDate(originalTitle.releaseDate)
         : null
     const releaseYear = releaseDate?.getFullYear()
 
-    const voteAverage = originalTitle?.details?.vote_average || 0
+    const voteAverage = originalTitle?.voteAverage || 0
     const popularity = originalTitle?.popularity || 0
     const genres = originalTitle?.genres || []
     const countries =
@@ -61,8 +61,14 @@ export function TitleDetails({ title }: TitleDetailsProps) {
     const cast = originalTitle?.credits?.cast || []
     const sortedCast = useSortedCast(cast)
 
+    const filmingLocations = originalTitle?.filmingLocations || []
+    const hasLocations =
+        originalTitle?.hasLocations || filmingLocations.length > 0
+
+    const productionCompanies = originalTitle?.productionCompanies || []
+
     return (
-        <Card className='relative overflow-hidden bg-card/90'>
+        <div className='relative h-full overflow-hidden'>
             <TitleHeroSection
                 name={name}
                 overview={overview}
@@ -80,11 +86,26 @@ export function TitleDetails({ title }: TitleDetailsProps) {
                 externalIds={externalIds}
             />
 
-            <CastCarousel cast={sortedCast} />
+            <div className='mx-auto flex flex-col items-center gap-y-8 py-4'>
+                <CastCarousel cast={sortedCast} />
+
+                {productionCompanies.length > 0 && (
+                    <TitleProductionCompaniesSection
+                        productionCompanies={productionCompanies}
+                    />
+                )}
+
+                {hasLocations && (
+                    <TitleFilmingLocationsSection
+                        filmingLocations={filmingLocations}
+                        locale={locale}
+                    />
+                )}
+            </div>
 
             {/* TODO: Add favorite button functionality  */}
 
-            <BorderBeam
+            {/* <BorderBeam
                 size={250}
                 duration={15}
                 className='from-transparent via-primary to-transparent opacity-40'
@@ -94,7 +115,7 @@ export function TitleDetails({ title }: TitleDetailsProps) {
                 size={300}
                 duration={15}
                 className='from-transparent via-accent to-transparent opacity-45'
-            />
-        </Card>
+            /> */}
+        </div>
     )
 }

@@ -193,7 +193,7 @@
         }
     },
     "notFound": {
-        "description": "The page you’re looking for has wandered off, but don’t worry! Let’s get you back on track.",
+        "description": "The page you're looking for has wandered off, but don't worry! Let's get you back on track.",
         "backToHome": "Take Me Home"
     },
     "dashboard": {
@@ -522,6 +522,12 @@
         },
         "genres": "Genres",
         "noCastFound": "No cast information found",
-        "min": "min"
+        "min": "min",
+        "minutes": "minutes",
+        "voteAverage": "Rating",
+        "countries": "Countries",
+        "noOverview": "No description available",
+        "filmingLocations": "Filming Locations",
+        "productionCompanies": "Production Companies"
     }
 }

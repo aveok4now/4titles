@@ -56,11 +56,11 @@ export function TitlePoster({ posterUrl, title }: TitlePosterProps) {
             </MorphingDialogTrigger>
 
             <MorphingDialogContainer>
-                <MorphingDialogContent className='relative max-h-[90vh] max-w-[90vw]'>
+                <MorphingDialogContent className='relative max-h-[80vh] max-w-[80vw]'>
                     <MorphingDialogImage
                         src={posterUrl}
                         alt={title}
-                        className='h-auto w-full max-w-[90vw] rounded-lg object-contain lg:max-h-[90vh]'
+                        className='h-auto w-full max-w-[80vw] rounded-lg object-contain lg:max-h-[80vh]'
                     />
                 </MorphingDialogContent>
 

@@ -129,7 +129,7 @@ export function getLocalizedTitleData(
         ),
         runtime:
             getLocalizedTitleNumberField(translations, 'runtime', locale) ||
-            title.details?.runtime ||
+            title.runtime ||
             null,
         logoUrl: getTitleLogoUrl(title, locale),
         backdropUrl: getTitleBackdropUrl(title, locale),

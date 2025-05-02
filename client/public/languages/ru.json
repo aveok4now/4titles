@@ -524,6 +524,12 @@
         },
         "genres": "Жанры",
         "noCastFound": "Информация об актерах не найдена",
-        "min": "мин."
+        "min": "мин.",
+        "minutes": "минут",
+        "voteAverage": "Рейтинг",
+        "countries": "Страны",
+        "noOverview": "Описание отсутствует",
+        "filmingLocations": "Локации съёмок",
+        "productionCompanies": "Производственные компании"
     }
 }

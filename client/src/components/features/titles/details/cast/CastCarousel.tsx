@@ -91,7 +91,7 @@ export function CastCarousel({ cast }: CastCarouselProps) {
     if (!cast?.length) return null
 
     return (
-        <div className='container mx-auto px-4 py-8'>
+        <div className='container'>
             <Heading title={t('heading')} />
 
             <div className='relative mt-6'>
@@ -115,7 +115,7 @@ export function CastCarousel({ cast }: CastCarouselProps) {
                             return (
                                 <CarouselItem
                                     key={`${actor.name}-${index}`}
-                                    className='basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6 2xl:basis-1/8'
+                                    className='2xl:basis-1/10 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6'
                                 >
                                     <div className='flex flex-col items-center space-y-3'>
                                         {actor.profile_path ? (
@@ -230,7 +230,7 @@ export function CastCarousel({ cast }: CastCarouselProps) {
                     <div className='mt-2'>
                         <CarouselPrevious
                             className={cn(
-                                'absolute -left-4 top-1/3',
+                                'absolute -left-0 top-1/3 md:-left-4',
                                 isPrevDisabled ? 'hidden' : 'flex',
                             )}
                             onClick={e => {
@@ -240,7 +240,7 @@ export function CastCarousel({ cast }: CastCarouselProps) {
                         />
                         <CarouselNext
                             className={cn(
-                                'absolute -right-4 top-1/3',
+                                'absolute -right-0 top-1/3 md:-right-4',
                                 isNextDisabled ? 'hidden' : 'flex',
                             )}
                             onClick={e => {

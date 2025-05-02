@@ -3,7 +3,6 @@ query FindTitleBySlug($slug: String!) {
         originalName
         category
         hasLocations
-        releaseDate
         popularity
         images {
             posters {
@@ -15,14 +14,12 @@ query FindTitleBySlug($slug: String!) {
                 file_path
             }
         }
-        details {
-            budget
-            revenue
-            runtime
-            vote_average
-            vote_count
-            release_date
-        }
+        budget
+        revenue
+        runtime
+        voteAverage
+        voteCount
+        releaseDate
         status
         type
         languages {
@@ -53,7 +50,14 @@ query FindTitleBySlug($slug: String!) {
                 formattedAddress
                 city
                 description
-                enhancedDescription
+                descriptions {
+                    id
+                    description
+                    language {
+                        id
+                        iso
+                    }
+                }
                 createdAt
             }
         }
@@ -93,6 +97,12 @@ query FindTitleBySlug($slug: String!) {
                 profile_path
                 order
             }
+        }
+        productionCompanies {
+            id
+            name
+            logo_path
+            origin_country
         }
     }
 }
