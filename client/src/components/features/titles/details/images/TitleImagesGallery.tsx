@@ -200,7 +200,7 @@ export function TitleImagesGallery({
                                             className={cn(
                                                 'h-full w-full object-cover',
                                                 activeTab === 'logos' &&
-                                                    'object-contain',
+                                                    'bg-foreground object-contain dark:bg-transparent',
                                             )}
                                             width={300}
                                             height={

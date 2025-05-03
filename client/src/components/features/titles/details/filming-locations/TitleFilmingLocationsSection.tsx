@@ -179,6 +179,7 @@ export function TitleFilmingLocationsSection({
                                 .filter(item => item.filmingLocation)
                                 .map(item => (
                                     <TitleFilmingLocationsListItem
+                                        t={t}
                                         key={item.filmingLocation!.id}
                                         location={item.filmingLocation!}
                                         isSelected={

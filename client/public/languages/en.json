@@ -540,7 +540,15 @@
         },
         "filmingLocations": {
             "heading": "Filming Locations",
-            "description": "This map features most of the locations where '{title}' was filmed. You can see the exact position of each site, read descriptions, and discover which scenes were shot there. Click on the markers or select from the list to get more information."
+            "description": "This map features most of the locations where '{title}' was filmed. You can see the exact position of each site, read descriptions, and discover which scenes were shot there. Click on the markers or select from the list to get more information.",
+            "items": {
+                "options": {
+                    "heading": "Options",
+                    "viewInGMaps": "Google Maps",
+                    "viewInYaMaps": "Yandex Maps",
+                    "viewIn2GisMaps": "2GIS"
+                }
+            }
         }
     }
 }
