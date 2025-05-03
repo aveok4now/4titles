@@ -139,12 +139,6 @@ export function TitleFilmingLocationsSection({
         [scrollToLocation],
     )
 
-    useEffect(() => {
-        if (selectedLocationId) {
-            scrollToLocation(selectedLocationId)
-        }
-    }, [selectedLocationId, scrollToLocation])
-
     if (filmingLocations.length === 0) {
         return null
     }
