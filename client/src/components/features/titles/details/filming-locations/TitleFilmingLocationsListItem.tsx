@@ -117,19 +117,21 @@ export const TitleFilmingLocationsListItem = forwardRef<
 
             <div className='text-ellipsis pr-4'>
                 <ShinyText
-                    className='mb-1 font-semibold text-foreground/90'
+                    className='mb-1 w-4/5 font-semibold text-foreground/90'
                     text={location.address}
                 />
-                {location.enhancedDescription && (
-                    <p className='text-sm'>{location.enhancedDescription}</p>
-                )}
                 {location.formattedAddress && (
                     <p className='mb-2 text-sm text-muted-foreground'>
                         {location.formattedAddress}
                     </p>
                 )}
+                {location.enhancedDescription && (
+                    <p className='mb-2 text-sm'>
+                        {location.enhancedDescription}
+                    </p>
+                )}
                 {location.city && (
-                    <p className='mt-2 text-xs text-muted-foreground'>
+                    <p className='text-xs text-muted-foreground'>
                         {location.city}
                     </p>
                 )}
