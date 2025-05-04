@@ -5,7 +5,9 @@ import type { FilmingLocation, Title } from '@/graphql/generated/output'
 import { cn } from '@/utils/tw-merge'
 
 import { ScrollArea } from '@/components/ui/common/scroll-area'
-import { Map, type MapMarker } from '@/components/ui/elements/map/Map'
+import { MapMarker } from '@/components/ui/elements/map'
+import { Map, MAP_DEFAULT_ZOOM } from '@/components/ui/elements/map/Map'
+import { getMapColors } from '@/components/ui/elements/map/utils'
 import { getLocalizedFilmingLocationDescription } from '@/utils/localization/filming-location-localization'
 import { MapStyle } from '@maptiler/sdk'
 import { useTranslations } from 'next-intl'
@@ -31,6 +33,24 @@ export function TitleFilmingLocationsSection({
     )
     const scrollAreaRef = useRef<HTMLDivElement>(null)
     const locationItemRefs = useRef<Record<string, HTMLDivElement>>({})
+    const [themeColors, setThemeColors] = useState({
+        base: 'hsl(var(--primary))',
+        medium: 'hsl(var(--accent))',
+        large: 'hsl(var(--secondary))',
+        text: 'hsl(var(--primary-foreground))',
+    })
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const mapColors = getMapColors()
+            setThemeColors({
+                base: mapColors.primary,
+                medium: mapColors.accent,
+                large: mapColors.secondary,
+                text: mapColors.primaryForeground,
+            })
+        }
+    }, [])
 
     const resolveLocationDescription = useCallback(
         (location: FilmingLocation) => {
@@ -76,11 +96,14 @@ export function TitleFilmingLocationsSection({
                             ? 'text-accent animate-bounce'
                             : 'text-primary',
                     ),
-                    color: 'hsl(var(--primary))',
+                    color:
+                        selectedLocationId === location.id
+                            ? themeColors.medium
+                            : themeColors.base,
                     className: 'cursor-pointer',
                 }
             })
-    }, [enhancedLocations, selectedLocationId])
+    }, [enhancedLocations, selectedLocationId, themeColors])
 
     const mapCenter = useMemo(() => {
         if (selectedLocationId) {
@@ -118,7 +141,8 @@ export function TitleFilmingLocationsSection({
         if (locationElement && scrollAreaRef.current) {
             locationElement.scrollIntoView({
                 behavior: 'smooth',
-                block: 'nearest',
+                block: 'center',
+                inline: 'nearest',
             })
         }
     }, [])
@@ -139,6 +163,8 @@ export function TitleFilmingLocationsSection({
         [scrollToLocation],
     )
 
+    const shouldEnableClustering = filmingLocations.length > 5
+
     if (filmingLocations.length === 0) {
         return null
     }
@@ -156,7 +182,7 @@ export function TitleFilmingLocationsSection({
                 <div className='h-[25rem] w-full md:w-1/2'>
                     <Map
                         center={mapCenter}
-                        zoom={12}
+                        zoom={MAP_DEFAULT_ZOOM}
                         markers={markers}
                         height='25rem'
                         width='100%'
@@ -164,11 +190,22 @@ export function TitleFilmingLocationsSection({
                         onMarkerClick={handleMarkerClick}
                         terrain
                         projection
+                        enableClustering={shouldEnableClustering}
+                        clusterSourceId={`title-${title.tmdbId}-locations`}
+                        clusterOptions={{
+                            maxZoom: 14,
+                            radius: 40,
+                            colors: themeColors,
+                        }}
+                        selectedMarkerId={selectedLocationId || undefined}
                     />
                 </div>
                 <div className='h-[25rem] w-full md:w-1/2'>
-                    <ScrollArea className='h-[25rem] w-fit'>
-                        <div className='space-y-4 pr-4' ref={scrollAreaRef}>
+                    <ScrollArea className='h-[25rem]'>
+                        <div
+                            className='space-y-4 pr-2 md:pr-4'
+                            ref={scrollAreaRef}
+                        >
                             {enhancedLocations
                                 .filter(item => item.filmingLocation)
                                 .map(item => (
