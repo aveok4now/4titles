@@ -69,7 +69,7 @@ export function TitleFilmingLocationsSection({
             filmingLocation: item.filmingLocation
                 ? {
                       ...item.filmingLocation,
-                      enhancedDescription: resolveLocationDescription(
+                      description: resolveLocationDescription(
                           item.filmingLocation,
                       ),
                   }

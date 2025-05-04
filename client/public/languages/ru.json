@@ -546,9 +546,58 @@
             "items": {
                 "options": {
                     "heading": "Опции",
+                    "actionsHeading": "Действия",
+                    "viewIn": "Открыть в",
                     "viewInGMaps": "Google Карты",
                     "viewInYaMaps": "Яндекс Карты",
-                    "viewIn2GisMaps": "2ГИС"
+                    "viewInAppleMaps": "Apple Карты",
+
+                    "viewIn2GisMaps": "2ГИС",
+                    "viewInBingMaps": "Bing Карты",
+                    "viewInVkMaps": "VK Карты",
+                    "editLocation": "Редактировать",
+                    "reportLocation": "Пожаловаться"
+                }
+            },
+            "reportDialog": {
+                "heading": "Пожаловаться на локацию",
+                "messageLabel": "Суть проблемы",
+                "messagePlaceholder": "Опишите, как можно подробнее, какие проблемы Вы заметили с этой локацией...",
+                "cancelButton": "Отмена",
+                "submitButton": "Отправить",
+                "successMessage": "Спасибо за обратную связь! Ваше сообщение будет рассмотрено модераторами в ближайшее время.",
+                "errorMessage": "Не удалось отправить жалобу",
+                "errorMessageDescription": "Проверьте введенные данные или повторите попытку позже.",
+                "limitExceededMessage": "Вы превысили дневной лимит обратной связи",
+                "limitExceededMessageDescription": "Пожалуйста, повторите попытку завтра.",
+                "validationMessages": {
+                    "messageMinLength": "Сообщение должно содержать не менее 10 символов",
+                    "messageMaxLength": "Сообщение не должно превышать 1000 символов"
+                }
+            },
+            "editDialog": {
+                "heading": "Предложить изменения локации",
+                "addressLabel": "Адрес",
+                "descriptionLabel": "Описание",
+                "descriptionPlaceholder": "Подробное описание этой локации, включая какие сцены здесь снимались, возможно, исторические и иные интересные факты...",
+                "reasonLabel": "Причина изменения",
+                "reasonPlaceholder": "Почему Вы считаете, что информация о локации должна быть изменена?",
+                "cancelButton": "Отмена",
+                "submitButton": "Отправить",
+                "successMessage": "Спасибо за предложение! Ваши изменения будут рассмотрены модераторами в ближайшее время.",
+                "errorMessage": "Не удалось отправить предложение",
+                "errorMessageDescription": "Проверьте введенные данные или повторите попытку позже.",
+                "limitExceededMessage": "Вы превысили дневной лимит обратной связи",
+                "limitExceededMessageDescription": "Пожалуйста, повторите попытку завтра.",
+                "authRequiredMessage": "Для редактирования локаций необходимо войти в аккаунт",
+                "validationMessages": {
+                    "addressMinLength": "Адрес должен содержать не менее 3 символов",
+                    "addressMaxLength": "Адрес не должен превышать 200 символов",
+                    "descriptionMinLength": "Описание должно содержать не менее 10 символов",
+                    "descriptionMaxLength": "Описание не должно превышать 1000 символов",
+                    "reasonMinLength": "Причина изменения должна содержать не менее 10 символов",
+                    "reasonMaxLength": "Причина изменения не должна превышать 500 символов",
+                    "atLeastOneThingShouldBeChanged": "Необходимо изменить хотя бы одно поле: адрес или описание"
                 }
             }
         }

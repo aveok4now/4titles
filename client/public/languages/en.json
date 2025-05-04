@@ -544,9 +544,57 @@
             "items": {
                 "options": {
                     "heading": "Options",
+                    "actionsHeading": "Actions",
+                    "mapHeading": "Open in",
                     "viewInGMaps": "Google Maps",
                     "viewInYaMaps": "Yandex Maps",
-                    "viewIn2GisMaps": "2GIS"
+                    "viewInAppleMaps": "Apple Maps",
+                    "viewIn2GisMaps": "2GIS",
+                    "viewInBingMaps": "Bing Maps",
+                    "viewInVkMaps": "VK Карты",
+                    "editLocation": "Edit",
+                    "reportLocation": "Report"
+                }
+            },
+            "reportDialog": {
+                "heading": "Report location",
+                "messageLabel": "Issue description",
+                "messagePlaceholder": "Please describe in as much detail as possible what problems you've noticed with this location...",
+                "cancelButton": "Cancel",
+                "submitButton": "Submit",
+                "successMessage": "Thank you for your feedback! Your report will be reviewed by moderators shortly.",
+                "errorMessage": "Failed to submit report",
+                "errorMessageDescription": "Please check your input or try again later.",
+                "limitExceededMessage": "You've exceeded the daily feedback limit",
+                "limitExceededMessageDescription": "Please try again tomorrow.",
+                "validationMessages": {
+                    "messageMinLength": "Message must contain at least 10 characters",
+                    "messageMaxLength": "Message must not exceed 1000 characters"
+                }
+            },
+            "editDialog": {
+                "heading": "Suggest location changes",
+                "addressLabel": "Address",
+                "descriptionLabel": "Description",
+                "descriptionPlaceholder": "Detailed description of this location including which scenes were filmed here, possibly historical and other interesting facts...",
+                "reasonLabel": "Reason for change",
+                "reasonPlaceholder": "Why do you think the location information should be changed?",
+                "cancelButton": "Cancel",
+                "submitButton": "Submit",
+                "successMessage": "Thank you for your suggestion! Your changes will be reviewed by moderators shortly.",
+                "errorMessage": "Failed to submit suggestion",
+                "errorMessageDescription": "Please check your input or try again later.",
+                "limitExceededMessage": "You've exceeded the daily feedback limit",
+                "limitExceededMessageDescription": "Please try again tomorrow.",
+                "authRequiredMessage": "You need to log in to edit locations",
+                "validationMessages": {
+                    "addressMinLength": "Address must contain at least 3 characters",
+                    "addressMaxLength": "Address must not exceed 200 characters",
+                    "descriptionMinLength": "Description must contain at least 10 characters",
+                    "descriptionMaxLength": "Description must not exceed 1000 characters",
+                    "reasonMinLength": "Reason for change must contain at least 10 characters",
+                    "reasonMaxLength": "Reason for change must not exceed 500 characters",
+                    "atLeastOneThingShouldBeChanged": "At least one field must be changed: address or description"
                 }
             }
         }
