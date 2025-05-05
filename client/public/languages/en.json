@@ -33,7 +33,7 @@
             },
             "userNav": {
                 "home": "Home",
-                "overview": "Catalog",
+                "titles": "Catalog",
                 "routes": "Thematic Routes",
                 "feed": "News Feed",
                 "faq": "FAQ"
@@ -438,6 +438,16 @@
             "cancel": "Cancel",
             "continue": "Confirm"
         },
+        "favoriteButton": {
+            "addToFavorites": "Add to favorites",
+            "removeFromFavorites": "Remove from favorites",
+            "titleAdded": "Title added to favorites",
+            "locationAdded": "Location added to favorites",
+            "titleRemoved": "Title removed from favorites",
+            "locationRemoved": "Location removed from favorites",
+            "loginRequired": "You need to log in to manage favorites",
+            "error": "An error occurred while changing favorites"
+        },
         "dataTable": {
             "notFound": "No records found",
             "search": "Search...",
@@ -549,11 +559,12 @@
                 "closeButton": "Close",
                 "linkCopied": "Link copied to clipboard",
                 "shareTitle": "Filming Location for '{title}': {location}",
-                "shareDescription": "Learn more about '{location}', a filming location for {type, select, TV {show} MOVIE {movie} other title} '{title}' on 4Titles website"
+                "shareDescription": "Learn more about '{location}', a filming location for {type, select, TV {show} MOVIE {movie} other {title}} '{title}' on 4Titles website"
             },
             "items": {
                 "options": {
                     "heading": "Options",
+                    "toFavoritesHeading": "Add To Favorites",
                     "actionsHeading": "Actions",
                     "viewIn": "Open in",
                     "viewInGMaps": "Google Maps",

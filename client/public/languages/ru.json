@@ -33,7 +33,7 @@
             },
             "userNav": {
                 "home": "Главная",
-                "overview": "Обзор",
+                "titles": "Каталог",
                 "routes": "Маршруты",
                 "feed": "Лента",
                 "faq": "ЧаВо"
@@ -440,6 +440,16 @@
             "cancel": "Отмена",
             "continue": "Продолжить"
         },
+        "favoriteButton": {
+            "addToFavorites": "Добавить в избранное",
+            "removeFromFavorites": "Удалить из избранного",
+            "titleAdded": "Тайтл добавлен в избранное",
+            "locationAdded": "Локация добавлена в избранное",
+            "titleRemoved": "Тайтл удален из избранного",
+            "locationRemoved": "Локация удалена из избранного",
+            "loginRequired": "Для добавления в избранное необходимо войти в аккаунт",
+            "error": "Произошла ошибка при изменении избранного"
+        },
         "map": {
             "error": {
                 "title": "Ошибка инициализации",
@@ -556,6 +566,7 @@
             "items": {
                 "options": {
                     "heading": "Опции",
+                    "toFavoritesHeading": "В избранное",
                     "actionsHeading": "Действия",
                     "viewIn": "Открыть в",
                     "viewInGMaps": "Google Карты",

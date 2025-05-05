@@ -77,6 +77,7 @@ export function TitleDetails({ title }: TitleDetailsProps) {
     return (
         <div className='relative h-full overflow-hidden'>
             <TitleHeroSection
+                titleId={title.id}
                 name={name}
                 overview={overview}
                 tagline={tagline}
@@ -121,8 +122,6 @@ export function TitleDetails({ title }: TitleDetailsProps) {
                     />
                 )}
             </div>
-
-            {/* TODO: Add favorite button functionality  */}
 
             {/* <BorderBeam
                 size={250}

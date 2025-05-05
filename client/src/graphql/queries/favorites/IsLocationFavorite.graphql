@@ -1,0 +1,3 @@
+query IsLocationFavorite($locationId: String!) {
+    isLocationFavorite(locationId: $locationId)
+}

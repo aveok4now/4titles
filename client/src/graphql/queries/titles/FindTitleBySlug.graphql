@@ -1,5 +1,6 @@
 query FindTitleBySlug($slug: String!) {
     findTitleBySlug(slug: $slug) {
+        id
         slug
         originalName
         category

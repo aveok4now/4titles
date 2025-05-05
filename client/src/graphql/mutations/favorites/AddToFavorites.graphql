@@ -1,0 +1,8 @@
+mutation AddToFavorites($type: FavoriteType!, $entityId: String!) {
+    addToFavorites(type: $type, entityId: $entityId) {
+        id
+        type
+        titleId
+        filmingLocationId
+    }
+}

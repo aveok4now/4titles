@@ -23,8 +23,8 @@ export function UserNav() {
             icon: Home,
         },
         {
-            label: t('overview'),
-            href: '/overview',
+            label: t('titles'),
+            href: '/titles',
             icon: Compass,
         },
         {

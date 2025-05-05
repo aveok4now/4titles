@@ -1,0 +1,118 @@
+'use client'
+
+import { Button, ButtonProps } from '@/components/ui/common/button'
+import { FavoriteType } from '@/graphql/generated/output'
+import { cn } from '@/utils/tw-merge'
+import { Star } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+import { useCallback } from 'react'
+import { toast } from 'sonner'
+import { useFavoriteToggle } from './hooks/useFavoriteToggle'
+
+interface FavoriteButtonProps extends Omit<ButtonProps, 'onClick'> {
+    entityId: string
+    entityType: FavoriteType
+    initialIsFavorite?: boolean
+    onSuccess?: (isFavorite: boolean) => void
+}
+
+export function FavoriteButton({
+    entityId,
+    entityType,
+    initialIsFavorite = false,
+    className,
+    size = 'icon',
+    variant = 'ghost',
+    onSuccess,
+}: FavoriteButtonProps) {
+    const t = useTranslations('components.favoriteButton')
+    const {
+        isFavorite,
+        isLoading,
+        isAuthenticated,
+        refetch,
+        addToFavorites,
+        removeFromFavorites,
+        setIsFavorite,
+        setIsLoading,
+    } = useFavoriteToggle(entityId, entityType, initialIsFavorite)
+
+    const handleToggleFavorite = useCallback(async () => {
+        if (!isAuthenticated) {
+            toast.error(t('loginRequired'))
+            return
+        }
+
+        setIsLoading(true)
+        const newState = !isFavorite
+        setIsFavorite(newState)
+        onSuccess?.(newState)
+
+        try {
+            if (isFavorite) {
+                const { data } = await removeFromFavorites({
+                    variables: { type: entityType, entityId },
+                })
+                if (data?.removeFromFavorites) {
+                    toast.success(
+                        t(
+                            entityType === FavoriteType.Title
+                                ? 'titleRemoved'
+                                : 'locationRemoved',
+                        ),
+                    )
+                    refetch?.()
+                }
+            } else {
+                const { data } = await addToFavorites({
+                    variables: { type: entityType, entityId },
+                })
+                if (data?.addToFavorites) {
+                    toast.success(
+                        t(
+                            entityType === FavoriteType.Title
+                                ? 'titleAdded'
+                                : 'locationAdded',
+                        ),
+                    )
+                    refetch?.()
+                }
+            }
+        } catch {
+            toast.error(t('error'))
+        } finally {
+            setIsLoading(false)
+        }
+    }, [
+        isAuthenticated,
+        isFavorite,
+        entityId,
+        entityType,
+        t,
+        onSuccess,
+        addToFavorites,
+        removeFromFavorites,
+        refetch,
+    ])
+
+    return (
+        <Button
+            variant={variant}
+            size={size}
+            className={cn('relative', className)}
+            onClick={handleToggleFavorite}
+            disabled={isLoading}
+            aria-label={
+                isFavorite ? t('removeFromFavorites') : t('addToFavorites')
+            }
+        >
+            <Star
+                className={cn(
+                    'transition-colors',
+                    isFavorite ? 'fill-secondary' : 'fill-transparent',
+                    isLoading && 'animate-pulse',
+                )}
+            />
+        </Button>
+    )
+}

@@ -1,5 +1,6 @@
 'use client'
 
+import { FavoriteButton } from '@/components/features/favorites/FavoriteButton'
 import { Button } from '@/components/ui/common/button'
 import {
     DropdownMenu,
@@ -12,9 +13,14 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from '@/components/ui/common/dropdown-menu'
+import { Skeleton } from '@/components/ui/common/skeleton'
 import ShinyText from '@/components/ui/custom/text/shiny-text'
 import { Hint } from '@/components/ui/elements/Hint'
 import type { FilmingLocation, Title } from '@/graphql/generated/output'
+import {
+    FavoriteType,
+    useIsLocationFavoriteQuery,
+} from '@/graphql/generated/output'
 import { createMapUrls, type MapService } from '@/utils/map-services'
 import { cn } from '@/utils/tw-merge'
 import { Edit, Flag, Map, MoreHorizontal, Share2 } from 'lucide-react'
@@ -43,6 +49,13 @@ export const TitleFilmingLocationsListItem = forwardRef<
     const [isReportDialogOpen, setIsReportDialogOpen] = useState(false)
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
     const [isShareDialogOpen, setIsShareDialogOpen] = useState(false)
+
+    const { data: favoriteData, loading: isLoadingFavorite } =
+        useIsLocationFavoriteQuery({
+            variables: { locationId: location.id },
+            fetchPolicy: 'cache-and-network',
+        })
+    const initialIsFavorite = favoriteData?.isLocationFavorite
 
     const hasCoordinates = !!(
         location.coordinates?.x && location.coordinates?.y
@@ -125,8 +138,8 @@ export const TitleFilmingLocationsListItem = forwardRef<
                 onClick={onClick}
             >
                 <div
-                    className='absolute right-2 top-2'
-                    onClick={e => e.stopPropagation()}
+                    className='absolute right-2 top-2 z-10'
+                    onClick={handleStopPropagation}
                 >
                     <DropdownMenu>
                         <Hint
@@ -137,7 +150,7 @@ export const TitleFilmingLocationsListItem = forwardRef<
                             <DropdownMenuTrigger asChild>
                                 <Button
                                     size='icon'
-                                    variant='outline'
+                                    variant='ghost'
                                     className='border-none focus:outline-none'
                                 >
                                     <MoreHorizontal className='size-4' />
@@ -194,6 +207,26 @@ export const TitleFilmingLocationsListItem = forwardRef<
                             )}
                         </DropdownMenuContent>
                     </DropdownMenu>
+                </div>
+
+                <div className='absolute bottom-2 right-2 z-10'>
+                    {isLoadingFavorite ? (
+                        <Skeleton className='h-8 rounded-md px-3' />
+                    ) : (
+                        <Hint
+                            label={t('items.options.toFavoritesHeading')}
+                            side='left'
+                            align='end'
+                        >
+                            <FavoriteButton
+                                entityId={location.id}
+                                entityType={FavoriteType.Location}
+                                initialIsFavorite={initialIsFavorite}
+                                size='icon'
+                                variant='ghost'
+                            />
+                        </Hint>
+                    )}
                 </div>
 
                 <div className='text-ellipsis pr-4'>
