@@ -1,4 +1,3 @@
-export { EditLocationDialog } from './EditLocationDialog'
-export { ReportLocationDialog } from './ReportLocationDialog'
+export * from './dialogs'
 export { TitleFilmingLocationsListItem } from './TitleFilmingLocationsListItem'
 export { TitleFilmingLocationsSection } from './TitleFilmingLocationsSection'

@@ -14,29 +14,35 @@ import {
 } from '@/components/ui/common/dropdown-menu'
 import ShinyText from '@/components/ui/custom/text/shiny-text'
 import { Hint } from '@/components/ui/elements/Hint'
-import type { FilmingLocation } from '@/graphql/generated/output'
+import type { FilmingLocation, Title } from '@/graphql/generated/output'
 import { createMapUrls, type MapService } from '@/utils/map-services'
 import { cn } from '@/utils/tw-merge'
-import { Edit, Flag, Map, MoreHorizontal } from 'lucide-react'
+import { Edit, Flag, Map, MoreHorizontal, Share2 } from 'lucide-react'
 import { forwardRef, useState } from 'react'
 import { BsBing } from 'react-icons/bs'
 import { FaApple, FaGoogle, FaMap, FaVk, FaYandex } from 'react-icons/fa'
-import { EditLocationDialog } from './EditLocationDialog'
-import { ReportLocationDialog } from './ReportLocationDialog'
+import {
+    EditLocationDialog,
+    ReportLocationDialog,
+    ShareLocationDialog,
+} from './dialogs'
 
 interface TitleFilmingLocationsListItemProps {
     location: NonNullable<FilmingLocation>
     isSelected: boolean
     onClick: () => void
     t: (key: string) => string
+    title: Title
+    locale: string
 }
 
 export const TitleFilmingLocationsListItem = forwardRef<
     HTMLDivElement,
     TitleFilmingLocationsListItemProps
->(({ location, isSelected, onClick, t }, ref) => {
+>(({ location, isSelected, onClick, t, title, locale }, ref) => {
     const [isReportDialogOpen, setIsReportDialogOpen] = useState(false)
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
+    const [isShareDialogOpen, setIsShareDialogOpen] = useState(false)
 
     const hasCoordinates = !!(
         location.coordinates?.x && location.coordinates?.y
@@ -91,14 +97,19 @@ export const TitleFilmingLocationsListItem = forwardRef<
         e.stopPropagation()
     }
 
+    const handleEditClick = (e: React.MouseEvent) => {
+        handleStopPropagation(e)
+        setIsEditDialogOpen(true)
+    }
+
     const handleReportClick = (e: React.MouseEvent) => {
         handleStopPropagation(e)
         setIsReportDialogOpen(true)
     }
 
-    const handleEditClick = (e: React.MouseEvent) => {
+    const handleShareClick = (e: React.MouseEvent) => {
         handleStopPropagation(e)
-        setIsEditDialogOpen(true)
+        setIsShareDialogOpen(true)
     }
 
     return (
@@ -144,6 +155,10 @@ export const TitleFilmingLocationsListItem = forwardRef<
                             <DropdownMenuItem onClick={handleReportClick}>
                                 <Flag className='mr-2 size-4' />
                                 <span>{t('items.options.reportLocation')}</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={handleShareClick}>
+                                <Share2 className='mr-2 size-4' />
+                                <span>{t('items.options.shareLocation')}</span>
                             </DropdownMenuItem>
                             {hasCoordinates && mapServices.length > 0 && (
                                 <>
@@ -212,6 +227,14 @@ export const TitleFilmingLocationsListItem = forwardRef<
                 isOpen={isEditDialogOpen}
                 onClose={() => setIsEditDialogOpen(false)}
                 location={location}
+            />
+
+            <ShareLocationDialog
+                isOpen={isShareDialogOpen}
+                onClose={() => setIsShareDialogOpen(false)}
+                location={location}
+                title={title}
+                locale={locale}
             />
         </>
     )

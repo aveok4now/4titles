@@ -1,5 +1,6 @@
 query FindTitleBySlug($slug: String!) {
     findTitleBySlug(slug: $slug) {
+        slug
         originalName
         category
         hasLocations

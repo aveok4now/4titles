@@ -11,6 +11,7 @@ import { getMapColors } from '@/components/ui/elements/map/utils'
 import { getLocalizedFilmingLocationDescription } from '@/utils/localization/filming-location-localization'
 import { MapStyle } from '@maptiler/sdk'
 import { useTranslations } from 'next-intl'
+import { useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { getLocalizedTitleName } from '../../../../../utils/localization/title-localization'
 import { TitleSectionContainer } from '../TitleSectionContainer'
@@ -28,8 +29,11 @@ export function TitleFilmingLocationsSection({
     locale,
 }: TitleLocationsSectionProps) {
     const t = useTranslations('titleDetails.filmingLocations')
+    const searchParams = useSearchParams()
+    const locationParam = searchParams.get('location')
+
     const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
-        null,
+        locationParam || null,
     )
     const scrollAreaRef = useRef<HTMLDivElement>(null)
     const locationItemRefs = useRef<Record<string, HTMLDivElement>>({})
@@ -51,6 +55,23 @@ export function TitleFilmingLocationsSection({
             })
         }
     }, [])
+
+    useEffect(() => {
+        if (locationParam) {
+            setSelectedLocationId(locationParam)
+
+            setTimeout(() => {
+                const locationElement = locationItemRefs.current[locationParam]
+                if (locationElement && scrollAreaRef.current) {
+                    locationElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center',
+                        inline: 'nearest',
+                    })
+                }
+            }, 500)
+        }
+    }, [locationParam])
 
     const resolveLocationDescription = useCallback(
         (location: FilmingLocation) => {
@@ -126,7 +147,9 @@ export function TitleFilmingLocationsSection({
         )
 
         if (firstLocation?.filmingLocation) {
-            setSelectedLocationId(firstLocation.filmingLocation.id)
+            if (!selectedLocationId) {
+                setSelectedLocationId(firstLocation.filmingLocation.id)
+            }
             return [
                 firstLocation.filmingLocation.coordinates?.x,
                 firstLocation.filmingLocation.coordinates?.y,
@@ -222,6 +245,8 @@ export function TitleFilmingLocationsSection({
                                                 item.filmingLocation!.id,
                                             )
                                         }
+                                        title={title}
+                                        locale={locale}
                                         ref={(el: HTMLDivElement | null) => {
                                             if (el) {
                                                 locationItemRefs.current[

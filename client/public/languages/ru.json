@@ -543,6 +543,16 @@
         "filmingLocations": {
             "heading": "Локации съёмок",
             "description": "На данной карте собрана большая часть локаций, где проходили съёмки «{title}». Вы можете увидеть точное расположение каждого места, прочитать описание и узнать, какие сцены были сняты в этих местах. Кликайте по маркерам или выбирайте из списка для получения дополнительной информации.",
+            "shareDialog": {
+                "heading": "Поделиться локацией",
+                "social": "Соцсети",
+                "details": "Детали",
+                "locationInfo": "Информация о локации",
+                "closeButton": "Закрыть",
+                "linkCopied": "Ссылка скопирована в буфер обмена",
+                "shareTitle": "Локация съёмок «{title}»: {location}",
+                "shareDescription": "Узнайте больше о локации «{location}», где снимался {type, select, TV {сериал} MOVIE {фильм} other {тайтл}} «{title}» на сайте 4Titles"
+            },
             "items": {
                 "options": {
                     "heading": "Опции",
@@ -555,7 +565,8 @@
                     "viewInBingMaps": "Bing Карты",
                     "viewInVkMaps": "VK Карты",
                     "editLocation": "Редактировать",
-                    "reportLocation": "Пожаловаться"
+                    "reportLocation": "Пожаловаться",
+                    "shareLocation": "Поделиться"
                 }
             },
             "reportDialog": {

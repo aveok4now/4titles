@@ -541,11 +541,21 @@
         "filmingLocations": {
             "heading": "Filming Locations",
             "description": "This map features most of the locations where '{title}' was filmed. You can see the exact position of each site, read descriptions, and discover which scenes were shot there. Click on the markers or select from the list to get more information.",
+            "shareDialog": {
+                "heading": "Share Location",
+                "social": "Social Media",
+                "details": "Details",
+                "locationInfo": "Location Information",
+                "closeButton": "Close",
+                "linkCopied": "Link copied to clipboard",
+                "shareTitle": "Filming Location for '{title}': {location}",
+                "shareDescription": "Learn more about '{location}', a filming location for {type, select, TV {show} MOVIE {movie} other title} '{title}' on 4Titles website"
+            },
             "items": {
                 "options": {
                     "heading": "Options",
                     "actionsHeading": "Actions",
-                    "mapHeading": "Open in",
+                    "viewIn": "Open in",
                     "viewInGMaps": "Google Maps",
                     "viewInYaMaps": "Yandex Maps",
                     "viewInAppleMaps": "Apple Maps",
@@ -553,7 +563,8 @@
                     "viewInBingMaps": "Bing Maps",
                     "viewInVkMaps": "VK Карты",
                     "editLocation": "Edit",
-                    "reportLocation": "Report"
+                    "reportLocation": "Report",
+                    "shareLocation": "Share"
                 }
             },
             "reportDialog": {
