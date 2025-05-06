@@ -1,6 +1,10 @@
 'use client'
 
-import type { FilmingLocation, Title } from '@/graphql/generated/output'
+import type {
+    FilmingLocation,
+    Title,
+    TitleFilmingLocation,
+} from '@/graphql/generated/output'
 
 import { cn } from '@/utils/tw-merge'
 
@@ -8,6 +12,7 @@ import { ScrollArea } from '@/components/ui/common/scroll-area'
 import { MapMarker } from '@/components/ui/elements/map'
 import { Map, MAP_DEFAULT_ZOOM } from '@/components/ui/elements/map/Map'
 import { getMapColors } from '@/components/ui/elements/map/utils'
+import { useSearchTitleFilmingLocationsLazyQuery } from '@/graphql/generated/output'
 import { getLocalizedFilmingLocationDescription } from '@/utils/localization/filming-location-localization'
 import { MapStyle } from '@maptiler/sdk'
 import { useTranslations } from 'next-intl'
@@ -16,9 +21,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { getLocalizedTitleName } from '../../../../../utils/localization/title-localization'
 import { TitleSectionContainer } from '../TitleSectionContainer'
 import { TitleFilmingLocationsListItem } from './TitleFilmingLocationsListItem'
+import { TitleFilmingLocationsListSkeletons } from './TitleFilmingLocationsListItemSkeleton'
+import { TitleFilmingLocationsSearch } from './TitleFilmingLocationsSearch'
 
 interface TitleLocationsSectionProps {
-    filmingLocations: NonNullable<Title['filmingLocations']>
+    filmingLocations: TitleFilmingLocation[]
     title: Title
     locale: string
 }
@@ -35,6 +42,15 @@ export function TitleFilmingLocationsSection({
     const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
         locationParam || null,
     )
+    const [searchQuery, setSearchQuery] = useState<string>('')
+    const [isSearching, setIsSearching] = useState<boolean>(false)
+    const [searchResults, setSearchResults] = useState<
+        typeof filmingLocations | null
+    >(null)
+
+    const [searchLocations, { loading: isLoadingSearch }] =
+        useSearchTitleFilmingLocationsLazyQuery()
+
     const scrollAreaRef = useRef<HTMLDivElement>(null)
     const locationItemRefs = useRef<Record<string, HTMLDivElement>>({})
     const [themeColors, setThemeColors] = useState({
@@ -84,8 +100,46 @@ export function TitleFilmingLocationsSection({
         [locale],
     )
 
+    const handleSearch = useCallback(
+        async (query: string) => {
+            setSearchQuery(query)
+
+            if (!query.trim()) {
+                setIsSearching(false)
+                setSearchResults(null)
+                return
+            }
+
+            if (query.trim().length < 3) return
+
+            setIsSearching(true)
+
+            try {
+                const { data } = await searchLocations({
+                    variables: {
+                        titleId: title.id,
+                        query: query.trim(),
+                    },
+                })
+
+                if (data?.searchTitleFilmingLocations) {
+                    setSearchResults(
+                        data.searchTitleFilmingLocations as TitleFilmingLocation[],
+                    )
+                }
+            } catch (error) {
+                console.error('Error searching filming locations:', error)
+            } finally {
+                setIsSearching(false)
+            }
+        },
+        [searchLocations, title.id],
+    )
+
     const enhancedLocations = useMemo(() => {
-        return filmingLocations.map(item => ({
+        const locationsToProcess = searchResults || filmingLocations
+
+        return locationsToProcess.map(item => ({
             ...item,
             filmingLocation: item.filmingLocation
                 ? {
@@ -96,7 +150,7 @@ export function TitleFilmingLocationsSection({
                   }
                 : null,
         }))
-    }, [filmingLocations, resolveLocationDescription])
+    }, [filmingLocations, resolveLocationDescription, searchResults])
 
     const markers: MapMarker[] = useMemo(() => {
         return enhancedLocations
@@ -223,39 +277,51 @@ export function TitleFilmingLocationsSection({
                         selectedMarkerId={selectedLocationId || undefined}
                     />
                 </div>
-                <div className='h-[25rem] w-full md:w-1/2'>
-                    <ScrollArea className='h-[25rem]'>
-                        <div
-                            className='space-y-4 pr-2 md:pr-4'
-                            ref={scrollAreaRef}
-                        >
-                            {enhancedLocations
-                                .filter(item => item.filmingLocation)
-                                .map(item => (
-                                    <TitleFilmingLocationsListItem
-                                        t={t}
-                                        key={item.filmingLocation!.id}
-                                        location={item.filmingLocation!}
-                                        isSelected={
-                                            selectedLocationId ===
-                                            item.filmingLocation!.id
-                                        }
-                                        onClick={() =>
-                                            handleLocationClick(
-                                                item.filmingLocation!.id,
-                                            )
-                                        }
-                                        title={title}
-                                        locale={locale}
-                                        ref={(el: HTMLDivElement | null) => {
-                                            if (el) {
-                                                locationItemRefs.current[
-                                                    item.filmingLocation!.id
-                                                ] = el
+                <div className='h-[25rem] w-full pr-2 md:w-1/2 md:pr-4'>
+                    <TitleFilmingLocationsSearch
+                        onSearch={handleSearch}
+                        isLoading={isLoadingSearch || isSearching}
+                    />
+
+                    <ScrollArea className='h-[22rem]'>
+                        <div className='space-y-4' ref={scrollAreaRef}>
+                            {isLoadingSearch || isSearching ? (
+                                <TitleFilmingLocationsListSkeletons count={3} />
+                            ) : enhancedLocations.length > 0 ? (
+                                enhancedLocations
+                                    .filter(item => item.filmingLocation)
+                                    .map(item => (
+                                        <TitleFilmingLocationsListItem
+                                            t={t}
+                                            key={item.filmingLocation!.id}
+                                            location={item.filmingLocation!}
+                                            isSelected={
+                                                selectedLocationId ===
+                                                item.filmingLocation!.id
                                             }
-                                        }}
-                                    />
-                                ))}
+                                            onClick={() =>
+                                                handleLocationClick(
+                                                    item.filmingLocation!.id,
+                                                )
+                                            }
+                                            title={title}
+                                            locale={locale}
+                                            ref={(
+                                                el: HTMLDivElement | null,
+                                            ) => {
+                                                if (el) {
+                                                    locationItemRefs.current[
+                                                        item.filmingLocation!.id
+                                                    ] = el
+                                                }
+                                            }}
+                                        />
+                                    ))
+                            ) : searchQuery && searchQuery.length >= 3 ? (
+                                <div className='py-4 text-center text-muted-foreground'>
+                                    {t('search.noResults')}
+                                </div>
+                            ) : null}
                         </div>
                     </ScrollArea>
                 </div>
