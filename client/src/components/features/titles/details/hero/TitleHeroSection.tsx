@@ -77,7 +77,7 @@ export function TitleHeroSection({
                             <TitlePoster posterUrl={posterUrl} title={name} />
                         </div>
                         <div className='w-full space-y-4 md:w-2/3 lg:w-3/4'>
-                            <div className='flex flex-row justify-between'>
+                            <div className='flex flex-row items-start justify-between'>
                                 <TitleHeader
                                     name={name}
                                     releaseYear={releaseYear}
