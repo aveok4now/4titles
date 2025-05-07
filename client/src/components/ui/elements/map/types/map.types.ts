@@ -12,6 +12,12 @@ export interface MapMarker {
     iconSize?: number
     id?: string
     className?: string
+    draggable?: boolean
+}
+
+export interface MapLocationChangeEvent {
+    address: string
+    coordinates: [number, number]
 }
 
 export interface MapProps {
@@ -38,6 +44,10 @@ export interface MapProps {
         }
     }
     selectedMarkerId?: string
+    enableGeocoding?: boolean
+    enableDraggableMarker?: boolean
+    onLocationChange?: (event: MapLocationChangeEvent) => void
+    initialAddress?: string
 }
 
 export type CustomHook<T, R> = (deps: T, _?: any) => R

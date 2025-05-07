@@ -1,7 +1,9 @@
 'use client'
 
-import * as maptilersdk from '@maptiler/sdk'
+import '@maptiler/geocoding-control/style.css'
 import '@maptiler/sdk/dist/maptiler-sdk.css'
+
+import * as maptilersdk from '@maptiler/sdk'
 import type { MapProps } from './types'
 
 import { memo, useEffect, useRef } from 'react'
@@ -12,6 +14,7 @@ import {
     useClusterization,
     useGlobeProjectionErrorHandler,
     useMapInitialization,
+    useMapLocationSearch,
     useMapMarkers,
     useSelectedMarkerFocus,
 } from './hooks'
@@ -42,6 +45,10 @@ function MapComponent({
         },
     },
     selectedMarkerId,
+    enableGeocoding = false,
+    enableDraggableMarker = false,
+    onLocationChange,
+    initialAddress,
 }: MapProps) {
     const locale = useLocale()
     const mapContainer = useRef<HTMLDivElement>(null)
@@ -91,13 +98,22 @@ function MapComponent({
         projection,
     })
 
+    useMapLocationSearch(mapRef, {
+        mapLoaded,
+        enableGeocoding,
+        enableDraggableMarker,
+        onLocationChange,
+        initialAddress,
+        initialCoordinates: center,
+    })
+
     useEffect(() => {
         if (!mapLoaded || !mapRef.current) return
 
-        if (!enableClustering) {
+        if (!enableClustering && !enableDraggableMarker) {
             addStandardMarkers()
         }
-    }, [mapLoaded, enableClustering, addStandardMarkers])
+    }, [mapLoaded, enableClustering, enableDraggableMarker, addStandardMarkers])
 
     return (
         <>

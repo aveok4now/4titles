@@ -8,21 +8,26 @@ import type {
 
 import { cn } from '@/utils/tw-merge'
 
+import { Button } from '@/components/ui/common/button'
 import { ScrollArea } from '@/components/ui/common/scroll-area'
 import { MapMarker } from '@/components/ui/elements/map'
 import { Map, MAP_DEFAULT_ZOOM } from '@/components/ui/elements/map/Map'
 import { getMapColors } from '@/components/ui/elements/map/utils'
 import { useSearchTitleFilmingLocationsLazyQuery } from '@/graphql/generated/output'
+import { useAuth } from '@/hooks/useAuth'
 import { getLocalizedFilmingLocationDescription } from '@/utils/localization/filming-location-localization'
 import { MapStyle } from '@maptiler/sdk'
+import { PlusCircle } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { toast } from 'sonner'
 import { getLocalizedTitleName } from '../../../../../utils/localization/title-localization'
 import { TitleSectionContainer } from '../TitleSectionContainer'
 import { TitleFilmingLocationsListItem } from './TitleFilmingLocationsListItem'
 import { TitleFilmingLocationsListSkeletons } from './TitleFilmingLocationsListItemSkeleton'
 import { TitleFilmingLocationsSearch } from './TitleFilmingLocationsSearch'
+import { AddFilmingLocationDialog } from './dialogs'
 
 interface TitleLocationsSectionProps {
     filmingLocations: TitleFilmingLocation[]
@@ -38,6 +43,7 @@ export function TitleFilmingLocationsSection({
     const t = useTranslations('titleDetails.filmingLocations')
     const searchParams = useSearchParams()
     const locationParam = searchParams.get('location')
+    const { isAuthenticated } = useAuth()
 
     const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
         locationParam || null,
@@ -47,6 +53,8 @@ export function TitleFilmingLocationsSection({
     const [searchResults, setSearchResults] = useState<
         typeof filmingLocations | null
     >(null)
+    const [isAddLocationDialogOpen, setIsAddLocationDialogOpen] =
+        useState(false)
 
     const [searchLocations, { loading: isLoadingSearch }] =
         useSearchTitleFilmingLocationsLazyQuery()
@@ -240,11 +248,17 @@ export function TitleFilmingLocationsSection({
         [scrollToLocation],
     )
 
+    const handleAddLocationClick = () => {
+        if (!isAuthenticated) {
+            toast.error(t('addLocation.authRequiredMessage'))
+            return
+        }
+        setIsAddLocationDialogOpen(true)
+    }
+
     const shouldEnableClustering = filmingLocations.length > 5
 
-    if (filmingLocations.length === 0) {
-        return null
-    }
+    if (filmingLocations.length === 0) return null
 
     return (
         <TitleSectionContainer
@@ -254,6 +268,16 @@ export function TitleFilmingLocationsSection({
             description={t('description', {
                 title: getLocalizedTitleName(title, locale),
             })}
+            action={
+                <Button
+                    onClick={handleAddLocationClick}
+                    className='ml-0 mr-4 md:ml-8'
+                    variant='outline'
+                >
+                    <PlusCircle className='mr-2 size-4' />
+                    {t('addLocation.heading')}
+                </Button>
+            }
         >
             <div className='flex flex-col gap-6 md:flex-row'>
                 <div className='h-[25rem] w-full md:w-1/2'>
@@ -326,6 +350,12 @@ export function TitleFilmingLocationsSection({
                     </ScrollArea>
                 </div>
             </div>
+
+            <AddFilmingLocationDialog
+                isOpen={isAddLocationDialogOpen}
+                onClose={() => setIsAddLocationDialogOpen(false)}
+                title={title}
+            />
         </TitleSectionContainer>
     )
 }

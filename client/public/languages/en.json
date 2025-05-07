@@ -565,6 +565,10 @@
                 "shareTitle": "Filming Location for '{title}': {location}",
                 "shareDescription": "Learn more about '{location}', a filming location for {type, select, TV {show} MOVIE {movie} other {title}} '{title}' on 4Titles website"
             },
+            "addLocation": {
+                "heading": "Add Filming Location",
+                "authRequiredMessage": "Authentication required to submit filming locations"
+            },
             "items": {
                 "options": {
                     "heading": "Options",
@@ -600,6 +604,7 @@
             },
             "editDialog": {
                 "heading": "Suggest location changes",
+                "description": "If you've noticed any inaccuracies, discrepancies, or would like to improve the content quality, please make your changes in the form below",
                 "addressLabel": "Address",
                 "descriptionLabel": "Description",
                 "descriptionPlaceholder": "Detailed description of this location including which scenes were filmed here, possibly historical and other interesting facts...",
@@ -621,6 +626,36 @@
                     "reasonMinLength": "Reason for change must contain at least 10 characters",
                     "reasonMaxLength": "Reason for change must not exceed 500 characters",
                     "atLeastOneThingShouldBeChanged": "At least one field must be changed: address or description"
+                }
+            },
+            "addDialog": {
+                "heading": "Add Filming Location",
+                "description": "Suggest a missing filming location for {type, select, TV {TV series} MOVIE {movie} other {title}} «{title}». You can track the review status in your dashboard. Thank you for your contribution!",
+                "authRequiredMessage": "You need to log in to submit filming locations"
+            },
+            "proposalForm": {
+                "descriptionLabel": "Description",
+                "descriptionPlaceholder": "Detailed description of this location, including which scenes were filmed here, historical context, and other interesting facts...",
+                "submitButton": "Submit",
+                "successMessage": "Thank you for your suggestion! Your location will be reviewed by moderators shortly.",
+                "errorMessage": "Failed to submit proposal",
+                "errorMessageDescription": "Please check your input or try again later.",
+                "add": {
+                    "reasonLabel": "Reason for adding",
+                    "reasonPlaceholder": "Why do you think this location should be added?"
+                },
+                "edit": {
+                    "reasonLabel": "Reason for editing",
+                    "reasonPlaceholder": "Why do you think the location information needs to be updated?"
+                },
+                "validationMessages": {
+                    "addressMinLength": "Address must be at least 5 characters",
+                    "addressMaxLength": "Address cannot exceed 255 characters",
+                    "descriptionMinLength": "Description must be at least 10 characters",
+                    "descriptionMaxLength": "Description cannot exceed 1000 characters",
+                    "reasonRequired": "Please provide a reason for adding the location",
+                    "reasonMinLength": "Reason must be at least 10 characters",
+                    "reasonMaxLength": "Reason cannot exceed 500 characters"
                 }
             }
         }

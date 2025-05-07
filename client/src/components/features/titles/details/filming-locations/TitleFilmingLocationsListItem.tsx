@@ -21,12 +21,14 @@ import {
     FavoriteType,
     useIsLocationFavoriteQuery,
 } from '@/graphql/generated/output'
+import { useAuth } from '@/hooks/useAuth'
 import { createMapUrls, type MapService } from '@/utils/map-services'
 import { cn } from '@/utils/tw-merge'
 import { Edit, Flag, Map, MoreHorizontal, Share2 } from 'lucide-react'
 import { forwardRef, useState } from 'react'
 import { BsBing } from 'react-icons/bs'
 import { FaApple, FaGoogle, FaMap, FaVk, FaYandex } from 'react-icons/fa'
+import { toast } from 'sonner'
 import {
     EditLocationDialog,
     ReportLocationDialog,
@@ -46,6 +48,8 @@ export const TitleFilmingLocationsListItem = forwardRef<
     HTMLDivElement,
     TitleFilmingLocationsListItemProps
 >(({ location, isSelected, onClick, t, title, locale }, ref) => {
+    const { isAuthenticated } = useAuth()
+
     const [isReportDialogOpen, setIsReportDialogOpen] = useState(false)
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
     const [isShareDialogOpen, setIsShareDialogOpen] = useState(false)
@@ -112,6 +116,12 @@ export const TitleFilmingLocationsListItem = forwardRef<
 
     const handleEditClick = (e: React.MouseEvent) => {
         handleStopPropagation(e)
+
+        if (!isAuthenticated) {
+            toast.error(t('editDialog.authRequiredMessage'))
+            return
+        }
+
         setIsEditDialogOpen(true)
     }
 
@@ -122,6 +132,12 @@ export const TitleFilmingLocationsListItem = forwardRef<
 
     const handleShareClick = (e: React.MouseEvent) => {
         handleStopPropagation(e)
+
+        if (!isAuthenticated) {
+            toast.error(t('shareDialog.authRequiredMessage'))
+            return
+        }
+
         setIsShareDialogOpen(true)
     }
 
@@ -260,6 +276,7 @@ export const TitleFilmingLocationsListItem = forwardRef<
                 isOpen={isEditDialogOpen}
                 onClose={() => setIsEditDialogOpen(false)}
                 location={location}
+                title={title}
             />
 
             <ShareLocationDialog

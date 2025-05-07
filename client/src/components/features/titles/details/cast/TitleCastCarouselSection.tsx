@@ -118,7 +118,7 @@ export function TitleCastCarouselSection({
                         return (
                             <CarouselItem
                                 key={`${actor.name}-${index}`}
-                                className='basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6 2xl:basis-1/10'
+                                className='basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/8 2xl:basis-1/10'
                             >
                                 <div className='flex flex-col items-center space-y-3'>
                                     {actor.profile_path ? (
@@ -231,7 +231,7 @@ export function TitleCastCarouselSection({
                 <div className='mt-2 hidden md:flex'>
                     <CarouselPrevious
                         className={cn(
-                            'absolute -left-0 top-1/3 md:-left-4',
+                            'absolute left-0 top-1/3',
                             isPrevDisabled ? 'hidden' : 'flex',
                         )}
                         onClick={e => {
@@ -241,7 +241,7 @@ export function TitleCastCarouselSection({
                     />
                     <CarouselNext
                         className={cn(
-                            'absolute -right-0 top-1/3 md:-right-4',
+                            'absolute right-0 top-1/3',
                             isNextDisabled ? 'hidden' : 'flex',
                         )}
                         onClick={e => {

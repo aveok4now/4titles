@@ -2,7 +2,6 @@
 
 import {
     FilmingLocationProposalType,
-    type FilmingLocation,
     type Title,
 } from '@/graphql/generated/output'
 
@@ -14,23 +13,23 @@ import {
     DialogTitle,
 } from '@/components/ui/common/dialog'
 import { ScrollArea } from '@/components/ui/common/scroll-area'
-import { useTranslations } from 'next-intl'
+import { getLocalizedTitleName } from '@/utils/localization/title-localization'
+import { useLocale, useTranslations } from 'next-intl'
 import { FilmingLocationProposalForm } from '../forms'
 
-interface EditLocationDialogProps {
+interface AddFilmingLocationDialogProps {
     isOpen: boolean
     onClose: () => void
-    location: NonNullable<FilmingLocation>
-    title?: Title
+    title: Title
 }
 
-export function EditLocationDialog({
+export function AddFilmingLocationDialog({
     isOpen,
     onClose,
-    location,
     title,
-}: EditLocationDialogProps) {
-    const t = useTranslations('titleDetails.filmingLocations.editDialog')
+}: AddFilmingLocationDialogProps) {
+    const t = useTranslations('titleDetails.filmingLocations.addDialog')
+    const locale = useLocale()
 
     if (!title) return null
 
@@ -46,14 +45,16 @@ export function EditLocationDialog({
                     <DialogHeader>
                         <DialogTitle>{t('heading')}</DialogTitle>
                         <DialogDescription>
-                            {t('description')}
+                            {t('description', {
+                                type: title.type,
+                                title: getLocalizedTitleName(title, locale),
+                            })}
                         </DialogDescription>
                     </DialogHeader>
 
                     <FilmingLocationProposalForm
-                        type={FilmingLocationProposalType.Edit}
+                        type={FilmingLocationProposalType.Add}
                         titleId={title.id}
-                        location={location}
                         onSuccess={onClose}
                     />
                 </ScrollArea>
