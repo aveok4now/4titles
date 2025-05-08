@@ -1,11 +1,6 @@
 'use client'
 
-import {
-    MapPinCheck,
-    MessageCircle,
-    Settings2Icon,
-    Users2Icon,
-} from 'lucide-react'
+import { Flag, MapPinCheck, Settings2Icon, Users2Icon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Route } from '../types/sidebar.types'
 import { SidebarItem } from '../ui/SidebarItem'
@@ -28,6 +23,11 @@ export function DashboardNav() {
             label: t('filmingLocationProposals'),
             href: '/dashboard/filming-location-proposals',
             icon: MapPinCheck,
+        },
+        {
+            label: t('feedbacks'),
+            href: '/dashboard/feedbacks',
+            icon: Flag,
         },
     ]
 

@@ -44,7 +44,8 @@
             "dashboardNav": {
                 "settings": "Настройки",
                 "followers": "Подписчики",
-                "filmingLocationProposals": "Предложения"
+                "filmingLocationProposals": "Предложения",
+                "feedbacks": "Фидбэки"
             }
         }
     },
@@ -490,6 +491,65 @@
                 "reviewMessageCopied": "Ответ модерации скопирован в буфер обмена",
                 "proposalDeletedSuccess": "Предложение успешно удалено",
                 "proposalDeletedError": "Ошибка при удалении. Попробуйте ещё раз или обратитесь в поддержку"
+            }
+        },
+        "feedbacks": {
+            "header": {
+                "heading": "Фидбэки",
+                "description": "Здесь отображается список всех Ваших фидбэков"
+            },
+            "search": {
+                "placeholder": "Поиск по содержимому фидбэка..."
+            },
+            "noResponse": "Без ответа",
+            "columns": {
+                "date": "Дата отправки",
+                "type": "Тип",
+                "status": "Статус",
+                "source": "Источник",
+                "message": "Сообщение",
+                "responseMessage": "Ответ",
+                "respondedAt": "Дата ответа",
+                "actions": {
+                    "header": "Действия",
+                    "options": "Опции",
+                    "copy": "Копировать",
+                    "copyMessage": "Сообщение",
+                    "copyResponse": "Ответ модерации",
+                    "delete": "Удалить"
+                }
+            },
+            "type": {
+                "general": "Общее",
+                "bug_report": "Баг",
+                "feature_request": "Идея",
+                "content_issue": "Контент",
+                "other": "Другое"
+            },
+            "status": {
+                "new": "Новый",
+                "in_progress": "В работе",
+                "resolved": "Решено",
+                "closed": "Закрыто",
+                "rejected": "Отклонено"
+            },
+            "source": {
+                "website": "Сайт",
+                "telegram": "Телеграм",
+                "email": "Почта",
+                "other": "Другое"
+            },
+            "messages": {
+                "feedbackDeletedMessage": "Фидбэк успешно удален",
+                "feedbackDeleteErrorMessage": "Ошибка при удалении фидбэка",
+                "feedbackDeleteErrorMessageDescription": "Повторите попытку позже",
+                "messageCopied": "Сообщение скопировано в буфер обмена",
+                "responseCopied": "Ответ скопирован в буфер обмена",
+                "copyErrorMessage": "Не удалось скопировать содержимое"
+            },
+            "deleteConfirmDialog": {
+                "heading": "Удалить фидбэк?",
+                "message": "Это действие нельзя отменить. Фидбэк будет удален безвозвратно."
             }
         }
     },

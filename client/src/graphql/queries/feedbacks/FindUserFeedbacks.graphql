@@ -1,0 +1,13 @@
+query FindUserFeedbacks {
+    findMyFeedbacks {
+        createdAt
+        id
+        message
+        respondedAt
+        responseMessage
+        source
+        status
+        type
+        updatedAt
+    }
+}
