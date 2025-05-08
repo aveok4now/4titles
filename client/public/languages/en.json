@@ -43,8 +43,9 @@
             },
             "dashboardNav": {
                 "settings": "Personal Settings",
-                "followers": "My Followers",
-                "filmingLocationProposals": "Filming Location Proposals"
+                "followers": "Followers",
+                "filmingLocationProposals": "Filming Location Proposals",
+                "feedbacks": "Feedbacks"
             }
         }
     },
@@ -488,6 +489,65 @@
                 "reviewMessageCopied": "Moderator response copied to clipboard",
                 "proposalDeletedSuccess": "Proposal deleted successfully",
                 "proposalDeletedError": "Deletion error. Please try again or contact support"
+            }
+        },
+        "feedbacks": {
+            "header": {
+                "heading": "Feedbacks",
+                "description": "View all your submitted feedback and responses"
+            },
+            "search": {
+                "placeholder": "Search for feedbacks..."
+            },
+            "noResponse": "No response yet",
+            "columns": {
+                "date": "Submission Date",
+                "type": "Type",
+                "status": "Status",
+                "source": "Source",
+                "message": "Message",
+                "responseMessage": "Response",
+                "respondedAt": "Response Date",
+                "actions": {
+                    "header": "Actions",
+                    "options": "Options",
+                    "copy": "Copy",
+                    "copyMessage": "Copy Message",
+                    "copyResponse": "Copy Response",
+                    "delete": "Delete"
+                }
+            },
+            "type": {
+                "general": "General",
+                "bug_report": "Bug Report",
+                "feature_request": "Feature Request",
+                "content_issue": "Content Issue",
+                "other": "Other"
+            },
+            "status": {
+                "new": "New",
+                "in_progress": "In Progress",
+                "resolved": "Resolved",
+                "closed": "Closed",
+                "rejected": "Rejected"
+            },
+            "source": {
+                "website": "Website",
+                "telegram": "Telegram",
+                "email": "Email",
+                "other": "Other"
+            },
+            "messages": {
+                "feedbackDeletedMessage": "Feedback deleted successfully",
+                "feedbackDeleteErrorMessage": "Failed to delete feedback",
+                "feedbackDeleteErrorMessageDescription": "Please try again later",
+                "messageCopied": "Message copied to clipboard",
+                "responseCopied": "Response copied to clipboard",
+                "copyErrorMessage": "Failed to copy content"
+            },
+            "deleteConfirmDialog": {
+                "heading": "Delete Feedback?",
+                "message": "This action cannot be undone. The feedback will be permanently deleted."
             }
         }
     },

@@ -6,6 +6,7 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
+    DropdownMenuSeparator,
     DropdownMenuSub,
     DropdownMenuSubContent,
     DropdownMenuSubTrigger,
@@ -360,18 +361,21 @@ export function FilmingLocationProposalsTable() {
 
                         {row.original.status ===
                             FilmingLocationProposalStatus.Pending && (
-                            <DropdownMenuItem
-                                onClick={() =>
-                                    handleOpenDeleteConfirmDialog(
-                                        row.original.id,
-                                    )
-                                }
-                                disabled={isLoadingProposalDelete}
-                                className='text-destructive focus:text-destructive'
-                            >
-                                <Trash className='mr-2 size-4' />
-                                {t('columns.actions.deleteProposal')}
-                            </DropdownMenuItem>
+                            <>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                    onClick={() =>
+                                        handleOpenDeleteConfirmDialog(
+                                            row.original.id,
+                                        )
+                                    }
+                                    disabled={isLoadingProposalDelete}
+                                    className='text-destructive focus:text-destructive'
+                                >
+                                    <Trash className='mr-2 size-4' />
+                                    {t('columns.actions.deleteProposal')}
+                                </DropdownMenuItem>
+                            </>
                         )}
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -398,6 +402,8 @@ export function FilmingLocationProposalsTable() {
                         data={proposals}
                         searchColumns={[
                             'title',
+                            'type',
+                            'status',
                             'address',
                             'reason',
                             'description',
