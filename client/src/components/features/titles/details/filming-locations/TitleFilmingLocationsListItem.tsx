@@ -16,6 +16,8 @@ import {
 import { Skeleton } from '@/components/ui/common/skeleton'
 import ShinyText from '@/components/ui/custom/text/shiny-text'
 import { Hint } from '@/components/ui/elements/Hint'
+import { Link } from '@/components/ui/elements/Link'
+import { ProfileAvatar } from '@/components/ui/elements/ProfileAvatar'
 import type { FilmingLocation, Title } from '@/graphql/generated/output'
 import {
     FavoriteType,
@@ -25,6 +27,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { createMapUrls, type MapService } from '@/utils/map-services'
 import { cn } from '@/utils/tw-merge'
 import { Edit, Flag, Map, MoreHorizontal, Share2 } from 'lucide-react'
+import NextLink from 'next/link'
 import { forwardRef, useState } from 'react'
 import { BsBing } from 'react-icons/bs'
 import { FaApple, FaGoogle, FaMap, FaVk, FaYandex } from 'react-icons/fa'
@@ -259,12 +262,40 @@ export const TitleFilmingLocationsListItem = forwardRef<
                         </p>
                     )}
                     <p className='mb-2 text-sm'>
-                        {location.description || 'Описания пока нет.'}
+                        {location.description || t('items.description.empty')}
                     </p>
                     {location.city && (
                         <p className='text-xs text-muted-foreground'>
                             {location.city}
                         </p>
+                    )}
+                    {location.user && (
+                        <div
+                            className='absolute bottom-2 right-2 flex items-center gap-2'
+                            onClick={handleStopPropagation}
+                        >
+                            <span className='text-xs text-muted-foreground'>
+                                {t('items.author.heading')}:{' '}
+                                <Link href={'/' + location.user.username}>
+                                    {location.user.username}
+                                </Link>
+                            </span>
+                            <Hint
+                                label={t('items.author.openProfile')}
+                                side='right'
+                                align='end'
+                            >
+                                <NextLink href={'/' + location.user.username}>
+                                    <ProfileAvatar
+                                        profile={{
+                                            username: location.user.username,
+                                            avatar: location.user.avatar,
+                                        }}
+                                        size='sm'
+                                    />
+                                </NextLink>
+                            </Hint>
+                        </div>
                     )}
                 </div>
             </div>

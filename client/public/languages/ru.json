@@ -576,6 +576,13 @@
                     "editLocation": "Редактировать",
                     "reportLocation": "Пожаловаться",
                     "shareLocation": "Поделиться"
+                },
+                "description": {
+                    "empty": "Описания пока нет."
+                },
+                "author": {
+                    "heading": "Автор",
+                    "openProfile": "Открыть профиль"
                 }
             },
             "shareDialog": {

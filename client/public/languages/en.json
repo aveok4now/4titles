@@ -584,6 +584,13 @@
                     "editLocation": "Edit",
                     "reportLocation": "Report",
                     "shareLocation": "Share"
+                },
+                "description": {
+                    "empty": "No description yet."
+                },
+                "author": {
+                    "heading": "Author",
+                    "openProfile": "Open profile"
                 }
             },
             "reportDialog": {

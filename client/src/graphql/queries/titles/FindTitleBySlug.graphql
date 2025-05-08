@@ -65,6 +65,10 @@ query FindTitleBySlug($slug: String!) {
                     }
                 }
                 createdAt
+                user {
+                    username
+                    avatar
+                }
             }
         }
         translations {
