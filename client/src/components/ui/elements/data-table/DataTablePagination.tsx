@@ -77,10 +77,11 @@ export function DataTablePagination<TData>({
                         </div>
                     )}
                 </div>
-                <div className='flex items-center space-x-4'>
-                    {!isMobile && selectComponent}
 
-                    {shouldShowNavigation && (
+                {!isMobile && selectComponent}
+
+                {shouldShowNavigation && (
+                    <div className='flex items-center space-x-4'>
                         <div className='flex shrink-0 space-x-2'>
                             <Button
                                 variant='outline'
@@ -107,8 +108,8 @@ export function DataTablePagination<TData>({
                                 )}
                             </Button>
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
             {isMobile && (
                 <div className='mt-2 flex justify-end'>{selectComponent}</div>

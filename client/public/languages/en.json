@@ -43,7 +43,8 @@
             },
             "dashboardNav": {
                 "settings": "Personal Settings",
-                "followers": "My Followers"
+                "followers": "My Followers",
+                "filmingLocationProposals": "Filming Location Proposals"
             }
         }
     },
@@ -430,6 +431,63 @@
             "removeFollowerConfirmDialog": {
                 "heading": "Remove follower?",
                 "message": "4Titles will not notify this user about your action"
+            }
+        },
+        "filmingLocationProposals": {
+            "header": {
+                "heading": "Filming Location Proposals",
+                "description": "Track all your filming location submissions and edit proposals in one place."
+            },
+            "search": {
+                "placeholder": "Search by title, address..."
+            },
+            "columns": {
+                "date": "Submitted",
+                "type": {
+                    "heading": "Type",
+                    "values": {
+                        "add": "New Location",
+                        "edit": "Location Edit"
+                    }
+                },
+                "status": {
+                    "heading": "Status",
+                    "values": {
+                        "pending": "Under Review",
+                        "approved": "Approved",
+                        "rejected": "Declined",
+                        "inProgress": "In Progress"
+                    }
+                },
+                "title": "Media Title",
+                "address": "Filming Address",
+                "description": "Description",
+                "reason": "Submission Reason",
+                "reviewMessage": "Moderator Response",
+                "actions": {
+                    "header": "Actions",
+                    "viewTitle": "View Title Page",
+                    "copy": {
+                        "heading": "Copy",
+                        "copyAddress": "Address",
+                        "copyDescription": "Description",
+                        "copyReason": "Reason",
+                        "copyReviewMessage": "Moderator Response"
+                    },
+                    "deleteProposal": "Retract Proposal"
+                }
+            },
+            "deleteProposalConfirmDialog": {
+                "heading": "Delete Proposal?",
+                "message": "This action cannot be undone. The proposal will be permanently deleted."
+            },
+            "messages": {
+                "addressCopied": "Address copied to clipboard",
+                "descriptionCopied": "Description copied to clipboard",
+                "reasonCopied": "Reason copied to clipboard",
+                "reviewMessageCopied": "Moderator response copied to clipboard",
+                "proposalDeletedSuccess": "Proposal deleted successfully",
+                "proposalDeletedError": "Deletion error. Please try again or contact support"
             }
         }
     },

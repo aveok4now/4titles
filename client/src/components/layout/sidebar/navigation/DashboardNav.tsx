@@ -1,6 +1,11 @@
 'use client'
 
-import { Settings2Icon, Users2Icon } from 'lucide-react'
+import {
+    MapPinCheck,
+    MessageCircle,
+    Settings2Icon,
+    Users2Icon,
+} from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Route } from '../types/sidebar.types'
 import { SidebarItem } from '../ui/SidebarItem'
@@ -18,6 +23,11 @@ export function DashboardNav() {
             label: t('followers'),
             href: '/dashboard/followers',
             icon: Users2Icon,
+        },
+        {
+            label: t('filmingLocationProposals'),
+            href: '/dashboard/filming-location-proposals',
+            icon: MapPinCheck,
         },
     ]
 

@@ -1,0 +1,3 @@
+mutation DeleteFilmingLocationProposal($id: String!) {
+    deleteFilmingLocationProposal(id: $id)
+}
