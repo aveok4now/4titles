@@ -1,0 +1,29 @@
+query FindUserFilmingLocationProposals {
+    findUserFilmingLocationProposals {
+        address
+        coordinates {
+            x
+            y
+        }
+        createdAt
+        description
+        id
+        location {
+            address
+        }
+        reason
+        reviewMessage
+        status
+        title {
+            originalName
+            slug
+            translations {
+                language {
+                    iso
+                }
+                title
+            }
+        }
+        type
+    }
+}

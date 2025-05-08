@@ -28,7 +28,10 @@ export function DataTableColumnHeader<TData, TValue>({
                 onClick={() =>
                     column.toggleSorting(column.getIsSorted() === 'asc')
                 }
-                className={cn('font-medium', className)}
+                className={cn(
+                    'p-0 font-medium hover:bg-card/50 hover:text-foreground',
+                    className,
+                )}
             >
                 {title}
                 <ArrowUpDown className='ml-2 h-4 w-4' />

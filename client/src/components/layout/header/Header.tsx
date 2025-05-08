@@ -5,7 +5,7 @@ import { Search } from './Search'
 
 export function Header() {
     return (
-        <header className='relative flex h-full items-center gap-x-4 border-b border-border bg-card/90 p-4'>
+        <header className='relative flex h-full items-center gap-x-4 border-b border-border bg-card/90 p-4 backdrop-blur-sm'>
             <Logo />
 
             <div className='ml-auto flex flex-row gap-x-4'>

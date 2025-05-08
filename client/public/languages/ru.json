@@ -43,7 +43,8 @@
             },
             "dashboardNav": {
                 "settings": "Настройки",
-                "followers": "Подписчики"
+                "followers": "Подписчики",
+                "filmingLocationProposals": "Предложения"
             }
         }
     },
@@ -432,6 +433,63 @@
             "removeFollowerConfirmDialog": {
                 "heading": "Удалить попдисчика?",
                 "message": "4Titles не будет сообщать данному пользователю, о том что Вы удалили его из своих подписчиков"
+            }
+        },
+        "filmingLocationProposals": {
+            "header": {
+                "heading": "Предложения по локациям",
+                "description": "Здесь отображается список всех Ваших предложений новых локаций и правок"
+            },
+            "search": {
+                "placeholder": "Поиск по названию, адресу..."
+            },
+            "columns": {
+                "date": "Дата подачи",
+                "type": {
+                    "heading": "Тип",
+                    "values": {
+                        "add": "Добавление",
+                        "edit": "Правка"
+                    }
+                },
+                "status": {
+                    "heading": "Статус",
+                    "values": {
+                        "pending": "В процессе",
+                        "approved": "Одобрено",
+                        "rejected": "Отклонено",
+                        "inProgress": "В работе"
+                    }
+                },
+                "title": "Тайтл",
+                "address": "Адрес съёмки",
+                "description": "Описание",
+                "reason": "Причина подачи",
+                "reviewMessage": "Ответ модерации",
+                "actions": {
+                    "header": "Действия",
+                    "viewTitle": "К странице тайтла",
+                    "copy": {
+                        "heading": "Скопировать",
+                        "copyAddress": "Адрес",
+                        "copyDescription": "Описание",
+                        "copyReason": "Причину",
+                        "copyReviewMessage": "Ответ модерации"
+                    },
+                    "deleteProposal": "Отозвать предложение"
+                }
+            },
+            "deleteProposalConfirmDialog": {
+                "heading": "Удалить предложение?",
+                "message": "Это действие невозможно отменить. Предложение будет удалено безвозвратно."
+            },
+            "messages": {
+                "addressCopied": "Адрес скопирован в буфер обмена",
+                "descriptionCopied": "Описание предложения скопировано в буфер обмена",
+                "reasonCopied": "Причина пердложения скопирована в буфер обмена",
+                "reviewMessageCopied": "Ответ модерации скопирован в буфер обмена",
+                "proposalDeletedSuccess": "Предложение успешно удалено",
+                "proposalDeletedError": "Ошибка при удалении. Попробуйте ещё раз или обратитесь в поддержку"
             }
         }
     },

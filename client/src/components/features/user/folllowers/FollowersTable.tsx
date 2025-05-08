@@ -182,6 +182,7 @@ export function FollowersTable() {
                         data={followers}
                         searchColumn='user'
                         searchPlaceholder={t('search.placeholder')}
+                        enableResizing={false}
                     />
                 )}
             </div>

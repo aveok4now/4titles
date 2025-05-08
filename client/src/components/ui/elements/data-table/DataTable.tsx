@@ -7,6 +7,8 @@ import {
     type VisibilityState,
     flexRender,
     getCoreRowModel,
+    getFacetedRowModel,
+    getFacetedUniqueValues,
     getFilteredRowModel,
     getPaginationRowModel,
     getSortedRowModel,
@@ -15,6 +17,7 @@ import {
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 
+import { cn } from '@/utils/tw-merge'
 import { Card } from '../../common/card'
 import { Input } from '../../common/input'
 import {
@@ -33,56 +36,94 @@ interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
     searchColumn?: string
+    searchColumns?: string[]
     searchPlaceholder?: string
+    enablePagination?: boolean
+    enableColumnVisibility?: boolean
+    enableColumnFilters?: boolean
+    enableSorting?: boolean
+    enableResizing?: boolean
+    enableColumnDragging?: boolean
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
     searchColumn,
+    searchColumns,
     searchPlaceholder,
+    enableResizing = true,
 }: DataTableProps<TData, TValue>) {
     const t = useTranslations('components.dataTable')
 
-    const [sorting, setSorting] = useState<SortingState>([])
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+    const [rowSelection, setRowSelection] = useState({})
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
         {},
     )
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+    const [sorting, setSorting] = useState<SortingState>([])
+    const [globalFilter, setGlobalFilter] = useState('')
+
+    const fuzzyFilter = (row: any, columnId: string, filterValue: string) => {
+        const searchValue = String(filterValue).toLowerCase()
+
+        if (searchColumns && searchColumns.length > 0) {
+            return searchColumns.some(column => {
+                const value = row.getValue(column)
+                if (typeof value === 'undefined' || value === null) return false
+                return String(value).toLowerCase().includes(searchValue)
+            })
+        }
+
+        if (searchColumn) {
+            const value = row.getValue(searchColumn)
+            if (typeof value === 'undefined' || value === null) return false
+            return String(value).toLowerCase().includes(searchValue)
+        }
+
+        const value = row.getValue(columnId)
+        if (typeof value === 'undefined' || value === null) return false
+        return String(value).toLowerCase().includes(searchValue)
+    }
 
     const table = useReactTable({
         data,
         columns,
-        getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        onSortingChange: setSorting,
-        getSortedRowModel: getSortedRowModel(),
-        onColumnFiltersChange: setColumnFilters,
-        getFilteredRowModel: getFilteredRowModel(),
-        onColumnVisibilityChange: setColumnVisibility,
         state: {
             sorting,
-            columnFilters,
             columnVisibility,
+            rowSelection,
+            columnFilters,
+            globalFilter,
+        },
+        enableRowSelection: true,
+        onRowSelectionChange: setRowSelection,
+        onSortingChange: setSorting,
+        onColumnFiltersChange: setColumnFilters,
+        onColumnVisibilityChange: setColumnVisibility,
+        onGlobalFilterChange: setGlobalFilter,
+        getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        getFacetedRowModel: getFacetedRowModel(),
+        getFacetedUniqueValues: getFacetedUniqueValues(),
+        enableColumnResizing: enableResizing,
+        columnResizeMode: 'onChange',
+        globalFilterFn: fuzzyFilter,
+        filterFns: {
+            fuzzy: fuzzyFilter,
         },
     })
 
     return (
         <div className='w-full'>
             <div className='flex items-center justify-between gap-2 py-4'>
-                {searchColumn && (
+                {(searchColumn || searchColumns) && (
                     <Input
                         placeholder={searchPlaceholder || t('search')}
-                        value={
-                            (table
-                                .getColumn(searchColumn)
-                                ?.getFilterValue() as string) ?? ''
-                        }
-                        onChange={event =>
-                            table
-                                .getColumn(searchColumn)
-                                ?.setFilterValue(event.target.value)
-                        }
+                        value={globalFilter}
+                        onChange={event => setGlobalFilter(event.target.value)}
                         className='max-w-md'
                     />
                 )}
@@ -95,7 +136,13 @@ export function DataTable<TData, TValue>({
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map(header => {
                                     return (
-                                        <TableHead key={header.id}>
+                                        <TableHead
+                                            key={header.id}
+                                            style={{
+                                                width: header.getSize(),
+                                                position: 'relative',
+                                            }}
+                                        >
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -103,6 +150,16 @@ export function DataTable<TData, TValue>({
                                                           .header,
                                                       header.getContext(),
                                                   )}
+                                            {header.column.getCanResize() && (
+                                                <div
+                                                    onMouseDown={header.getResizeHandler()}
+                                                    onTouchStart={header.getResizeHandler()}
+                                                    className={cn(
+                                                        'absolute right-0 top-0 h-full w-1 cursor-col-resize touch-none select-none',
+                                                        'hover:bg-primary',
+                                                    )}
+                                                />
+                                            )}
                                         </TableHead>
                                     )
                                 })}
@@ -119,7 +176,12 @@ export function DataTable<TData, TValue>({
                                     }
                                 >
                                     {row.getVisibleCells().map(cell => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell
+                                            key={cell.id}
+                                            style={{
+                                                width: cell.column.getSize(),
+                                            }}
+                                        >
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext(),
