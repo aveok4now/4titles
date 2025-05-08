@@ -154,15 +154,32 @@ export const TitleFilmingLocationsListItem = forwardRef<
                 onClick={onClick}
             >
                 <div
-                    className='absolute right-2 top-2 z-10'
+                    className='gap- absolute right-2 top-2 z-10 flex flex-row items-center'
                     onClick={handleStopPropagation}
                 >
-                    <DropdownMenu>
-                        <Hint
-                            label={t('items.options.heading')}
-                            side='left'
-                            align='end'
-                        >
+                    <Hint
+                        label={t('items.options.toFavoritesHeading')}
+                        side='left'
+                        align='end'
+                    >
+                        {isLoadingFavorite ? (
+                            <Skeleton className='size-9 rounded-md' />
+                        ) : (
+                            <FavoriteButton
+                                entityId={location.id}
+                                entityType={FavoriteType.Location}
+                                initialIsFavorite={initialIsFavorite}
+                                size='icon'
+                                variant='ghost'
+                            />
+                        )}
+                    </Hint>
+                    <Hint
+                        label={t('items.options.heading')}
+                        side='right'
+                        align='end'
+                    >
+                        <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button
                                     size='icon'
@@ -172,77 +189,63 @@ export const TitleFilmingLocationsListItem = forwardRef<
                                     <MoreHorizontal className='size-4' />
                                 </Button>
                             </DropdownMenuTrigger>
-                        </Hint>
-                        <DropdownMenuContent align='end'>
-                            <DropdownMenuLabel>
-                                {t('items.options.actionsHeading')}
-                            </DropdownMenuLabel>
-                            <DropdownMenuItem onClick={handleEditClick}>
-                                <Edit className='mr-2 size-4' />
-                                <span>{t('items.options.editLocation')}</span>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={handleReportClick}>
-                                <Flag className='mr-2 size-4' />
-                                <span>{t('items.options.reportLocation')}</span>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={handleShareClick}>
-                                <Share2 className='mr-2 size-4' />
-                                <span>{t('items.options.shareLocation')}</span>
-                            </DropdownMenuItem>
-                            {hasCoordinates && mapServices.length > 0 && (
-                                <>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuSub>
-                                        <DropdownMenuSubTrigger>
-                                            <Map className='mr-2 size-4' />
-                                            <span>
-                                                {t('items.options.viewIn')}
-                                            </span>
-                                        </DropdownMenuSubTrigger>
-                                        <DropdownMenuSubContent>
-                                            {mapServices.map(service => (
-                                                <DropdownMenuItem
-                                                    key={service.id}
-                                                    onClick={() =>
-                                                        openInMap(
-                                                            service.getUrl(),
-                                                        )
-                                                    }
-                                                >
-                                                    <service.icon className='mr-2 size-4' />
-                                                    <span>
-                                                        {t(
-                                                            `items.options.${service.translationKey}`,
-                                                        )}
-                                                    </span>
-                                                </DropdownMenuItem>
-                                            ))}
-                                        </DropdownMenuSubContent>
-                                    </DropdownMenuSub>
-                                </>
-                            )}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
-
-                <div className='absolute bottom-2 right-2 z-10'>
-                    {isLoadingFavorite ? (
-                        <Skeleton className='h-8 rounded-md px-3' />
-                    ) : (
-                        <Hint
-                            label={t('items.options.toFavoritesHeading')}
-                            side='left'
-                            align='end'
-                        >
-                            <FavoriteButton
-                                entityId={location.id}
-                                entityType={FavoriteType.Location}
-                                initialIsFavorite={initialIsFavorite}
-                                size='icon'
-                                variant='ghost'
-                            />
-                        </Hint>
-                    )}
+                            <DropdownMenuContent align='end'>
+                                <DropdownMenuLabel>
+                                    {t('items.options.actionsHeading')}
+                                </DropdownMenuLabel>
+                                <DropdownMenuItem onClick={handleEditClick}>
+                                    <Edit className='mr-2 size-4' />
+                                    <span>
+                                        {t('items.options.editLocation')}
+                                    </span>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={handleReportClick}>
+                                    <Flag className='mr-2 size-4' />
+                                    <span>
+                                        {t('items.options.reportLocation')}
+                                    </span>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={handleShareClick}>
+                                    <Share2 className='mr-2 size-4' />
+                                    <span>
+                                        {t('items.options.shareLocation')}
+                                    </span>
+                                </DropdownMenuItem>
+                                {hasCoordinates && mapServices.length > 0 && (
+                                    <>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuSub>
+                                            <DropdownMenuSubTrigger>
+                                                <Map className='mr-2 size-4' />
+                                                <span>
+                                                    {t('items.options.viewIn')}
+                                                </span>
+                                            </DropdownMenuSubTrigger>
+                                            <DropdownMenuSubContent>
+                                                {mapServices.map(service => (
+                                                    <DropdownMenuItem
+                                                        key={service.id}
+                                                        onClick={() =>
+                                                            openInMap(
+                                                                service.getUrl(),
+                                                            )
+                                                        }
+                                                    >
+                                                        <service.icon className='mr-2 size-4' />
+                                                        <span>
+                                                            {t(
+                                                                `items.options.${service.translationKey}`,
+                                                            )}
+                                                        </span>
+                                                    </DropdownMenuItem>
+                                                ))}
+                                            </DropdownMenuSubContent>
+                                        </DropdownMenuSub>
+                                    </>
+                                )}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </Hint>
                 </div>
 
                 <div className='text-ellipsis pr-4'>

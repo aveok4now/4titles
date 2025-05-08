@@ -4,6 +4,7 @@ import * as maptilersdk from '@maptiler/sdk'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { MAP_DEFAULT_ZOOM } from '../Map'
 import type { CustomHook, MapLocationChangeEvent } from '../types'
+import { getMapColors } from '../utils'
 
 export const useMapLocationSearch: CustomHook<
     React.RefObject<maptilersdk.Map | null>,
@@ -36,12 +37,16 @@ export const useMapLocationSearch: CustomHook<
     const [currentAddress, setCurrentAddress] = useState<string>(
         initialAddress || '',
     )
+    const themeColors = getMapColors()
 
     useEffect(() => {
         if (!mapLoaded || !mapRef.current || !enableGeocoding) return
 
         if (!geocodingControl.current) {
-            const gc = new GeocodingControl({})
+            const gc = new GeocodingControl({
+                showResultsWhileTyping: true,
+                showResultMarkers: false,
+            })
             mapRef.current.addControl(gc, 'top-left')
             geocodingControl.current = gc
 
@@ -78,6 +83,18 @@ export const useMapLocationSearch: CustomHook<
                         coordinates,
                     })
                 }
+
+                if (geocodingControl.current) {
+                    const container = mapRef.current?.getContainer()
+                    if (container) {
+                        const inputElement = container.querySelector(
+                            '.maptiler-geocoding-control input',
+                        ) as HTMLInputElement
+                        if (inputElement) {
+                            inputElement.value = address
+                        }
+                    }
+                }
             })
         }
 
@@ -99,6 +116,7 @@ export const useMapLocationSearch: CustomHook<
 
             const marker = new maptilersdk.Marker({
                 draggable: true,
+                color: themeColors.primary,
             })
                 .setLngLat(initialCoords)
                 .addTo(mapRef.current)
@@ -124,6 +142,18 @@ export const useMapLocationSearch: CustomHook<
                                 address,
                                 coordinates,
                             })
+                        }
+
+                        if (geocodingControl.current) {
+                            const container = mapRef.current?.getContainer()
+                            if (container) {
+                                const inputElement = container.querySelector(
+                                    '.maptiler-geocoding-control input',
+                                ) as HTMLInputElement
+                                if (inputElement) {
+                                    inputElement.value = address
+                                }
+                            }
                         }
                     }
                 } catch (error) {
@@ -151,6 +181,7 @@ export const useMapLocationSearch: CustomHook<
         initialCoordinates,
         onLocationChange,
         currentAddress,
+        themeColors,
     ])
 
     const updateMarkerPosition = useCallback(

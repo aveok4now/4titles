@@ -92,6 +92,8 @@ export function TitleHeroSection({
                                         entityType={FavoriteType.Title}
                                         initialIsFavorite={initialIsFavorite}
                                         variant='outline'
+                                        size='icon'
+                                        className='w-14 md:w-9'
                                     />
                                 )}
                             </div>
