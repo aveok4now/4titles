@@ -111,6 +111,10 @@ export function FilmingLocationProposalForm({
             setCurrentAddress(event.address)
             setCurrentCoordinates(event.coordinates)
             form.setValue('address', event.address)
+            form.setValue('coordinates', {
+                x: event.coordinates[0],
+                y: event.coordinates[1],
+            })
         },
         [form],
     )

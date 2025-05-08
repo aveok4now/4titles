@@ -68,11 +68,7 @@ export const useMapLocationSearch: CustomHook<
 
                 if (!coordinates) return
 
-                const address =
-                    place.properties?.name ||
-                    place.properties?.address ||
-                    place.properties?.place_name ||
-                    ''
+                const address = place.place_name
 
                 updateMarkerPosition(coordinates)
                 setCurrentAddress(address)
