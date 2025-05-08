@@ -70,7 +70,7 @@ export function TitleHeroSection({
 
     return (
         <FadeContent blur>
-            <section className='relative w-full px-4'>
+            <section className='relative w-full'>
                 <div className='container relative mx-auto py-8'>
                     <div className='flex flex-col items-start gap-8 md:flex-row'>
                         <div className='w-full md:w-1/3 lg:w-1/4'>
@@ -93,7 +93,7 @@ export function TitleHeroSection({
                                         initialIsFavorite={initialIsFavorite}
                                         variant='outline'
                                         size='icon'
-                                        className='w-14 md:w-9'
+                                        className='w-10 md:w-9'
                                     />
                                 )}
                             </div>
