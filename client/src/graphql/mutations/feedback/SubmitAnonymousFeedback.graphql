@@ -1,0 +1,13 @@
+mutation SubmitAnonymousFeedback($data: CreateFeedbackInput!) {
+    submitAnonymousFeedback(data: $data) {
+        success
+        message
+        feedback {
+            id
+            message
+            responseMessage
+            status
+            type
+        }
+    }
+}

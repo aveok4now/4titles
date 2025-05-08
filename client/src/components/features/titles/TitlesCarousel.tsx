@@ -1,5 +1,6 @@
 'use client'
 
+import { useSlidesToScroll } from '@/components/features/titles/hooks/useSlidesToScroll'
 import {
     Carousel,
     CarouselContent,
@@ -10,7 +11,6 @@ import { BorderBeam } from '@/components/ui/custom/content/border-beam'
 import { Hint } from '@/components/ui/elements/Hint'
 import { LogoImage } from '@/components/ui/elements/LogoImage'
 import { FindTitlesQuery, Title } from '@/graphql/generated/output'
-import { useSlidesToScroll } from '@/hooks/useSlidesToScroll'
 import {
     getLocalizedTitleName,
     getTitleBackdropUrl,

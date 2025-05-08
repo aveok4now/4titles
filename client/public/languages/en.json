@@ -33,10 +33,10 @@
             },
             "userNav": {
                 "home": "Home",
-                "overview": "Catalog",
+                "titles": "Catalog",
                 "routes": "Thematic Routes",
                 "feed": "News Feed",
-                "faq": "Support Center"
+                "faq": "FAQ"
             },
             "popularTitleSearches": {
                 "title": "Popular searches"
@@ -56,9 +56,17 @@
             },
             "notifications": {
                 "heading": "Notifications",
-                "description": "Receive website or Telegram notifications about changes to your favorite movies, series, and locations.",
+                "description": "Receive website or Telegram notifications about changes to your favorite movies, series and locations.",
                 "cta": "Configure",
                 "list": {
+                    "newTitleLocations": {
+                        "name": "New locations for «YOU»",
+                        "time": "14m ago"
+                    },
+                    "favTitleUpdated": {
+                        "name": "Favorite title updated",
+                        "time": "1h ago"
+                    },
                     "newFollower": {
                         "name": "New follower",
                         "time": "10m ago"
@@ -70,6 +78,10 @@
                     "feedbackResponse": {
                         "name": "Thanks for your feedback!",
                         "time": "34m ago"
+                    },
+                    "commentReply": {
+                        "name": "Someone replied to your comment",
+                        "time": "5m ago"
                     },
                     "totpEnabled": {
                         "name": "TOTP enabled",
@@ -179,6 +191,10 @@
             "credentialsValidationError": "Invalid email or password",
             "credentialsValidatonErrorDescription": "Check input data or retry later"
         }
+    },
+    "notFound": {
+        "description": "The page you're looking for has wandered off, but don't worry! Let's get you back on track.",
+        "backToHome": "Take Me Home"
     },
     "dashboard": {
         "settings": {
@@ -422,6 +438,16 @@
             "cancel": "Cancel",
             "continue": "Confirm"
         },
+        "favoriteButton": {
+            "addToFavorites": "Add to favorites",
+            "removeFromFavorites": "Remove from favorites",
+            "titleAdded": "Title added to favorites",
+            "locationAdded": "Location added to favorites",
+            "titleRemoved": "Title removed from favorites",
+            "locationRemoved": "Location removed from favorites",
+            "loginRequired": "You need to log in to manage favorites",
+            "error": "An error occurred while changing favorites"
+        },
         "dataTable": {
             "notFound": "No records found",
             "search": "Search...",
@@ -479,7 +505,6 @@
             }
         }
     },
-
     "countries": {
         "goToCountry": "Explore",
         "statistics": {
@@ -488,6 +513,158 @@
             "locations": "{count, plural, one {# filming location} other {# filming locations}}",
             "and": "and",
             "noData": "No Data"
+        }
+    },
+    "titleDetails": {
+        "hero": {
+            "overview": "Overview",
+            "releaseDate": "Release Date",
+            "runtime": "Runtime",
+            "userScore": "User Score",
+            "popularity": "Popularity",
+            "popularityPoints": "popularity points",
+            "productionCountry": "Production Country",
+            "genres": "Genres",
+            "min": "min",
+            "minutes": "minutes",
+            "voteAverage": "Rating",
+            "noOverview": "No description available"
+        },
+        "images": {
+            "heading": "Images",
+            "backdrops": "Backdrops",
+            "posters": "Posters",
+            "logos": "Logos",
+            "imageAlt": "Image",
+            "clickToView": "Click to view"
+        },
+        "cast": {
+            "heading": "Cast",
+            "viewDialog": {
+                "triggerHint": "Open",
+                "character": "Character"
+            }
+        },
+        "productionCompanies": {
+            "heading": "Production Companies"
+        },
+        "filmingLocations": {
+            "heading": "Filming Locations",
+            "description": "This map features most of the locations where '{title}' was filmed. You can see the exact position of each site, read descriptions, and discover which scenes were shot there. Click on the markers or select from the list to get more information.",
+            "search": {
+                "placeholder": "Search locations...",
+                "noResults": "No locations found"
+            },
+            "shareDialog": {
+                "heading": "Share Location",
+                "social": "Social Media",
+                "details": "Details",
+                "locationInfo": "Location Information",
+                "closeButton": "Close",
+                "linkCopied": "Link copied to clipboard",
+                "shareTitle": "Filming Location for '{title}': {location}",
+                "shareDescription": "Learn more about '{location}', a filming location for {type, select, TV {show} MOVIE {movie} other {title}} '{title}' on 4Titles website"
+            },
+            "addLocation": {
+                "heading": "Add Filming Location",
+                "authRequiredMessage": "Authentication required to submit filming locations"
+            },
+            "items": {
+                "options": {
+                    "heading": "Options",
+                    "toFavoritesHeading": "Add To Favorites",
+                    "actionsHeading": "Actions",
+                    "viewIn": "Open in",
+                    "viewInGMaps": "Google Maps",
+                    "viewInYaMaps": "Yandex Maps",
+                    "viewInAppleMaps": "Apple Maps",
+                    "viewIn2GisMaps": "2GIS",
+                    "viewInBingMaps": "Bing Maps",
+                    "viewInVkMaps": "VK Карты",
+                    "editLocation": "Edit",
+                    "reportLocation": "Report",
+                    "shareLocation": "Share"
+                },
+                "description": {
+                    "empty": "No description yet."
+                },
+                "author": {
+                    "heading": "Author",
+                    "openProfile": "Open profile"
+                }
+            },
+            "reportDialog": {
+                "heading": "Report location",
+                "messageLabel": "Issue description",
+                "messagePlaceholder": "Please describe in as much detail as possible what problems you've noticed with this location...",
+                "cancelButton": "Cancel",
+                "submitButton": "Submit",
+                "successMessage": "Thank you for your feedback! Your report will be reviewed by moderators shortly.",
+                "errorMessage": "Failed to submit report",
+                "errorMessageDescription": "Please check your input or try again later.",
+                "limitExceededMessage": "You've exceeded the daily feedback limit",
+                "limitExceededMessageDescription": "Please try again tomorrow.",
+                "validationMessages": {
+                    "messageMinLength": "Message must contain at least 10 characters",
+                    "messageMaxLength": "Message must not exceed 1000 characters"
+                }
+            },
+            "editDialog": {
+                "heading": "Suggest location changes",
+                "description": "If you've noticed any inaccuracies, discrepancies, or would like to improve the content quality, please make your changes in the form below",
+                "addressLabel": "Address",
+                "descriptionLabel": "Description",
+                "descriptionPlaceholder": "Detailed description of this location including which scenes were filmed here, possibly historical and other interesting facts...",
+                "reasonLabel": "Reason for change",
+                "reasonPlaceholder": "Why do you think the location information should be changed?",
+                "cancelButton": "Cancel",
+                "submitButton": "Submit",
+                "successMessage": "Thank you for your suggestion! Your changes will be reviewed by moderators shortly.",
+                "errorMessage": "Failed to submit suggestion",
+                "errorMessageDescription": "Please check your input or try again later.",
+                "limitExceededMessage": "You've exceeded the daily feedback limit",
+                "limitExceededMessageDescription": "Please try again tomorrow.",
+                "authRequiredMessage": "You need to log in to edit locations",
+                "validationMessages": {
+                    "addressMinLength": "Address must contain at least 3 characters",
+                    "addressMaxLength": "Address must not exceed 200 characters",
+                    "descriptionMinLength": "Description must contain at least 10 characters",
+                    "descriptionMaxLength": "Description must not exceed 1000 characters",
+                    "reasonMinLength": "Reason for change must contain at least 10 characters",
+                    "reasonMaxLength": "Reason for change must not exceed 500 characters",
+                    "atLeastOneThingShouldBeChanged": "At least one field must be changed: address or description"
+                }
+            },
+            "addDialog": {
+                "heading": "Add Filming Location",
+                "description": "Suggest a missing filming location for {type, select, TV {TV series} MOVIE {movie} other {title}} «{title}». You can track the review status in your dashboard. Thank you for your contribution!",
+                "authRequiredMessage": "You need to log in to submit filming locations"
+            },
+            "proposalForm": {
+                "descriptionLabel": "Description",
+                "descriptionPlaceholder": "Detailed description of this location, including which scenes were filmed here, historical context, and other interesting facts...",
+                "submitButton": "Submit",
+                "successMessage": "Thank you for your suggestion! Your location will be reviewed by moderators shortly.",
+                "errorMessage": "Failed to submit proposal",
+                "errorMessageDescription": "Please check your input or try again later.",
+                "add": {
+                    "reasonLabel": "Reason for adding",
+                    "reasonPlaceholder": "Why do you think this location should be added?"
+                },
+                "edit": {
+                    "reasonLabel": "Reason for editing",
+                    "reasonPlaceholder": "Why do you think the location information needs to be updated?"
+                },
+                "validationMessages": {
+                    "addressMinLength": "Address must be at least 5 characters",
+                    "addressMaxLength": "Address cannot exceed 255 characters",
+                    "descriptionMinLength": "Description must be at least 10 characters",
+                    "descriptionMaxLength": "Description cannot exceed 1000 characters",
+                    "reasonRequired": "Please provide a reason for adding the location",
+                    "reasonMinLength": "Reason must be at least 10 characters",
+                    "reasonMaxLength": "Reason cannot exceed 500 characters"
+                }
+            }
         }
     }
 }

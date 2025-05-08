@@ -1,0 +1,118 @@
+query FindTitleBySlug($slug: String!) {
+    findTitleBySlug(slug: $slug) {
+        id
+        slug
+        originalName
+        category
+        hasLocations
+        popularity
+        images {
+            posters {
+                iso_639_1
+                file_path
+            }
+            backdrops {
+                iso_639_1
+                file_path
+            }
+            logos {
+                iso_639_1
+                file_path
+            }
+        }
+        budget
+        revenue
+        runtime
+        voteAverage
+        voteCount
+        releaseDate
+        status
+        type
+        languages {
+            language {
+                id
+                iso
+                nativeName
+                englishName
+            }
+        }
+        countries {
+            type
+            country {
+                englishName
+                flagUrl
+                iso
+                name
+            }
+        }
+        filmingLocations {
+            filmingLocation {
+                id
+                address
+                coordinates {
+                    x
+                    y
+                }
+                formattedAddress
+                city
+                description
+                descriptions {
+                    id
+                    description
+                    language {
+                        id
+                        iso
+                    }
+                }
+                createdAt
+                user {
+                    username
+                    avatar
+                }
+            }
+        }
+        translations {
+            homepage
+            language {
+                id
+                iso
+                nativeName
+                englishName
+            }
+            overview
+            tagline
+            runtime
+            title
+        }
+        externalIds {
+            imdb_id
+            wikidata_id
+            twitter_id
+            instagram_id
+        }
+        genres {
+            genre {
+                id
+                englishName
+                name
+            }
+        }
+        credits {
+            cast {
+                character
+                gender
+                known_for_department
+                name
+                original_name
+                profile_path
+                order
+            }
+        }
+        productionCompanies {
+            id
+            name
+            logo_path
+            origin_country
+        }
+    }
+}

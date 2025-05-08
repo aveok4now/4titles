@@ -1,0 +1,5 @@
+mutation CreateFilmingLocationProposal(
+    $input: CreateFilmingLocationProposalInput!
+) {
+    createFilmingLocationProposal(input: $input)
+}

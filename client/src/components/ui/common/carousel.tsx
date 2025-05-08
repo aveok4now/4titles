@@ -214,6 +214,7 @@ const CarouselPrevious = React.forwardRef<
             )}
             disabled={!canScrollPrev}
             onClick={scrollPrev}
+            suppressHydrationWarning={true}
             {...props}
         >
             <ArrowLeft className='h-4 w-4' />

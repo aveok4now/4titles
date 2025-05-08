@@ -33,7 +33,7 @@
             },
             "userNav": {
                 "home": "Главная",
-                "overview": "Обзор",
+                "titles": "Каталог",
                 "routes": "Маршруты",
                 "feed": "Лента",
                 "faq": "ЧаВо"
@@ -59,6 +59,14 @@
                 "description": "Получайте уведомления на сайте или в Telegram об изменениях в избранных фильмах, сериалах и локациях.",
                 "cta": "Настроить",
                 "list": {
+                    "newTitleLocations": {
+                        "name": "Новые локации «YOU»",
+                        "time": "14м назад"
+                    },
+                    "favTitleUpdated": {
+                        "name": "Избранный тайтл был обновлён",
+                        "time": "1ч назад"
+                    },
                     "newFollower": {
                         "name": "Новый подписчик",
                         "time": "10м назад"
@@ -70,6 +78,10 @@
                     "feedbackResponse": {
                         "name": "Спасибо за обратную связь!",
                         "time": "34м назад"
+                    },
+                    "commentReply": {
+                        "name": "Кто-то ответил на Ваш комментарий",
+                        "time": "5м назад"
                     },
                     "totpEnabled": {
                         "name": "TOTP подключено",
@@ -179,6 +191,10 @@
             "credentialsValidationError": "Неверная почта или пароль",
             "credentialsValidatonErrorDescription": "Проверьте введённые данные или повторите попытку позже."
         }
+    },
+    "notFound": {
+        "description": "Страница, которую Вы ищете, куда-то пропала. Но не волнуйтесь! Давайте вернём вас в нужное место.",
+        "backToHome": "на главную"
     },
     "dashboard": {
         "settings": {
@@ -424,6 +440,16 @@
             "cancel": "Отмена",
             "continue": "Продолжить"
         },
+        "favoriteButton": {
+            "addToFavorites": "Добавить в избранное",
+            "removeFromFavorites": "Удалить из избранного",
+            "titleAdded": "Тайтл добавлен в избранное",
+            "locationAdded": "Локация добавлена в избранное",
+            "titleRemoved": "Тайтл удален из избранного",
+            "locationRemoved": "Локация удалена из избранного",
+            "loginRequired": "Для добавления в избранное необходимо войти в аккаунт",
+            "error": "Произошла ошибка при изменении избранного"
+        },
         "map": {
             "error": {
                 "title": "Ошибка инициализации",
@@ -489,6 +515,147 @@
             "locations": "{count, plural, one {# кинолокация} few {# кинолокации} other {# кинолокаций}}",
             "and": "и",
             "noData": "Нет данных"
+        }
+    },
+    "titleDetails": {
+        "hero": {
+            "overview": "Обзор",
+            "releaseDate": "Дата выхода",
+            "runtime": "Длительность",
+            "userScore": "Рейтинг",
+            "popularity": "Популярность",
+            "popularityPoints": "баллов популярности",
+            "productionCountry": "Страна производства",
+            "genres": "Жанры",
+            "min": "мин.",
+            "minutes": "минут",
+            "voteAverage": "Рейтинг",
+            "noOverview": "Описание отсутствует"
+        },
+        "images": {
+            "heading": "Изображения",
+            "backdrops": "Фоны",
+            "posters": "Постеры",
+            "logos": "Логотипы",
+            "imageAlt": "Изображение",
+            "clickToView": "Нажмите для просмотра"
+        },
+        "cast": {
+            "heading": "В ролях",
+            "viewDialog": {
+                "triggerHint": "Открыть",
+                "character": "Персонаж"
+            }
+        },
+        "productionCompanies": {
+            "heading": "Производственные компании"
+        },
+        "filmingLocations": {
+            "heading": "Локации съёмок",
+            "description": "На данной карте собрана большая часть локаций, где проходили съёмки «{title}». Вы можете увидеть точное расположение каждого места, прочитать описание и узнать, какие сцены были сняты в этих местах. Кликайте по маркерам или выбирайте из списка для получения дополнительной информации.",
+            "search": {
+                "placeholder": "Поиск по локациям...",
+                "noResults": "Локации не найдены"
+            },
+            "addLocation": {
+                "heading": "Добавить локацию",
+                "authRequiredMessage": "Для добавления локаций необходимо войти в аккаунт"
+            },
+            "items": {
+                "options": {
+                    "heading": "Опции",
+                    "toFavoritesHeading": "В избранное",
+                    "actionsHeading": "Действия",
+                    "viewIn": "Открыть в",
+                    "viewInGMaps": "Google Карты",
+                    "viewInYaMaps": "Яндекс Карты",
+                    "viewInAppleMaps": "Apple Карты",
+                    "viewIn2GisMaps": "2ГИС",
+                    "viewInBingMaps": "Bing Карты",
+                    "viewInVkMaps": "VK Карты",
+                    "editLocation": "Редактировать",
+                    "reportLocation": "Пожаловаться",
+                    "shareLocation": "Поделиться"
+                },
+                "description": {
+                    "empty": "Описания пока нет."
+                },
+                "author": {
+                    "heading": "Автор",
+                    "openProfile": "Открыть профиль"
+                }
+            },
+            "shareDialog": {
+                "heading": "Поделиться локацией",
+                "social": "Соцсети",
+                "details": "Детали",
+                "locationInfo": "Информация о локации",
+                "closeButton": "Закрыть",
+                "linkCopied": "Ссылка скопирована в буфер обмена",
+                "shareTitle": "Локация съёмок «{title}»: {location}",
+                "shareDescription": "Узнайте больше о локации «{location}», где снимался {type, select, TV {сериал} MOVIE {фильм} other {тайтл}} «{title}» на сайте 4Titles",
+                "authRequiredMessage": "Для шэринга локаций необходимо войти в аккаунт"
+            },
+            "reportDialog": {
+                "heading": "Пожаловаться на локацию",
+                "messageLabel": "Суть проблемы",
+                "messagePlaceholder": "Опишите, как можно подробнее, какие проблемы Вы заметили с этой локацией...",
+                "cancelButton": "Отмена",
+                "submitButton": "Отправить",
+                "successMessage": "Спасибо за обратную связь! Ваше сообщение будет рассмотрено модераторами в ближайшее время.",
+                "errorMessage": "Не удалось отправить жалобу",
+                "errorMessageDescription": "Проверьте введенные данные или повторите попытку позже.",
+                "limitExceededMessage": "Вы превысили дневной лимит обратной связи",
+                "limitExceededMessageDescription": "Пожалуйста, повторите попытку завтра.",
+                "validationMessages": {
+                    "messageMinLength": "Сообщение должно содержать не менее 10 символов",
+                    "messageMaxLength": "Сообщение не должно превышать 1000 символов"
+                }
+            },
+            "editDialog": {
+                "heading": "Предложить изменения локации",
+                "description": "Если Вы заметили несоответствия, неточности или хотите улучшить качество контента, то внесите изменения в форме",
+                "authRequiredMessage": "Для редактирования локаций необходимо войти в аккаунт",
+                "validationMessages": {
+                    "addressMinLength": "Адрес должен содержать не менее 3 символов",
+                    "addressMaxLength": "Адрес не должен превышать 200 символов",
+                    "descriptionMinLength": "Описание должно содержать не менее 10 символов",
+                    "descriptionMaxLength": "Описание не должно превышать 1000 символов",
+                    "reasonMinLength": "Причина изменения должна содержать не менее 10 символов",
+                    "reasonMaxLength": "Причина изменения не должна превышать 500 символов",
+                    "atLeastOneThingShouldBeChanged": "Необходимо изменить хотя бы одно поле: адрес или описание"
+                }
+            },
+            "addDialog": {
+                "heading": "Добавить локацию съёмок",
+                "description": "Предложите недостающую локацию съёмок для {type, select, TV {сериала} MOVIE {фильма} other {тайтла}} «{title}». Статус рассмотрения можно просматривать в дашборде. Благодарим за содействие!",
+                "authRequiredMessage": "Для добавления локаций необходимо войти в аккаунт"
+            },
+            "proposalForm": {
+                "descriptionLabel": "Описание",
+                "descriptionPlaceholder": "Подробное описание этой локации, включая какие сцены здесь снимались, возможно, исторические и иные интересные факты...",
+                "submitButton": "Отправить",
+                "successMessage": "Спасибо за предложение! Ваша локация будет рассмотрена модераторами в ближайшее время.",
+                "errorMessage": "Не удалось отправить предложение",
+                "errorMessageDescription": "Проверьте введенные данные или повторите попытку позже.",
+                "add": {
+                    "reasonLabel": "Причина добавления",
+                    "reasonPlaceholder": "Почему Вы считаете, что необходимо добавить данную локацию?"
+                },
+                "edit": {
+                    "reasonLabel": "Причина изменения",
+                    "reasonPlaceholder": "Почему Вы считаете, что информация о локации должна быть изменена?"
+                },
+                "validationMessages": {
+                    "addressMinLength": "Адрес должен содержать не менее 5 символов",
+                    "addressMaxLength": "Адрес не должен превышать 255 символов",
+                    "descriptionMinLength": "Описание должно содержать не менее 10 символов",
+                    "descriptionMaxLength": "Описание не должно превышать 1000 символов",
+                    "reasonRequired": "Укажите причину добавления локации",
+                    "reasonMinLength": "Причина должна содержать не менее 10 символов",
+                    "reasonMaxLength": "Причина не должна превышать 500 символов"
+                }
+            }
         }
     }
 }

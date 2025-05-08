@@ -32,7 +32,7 @@ export function TitleAvatar({
     return (
         <div className={cn('relative', className)}>
             <Avatar className={avatarSizes({ size })}>
-                <AvatarImage className='object-center' src={imagePath} />
+                <AvatarImage className='object-cover' src={imagePath} />
                 <AvatarFallback>{name[0]?.toUpperCase() || 'T'}</AvatarFallback>
                 <BorderBeam
                     size={30}

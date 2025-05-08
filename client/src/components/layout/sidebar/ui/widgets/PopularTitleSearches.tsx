@@ -18,14 +18,19 @@ export function PopularTitleSearches() {
     )
     const topSearches = data?.findPopularTitles || []
 
+    if (!isLoadingPopularTitles && topSearches.length === 0) {
+        return null
+    }
+
     return (
         <div className='pb-4'>
-            {!isCollapsed && (
-                <ShinyText
-                    className='mb-2 p-3 text-lg font-semibold text-foreground/90'
-                    text={t('title')}
-                />
-            )}
+            {!isCollapsed &&
+                (isLoadingPopularTitles || topSearches.length > 0) && (
+                    <ShinyText
+                        className='mb-2 p-3 text-lg font-semibold text-foreground/90'
+                        text={t('title')}
+                    />
+                )}
             {isLoadingPopularTitles
                 ? Array.from({ length: 7 }).map((_, index) => (
                       <PopularTitleItemSkeleton key={index} />

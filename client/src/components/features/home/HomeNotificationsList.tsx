@@ -17,7 +17,7 @@ const Notification = ({ name, description, icon, color, time }: Item) => {
     return (
         <figure
             className={cn(
-                'relative mx-auto min-h-fit w-full max-w-[400px] cursor-pointer overflow-hidden rounded-2xl p-4',
+                'relative mx-auto min-h-fit w-full max-w-[30rem] cursor-pointer overflow-hidden rounded-2xl p-4',
                 'transition-all duration-200 ease-in-out hover:scale-[103%]',
                 'bg-white [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)]',
                 'transform-gpu dark:bg-transparent dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]',
@@ -54,6 +54,20 @@ export function HomeNotificationsList({ className }: { className?: string }) {
 
     let notifications = [
         {
+            name: t('newTitleLocations.name'),
+            description: SITE_NAME,
+            time: t('newTitleLocations.time'),
+            icon: '📍',
+            color: '#9C27B0',
+        },
+        {
+            name: t('favTitleUpdated.name'),
+            description: SITE_NAME,
+            time: t('favTitleUpdated.time'),
+            icon: '⭐',
+            color: '#FF9800',
+        },
+        {
             name: t('newFollower.name'),
             description: SITE_NAME,
             time: t('newFollower.time'),
@@ -75,6 +89,13 @@ export function HomeNotificationsList({ className }: { className?: string }) {
             color: '#FF3D71',
         },
         {
+            name: t('commentReply.name'),
+            description: SITE_NAME,
+            time: t('commentReply.time'),
+            icon: '💬',
+            color: '#2196F3',
+        },
+        {
             name: t('totpEnabled.name'),
             description: SITE_NAME,
             time: t('totpEnabled.time'),
@@ -83,7 +104,7 @@ export function HomeNotificationsList({ className }: { className?: string }) {
         },
     ]
 
-    notifications = Array.from({ length: 10 }, () => notifications).flat()
+    notifications = Array.from({ length: 40 }, () => notifications).flat()
 
     return (
         <div
@@ -98,7 +119,7 @@ export function HomeNotificationsList({ className }: { className?: string }) {
                 ))}
             </AnimatedList>
 
-            <div className='pointer-events-none absolute inset-0 bg-gradient-to-t from-background to-transparent' />
+            <div className='pointer-events-none inset-0 hidden bg-gradient-to-t from-background to-transparent dark:absolute' />
             <div className='pointer-events-none absolute inset-0 bg-gradient-to-l from-transparent to-background/80 sm:to-background/60 md:to-transparent' />
             <div className='pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background'></div>
         </div>

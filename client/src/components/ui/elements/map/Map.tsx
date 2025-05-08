@@ -1,156 +1,119 @@
 'use client'
 
-import * as maptilersdk from '@maptiler/sdk'
+import '@maptiler/geocoding-control/style.css'
 import '@maptiler/sdk/dist/maptiler-sdk.css'
 
-import { cn } from '@/utils/tw-merge'
-import type { LucideIcon } from 'lucide-react'
-import { memo, useEffect, useRef, useState } from 'react'
-import { createRoot } from 'react-dom/client'
+import * as maptilersdk from '@maptiler/sdk'
+import type { MapProps } from './types'
 
+import { memo, useEffect, useRef } from 'react'
+
+import { useLocale } from 'next-intl'
 import { MapSkeleton } from './MapSkeleton'
+import {
+    useClusterization,
+    useGlobeProjectionErrorHandler,
+    useMapInitialization,
+    useMapLocationSearch,
+    useMapMarkers,
+    useSelectedMarkerFocus,
+} from './hooks'
 
-export interface MapMarker {
-    coordinates: [number, number]
-    title?: string
-    popupContent?: string
-    color?: string
-    icon?: LucideIcon
-    iconClassName?: string
-    iconSize?: number
-}
-
-export interface MapProps {
-    center?: [number, number]
-    zoom?: number
-    markers?: MapMarker[]
-    height?: string | number
-    width?: string | number
-    onMapLoaded?: (map: maptilersdk.Map) => void
-    style?: maptilersdk.ReferenceMapStyle
-}
+export const MAP_DEFAULT_ZOOM = 16
 
 function MapComponent({
     center = [0, 0],
-    zoom = 12,
+    zoom = MAP_DEFAULT_ZOOM,
     markers = [],
     height = '300px',
     width = '100%',
     onMapLoaded,
     style = maptilersdk.MapStyle.STREETS,
+    terrain = false,
+    projection = false,
+    onMarkerClick,
+    enableClustering = false,
+    clusterSourceId = 'locations',
+    clusterOptions = {
+        maxZoom: 14,
+        radius: 50,
+        colors: {
+            base: 'hsl(var(--primary))',
+            medium: 'hsl(var(--accent))',
+            large: 'hsl(var(--secondary))',
+            text: 'hsl(var(--primary-foreground))',
+        },
+    },
+    selectedMarkerId,
+    enableGeocoding = false,
+    enableDraggableMarker = false,
+    onLocationChange,
+    initialAddress,
 }: MapProps) {
+    const locale = useLocale()
     const mapContainer = useRef<HTMLDivElement>(null)
-    const map = useRef<maptilersdk.Map | null>(null)
-    const markerRefs = useRef<maptilersdk.Marker[]>([])
-    const [mapLoaded, setMapLoaded] = useState(false)
 
-    useEffect(() => {
-        maptilersdk.config.apiKey =
-            process.env.NEXT_PUBLIC_MAPTILER_API_KEY || ''
-    }, [])
+    const { mapRef, mapLoaded } = useMapInitialization(
+        mapContainer as React.RefObject<HTMLDivElement>,
+        {
+            locale,
+            style,
+            center,
+            zoom,
+            terrain,
+            projection,
+            onMapLoaded,
+        },
+    )
 
-    useEffect(() => {
-        if (!mapContainer.current || map.current) return
-
-        try {
-            const newMap = new maptilersdk.Map({
-                container: mapContainer.current,
-                style,
-                center,
-                zoom,
-            })
-
-            newMap.on('load', () => {
-                setMapLoaded(true)
-
-                if (onMapLoaded) {
-                    onMapLoaded(newMap)
-                }
-            })
-
-            map.current = newMap
-        } catch {
-            setMapLoaded(false)
-        }
-
-        return () => {
-            if (map.current) {
-                map.current.remove()
-                map.current = null
-                setMapLoaded(false)
-            }
-        }
-    }, [])
-
-    useEffect(() => {
-        if (!mapLoaded || !map.current) return
-
-        markerRefs.current.forEach(marker => marker.remove())
-        markerRefs.current = []
-
-        const mapInstance = map.current as maptilersdk.Map
-
-        markers.forEach(marker => {
-            let newMarker: maptilersdk.Marker
-
-            if (marker.icon) {
-                const el = document.createElement('div')
-
-                const root = createRoot(el)
-                const Icon = marker.icon
-                const iconSize = marker.iconSize || 24
-
-                root.render(
-                    <Icon
-                        size={iconSize}
-                        className={cn(
-                            'size-10 text-primary',
-                            marker.iconClassName,
-                        )}
-                    />,
-                )
-
-                newMarker = new maptilersdk.Marker({
-                    element: el,
-                })
-                    .setLngLat(marker.coordinates)
-                    .addTo(mapInstance)
-            } else {
-                const markerOptions: maptilersdk.MarkerOptions = {}
-
-                if (marker.color) {
-                    markerOptions.color = marker.color
-                }
-
-                newMarker = new maptilersdk.Marker(markerOptions)
-                    .setLngLat(marker.coordinates)
-                    .addTo(mapInstance)
-            }
-
-            const popupContent =
-                marker.popupContent ||
-                (marker.title ? `<p>${marker.title}</p>` : null)
-
-            if (popupContent) {
-                newMarker.setPopup(
-                    new maptilersdk.Popup().setHTML(popupContent),
-                )
-            }
-
-            markerRefs.current.push(newMarker)
+    const { markerRefs, addStandardMarkers, createStandardMarker } =
+        useMapMarkers(mapRef, {
+            markers,
+            mapLoaded,
+            selectedMarkerId,
+            onMarkerClick,
+            clusterOptions,
         })
 
-        if (markers.length > 0) {
-            mapInstance.setCenter(markers[0].coordinates)
-        }
-    }, [markers, mapLoaded])
+    useClusterization(mapRef, {
+        mapLoaded,
+        enableClustering,
+        markers,
+        clusterSourceId,
+        clusterOptions,
+        selectedMarkerId,
+        onMarkerClick,
+        markerRefs,
+        createStandardMarker,
+    })
+
+    useSelectedMarkerFocus(mapRef, {
+        mapLoaded,
+        markers,
+        selectedMarkerId,
+    })
+
+    useGlobeProjectionErrorHandler(mapRef, {
+        mapLoaded,
+        projection,
+    })
+
+    useMapLocationSearch(mapRef, {
+        mapLoaded,
+        enableGeocoding,
+        enableDraggableMarker,
+        onLocationChange,
+        initialAddress,
+        initialCoordinates: center,
+    })
 
     useEffect(() => {
-        if (!mapLoaded || !map.current) return
+        if (!mapLoaded || !mapRef.current) return
 
-        map.current.setCenter(center)
-        map.current.setZoom(zoom)
-    }, [center, zoom, mapLoaded])
+        if (!enableClustering && !enableDraggableMarker) {
+            addStandardMarkers()
+        }
+    }, [mapLoaded, enableClustering, enableDraggableMarker, addStandardMarkers])
 
     return (
         <>

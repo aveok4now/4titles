@@ -1,0 +1,24 @@
+query SearchTitleFilmingLocations($titleId: String!, $query: String!) {
+    searchTitleFilmingLocations(titleId: $titleId, query: $query) {
+        filmingLocation {
+            id
+            address
+            coordinates {
+                x
+                y
+            }
+            formattedAddress
+            city
+            description
+            descriptions {
+                id
+                description
+                language {
+                    id
+                    iso
+                }
+            }
+            createdAt
+        }
+    }
+}

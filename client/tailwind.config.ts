@@ -103,6 +103,11 @@ export default {
                 'marquee-vertical':
                     'marquee-vertical var(--duration) linear infinite',
             },
+            flexBasis: {
+                '1/8': '12.5%',
+                '1/9': '11.1%',
+                '1/10': '10%',
+            },
         },
     },
     plugins: [require('tailwindcss-animate')],
