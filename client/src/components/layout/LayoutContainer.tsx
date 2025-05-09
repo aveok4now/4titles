@@ -5,6 +5,7 @@ import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { useSidebar } from '@/hooks/useSidebar'
 import { PropsWithChildren, useEffect } from 'react'
 import { cn } from '../../utils/tw-merge'
+import FadeContent from '../ui/custom/content/fade-content'
 
 export function LayoutContainer({ children }: PropsWithChildren<unknown>) {
     const isMobile = useMediaQuery('(max-width: 1024px)')
@@ -32,7 +33,9 @@ export function LayoutContainer({ children }: PropsWithChildren<unknown>) {
                 isCollapsed ? 'ml-16' : 'ml-16 lg:ml-64',
             )}
         >
-            {children}
+            <FadeContent delay={500} blur>
+                {children}
+            </FadeContent>
         </main>
     )
 }

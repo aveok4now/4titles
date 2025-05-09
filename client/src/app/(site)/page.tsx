@@ -1,7 +1,6 @@
 import { ContentCarouselSection } from '@/components/features/common/ContentCarouselSection'
 import { AboutGrid } from '@/components/features/home/AboutGrid'
 import { HomeCountriesMarquee } from '@/components/features/home/HomeCountriesMarquee'
-import { HomeSectionContainer } from '@/components/features/home/HomeSectionContainer'
 import { TitlesCarousel } from '@/components/features/titles/TitlesCarousel'
 import {
     FindTitlesDocument,
@@ -95,7 +94,7 @@ export default async function HomePage() {
     ])
 
     return (
-        <HomeSectionContainer>
+        <div className='space-y-12'>
             <AboutGrid />
 
             {movies && (
@@ -130,6 +129,6 @@ export default async function HomePage() {
                     <HomeCountriesMarquee countries={countriesStats} />
                 </ContentCarouselSection>
             )}
-        </HomeSectionContainer>
+        </div>
     )
 }
