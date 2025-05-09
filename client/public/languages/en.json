@@ -106,6 +106,108 @@
         },
         "viewAll": "View all"
     },
+    "faq": {
+        "heading": "Frequently Asked Questions",
+        "description": "Here you'll find answers to common questions about our service.",
+        "questions": {
+            "whatIs4Titles": {
+                "question": "What is 4Titles?",
+                "answer": "4Titles is a web-GIS application serving as a database of filming locations for movies and TV shows. Our service allows users to explore where their favorite films and series were shot, view locations on a map, suggest new locations, and more."
+            },
+            "howToUse": {
+                "question": "How do I use the website?",
+                "answer": "Simply go to the 'Catalog' section and select a movie or TV show you're interested in. On the title page, you'll find a map with marked filming locations along with information about each location. For full access to all features, we recommend registering an account."
+            },
+            "howToAddLocation": {
+                "question": "How can I add a new location?",
+                "answer": "Log in to your account, open the page of the relevant movie or TV show, and click the 'Add Location' button. Fill out the form with the exact address, description, and reason for adding. Your submission will be reviewed by moderators shortly."
+            },
+            "canEditLocations": {
+                "question": "Can I edit existing locations?",
+                "answer": "Yes, you can suggest edits to existing locations. Open the relevant movie or TV show page, scroll to the locations list, select the 'Edit' option for the desired location, and make your changes. Your proposal will be reviewed by moderators."
+            },
+            "howToTrackProposals": {
+                "question": "How can I track the status of my submissions?",
+                "answer": "All your location submissions and edit proposals are available in the 'Dashboard' → 'Proposals' section. There you can see each proposal's status: under review, approved, declined, or in progress."
+            },
+            "canSaveToFavorites": {
+                "question": "Can I save locations to favorites?",
+                "answer": "Yes, registered users can add locations and titles to favorites. Click the star icon next to a location or title to save it. All saved items are available on your 'Favorites' page."
+            },
+            "howToGetNotifications": {
+                "question": "How do I get updates about new content?",
+                "answer": "In 'Dashboard' → 'Settings' → 'Notifications', you can configure website or Telegram notifications. You'll receive alerts about new locations for favorite titles, updates, and other important events."
+            },
+            "canShareLocation": {
+                "question": "Can I share locations I find?",
+                "answer": "Yes, each location has a 'Share' option. You can copy a direct link to the location or share it on social media platforms."
+            },
+            "whatIfFoundError": {
+                "question": "What should I do if I find an error on the site?",
+                "answer": "We appreciate error reports. You can submit feedback through the form in 'Dashboard' → 'Feedback' or by clicking the 'Report' button on location pages."
+            },
+            "dataProtection": {
+                "question": "How is my personal data protected?",
+                "answer": "We take data security seriously. Passwords are stored encrypted, and personal information is only used for service functionality. You can enable two-factor authentication for additional security."
+            },
+            "whatIsFilmTourism": {
+                "question": "What is film tourism?",
+                "answer": "Film tourism involves visiting locations where famous movies and TV shows were filmed. 4Titles helps plan such trips by providing accurate information about filming locations."
+            },
+            "plansForRoutes": {
+                "question": "Are you planning to create film location routes?",
+                "answer": "Yes, we're developing features to create collections and routes for film tourism. You'll be able to make custom routes or use pre-made ones."
+            },
+            "howOftenUpdated": {
+                "question": "How often is the location database updated?",
+                "answer": "The database updates daily. We add new titles and locations while processing user submissions. Major updates typically follow new popular film and TV releases."
+            },
+            "canUseInfoCommercially": {
+                "question": "Can I use site information for commercial projects?",
+                "answer": "Location information is provided for personal use. Commercial use or publication requires permission - please contact us through the feedback form."
+            },
+            "isMobileAppAvailable": {
+                "question": "Is there a 4Titles mobile app?",
+                "answer": "We're currently developing iOS and Android apps. Meanwhile, you can use the responsive website on mobile devices by adding it to your home screen. We'll announce app releases through site notifications and Telegram."
+            },
+            "howToChangeTheme": {
+                "question": "How do I change the site theme?",
+                "answer": "Change the theme (light, dark, or system) in 'Dashboard' → 'Settings' → 'Appearance'. You can also customize the accent color for a more personalized experience."
+            },
+            "availableLanguages": {
+                "question": "What languages does the site support?",
+                "answer": "The site currently supports Russian and English. Select your preferred language in 'Dashboard' → 'Settings' → 'Appearance' → 'Site Language'. Additional languages are planned."
+            },
+            "howToChangePassword": {
+                "question": "How do I change my account password?",
+                "answer": "Go to 'Dashboard' → 'Settings' → 'Account' → 'Password'. Enter your current password, then your new password twice. New passwords require at least 8 characters, including 1 capital letter and 1 number."
+            },
+            "howToRestorePassword": {
+                "question": "What if I forgot my password?",
+                "answer": "Click 'Forgot password?' on the login page. Enter your email to receive a reset link. If you have Telegram notifications enabled, you'll also receive the link there."
+            },
+            "howTo2FA": {
+                "question": "How do I set up two-factor authentication?",
+                "answer": "Go to 'Dashboard' → 'Settings' → 'Account' → 'TOTP Authentication'. Click 'Enable', scan the QR code with an authenticator app (like Google Authenticator), then enter the 6-digit code to confirm."
+            },
+            "howToDeactivateAccount": {
+                "question": "How do I deactivate my account?",
+                "answer": "In 'Dashboard' → 'Settings' → 'Account' → 'Deactivation', click 'Deactivate'. Confirm with your email and password. After deactivation, you can't log in, and all data will be permanently deleted after 7 days."
+            },
+            "howToManageSessions": {
+                "question": "How do I view and manage active sessions?",
+                "answer": "View all active sessions in 'Dashboard' → 'Settings' → 'Sessions'. This shows all devices logged into your account. You can view session details and terminate any except the current one."
+            },
+            "howToAddSocialLinks": {
+                "question": "How do I add social media links to my profile?",
+                "answer": "Add social links in 'Dashboard' → 'Settings' → 'Profile' → 'Social Media'. Enter the platform name and full profile URL. You can add, edit, remove, and reorder social media links displayed on your profile."
+            },
+            "howToUpdateAvatar": {
+                "question": "How do I update my profile picture?",
+                "answer": "Update your avatar in 'Dashboard' → 'Settings' → 'Profile' → 'Profile Picture'. Click 'Update Profile Image' and select a new image (JPG, JPEG, PNG, WEBP or GIF up to 10MB)."
+            }
+        }
+    },
     "auth": {
         "register": {
             "heading": "Create Account",
