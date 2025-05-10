@@ -12,7 +12,6 @@ import { Button } from '@/components/ui/common/button'
 import { ScrollArea } from '@/components/ui/common/scroll-area'
 import { MapMarker } from '@/components/ui/elements/map'
 import { Map, MAP_DEFAULT_ZOOM } from '@/components/ui/elements/map/Map'
-import { getMapColors } from '@/components/ui/elements/map/utils'
 import { useSearchTitleFilmingLocationsLazyQuery } from '@/graphql/generated/output'
 import { useAuth } from '@/hooks/useAuth'
 import { getLocalizedFilmingLocationDescription } from '@/utils/filming-location/filming-location-localization'
@@ -61,24 +60,6 @@ export function TitleFilmingLocationsSection({
 
     const scrollAreaRef = useRef<HTMLDivElement>(null)
     const locationItemRefs = useRef<Record<string, HTMLDivElement>>({})
-    const [themeColors, setThemeColors] = useState({
-        base: 'hsl(var(--primary))',
-        medium: 'hsl(var(--accent))',
-        large: 'hsl(var(--secondary))',
-        text: 'hsl(var(--primary-foreground))',
-    })
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const mapColors = getMapColors()
-            setThemeColors({
-                base: mapColors.primary,
-                medium: mapColors.accent,
-                large: mapColors.secondary,
-                text: mapColors.primaryForeground,
-            })
-        }
-    }, [])
 
     useEffect(() => {
         if (locationParam) {
@@ -179,14 +160,10 @@ export function TitleFilmingLocationsSection({
                             ? 'text-accent animate-bounce'
                             : 'text-primary',
                     ),
-                    color:
-                        selectedLocationId === location.id
-                            ? themeColors.medium
-                            : themeColors.base,
                     className: 'cursor-pointer',
                 }
             })
-    }, [enhancedLocations, selectedLocationId, themeColors])
+    }, [enhancedLocations, selectedLocationId])
 
     const mapCenter = useMemo(() => {
         if (selectedLocationId) {
@@ -296,7 +273,6 @@ export function TitleFilmingLocationsSection({
                         clusterOptions={{
                             maxZoom: 14,
                             radius: 40,
-                            colors: themeColors,
                         }}
                         selectedMarkerId={selectedLocationId || undefined}
                     />
