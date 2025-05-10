@@ -1,3 +1,3 @@
-mutation RemoveFromFavorites($type: FavoriteType!, $entityId: String!) {
-    removeFromFavorites(type: $type, entityId: $entityId)
+mutation RemoveFromFavorites($input: RemoveFromFavoritesInput!) {
+    removeFromFavorites(input: $input)
 }

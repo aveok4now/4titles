@@ -2,7 +2,7 @@
 
 import {
     FavoriteType,
-    useIsTitleFavoriteQuery,
+    useIsEntityFavoriteQuery,
 } from '@/graphql/generated/output'
 import { useLocale, useTranslations } from 'next-intl'
 
@@ -45,12 +45,14 @@ export function TitleHeroSection({ details }: TitleHeroSectionProps) {
     } = details
 
     const { data: favoriteData, loading: isLoadingFavorite } =
-        useIsTitleFavoriteQuery({
-            variables: { titleId },
+        useIsEntityFavoriteQuery({
+            variables: {
+                input: { entityId: titleId, type: FavoriteType.Title },
+            },
             fetchPolicy: 'cache-and-network',
         })
 
-    const initialIsFavorite = favoriteData?.isTitleFavorite
+    const initialIsFavorite = favoriteData?.isEntityFavorite
 
     return (
         <FadeContent blur>

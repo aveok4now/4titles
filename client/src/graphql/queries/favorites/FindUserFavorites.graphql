@@ -69,5 +69,23 @@ query FindUserFavorites($filters: FindFavoritesInput!) {
                 }
             }
         }
+        filmingLocationTitle {
+            id
+            type
+            slug
+            translations {
+                title
+                overview
+                language {
+                    iso
+                }
+            }
+            images {
+                posters {
+                    file_path
+                    iso_639_1
+                }
+            }
+        }
     }
 }
