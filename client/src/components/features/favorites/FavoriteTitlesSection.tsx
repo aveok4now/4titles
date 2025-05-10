@@ -1,5 +1,6 @@
 'use client'
 
+import FadeContent from '@/components/ui/custom/content/fade-content'
 import { Heading } from '@/components/ui/elements/Heading'
 import {
     FavoriteType,
@@ -34,7 +35,6 @@ export function FavoriteTitlesSection({
         data,
         fetchMore,
         loading: isLoading,
-        error,
     } = useFindUserFavoritesQuery({
         variables: {
             filters: {
@@ -43,7 +43,7 @@ export function FavoriteTitlesSection({
                 skip: 0,
             },
         },
-        fetchPolicy: 'network-only',
+        fetchPolicy: 'cache-and-network',
     })
 
     useEffect(() => {
@@ -86,10 +86,12 @@ export function FavoriteTitlesSection({
 
     if (favoriteTitles.length === 0 && !isLoading) {
         return (
-            <Heading
-                title={t('noTitles.heading')}
-                description={t('noTitles.description')}
-            />
+            <FadeContent blur delay={500}>
+                <Heading
+                    title={t('noTitles.heading')}
+                    description={t('noTitles.description')}
+                />
+            </FadeContent>
         )
     }
 
