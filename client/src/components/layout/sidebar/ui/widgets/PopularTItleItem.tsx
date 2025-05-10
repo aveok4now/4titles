@@ -6,9 +6,8 @@ import { FindPopularTitlesQuery, Title } from '@/graphql/generated/output'
 import { useSidebar } from '@/hooks/useSidebar'
 import {
     getLocalizedTitleName,
-    getTitleLogoUrl,
     getTitlePosterUrl,
-} from '@/utils/localization/title-localization'
+} from '@/utils/title/title-localization'
 import { useLocale } from 'next-intl'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'

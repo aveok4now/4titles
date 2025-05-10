@@ -1,19 +1,16 @@
 'use client'
 
-import type {
-    Title,
-    TitleCountry,
-    TitleGenre,
-} from '@/graphql/generated/output'
 import {
     FavoriteType,
     useIsTitleFavoriteQuery,
 } from '@/graphql/generated/output'
+import { useLocale, useTranslations } from 'next-intl'
 
 import { FavoriteButton } from '@/components/features/favorites/FavoriteButton'
 import { Skeleton } from '@/components/ui/common/skeleton'
 import FadeContent from '@/components/ui/custom/content/fade-content'
-import { useTranslations } from 'next-intl'
+
+import { TitleDetailedInfo } from '../../types'
 import { TitleCountries } from './TitleCountries'
 import { TitleGenres } from './TitleGenres'
 import { TitleHeader } from './TitleHeader'
@@ -24,41 +21,28 @@ import { TitleScores } from './TitleScores'
 import { TitleSocialLinks } from './TitleSocialLinks'
 
 interface TitleHeroSectionProps {
-    titleId: string
-    name: string
-    overview?: string
-    tagline?: string
-    backdropUrl: string | null
-    posterUrl: string | null
-    releaseDate: Date | null
-    releaseYear?: number
-    runtime?: number
-    voteAverage: number
-    popularity?: number
-    genres: TitleGenre[]
-    countries: TitleCountry[]
-    locale: string
-    externalIds?: Title['externalIds']
+    details: TitleDetailedInfo
 }
 
-export function TitleHeroSection({
-    titleId,
-    name,
-    overview,
-    tagline,
-    backdropUrl,
-    posterUrl,
-    releaseDate,
-    releaseYear,
-    runtime,
-    voteAverage,
-    popularity,
-    genres,
-    countries,
-    locale,
-    externalIds,
-}: TitleHeroSectionProps) {
+export function TitleHeroSection({ details }: TitleHeroSectionProps) {
     const t = useTranslations('titleDetails.hero')
+    const locale = useLocale()
+
+    const {
+        id: titleId,
+        posterUrl,
+        name,
+        releaseYear,
+        tagline,
+        releaseDate,
+        runtime,
+        voteAverage,
+        popularity,
+        countries,
+        genres,
+        externalIds,
+        overview,
+    } = details
 
     const { data: favoriteData, loading: isLoadingFavorite } =
         useIsTitleFavoriteQuery({
@@ -83,7 +67,6 @@ export function TitleHeroSection({
                                     releaseYear={releaseYear}
                                     tagline={tagline}
                                 />
-
                                 {isLoadingFavorite ? (
                                     <Skeleton className='size-9 rounded-md' />
                                 ) : (
@@ -97,7 +80,6 @@ export function TitleHeroSection({
                                     />
                                 )}
                             </div>
-
                             <TitleReleaseInfo
                                 releaseDate={releaseDate}
                                 runtime={runtime}

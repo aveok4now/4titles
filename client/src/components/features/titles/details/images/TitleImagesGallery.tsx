@@ -17,6 +17,7 @@ import {
     MorphingDialogContent,
     MorphingDialogImage,
 } from '@/components/ui/custom/content/morphing-dialog'
+import { AccentSpotlight } from '@/components/ui/elements/AccentSpotlight'
 import { Hint } from '@/components/ui/elements/Hint'
 import { TitleImage } from '@/graphql/generated/output'
 import { cn } from '@/utils/tw-merge'
@@ -211,6 +212,7 @@ export function TitleImagesGallery({
                                                       : 100
                                             }
                                         />
+                                        <AccentSpotlight />
                                     </div>
                                 </Hint>
                             </CarouselItem>

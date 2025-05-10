@@ -13,7 +13,7 @@ import {
     DialogTitle,
 } from '@/components/ui/common/dialog'
 import { ScrollArea } from '@/components/ui/common/scroll-area'
-import { getLocalizedTitleName } from '@/utils/localization/title-localization'
+import { getLocalizedTitleName } from '@/utils/title/title-localization'
 import { useLocale, useTranslations } from 'next-intl'
 import { FilmingLocationProposalForm } from '../forms'
 

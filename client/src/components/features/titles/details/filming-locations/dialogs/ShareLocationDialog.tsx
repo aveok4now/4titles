@@ -21,7 +21,7 @@ import {
     getLocalizedTitleData,
     getLocalizedTitleName,
     getTitlePosterUrl,
-} from '@/utils/localization/title-localization'
+} from '@/utils/title/title-localization'
 import { Copy, Link as LinkIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useMemo, useState } from 'react'

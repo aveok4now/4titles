@@ -1,7 +1,7 @@
 import { AvatarFallback } from '@/components/ui/common/avatar'
 import { Hint } from '@/components/ui/elements/Hint'
 import { Country, CountryStatistics } from '@/graphql/generated/output'
-import { getLocalizedCountryName } from '@/utils/localization/country-localization'
+import { getLocalizedCountryName } from '@/utils/country/country-localization'
 import { cn } from '@/utils/tw-merge'
 import { useLocale, useTranslations } from 'next-intl'
 import Image from 'next/image'
