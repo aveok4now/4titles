@@ -68,6 +68,8 @@ query FindUserFavorites($filters: FindFavoritesInput!) {
                     }
                 }
             }
+            createdAt
+            updatedAt
         }
         filmingLocationTitle {
             id

@@ -45,13 +45,12 @@ interface TitleFilmingLocationsListItemProps {
     onClick: () => void
     t?: (key: string) => string
     title: Title
-    locale: string
 }
 
 export const TitleFilmingLocationsListItem = forwardRef<
     HTMLDivElement,
     TitleFilmingLocationsListItemProps
->(({ location, isSelected, onClick, t, title, locale }, ref) => {
+>(({ location, isSelected, onClick, t, title }, ref) => {
     const flItemT = t ?? useTranslations('titleDetails.filmingLocations')
 
     const { isAuthenticated } = useAuth()
@@ -189,7 +188,7 @@ export const TitleFilmingLocationsListItem = forwardRef<
                     </Hint>
                     <Hint
                         label={flItemT('items.options.heading')}
-                        side='right'
+                        side='left'
                         align='end'
                     >
                         <DropdownMenu>
@@ -333,7 +332,6 @@ export const TitleFilmingLocationsListItem = forwardRef<
                 onClose={() => setIsShareDialogOpen(false)}
                 location={location}
                 title={title}
-                locale={locale}
             />
         </>
     )

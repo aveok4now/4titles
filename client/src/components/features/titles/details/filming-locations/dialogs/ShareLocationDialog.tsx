@@ -23,7 +23,7 @@ import {
     getTitlePosterUrl,
 } from '@/utils/title/title-localization'
 import { Copy, Link as LinkIcon } from 'lucide-react'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { useMemo, useState } from 'react'
 import { toast } from 'sonner'
 
@@ -63,7 +63,6 @@ interface ShareLocationDialogProps {
     onClose: () => void
     location: NonNullable<FilmingLocation>
     title: Title
-    locale: string
 }
 
 export function ShareLocationDialog({
@@ -71,10 +70,10 @@ export function ShareLocationDialog({
     onClose,
     location,
     title,
-    locale,
 }: ShareLocationDialogProps) {
     const t = useTranslations('titleDetails.filmingLocations.shareDialog')
     const tTitleDetails = useTranslations('titleDetails')
+    const locale = useLocale()
 
     const [activeTab, setActiveTab] = useState<string>('social')
     const titleName = getLocalizedTitleName(title, locale)

@@ -1,5 +1,154 @@
 'use client'
 
+import {
+    FilmingLocationsContent,
+    type ProcessedFilmingLocation,
+} from '@/components/features/filming-locations/FilmingLocationsContent'
+import FadeContent from '@/components/ui/custom/content/fade-content'
+import { Heading } from '@/components/ui/elements/Heading'
+import {
+    FavoriteType,
+    FilmingLocation,
+    Title,
+    useFindUserFavoritesQuery,
+} from '@/graphql/generated/output'
+import { getLocalizedFilmingLocationDescription } from '@/utils/filming-location/filming-location-localization'
+import { MapStyle } from '@maptiler/sdk'
+import { useLocale, useTranslations } from 'next-intl'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+
 export function FavoriteLocationsSection() {
-    return <div>FavoriteLocationsSection</div>
+    const t = useTranslations('favorites.locations')
+    const commonT = useTranslations('titleDetails.filmingLocations')
+    const locale = useLocale()
+
+    const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
+        null,
+    )
+    const scrollAreaRef = useRef<HTMLDivElement>(null)
+    const locationItemRefs = useRef<Record<string, HTMLDivElement>>({})
+
+    const { data: favoritesData, loading: isLoadingFavorites } =
+        useFindUserFavoritesQuery({
+            variables: {
+                filters: {
+                    type: FavoriteType.Location,
+                },
+            },
+            fetchPolicy: 'cache-and-network',
+        })
+
+    const resolveLocationDescription = useCallback(
+        (location: FilmingLocation) => {
+            return locale
+                ? getLocalizedFilmingLocationDescription(location, locale) ||
+                      location.description ||
+                      ''
+                : location.description || ''
+        },
+        [locale],
+    )
+
+    const processedFavoriteLocations: ProcessedFilmingLocation[] =
+        useMemo(() => {
+            if (!favoritesData?.findMyFavorites) return []
+            return favoritesData.findMyFavorites
+                .filter(
+                    fav =>
+                        fav.type === FavoriteType.Location &&
+                        fav.filmingLocation &&
+                        fav.filmingLocationTitle,
+                )
+                .map(fav => {
+                    if (!fav.filmingLocation) return null
+                    const resolvedDescription = resolveLocationDescription(
+                        fav.filmingLocation as FilmingLocation,
+                    )
+                    return {
+                        originalItem: fav,
+                        processedFilmingLocation: {
+                            ...fav.filmingLocation,
+                            description: resolvedDescription,
+                        },
+                        titleForListItem: fav.filmingLocationTitle as Title,
+                    }
+                })
+                .filter(Boolean) as ProcessedFilmingLocation[]
+        }, [favoritesData, resolveLocationDescription])
+
+    useEffect(() => {
+        if (!selectedLocationId && processedFavoriteLocations.length > 0) {
+            const firstFavLocation = processedFavoriteLocations[0]
+            if (firstFavLocation?.processedFilmingLocation) {
+                setSelectedLocationId(
+                    firstFavLocation.processedFilmingLocation.id,
+                )
+            }
+        }
+    }, [selectedLocationId, processedFavoriteLocations])
+
+    const handleLocationClick = useCallback((locationId: string) => {
+        setSelectedLocationId(locationId)
+        setTimeout(() => {
+            const el = locationItemRefs.current[locationId]
+            if (el && scrollAreaRef.current) {
+                el.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                    inline: 'nearest',
+                })
+            }
+        }, 0)
+    }, [])
+
+    const handleMarkerClick = useCallback((locationId: string) => {
+        setSelectedLocationId(locationId)
+        setTimeout(() => {
+            const el = locationItemRefs.current[locationId]
+            if (el && scrollAreaRef.current) {
+                el.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                    inline: 'nearest',
+                })
+            }
+        }, 0)
+    }, [])
+
+    if (!isLoadingFavorites && processedFavoriteLocations.length === 0) {
+        return (
+            <FadeContent blur duration={500}>
+                <Heading
+                    title={t('noLocations.heading')}
+                    description={t('noLocations.description')}
+                    size='md'
+                />
+            </FadeContent>
+        )
+    }
+
+    const shouldEnableClusteringFavorites =
+        processedFavoriteLocations.length > 5
+
+    return (
+        <FilmingLocationsContent
+            locationsToDisplay={processedFavoriteLocations}
+            isLoading={isLoadingFavorites}
+            selectedLocationId={selectedLocationId}
+            onLocationListItemClick={handleLocationClick}
+            onMapMarkerClick={handleMarkerClick}
+            mapHeight='30rem'
+            listHeight='calc(30rem - 1rem)'
+            showSearchControl={false}
+            baseClusterSourceId='favorite-locations'
+            mapContextKey='global-favorites'
+            scrollAreaRef={scrollAreaRef}
+            locationItemRefs={locationItemRefs}
+            mapStyle={MapStyle.HYBRID}
+            enableMapTerrain
+            enableMapProjection
+            shouldEnableClustering={shouldEnableClusteringFavorites}
+            t={commonT}
+        />
+    )
 }
