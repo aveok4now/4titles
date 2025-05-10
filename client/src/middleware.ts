@@ -11,9 +11,10 @@ export default function middleware(request: NextRequest) {
     const isAuthRoute = pathname.startsWith('/account')
     const isDeactivateRoute = pathname === '/account/deactivate'
     const isDashboardRoute = pathname.startsWith('/dashboard')
+    const isFavoritesRoute = pathname.startsWith('/favorites')
 
     if (!isAuthenticated) {
-        if (isDashboardRoute || isDeactivateRoute) {
+        if (isDashboardRoute || isDeactivateRoute || isFavoritesRoute) {
             return NextResponse.redirect(new URL('/account/login', url))
         }
     }
@@ -26,5 +27,5 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/account/:path*', '/dashboard/:path*'],
+    matcher: ['/account/:path*', '/dashboard/:path*', '/favorites/:path*'],
 }

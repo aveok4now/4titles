@@ -35,7 +35,7 @@
                 "home": "Главная",
                 "titles": "Каталог",
                 "routes": "Маршруты",
-                "feed": "Лента",
+                "favorites": "Избранное",
                 "faq": "ЧаВо"
             },
             "popularTitleSearches": {
@@ -47,6 +47,94 @@
                 "filmingLocationProposals": "Предложения",
                 "feedbacks": "Фидбэки"
             }
+        }
+    },
+    "auth": {
+        "register": {
+            "heading": "Регистрация",
+            "backButtonLabel": "Войти",
+            "backButtonQuestion": "Уже есть аккаунт?",
+            "usernameLabel": "Имя пользователя",
+            "usernameMinLengthValidationError": "Должно содержать не менее 5 символов",
+            "usernameInvalidCharactersValidationError": "Имя пользователя содержит недопустимые символы",
+            "emailLabel": "Адрес электронной почты",
+            "emailValidationError": "Email должен быть валидным адресом",
+            "passwordLabel": "Пароль",
+            "passwordMinLengthValidationError": "Должен содержать не менее 8 символов",
+            "passwordWeaknessError": "Должен иметь минимум 1 заглавную букву и цифру",
+            "submitButton": "Продолжить",
+            "serverErrorMessage": "При обработке Вашего запроса произошла ошибка. Проверьте введённые данные или попробуйте позже",
+            "successAlertTitle": "Пожалуйста, проверьте свою почту",
+            "successAlertDescription": "На указанный адрес электронной почты отправлено письмо со ссылкой для подтверждения. Если письмо не пришло, проверьте папку «Спам»"
+        },
+        "verify": {
+            "heading": "Верификация аккаунта",
+            "successMessage": "Аккаунт успешно верифицирован",
+            "errorMessage": "Ошибка подтверждения аккаунта",
+            "errorMessageDescription": "Возможно, ссылка некорректна или устарела. Повторите попытку или обратитесь в службу поддержки"
+        },
+        "login": {
+            "heading": "Вход в аккаунт",
+            "backButtonLabel": "Зарегестрироваться",
+            "backButtonQuestion": "Нет аккаунта?",
+            "loginLabel": "Логин",
+            "passwordLabel": "Пароль",
+            "pinLabel": "6-значный код",
+            "pinDescription": "Введите код из Вашего приложения для аутентификации",
+            "forgotPassword": "Забыли пароль?",
+            "submitButton": "Продолжить",
+            "totpValidationError": "Неверный код подтверждения",
+            "totpValidationErrorDescription": "Проверьте правильность кода или повторите попытку позже.",
+            "credentialsValidationError": "Неверный логин или пароль",
+            "credentialsValidatonErrorDescription": "Проверьте вводимые данные или повторите попытку позже.",
+            "serverErrorMessage": "При обработке Вашего запроса произошла ошибка. Проверьте введённые данные или попробуйте позже",
+            "successMessage": "Вы успешно вошли в аккаунт"
+        },
+        "recovery": {
+            "resetPassword": {
+                "heading": "Сброс пароля",
+                "backButtonLabel": "Войти",
+                "backButtonQuestion": "Уже есть аккаунт?",
+                "emailLabel": "Адрес электронной почты",
+                "emailValidationError": "Email должен быть валидным адресом",
+                "emailFieldDescription": "Email, под которым зарегестрирован Ваш аккаунт",
+                "submitButton": "Сбросить",
+                "successAlertTitle": "Пожалуйста, проверьте свою почту",
+                "successAlertDescription": "На указанный адрес электронной почты была отправлена ссылка для сброса пароля. Если у Вас включены уведомления в Telegram, доступ к ссылке также можете получить и там.",
+                "errorMessage": "Произошла ошибка при сбросе пароля",
+                "errorMessageDescription": "Проверть указанный адрес электронной почты или повторите попытку позже."
+            },
+            "newPassword": {
+                "heading": "Новый пароль",
+                "backButtonLabel": "Войти",
+                "backButtonQuestion": "Вспомнили пароль?",
+                "passwordLabel": "Новый пароль",
+                "passwordRepeatLabel": "Повтор пароля",
+                "submitButton": "Продолжить",
+                "successMessage": "Пароль успешно изменён",
+                "errorMessage": "Ошибка при установке нового пароля",
+                "errorMessageDescription": "Возможно, ссылка устарела. Запросите восстановление пароля повторно",
+                "passwordMinLengthValidationError": "Должен содержать не менее 8 символов",
+                "passwordWeaknessError": "Должен иметь как минимум 1 заглавную букву и цифру",
+                "passwordRepeatError": "Пароли не совпадают"
+            }
+        },
+        "deactivate": {
+            "heading": "Деактивация аккаунта",
+            "backButtonLabel": "Перейти в дашборд",
+            "emailLabel": "Почта",
+            "emailDescription": "Ваша почта, которую Вы вводили при регистрации",
+            "passwordLabel": "Пароль",
+            "passwordDescription": "Пароль, который Вы вводили при регистрации",
+            "pinLabel": "6-значный код",
+            "pinDescription": "На указанный адрес электронной почты был выслан код. Если у Вас включены уведомления в Telegram, получить доступ к коду можете и там.",
+            "submitButton": "Деактивировать",
+            "successMessage": "Вы успешно деактивировали аккаунт",
+            "errorMessage": "Ошибка при деактивации",
+            "confirmationCodeError": "Неверный код подтверждения деактивации",
+            "confirmationCodeErrorDescription": "Проверьте правильность кода или повторите попытку позже.",
+            "credentialsValidationError": "Неверная почта или пароль",
+            "credentialsValidatonErrorDescription": "Проверьте введённые данные или повторите попытку позже."
         }
     },
     "home": {
@@ -208,97 +296,33 @@
             }
         }
     },
-    "auth": {
-        "register": {
-            "heading": "Регистрация",
-            "backButtonLabel": "Войти",
-            "backButtonQuestion": "Уже есть аккаунт?",
-            "usernameLabel": "Имя пользователя",
-            "usernameMinLengthValidationError": "Должно содержать не менее 5 символов",
-            "usernameInvalidCharactersValidationError": "Имя пользователя содержит недопустимые символы",
-            "emailLabel": "Адрес электронной почты",
-            "emailValidationError": "Email должен быть валидным адресом",
-            "passwordLabel": "Пароль",
-            "passwordMinLengthValidationError": "Должен содержать не менее 8 символов",
-            "passwordWeaknessError": "Должен иметь минимум 1 заглавную букву и цифру",
-            "submitButton": "Продолжить",
-            "serverErrorMessage": "При обработке Вашего запроса произошла ошибка. Проверьте введённые данные или попробуйте позже",
-            "successAlertTitle": "Пожалуйста, проверьте свою почту",
-            "successAlertDescription": "На указанный адрес электронной почты отправлено письмо со ссылкой для подтверждения. Если письмо не пришло, проверьте папку «Спам»"
+    "favorites": {
+        "heading": "Избранное",
+        "description": "Здесь собраны все ваши избранные тайтлы и локации",
+        "tabs": {
+            "titles": "Тайтлы",
+            "locations": "Локации"
         },
-        "verify": {
-            "heading": "Верификация аккаунта",
-            "successMessage": "Аккаунт успешно верифицирован",
-            "errorMessage": "Ошибка подтверждения аккаунта",
-            "errorMessageDescription": "Возможно, ссылка некорректна или устарела. Повторите попытку или обратитесь в службу поддержки"
-        },
-        "login": {
-            "heading": "Вход в аккаунт",
-            "backButtonLabel": "Зарегестрироваться",
-            "backButtonQuestion": "Нет аккаунта?",
-            "loginLabel": "Логин",
-            "passwordLabel": "Пароль",
-            "pinLabel": "6-значный код",
-            "pinDescription": "Введите код из Вашего приложения для аутентификации",
-            "forgotPassword": "Забыли пароль?",
-            "submitButton": "Продолжить",
-            "totpValidationError": "Неверный код подтверждения",
-            "totpValidationErrorDescription": "Проверьте правильность кода или повторите попытку позже.",
-            "credentialsValidationError": "Неверный логин или пароль",
-            "credentialsValidatonErrorDescription": "Проверьте вводимые данные или повторите попытку позже.",
-            "serverErrorMessage": "При обработке Вашего запроса произошла ошибка. Проверьте введённые данные или попробуйте позже",
-            "successMessage": "Вы успешно вошли в аккаунт"
-        },
-        "recovery": {
-            "resetPassword": {
-                "heading": "Сброс пароля",
-                "backButtonLabel": "Войти",
-                "backButtonQuestion": "Уже есть аккаунт?",
-                "emailLabel": "Адрес электронной почты",
-                "emailValidationError": "Email должен быть валидным адресом",
-                "emailFieldDescription": "Email, под которым зарегестрирован Ваш аккаунт",
-                "submitButton": "Сбросить",
-                "successAlertTitle": "Пожалуйста, проверьте свою почту",
-                "successAlertDescription": "На указанный адрес электронной почты была отправлена ссылка для сброса пароля. Если у Вас включены уведомления в Telegram, доступ к ссылке также можете получить и там.",
-                "errorMessage": "Произошла ошибка при сбросе пароля",
-                "errorMessageDescription": "Проверть указанный адрес электронной почты или повторите попытку позже."
+        "locations": {
+            "noLocations": {
+                "heading": "У вас пока нет избранных локаций",
+                "description": "Добавляйте интересные места съемок в избранное, чтобы быстро вернуться к ним позже"
             },
-            "newPassword": {
-                "heading": "Новый пароль",
-                "backButtonLabel": "Войти",
-                "backButtonQuestion": "Вспомнили пароль?",
-                "passwordLabel": "Новый пароль",
-                "passwordRepeatLabel": "Повтор пароля",
-                "submitButton": "Продолжить",
-                "successMessage": "Пароль успешно изменён",
-                "errorMessage": "Ошибка при установке нового пароля",
-                "errorMessageDescription": "Возможно, ссылка устарела. Запросите восстановление пароля повторно",
-                "passwordMinLengthValidationError": "Должен содержать не менее 8 символов",
-                "passwordWeaknessError": "Должен иметь как минимум 1 заглавную букву и цифру",
-                "passwordRepeatError": "Пароли не совпадают"
-            }
+            "search": {
+                "noResults": "Ничего не найдено. Попробуйте изменить запрос"
+            },
+            "locationUsedIn": "Здесь снимался:"
         },
-        "deactivate": {
-            "heading": "Деактивация аккаунта",
-            "backButtonLabel": "Перейти в дашборд",
-            "emailLabel": "Почта",
-            "emailDescription": "Ваша почта, которую Вы вводили при регистрации",
-            "passwordLabel": "Пароль",
-            "passwordDescription": "Пароль, который Вы вводили при регистрации",
-            "pinLabel": "6-значный код",
-            "pinDescription": "На указанный адрес электронной почты был выслан код. Если у Вас включены уведомления в Telegram, получить доступ к коду можете и там.",
-            "submitButton": "Деактивировать",
-            "successMessage": "Вы успешно деактивировали аккаунт",
-            "errorMessage": "Ошибка при деактивации",
-            "confirmationCodeError": "Неверный код подтверждения деактивации",
-            "confirmationCodeErrorDescription": "Проверьте правильность кода или повторите попытку позже.",
-            "credentialsValidationError": "Неверная почта или пароль",
-            "credentialsValidatonErrorDescription": "Проверьте введённые данные или повторите попытку позже."
+        "titles": {
+            "noTitles": {
+                "heading": "У вас пока нет избранных тайтлов",
+                "description": "Добавляйте интересные фильмы и сериалы в избранное, чтобы быстро вернуться к ним позже"
+            },
+            "endOfList": "Вы просмотрели все избранные тайтлы"
+        },
+        "titleCard": {
+            "noPoster": "Изображение недоступно"
         }
-    },
-    "notFound": {
-        "description": "Страница, которую Вы ищете, куда-то пропала. Но не волнуйтесь! Давайте вернём вас в нужное место.",
-        "backToHome": "на главную"
     },
     "dashboard": {
         "settings": {
@@ -877,5 +901,9 @@
                 }
             }
         }
+    },
+    "notFound": {
+        "description": "Страница, которую Вы ищете, куда-то пропала. Но не волнуйтесь! Давайте вернём вас в нужное место.",
+        "backToHome": "на главную"
     }
 }

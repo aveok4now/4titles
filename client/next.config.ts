@@ -1,6 +1,6 @@
+import withPWA from '@ducanh2912/next-pwa'
 import type { NextConfig } from 'next'
 import createNextIntlPlugin from 'next-intl/plugin'
-import withPWA from '@ducanh2912/next-pwa'
 
 const withNextIntl = createNextIntlPlugin('./src/libs/i18n/request.ts')
 

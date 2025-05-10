@@ -11,7 +11,7 @@ export const AUTH_ROUTES = {
     RECOVERY: '/account/recovery',
     VERIFY: '/account/verify',
     NEW_PASSWORD: '/account/recovery/new-password',
-    AFTER_LOGIN: '/dashboard/settings',
+    AFTER_LOGIN: '/',
 }
 
 export const VALIDATION_REGEX = {

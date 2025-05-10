@@ -49,6 +49,94 @@
             }
         }
     },
+    "auth": {
+        "register": {
+            "heading": "Create Account",
+            "backButtonLabel": "Sign In",
+            "backButtonQuestion": "Already registered?",
+            "usernameLabel": "Username",
+            "usernameMinLengthValidationError": "Minimum 5 characters",
+            "usernameInvalidCharactersValidationError": "Invalid characters in username",
+            "emailLabel": "Email",
+            "emailValidationError": "Invalid email format",
+            "passwordLabel": "Password",
+            "passwordMinLengthValidationError": "Minimum 8 characters",
+            "passwordWeaknessError": "Requires at least 1 uppercase letter and number",
+            "submitButton": "Create Account",
+            "serverErrorMessage": "Request processing error. Check data or try later",
+            "successAlertTitle": "Registration Confirmation",
+            "successAlertDescription": "Verification email sent. Check spam folder if not received."
+        },
+        "verify": {
+            "heading": "Account Verification",
+            "successMessage": "Account successfully activated",
+            "errorMessage": "Verification Error",
+            "errorMessageDescription": "Link invalid or expired. Contact support."
+        },
+        "login": {
+            "heading": "Authentication",
+            "backButtonLabel": "Sign Up",
+            "backButtonQuestion": "No account?",
+            "loginLabel": "Login",
+            "passwordLabel": "Password",
+            "pinLabel": "Verification Code",
+            "pinDescription": "Enter 6-digit code from authenticator app",
+            "forgotPassword": "Recover Access",
+            "submitButton": "Continue",
+            "totpValidationError": "Invalid security code",
+            "totpValidationErrorDescription": "Verify code or request new one",
+            "credentialsValidationError": "Invalid credentials",
+            "credentialsValidatonErrorDescription": "Check login and password",
+            "serverErrorMessage": "Authorization error. Try again later",
+            "successMessage": "Successfully authenticated"
+        },
+        "recovery": {
+            "resetPassword": {
+                "heading": "Password Recovery",
+                "backButtonLabel": "Sign In",
+                "backButtonQuestion": "Remember password?",
+                "emailLabel": "Email",
+                "emailValidationError": "Valid email required",
+                "emailFieldDescription": "Email used for registration",
+                "submitButton": "Reset Password",
+                "successAlertTitle": "Instructions Sent",
+                "successAlertDescription": "Check email to complete reset procedure",
+                "errorMessage": "Recovery Error",
+                "errorMessageDescription": "Verify email or retry later"
+            },
+            "newPassword": {
+                "heading": "Create New Password",
+                "backButtonLabel": "Cancel",
+                "backButtonQuestion": "Cancel recovery?",
+                "passwordLabel": "New Password",
+                "passwordRepeatLabel": "Confirm Password",
+                "submitButton": "Update Password",
+                "successMessage": "Password changed successfully",
+                "errorMessage": "Password Update Error",
+                "errorMessageDescription": "Use current link from email",
+                "passwordMinLengthValidationError": "Minimum 8 characters",
+                "passwordWeaknessError": "Requires uppercase letter and number",
+                "passwordRepeatError": "Passwords don't match"
+            }
+        },
+        "deactivate": {
+            "heading": "Account Deactivation",
+            "backButtonLabel": "Go to Dashboard",
+            "emailLabel": "Email",
+            "emailDescription": "Your registration email",
+            "passwordLabel": "Password",
+            "passwordDescription": "Your registration password",
+            "pinLabel": "6-digit Code",
+            "pinDescription": "Code sent to your email. Also available via Telegram notifications.",
+            "submitButton": "Deactivate",
+            "successMessage": "Account deactivated successfully",
+            "errorMessage": "Deactivation Error",
+            "confirmationCodeError": "Invalid deactivation code",
+            "confirmationCodeErrorDescription": "Verify code or retry later",
+            "credentialsValidationError": "Invalid email or password",
+            "credentialsValidatonErrorDescription": "Check input data or retry later"
+        }
+    },
     "home": {
         "about": {
             "filmingLocations": {
@@ -207,98 +295,6 @@
                 "answer": "Update your avatar in 'Dashboard' → 'Settings' → 'Profile' → 'Profile Picture'. Click 'Update Profile Image' and select a new image (JPG, JPEG, PNG, WEBP or GIF up to 10MB)."
             }
         }
-    },
-    "auth": {
-        "register": {
-            "heading": "Create Account",
-            "backButtonLabel": "Sign In",
-            "backButtonQuestion": "Already registered?",
-            "usernameLabel": "Username",
-            "usernameMinLengthValidationError": "Minimum 5 characters",
-            "usernameInvalidCharactersValidationError": "Invalid characters in username",
-            "emailLabel": "Email",
-            "emailValidationError": "Invalid email format",
-            "passwordLabel": "Password",
-            "passwordMinLengthValidationError": "Minimum 8 characters",
-            "passwordWeaknessError": "Requires at least 1 uppercase letter and number",
-            "submitButton": "Create Account",
-            "serverErrorMessage": "Request processing error. Check data or try later",
-            "successAlertTitle": "Registration Confirmation",
-            "successAlertDescription": "Verification email sent. Check spam folder if not received."
-        },
-        "verify": {
-            "heading": "Account Verification",
-            "successMessage": "Account successfully activated",
-            "errorMessage": "Verification Error",
-            "errorMessageDescription": "Link invalid or expired. Contact support."
-        },
-        "login": {
-            "heading": "Authentication",
-            "backButtonLabel": "Sign Up",
-            "backButtonQuestion": "No account?",
-            "loginLabel": "Login",
-            "passwordLabel": "Password",
-            "pinLabel": "Verification Code",
-            "pinDescription": "Enter 6-digit code from authenticator app",
-            "forgotPassword": "Recover Access",
-            "submitButton": "Continue",
-            "totpValidationError": "Invalid security code",
-            "totpValidationErrorDescription": "Verify code or request new one",
-            "credentialsValidationError": "Invalid credentials",
-            "credentialsValidatonErrorDescription": "Check login and password",
-            "serverErrorMessage": "Authorization error. Try again later",
-            "successMessage": "Successfully authenticated"
-        },
-        "recovery": {
-            "resetPassword": {
-                "heading": "Password Recovery",
-                "backButtonLabel": "Sign In",
-                "backButtonQuestion": "Remember password?",
-                "emailLabel": "Email",
-                "emailValidationError": "Valid email required",
-                "emailFieldDescription": "Email used for registration",
-                "submitButton": "Reset Password",
-                "successAlertTitle": "Instructions Sent",
-                "successAlertDescription": "Check email to complete reset procedure",
-                "errorMessage": "Recovery Error",
-                "errorMessageDescription": "Verify email or retry later"
-            },
-            "newPassword": {
-                "heading": "Create New Password",
-                "backButtonLabel": "Cancel",
-                "backButtonQuestion": "Cancel recovery?",
-                "passwordLabel": "New Password",
-                "passwordRepeatLabel": "Confirm Password",
-                "submitButton": "Update Password",
-                "successMessage": "Password changed successfully",
-                "errorMessage": "Password Update Error",
-                "errorMessageDescription": "Use current link from email",
-                "passwordMinLengthValidationError": "Minimum 8 characters",
-                "passwordWeaknessError": "Requires uppercase letter and number",
-                "passwordRepeatError": "Passwords don't match"
-            }
-        },
-        "deactivate": {
-            "heading": "Account Deactivation",
-            "backButtonLabel": "Go to Dashboard",
-            "emailLabel": "Email",
-            "emailDescription": "Your registration email",
-            "passwordLabel": "Password",
-            "passwordDescription": "Your registration password",
-            "pinLabel": "6-digit Code",
-            "pinDescription": "Code sent to your email. Also available via Telegram notifications.",
-            "submitButton": "Deactivate",
-            "successMessage": "Account deactivated successfully",
-            "errorMessage": "Deactivation Error",
-            "confirmationCodeError": "Invalid deactivation code",
-            "confirmationCodeErrorDescription": "Verify code or retry later",
-            "credentialsValidationError": "Invalid email or password",
-            "credentialsValidatonErrorDescription": "Check input data or retry later"
-        }
-    },
-    "notFound": {
-        "description": "The page you're looking for has wandered off, but don't worry! Let's get you back on track.",
-        "backToHome": "Take Me Home"
     },
     "dashboard": {
         "settings": {
@@ -886,5 +882,9 @@
                 }
             }
         }
+    },
+    "notFound": {
+        "description": "The page you're looking for has wandered off, but don't worry! Let's get you back on track.",
+        "backToHome": "Take Me Home"
     }
 }

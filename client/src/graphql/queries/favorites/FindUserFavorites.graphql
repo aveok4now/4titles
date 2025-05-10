@@ -1,17 +1,14 @@
-query GetUserFavorites($type: FavoriteType) {
-    myFavorites(type: $type) {
+query FindUserFavorites($filters: FindFavoritesInput!) {
+    findMyFavorites(filters: $filters) {
         id
         type
         createdAt
         title {
             id
-            tmdbId
             slug
             originalName
             type
-            category
             releaseDate
-            voteAverage
             images {
                 posters {
                     file_path
@@ -22,6 +19,15 @@ query GetUserFavorites($type: FavoriteType) {
                 title
                 language {
                     iso
+                }
+            }
+            countries {
+                type
+                country {
+                    englishName
+                    flagUrl
+                    iso
+                    name
                 }
             }
         }
@@ -44,6 +50,22 @@ query GetUserFavorites($type: FavoriteType) {
                 description
                 language {
                     iso
+                }
+            }
+            user {
+                username
+                avatar
+            }
+            titleFilmingLocations {
+                title {
+                    id
+                    slug
+                    translations {
+                        title
+                        language {
+                            iso
+                        }
+                    }
                 }
             }
         }
