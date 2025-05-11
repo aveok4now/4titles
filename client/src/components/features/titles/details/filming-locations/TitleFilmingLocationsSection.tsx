@@ -8,6 +8,7 @@ import type {
 } from '@/graphql/generated/output'
 
 import { FilmingLocationsContent } from '@/components/features/filming-locations'
+import { useLocationSelection } from '@/components/features/filming-locations/hooks'
 import { Button } from '@/components/ui/common/button'
 import { useSearchTitleFilmingLocationsLazyQuery } from '@/graphql/generated/output'
 import { useAuth } from '@/hooks/useAuth'
@@ -17,7 +18,7 @@ import { MapStyle } from '@maptiler/sdk'
 import { PlusCircle } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useSearchParams } from 'next/navigation'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { TitleSectionContainer } from '../TitleSectionContainer'
 import { AddFilmingLocationDialog } from './dialogs'
@@ -38,9 +39,6 @@ export function TitleFilmingLocationsSection({
     const locationParam = searchParams.get('location')
     const { isAuthenticated } = useAuth()
 
-    const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
-        locationParam || null,
-    )
     const [searchQuery, setSearchQuery] = useState<string>('')
     const [isSearching, setIsSearching] = useState<boolean>(false)
     const [searchResults, setSearchResults] = useState<
@@ -51,25 +49,6 @@ export function TitleFilmingLocationsSection({
 
     const [searchLocationsMutation, { loading: isLoadingSearch }] =
         useSearchTitleFilmingLocationsLazyQuery()
-
-    const scrollAreaRef = useRef<HTMLDivElement>(null)
-    const locationItemRefs = useRef<Record<string, HTMLDivElement>>({})
-
-    useEffect(() => {
-        if (locationParam) {
-            setSelectedLocationId(locationParam)
-            setTimeout(() => {
-                const locationElement = locationItemRefs.current[locationParam]
-                if (locationElement && scrollAreaRef.current) {
-                    locationElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'center',
-                        inline: 'nearest',
-                    })
-                }
-            }, 500)
-        }
-    }, [locationParam])
 
     const resolveLocationDescription = useCallback(
         (location: FilmingLocation) => {
@@ -160,54 +139,26 @@ export function TitleFilmingLocationsSection({
             title,
         ])
 
-    useEffect(() => {
-        if (
-            !locationParam &&
-            !selectedLocationId &&
-            processedLocationsToDisplay.length > 0 &&
-            !searchQuery
-        ) {
-            const firstAvailableLocation = processedLocationsToDisplay[0]
-            if (firstAvailableLocation?.processedFilmingLocation) {
-                setSelectedLocationId(
-                    firstAvailableLocation.processedFilmingLocation.id,
-                )
-            }
-        }
-    }, [
-        locationParam,
+    const locationIds = useMemo(
+        () =>
+            processedLocationsToDisplay.map(item => ({
+                id: item.processedFilmingLocation.id,
+            })),
+        [processedLocationsToDisplay],
+    )
+
+    const {
         selectedLocationId,
-        processedLocationsToDisplay,
-        searchQuery,
-    ])
-
-    const handleLocationClick = useCallback((locationId: string) => {
-        setSelectedLocationId(locationId)
-        setTimeout(() => {
-            const el = locationItemRefs.current[locationId]
-            if (el && scrollAreaRef.current) {
-                el.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center',
-                    inline: 'nearest',
-                })
-            }
-        }, 0)
-    }, [])
-
-    const handleMarkerClick = useCallback((locationId: string) => {
-        setSelectedLocationId(locationId)
-        setTimeout(() => {
-            const el = locationItemRefs.current[locationId]
-            if (el && scrollAreaRef.current) {
-                el.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center',
-                    inline: 'nearest',
-                })
-            }
-        }, 0)
-    }, [])
+        setSelectedLocationId,
+        scrollAreaRef,
+        locationItemRefs,
+        handleLocationClick,
+        handleMarkerClick,
+    } = useLocationSelection({
+        locations: locationIds,
+        defaultToFirstLocation: !searchQuery,
+        locationParam: locationParam,
+    })
 
     const handleAddLocationClick = () => {
         if (!isAuthenticated) {
@@ -216,11 +167,6 @@ export function TitleFilmingLocationsSection({
         }
         setIsAddLocationDialogOpen(true)
     }
-
-    const shouldEnableClustering = useMemo(
-        () => initialFilmingLocations.length > 5,
-        [initialFilmingLocations],
-    )
 
     const mapContextKey = title.tmdbId ? title.tmdbId.toString() : title.id
 
@@ -270,7 +216,6 @@ export function TitleFilmingLocationsSection({
                 mapStyle={MapStyle.HYBRID}
                 enableMapTerrain
                 enableMapProjection
-                shouldEnableClustering={shouldEnableClustering}
                 listItemProps={{ t }}
                 titleContext={title}
                 t={t}

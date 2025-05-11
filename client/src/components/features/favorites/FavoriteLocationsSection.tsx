@@ -15,18 +15,13 @@ import {
 import { getLocalizedFilmingLocationDescription } from '@/utils/filming-location/filming-location-localization'
 import { MapStyle } from '@maptiler/sdk'
 import { useLocale, useTranslations } from 'next-intl'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo } from 'react'
+import { useLocationSelection } from '../filming-locations/hooks'
 
 export function FavoriteLocationsSection() {
     const t = useTranslations('favorites.locations')
     const commonT = useTranslations('titleDetails.filmingLocations')
     const locale = useLocale()
-
-    const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
-        null,
-    )
-    const scrollAreaRef = useRef<HTMLDivElement>(null)
-    const locationItemRefs = useRef<Record<string, HTMLDivElement>>({})
 
     const { data: favoritesData, loading: isLoadingFavorites } =
         useFindUserFavoritesQuery({
@@ -76,44 +71,24 @@ export function FavoriteLocationsSection() {
                 .filter(Boolean) as ProcessedFilmingLocation[]
         }, [favoritesData, resolveLocationDescription])
 
-    useEffect(() => {
-        if (!selectedLocationId && processedFavoriteLocations.length > 0) {
-            const firstFavLocation = processedFavoriteLocations[0]
-            if (firstFavLocation?.processedFilmingLocation) {
-                setSelectedLocationId(
-                    firstFavLocation.processedFilmingLocation.id,
-                )
-            }
-        }
-    }, [selectedLocationId, processedFavoriteLocations])
+    const locationIds = useMemo(
+        () =>
+            processedFavoriteLocations.map(item => ({
+                id: item.processedFilmingLocation.id,
+            })),
+        [processedFavoriteLocations],
+    )
 
-    const handleLocationClick = useCallback((locationId: string) => {
-        setSelectedLocationId(locationId)
-        setTimeout(() => {
-            const el = locationItemRefs.current[locationId]
-            if (el && scrollAreaRef.current) {
-                el.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center',
-                    inline: 'nearest',
-                })
-            }
-        }, 0)
-    }, [])
-
-    const handleMarkerClick = useCallback((locationId: string) => {
-        setSelectedLocationId(locationId)
-        setTimeout(() => {
-            const el = locationItemRefs.current[locationId]
-            if (el && scrollAreaRef.current) {
-                el.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center',
-                    inline: 'nearest',
-                })
-            }
-        }, 0)
-    }, [])
+    const {
+        selectedLocationId,
+        scrollAreaRef,
+        locationItemRefs,
+        handleLocationClick,
+        handleMarkerClick,
+    } = useLocationSelection({
+        locations: locationIds,
+        defaultToFirstLocation: true,
+    })
 
     if (!isLoadingFavorites && processedFavoriteLocations.length === 0) {
         return (
@@ -126,9 +101,6 @@ export function FavoriteLocationsSection() {
             </FadeContent>
         )
     }
-
-    const shouldEnableClusteringFavorites =
-        processedFavoriteLocations.length > 5
 
     return (
         <FilmingLocationsContent
@@ -147,7 +119,6 @@ export function FavoriteLocationsSection() {
             mapStyle={MapStyle.HYBRID}
             enableMapTerrain
             enableMapProjection
-            shouldEnableClustering={shouldEnableClusteringFavorites}
             t={commonT}
         />
     )

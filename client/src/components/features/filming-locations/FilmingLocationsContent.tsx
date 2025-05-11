@@ -71,7 +71,7 @@ export function FilmingLocationsContent({
     defaultZoom = MAP_DEFAULT_ZOOM,
     enableMapTerrain = false,
     enableMapProjection = false,
-    shouldEnableClustering = false,
+    shouldEnableClustering,
     listItemProps = {},
     titleContext,
     t,
@@ -174,7 +174,9 @@ export function FilmingLocationsContent({
                     onMarkerClick={onMapMarkerClick}
                     terrain={enableMapTerrain}
                     projection={enableMapProjection}
-                    enableClustering={shouldEnableClustering}
+                    enableClustering={
+                        shouldEnableClustering ?? locationsToDisplay.length > 5
+                    }
                     clusterSourceId={computedClusterSourceId}
                     clusterOptions={{
                         maxZoom: 14,
