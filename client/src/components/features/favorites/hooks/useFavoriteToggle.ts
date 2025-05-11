@@ -1,8 +1,7 @@
 import {
     FavoriteType,
     useAddToFavoritesMutation,
-    useIsLocationFavoriteQuery,
-    useIsTitleFavoriteQuery,
+    useIsEntityFavoriteQuery,
     useRemoveFromFavoritesMutation,
 } from '@/graphql/generated/output'
 import { useAuth } from '@/hooks/useAuth'
@@ -12,6 +11,7 @@ export function useFavoriteToggle(
     entityId: string,
     entityType: FavoriteType,
     initialIsFavorite?: boolean,
+    entityRelationId?: string,
 ) {
     const { isAuthenticated } = useAuth()
     const [isFavorite, setIsFavorite] = useState(initialIsFavorite ?? false)
@@ -21,17 +21,20 @@ export function useFavoriteToggle(
         data: isFavoriteData,
         loading: isStatusLoading,
         refetch,
-    } = entityType === FavoriteType.Title
-        ? useIsTitleFavoriteQuery({
-              variables: { titleId: entityId },
-              skip: !isAuthenticated || initialIsFavorite !== undefined,
-              fetchPolicy: 'cache-and-network',
-          })
-        : useIsLocationFavoriteQuery({
-              variables: { locationId: entityId },
-              skip: !isAuthenticated || initialIsFavorite !== undefined,
-              fetchPolicy: 'cache-and-network',
-          })
+    } = useIsEntityFavoriteQuery({
+        variables: {
+            input: {
+                type: entityType,
+                entityId,
+                locationTitleId:
+                    entityType === FavoriteType.Location
+                        ? entityRelationId
+                        : null,
+            },
+        },
+        skip: !isAuthenticated || initialIsFavorite !== undefined,
+        fetchPolicy: 'cache-and-network',
+    })
 
     const [addToFavorites, { loading: isAdding }] = useAddToFavoritesMutation()
     const [removeFromFavorites, { loading: isRemoving }] =

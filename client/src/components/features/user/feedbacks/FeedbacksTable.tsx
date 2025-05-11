@@ -300,16 +300,19 @@ export function FeedbacksTable() {
                             </DropdownMenuSubContent>
                         </DropdownMenuSub>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                            onClick={() =>
-                                handleOpenConfirmDialog(row.original.id)
-                            }
-                            disabled={isLoadingFeedbackDelete}
-                            className='text-destructive focus:bg-destructive focus:text-destructive-foreground'
-                        >
-                            <Trash className='mr-2 size-4' />
-                            {t('columns.actions.delete')}
-                        </DropdownMenuItem>
+                        {row.original.status === FeedbackStatus.New &&
+                            !row.original.responseMessage && (
+                                <DropdownMenuItem
+                                    onClick={() =>
+                                        handleOpenConfirmDialog(row.original.id)
+                                    }
+                                    disabled={isLoadingFeedbackDelete}
+                                    className='text-destructive focus:bg-destructive focus:text-destructive-foreground'
+                                >
+                                    <Trash className='mr-2 size-4' />
+                                    {t('columns.actions.delete')}
+                                </DropdownMenuItem>
+                            )}
                     </DropdownMenuContent>
                 </DropdownMenu>
             ),

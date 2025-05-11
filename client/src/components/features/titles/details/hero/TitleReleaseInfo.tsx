@@ -5,8 +5,8 @@ import { formatDate } from '@/utils/format-date'
 import { CalendarIcon, ClockIcon } from 'lucide-react'
 
 interface TitleReleaseInfoProps {
-    releaseDate: Date | null
-    runtime?: number
+    releaseDate?: Date | null
+    runtime?: number | null
     t: (key: string) => string
 }
 

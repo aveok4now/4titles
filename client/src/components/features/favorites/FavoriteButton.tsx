@@ -11,6 +11,7 @@ import { useFavoriteToggle } from './hooks/useFavoriteToggle'
 
 interface FavoriteButtonProps extends Omit<ButtonProps, 'onClick'> {
     entityId: string
+    entityRelationId?: string
     entityType: FavoriteType
     initialIsFavorite?: boolean
     onSuccess?: (isFavorite: boolean) => void
@@ -18,6 +19,7 @@ interface FavoriteButtonProps extends Omit<ButtonProps, 'onClick'> {
 
 export function FavoriteButton({
     entityId,
+    entityRelationId,
     entityType,
     initialIsFavorite = false,
     className,
@@ -35,7 +37,12 @@ export function FavoriteButton({
         removeFromFavorites,
         setIsFavorite,
         setIsLoading,
-    } = useFavoriteToggle(entityId, entityType, initialIsFavorite)
+    } = useFavoriteToggle(
+        entityId,
+        entityType,
+        initialIsFavorite,
+        entityRelationId,
+    )
 
     const handleToggleFavorite = useCallback(async () => {
         if (!isAuthenticated) {
@@ -51,7 +58,16 @@ export function FavoriteButton({
         try {
             if (isFavorite) {
                 const { data } = await removeFromFavorites({
-                    variables: { type: entityType, entityId },
+                    variables: {
+                        input: {
+                            type: entityType,
+                            entityId,
+                            locationTitleId:
+                                entityType === FavoriteType.Location
+                                    ? entityRelationId
+                                    : null,
+                        },
+                    },
                 })
                 if (data?.removeFromFavorites) {
                     toast.success(
@@ -65,7 +81,16 @@ export function FavoriteButton({
                 }
             } else {
                 const { data } = await addToFavorites({
-                    variables: { type: entityType, entityId },
+                    variables: {
+                        input: {
+                            type: entityType,
+                            entityId,
+                            locationTitleId:
+                                entityType === FavoriteType.Location
+                                    ? entityRelationId
+                                    : null,
+                        },
+                    },
                 })
                 if (data?.addToFavorites) {
                     toast.success(

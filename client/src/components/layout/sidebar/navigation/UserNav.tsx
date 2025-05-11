@@ -7,6 +7,7 @@ import {
     Home,
     Newspaper,
     Route as RouteIcon,
+    Star,
 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Route } from '../types/sidebar.types'
@@ -33,9 +34,9 @@ export function UserNav() {
             icon: RouteIcon,
         },
         {
-            label: t('feed'),
-            href: '/feed',
-            icon: Newspaper,
+            label: t('favorites'),
+            href: '/favorites',
+            icon: Star,
         },
         {
             label: t('faq'),

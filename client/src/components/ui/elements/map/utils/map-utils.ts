@@ -86,43 +86,24 @@ export const addClusterSource = (
     } = {},
 ) => {
     if (!map.isStyleLoaded()) {
-        const retryInterval = setInterval(() => {
-            if (map.isStyleLoaded()) {
-                clearInterval(retryInterval)
-                addClusterSource(map, sourceId, data, options)
-            }
-        }, 100)
+        console.debug(
+            `Style not loaded yet. Waiting before adding source ${sourceId}`,
+        )
 
-        setTimeout(() => clearInterval(retryInterval), 10000)
-        return
-    }
+        return new Promise<void>(resolve => {
+            const checkAndAddSource = () => {
+                if (map.isStyleLoaded()) {
+                    try {
+                        if (map.getSource(sourceId)) {
+                            try {
+                                map.removeSource(sourceId)
+                            } catch (removeErr) {
+                                console.debug(
+                                    `Failed to remove existing source ${sourceId}: ${removeErr}`,
+                                )
+                            }
+                        }
 
-    try {
-        if (map.getSource(sourceId)) {
-            const source = map.getSource(sourceId) as maptilersdk.GeoJSONSource
-            source.setData(data)
-        } else {
-            map.addSource(sourceId, {
-                type: 'geojson',
-                data,
-                cluster: true,
-                clusterMaxZoom: options.clusterMaxZoom || 14,
-                clusterRadius: options.clusterRadius || 50,
-            })
-        }
-    } catch (error) {
-        if (
-            error instanceof Error &&
-            error.message.includes('Style is not done loading')
-        ) {
-            const styleReadyHandler = () => {
-                try {
-                    if (map.getSource(sourceId)) {
-                        const source = map.getSource(
-                            sourceId,
-                        ) as maptilersdk.GeoJSONSource
-                        source.setData(data)
-                    } else {
                         map.addSource(sourceId, {
                             type: 'geojson',
                             data,
@@ -130,18 +111,95 @@ export const addClusterSource = (
                             clusterMaxZoom: options.clusterMaxZoom || 14,
                             clusterRadius: options.clusterRadius || 50,
                         })
+                        console.debug(`Source ${sourceId} added successfully`)
+                        resolve()
+                    } catch (error) {
+                        console.error(`Error adding source ${sourceId}:`, error)
+                        resolve()
                     }
-                    map.off('styledata', styleReadyHandler)
-                } catch (retryError) {
-                    console.error(
-                        'Failed to add source after retry:',
-                        retryError,
+                } else {
+                    console.debug(
+                        `Style still not loaded, retrying for source ${sourceId}...`,
                     )
+                    setTimeout(checkAndAddSource, 100)
                 }
             }
 
-            map.on('styledata', styleReadyHandler)
+            checkAndAddSource()
+        })
+    }
+
+    try {
+        if (map.getSource(sourceId)) {
+            try {
+                const source = map.getSource(
+                    sourceId,
+                ) as maptilersdk.GeoJSONSource
+                source.setData(data)
+                console.debug(`Source ${sourceId} data updated`)
+            } catch (updateError) {
+                console.error(`Error updating source ${sourceId}:`, updateError)
+
+                try {
+                    map.removeSource(sourceId)
+                    map.addSource(sourceId, {
+                        type: 'geojson',
+                        data,
+                        cluster: true,
+                        clusterMaxZoom: options.clusterMaxZoom || 14,
+                        clusterRadius: options.clusterRadius || 50,
+                    })
+                    console.debug(`Source ${sourceId} recreated`)
+                } catch (recreateError) {
+                    console.error(
+                        `Failed to recreate source ${sourceId}:`,
+                        recreateError,
+                    )
+                }
+            }
+        } else {
+            // Добавляем новый источник
+            map.addSource(sourceId, {
+                type: 'geojson',
+                data,
+                cluster: true,
+                clusterMaxZoom: options.clusterMaxZoom || 14,
+                clusterRadius: options.clusterRadius || 50,
+            })
+            console.debug(`Source ${sourceId} added`)
         }
+    } catch (error) {
+        console.error(`Error in addClusterSource for ${sourceId}:`, error)
+
+        const styleReadyHandler = () => {
+            try {
+                if (map.getSource(sourceId)) {
+                    const source = map.getSource(
+                        sourceId,
+                    ) as maptilersdk.GeoJSONSource
+                    source.setData(data)
+                } else {
+                    map.addSource(sourceId, {
+                        type: 'geojson',
+                        data,
+                        cluster: true,
+                        clusterMaxZoom: options.clusterMaxZoom || 14,
+                        clusterRadius: options.clusterRadius || 50,
+                    })
+                }
+                map.off('styledata', styleReadyHandler)
+                console.debug(
+                    `Source ${sourceId} added after style ready event`,
+                )
+            } catch (retryError) {
+                console.error(
+                    `Failed to add source ${sourceId} after retry:`,
+                    retryError,
+                )
+            }
+        }
+
+        map.on('styledata', styleReadyHandler)
     }
 }
 
@@ -160,103 +218,130 @@ export const addClusterLayers = (
         text: 'hsl(var(--primary-foreground))',
     },
 ) => {
-    if (!map.isStyleLoaded()) {
-        const retryInterval = setInterval(() => {
-            if (map.isStyleLoaded()) {
-                clearInterval(retryInterval)
-                addClusterLayers(map, sourceId, colors)
-            }
-        }, 100)
-
-        setTimeout(() => clearInterval(retryInterval), 10000)
-        return
-    }
-
-    try {
+    const addLayersWhenSourceExists = () => {
         if (!map.getSource(sourceId)) {
             console.error(
                 `Source "${sourceId}" does not exist. Cannot add layers.`,
             )
-            return
+            return false
         }
 
-        if (map.getLayer(`${sourceId}-clusters`)) {
-            map.removeLayer(`${sourceId}-clusters`)
-        }
-        if (map.getLayer(`${sourceId}-cluster-count`)) {
-            map.removeLayer(`${sourceId}-cluster-count`)
-        }
-        if (map.getLayer(`${sourceId}-unclustered-point`)) {
-            map.removeLayer(`${sourceId}-unclustered-point`)
-        }
+        try {
+            // Удаляем слои, если они существуют
+            if (map.getLayer(`${sourceId}-clusters`)) {
+                map.removeLayer(`${sourceId}-clusters`)
+            }
+            if (map.getLayer(`${sourceId}-cluster-count`)) {
+                map.removeLayer(`${sourceId}-cluster-count`)
+            }
+            if (map.getLayer(`${sourceId}-unclustered-point`)) {
+                map.removeLayer(`${sourceId}-unclustered-point`)
+            }
 
-        const themeColors = getMapColors()
+            const themeColors = getMapColors()
 
-        const clusterColors = {
-            base: colors.base.includes('var(--')
-                ? themeColors.primary
-                : colors.base,
-            medium: colors.medium.includes('var(--')
-                ? themeColors.accent
-                : colors.medium,
-            large: colors.large.includes('var(--')
-                ? themeColors.secondary
-                : colors.large,
-            text: colors.text.includes('var(--')
-                ? themeColors.primaryForeground
-                : colors.text,
+            const clusterColors = {
+                base: colors.base.includes('var(--')
+                    ? themeColors.primary
+                    : colors.base,
+                medium: colors.medium.includes('var(--')
+                    ? themeColors.accent
+                    : colors.medium,
+                large: colors.large.includes('var(--')
+                    ? themeColors.secondary
+                    : colors.large,
+                text: colors.text.includes('var(--')
+                    ? themeColors.primaryForeground
+                    : colors.text,
+            }
+
+            map.addLayer({
+                id: `${sourceId}-clusters`,
+                type: 'circle',
+                source: sourceId,
+                filter: ['has', 'point_count'],
+                paint: {
+                    'circle-color': [
+                        'step',
+                        ['get', 'point_count'],
+                        clusterColors.base,
+                        10,
+                        clusterColors.medium,
+                        30,
+                        clusterColors.large,
+                    ],
+                    'circle-radius': [
+                        'step',
+                        ['get', 'point_count'],
+                        20,
+                        10,
+                        25,
+                        30,
+                        30,
+                    ],
+                    'circle-opacity': 1,
+                    'circle-stroke-width': 3,
+                    'circle-stroke-color': '#ffffff',
+                    'circle-stroke-opacity': 1,
+                },
+            })
+
+            map.addLayer({
+                id: `${sourceId}-cluster-count`,
+                type: 'symbol',
+                source: sourceId,
+                filter: ['has', 'point_count'],
+                layout: {
+                    'text-field': '{point_count_abbreviated}',
+                    'text-size': 14,
+                },
+                paint: {
+                    'text-color': clusterColors.text,
+                },
+            })
+
+            console.debug(`Layers for source ${sourceId} added successfully`)
+            return true
+        } catch (error) {
+            console.error(
+                `Error adding cluster layers for source "${sourceId}":`,
+                error,
+            )
+            return false
         }
-
-        map.addLayer({
-            id: `${sourceId}-clusters`,
-            type: 'circle',
-            source: sourceId,
-            filter: ['has', 'point_count'],
-            paint: {
-                'circle-color': [
-                    'step',
-                    ['get', 'point_count'],
-                    clusterColors.base,
-                    10,
-                    clusterColors.medium,
-                    30,
-                    clusterColors.large,
-                ],
-                'circle-radius': [
-                    'step',
-                    ['get', 'point_count'],
-                    20,
-                    10,
-                    25,
-                    30,
-                    30,
-                ],
-                'circle-opacity': 1,
-                'circle-stroke-width': 3,
-                'circle-stroke-color': '#ffffff',
-                'circle-stroke-opacity': 1,
-            },
-        })
-
-        map.addLayer({
-            id: `${sourceId}-cluster-count`,
-            type: 'symbol',
-            source: sourceId,
-            filter: ['has', 'point_count'],
-            layout: {
-                'text-field': '{point_count_abbreviated}',
-                'text-size': 14,
-            },
-            paint: {
-                'text-color': clusterColors.text,
-            },
-        })
-    } catch (error) {
-        console.error(
-            `Error adding cluster layers for source "${sourceId}":`,
-            error,
-        )
     }
+
+    if (!map.isStyleLoaded()) {
+        console.debug(
+            `Style not loaded yet for adding layers for ${sourceId}. Waiting...`,
+        )
+
+        let retryCount = 0
+        const maxRetries = 50
+
+        const retryInterval = setInterval(() => {
+            retryCount++
+
+            if (map.isStyleLoaded()) {
+                clearInterval(retryInterval)
+
+                if (!addLayersWhenSourceExists() && retryCount < maxRetries) {
+                    setTimeout(() => {
+                        addLayersWhenSourceExists()
+                    }, 200)
+                }
+            } else if (retryCount >= maxRetries) {
+                clearInterval(retryInterval)
+                console.error(
+                    `Failed to add layers for ${sourceId} after ${maxRetries} retries`,
+                )
+            }
+        }, 100)
+
+        return
+    }
+
+    addLayersWhenSourceExists()
 }
 
 export const setupClusterHandlers = (

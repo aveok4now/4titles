@@ -2,7 +2,7 @@
 
 import { Hint } from '@/components/ui/elements/Hint'
 import { TitleCountry } from '@/graphql/generated/output'
-import { getLocalizedCountryName } from '@/utils/localization/country-localization'
+import { getLocalizedCountryName } from '@/utils/country/country-localization'
 import Image from 'next/image'
 
 interface TitleCountriesProps {

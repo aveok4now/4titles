@@ -21,6 +21,7 @@ import {
     MorphingDialogImage,
     MorphingDialogTrigger,
 } from '@/components/ui/custom/content/morphing-dialog'
+import { AccentSpotlight } from '@/components/ui/elements/AccentSpotlight'
 import { Hint } from '@/components/ui/elements/Hint'
 import { TitleCredits } from '@/graphql/generated/output'
 import { useTwBreakPoints } from '@/hooks/useTwBreakpoints'
@@ -144,6 +145,7 @@ export function TitleCastCarouselSection({
                                                             }
                                                             className='pointer-events-none select-none object-cover'
                                                         />
+                                                        <AccentSpotlight />
                                                     </Avatar>
                                                 </Hint>
                                             </MorphingDialogTrigger>

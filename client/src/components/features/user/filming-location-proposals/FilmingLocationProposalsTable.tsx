@@ -28,13 +28,13 @@ import {
     useFindUserFilmingLocationProposalsQuery,
 } from '@/graphql/generated/output'
 import { formatDate } from '@/utils/format-date'
+import { getLocalizedTitleName } from '@/utils/title/title-localization'
 import { ColumnDef } from '@tanstack/react-table'
 import { Copy, Eye, MoreHorizontal, Trash } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useCallback, useState } from 'react'
 import { toast } from 'sonner'
-import { getLocalizedTitleName } from '../../../../utils/localization/title-localization'
 
 export function FilmingLocationProposalsTable() {
     const t = useTranslations('dashboard.filmingLocationProposals')

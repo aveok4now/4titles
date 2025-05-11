@@ -21,12 +21,13 @@ import { ProfileAvatar } from '@/components/ui/elements/ProfileAvatar'
 import type { FilmingLocation, Title } from '@/graphql/generated/output'
 import {
     FavoriteType,
-    useIsLocationFavoriteQuery,
+    useIsEntityFavoriteQuery,
 } from '@/graphql/generated/output'
 import { useAuth } from '@/hooks/useAuth'
 import { createMapUrls, type MapService } from '@/utils/map-services'
 import { cn } from '@/utils/tw-merge'
 import { Edit, Flag, Map, MoreHorizontal, Share2 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import NextLink from 'next/link'
 import { forwardRef, useState } from 'react'
 import { BsBing } from 'react-icons/bs'
@@ -42,15 +43,16 @@ interface TitleFilmingLocationsListItemProps {
     location: NonNullable<FilmingLocation>
     isSelected: boolean
     onClick: () => void
-    t: (key: string) => string
+    t?: (key: string) => string
     title: Title
-    locale: string
 }
 
 export const TitleFilmingLocationsListItem = forwardRef<
     HTMLDivElement,
     TitleFilmingLocationsListItemProps
->(({ location, isSelected, onClick, t, title, locale }, ref) => {
+>(({ location, isSelected, onClick, t, title }, ref) => {
+    const flItemT = t ?? useTranslations('titleDetails.filmingLocations')
+
     const { isAuthenticated } = useAuth()
 
     const [isReportDialogOpen, setIsReportDialogOpen] = useState(false)
@@ -58,11 +60,17 @@ export const TitleFilmingLocationsListItem = forwardRef<
     const [isShareDialogOpen, setIsShareDialogOpen] = useState(false)
 
     const { data: favoriteData, loading: isLoadingFavorite } =
-        useIsLocationFavoriteQuery({
-            variables: { locationId: location.id },
+        useIsEntityFavoriteQuery({
+            variables: {
+                input: {
+                    entityId: location.id,
+                    locationTitleId: title.id,
+                    type: FavoriteType.Location,
+                },
+            },
             fetchPolicy: 'cache-and-network',
         })
-    const initialIsFavorite = favoriteData?.isLocationFavorite
+    const initialIsFavorite = favoriteData?.isEntityFavorite
 
     const hasCoordinates = !!(
         location.coordinates?.x && location.coordinates?.y
@@ -121,7 +129,7 @@ export const TitleFilmingLocationsListItem = forwardRef<
         handleStopPropagation(e)
 
         if (!isAuthenticated) {
-            toast.error(t('editDialog.authRequiredMessage'))
+            toast.error(flItemT('editDialog.authRequiredMessage'))
             return
         }
 
@@ -137,7 +145,7 @@ export const TitleFilmingLocationsListItem = forwardRef<
         handleStopPropagation(e)
 
         if (!isAuthenticated) {
-            toast.error(t('shareDialog.authRequiredMessage'))
+            toast.error(flItemT('shareDialog.authRequiredMessage'))
             return
         }
 
@@ -157,11 +165,11 @@ export const TitleFilmingLocationsListItem = forwardRef<
                 onClick={onClick}
             >
                 <div
-                    className='gap- absolute right-2 top-2 z-10 flex flex-row items-center'
+                    className='absolute right-2 top-2 z-10 flex flex-row items-center gap-1'
                     onClick={handleStopPropagation}
                 >
                     <Hint
-                        label={t('items.options.toFavoritesHeading')}
+                        label={flItemT('items.options.toFavoritesHeading')}
                         side='left'
                         align='end'
                     >
@@ -170,6 +178,7 @@ export const TitleFilmingLocationsListItem = forwardRef<
                         ) : (
                             <FavoriteButton
                                 entityId={location.id}
+                                entityRelationId={title.id}
                                 entityType={FavoriteType.Location}
                                 initialIsFavorite={initialIsFavorite}
                                 size='icon'
@@ -178,8 +187,8 @@ export const TitleFilmingLocationsListItem = forwardRef<
                         )}
                     </Hint>
                     <Hint
-                        label={t('items.options.heading')}
-                        side='right'
+                        label={flItemT('items.options.heading')}
+                        side='left'
                         align='end'
                     >
                         <DropdownMenu>
@@ -194,24 +203,26 @@ export const TitleFilmingLocationsListItem = forwardRef<
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align='end'>
                                 <DropdownMenuLabel>
-                                    {t('items.options.actionsHeading')}
+                                    {flItemT('items.options.actionsHeading')}
                                 </DropdownMenuLabel>
                                 <DropdownMenuItem onClick={handleEditClick}>
                                     <Edit className='mr-2 size-4' />
                                     <span>
-                                        {t('items.options.editLocation')}
+                                        {flItemT('items.options.editLocation')}
                                     </span>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem onClick={handleReportClick}>
                                     <Flag className='mr-2 size-4' />
                                     <span>
-                                        {t('items.options.reportLocation')}
+                                        {flItemT(
+                                            'items.options.reportLocation',
+                                        )}
                                     </span>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem onClick={handleShareClick}>
                                     <Share2 className='mr-2 size-4' />
                                     <span>
-                                        {t('items.options.shareLocation')}
+                                        {flItemT('items.options.shareLocation')}
                                     </span>
                                 </DropdownMenuItem>
                                 {hasCoordinates && mapServices.length > 0 && (
@@ -221,7 +232,9 @@ export const TitleFilmingLocationsListItem = forwardRef<
                                             <DropdownMenuSubTrigger>
                                                 <Map className='mr-2 size-4' />
                                                 <span>
-                                                    {t('items.options.viewIn')}
+                                                    {flItemT(
+                                                        'items.options.viewIn',
+                                                    )}
                                                 </span>
                                             </DropdownMenuSubTrigger>
                                             <DropdownMenuSubContent>
@@ -236,7 +249,7 @@ export const TitleFilmingLocationsListItem = forwardRef<
                                                     >
                                                         <service.icon className='mr-2 size-4' />
                                                         <span>
-                                                            {t(
+                                                            {flItemT(
                                                                 `items.options.${service.translationKey}`,
                                                             )}
                                                         </span>
@@ -262,7 +275,8 @@ export const TitleFilmingLocationsListItem = forwardRef<
                         </p>
                     )}
                     <p className='mb-2 text-sm'>
-                        {location.description || t('items.description.empty')}
+                        {location.description ||
+                            flItemT('items.description.empty')}
                     </p>
                     {location.city && (
                         <p className='text-xs text-muted-foreground'>
@@ -275,13 +289,13 @@ export const TitleFilmingLocationsListItem = forwardRef<
                             onClick={handleStopPropagation}
                         >
                             <span className='text-xs text-muted-foreground'>
-                                {t('items.author.heading')}:{' '}
+                                {flItemT('items.author.heading')}:{' '}
                                 <Link href={'/' + location.user.username}>
                                     {location.user.username}
                                 </Link>
                             </span>
                             <Hint
-                                label={t('items.author.openProfile')}
+                                label={flItemT('items.author.openProfile')}
                                 side='right'
                                 align='end'
                             >
@@ -318,7 +332,6 @@ export const TitleFilmingLocationsListItem = forwardRef<
                 onClose={() => setIsShareDialogOpen(false)}
                 location={location}
                 title={title}
-                locale={locale}
             />
         </>
     )

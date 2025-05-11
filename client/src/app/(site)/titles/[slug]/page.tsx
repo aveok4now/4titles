@@ -5,7 +5,7 @@ import {
     Title,
 } from '@/graphql/generated/output'
 import { SERVER_URL } from '@/libs/constants/url.constants'
-import { getLocalizedTitleData } from '@/utils/localization/title-localization'
+import { getLocalizedTitleData } from '@/utils/title/title-localization'
 import { Metadata } from 'next'
 import { getLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'

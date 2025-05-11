@@ -9,6 +9,7 @@ import {
     MorphingDialogTrigger,
 } from '@/components/ui/custom/content/morphing-dialog'
 import TiltedCard from '@/components/ui/custom/content/tilted-card'
+import { AccentSpotlight } from '@/components/ui/elements/AccentSpotlight'
 import { LogoImage } from '@/components/ui/elements/LogoImage'
 
 import { XIcon } from 'lucide-react'
@@ -53,6 +54,7 @@ export function TitlePoster({ posterUrl, title }: TitlePosterProps) {
                     scaleOnHover={1.05}
                     rotateAmplitude={8}
                 />
+                <AccentSpotlight />
             </MorphingDialogTrigger>
 
             <MorphingDialogContainer>

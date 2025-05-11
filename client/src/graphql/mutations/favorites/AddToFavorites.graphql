@@ -1,5 +1,5 @@
-mutation AddToFavorites($type: FavoriteType!, $entityId: String!) {
-    addToFavorites(type: $type, entityId: $entityId) {
+mutation AddToFavorites($input: AddToFavoritesInput!) {
+    addToFavorites(input: $input) {
         id
         type
         titleId

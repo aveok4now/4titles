@@ -1,0 +1,93 @@
+query FindUserFavorites($filters: FindFavoritesInput!) {
+    findMyFavorites(filters: $filters) {
+        id
+        type
+        createdAt
+        title {
+            id
+            slug
+            originalName
+            type
+            releaseDate
+            images {
+                posters {
+                    file_path
+                    iso_639_1
+                }
+            }
+            translations {
+                title
+                language {
+                    iso
+                }
+            }
+            countries {
+                type
+                country {
+                    englishName
+                    flagUrl
+                    iso
+                    name
+                }
+            }
+        }
+        filmingLocation {
+            id
+            address
+            description
+            formattedAddress
+            city
+            coordinates {
+                x
+                y
+            }
+            country {
+                iso
+                englishName
+                flagUrl
+            }
+            descriptions {
+                description
+                language {
+                    iso
+                }
+            }
+            user {
+                username
+                avatar
+            }
+            titleFilmingLocations {
+                title {
+                    id
+                    slug
+                    translations {
+                        title
+                        language {
+                            iso
+                        }
+                    }
+                }
+            }
+            createdAt
+            updatedAt
+        }
+        filmingLocationTitle {
+            id
+            type
+            slug
+            translations {
+                title
+                overview
+                language {
+                    iso
+                }
+            }
+            images {
+                posters {
+                    file_path
+                    iso_639_1
+                }
+            }
+        }
+    }
+}

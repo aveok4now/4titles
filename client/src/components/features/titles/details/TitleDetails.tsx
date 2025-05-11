@@ -1,14 +1,10 @@
 'use client'
 
-import {
-    CountryRelation,
-    FindTitleBySlugQuery,
-    Title,
-} from '@/graphql/generated/output'
-import { getLocalizedTitleData } from '@/utils/localization/title-localization'
+import { FindTitleBySlugQuery, Title } from '@/graphql/generated/output'
 import { useLocale } from 'next-intl'
 import { useSortedCast } from '../hooks/useSortedCast'
 
+import { useTitleDetailedInfo } from '../hooks'
 import { TitleCastCarouselSection } from './cast/TitleCastCarouselSection'
 import { TitleFilmingLocationsSection } from './filming-locations'
 import { TitleHeroSection } from './hero/TitleHeroSection'
@@ -19,45 +15,11 @@ interface TitleDetailsProps {
     title: FindTitleBySlugQuery['findTitleBySlug']
 }
 
-function parseReleaseDate(dateStr: string | undefined): Date | null {
-    if (!dateStr) return null
-
-    const timestamp = Number(dateStr)
-    if (!isNaN(timestamp)) {
-        return new Date(timestamp)
-    }
-
-    const date = new Date(dateStr)
-    return isNaN(date.getTime()) ? null : date
-}
-
 export function TitleDetails({ title }: TitleDetailsProps) {
     const locale = useLocale()
 
-    const {
-        name,
-        overview,
-        tagline,
-        posterUrl,
-        backdropUrl,
-        runtime,
-        originalTitle,
-    } = getLocalizedTitleData(title as Title, locale)
-
-    const releaseDate = originalTitle.releaseDate
-        ? parseReleaseDate(originalTitle.releaseDate)
-        : null
-    const releaseYear = releaseDate?.getFullYear()
-
-    const voteAverage = originalTitle?.voteAverage || 0
-    const popularity = originalTitle?.popularity || 0
-    const genres = originalTitle?.genres || []
-    const countries =
-        originalTitle?.countries?.filter(
-            c => c.type === CountryRelation.Production,
-        ) || []
-
-    const externalIds = originalTitle.externalIds || {}
+    const details = useTitleDetailedInfo(title as Title)
+    const { originalTitle } = details
 
     const cast = originalTitle?.credits?.cast || []
     const sortedCast = useSortedCast(cast)
@@ -76,23 +38,7 @@ export function TitleDetails({ title }: TitleDetailsProps) {
 
     return (
         <div className='relative h-full overflow-hidden'>
-            <TitleHeroSection
-                titleId={title.id}
-                name={name}
-                overview={overview}
-                tagline={tagline}
-                backdropUrl={backdropUrl}
-                posterUrl={posterUrl}
-                releaseDate={releaseDate}
-                releaseYear={releaseYear}
-                runtime={runtime!}
-                voteAverage={voteAverage}
-                popularity={popularity}
-                genres={genres}
-                countries={countries}
-                locale={locale}
-                externalIds={externalIds}
-            />
+            <TitleHeroSection details={details} />
 
             <div className='mx-auto flex flex-col items-center gap-y-8 py-4'>
                 {hasImages && (
@@ -122,18 +68,6 @@ export function TitleDetails({ title }: TitleDetailsProps) {
                     />
                 )}
             </div>
-
-            {/* <BorderBeam
-                size={250}
-                duration={15}
-                className='from-transparent via-primary to-transparent opacity-40'
-            />
-            <BorderBeam
-                delay={3}
-                size={300}
-                duration={15}
-                className='from-transparent via-accent to-transparent opacity-45'
-            /> */}
         </div>
     )
 }
