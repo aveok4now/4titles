@@ -8,6 +8,7 @@ import type {
     FindUserFavoritesQuery,
     Title,
 } from '@/graphql/generated/output'
+import { useDeviceSize } from '@/hooks/useDeviceSize'
 import { cn } from '@/utils/tw-merge'
 import { ReferenceMapStyle } from '@maptiler/sdk'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -55,8 +56,8 @@ export function FilmingLocationsContent({
     selectedLocationId,
     onLocationListItemClick,
     onMapMarkerClick,
-    mapHeight = '25rem',
-    listHeight = '22rem',
+    mapHeight,
+    listHeight,
     showSearchControl = false,
     searchQuery = '',
     onSearchHandler,
@@ -76,12 +77,29 @@ export function FilmingLocationsContent({
     titleContext,
     t,
 }: FilmingLocationsContentProps) {
+    const { isMobile, isTablet } = useDeviceSize()
+
+    const defaultMapHeight = useMemo(() => {
+        if (isMobile) return '25rem'
+        if (isTablet) return '30rem'
+        return '40rem'
+    }, [isMobile, isTablet])
+
+    const defaultListHeight = useMemo(() => {
+        if (isMobile) return '22rem'
+        if (isTablet) return '27rem'
+        return '37rem'
+    }, [isMobile, isTablet])
+
     const [themeColors, setThemeColors] = useState({
         base: 'hsl(var(--primary))',
         medium: 'hsl(var(--accent))',
         large: 'hsl(var(--secondary))',
         text: 'hsl(var(--primary-foreground))',
     })
+
+    const effectiveMapHeight = mapHeight || defaultMapHeight
+    const effectiveListHeight = listHeight || defaultListHeight
 
     const stableClusterSourceId = useMemo(() => {
         return `${baseClusterSourceId}-${mapContextKey.replace(/\s+/g, '-').toLowerCase()}`
@@ -162,14 +180,20 @@ export function FilmingLocationsContent({
         return [0, 0] as [number, number]
     }, [locationsToDisplay, selectedLocationId])
 
-    const actualListHeight =
-        showSearchControl && mapHeight === '25rem' && listHeight === '22rem'
-            ? 'calc(25rem - 3rem - 1rem)'
-            : listHeight
+    const actualListHeight = useMemo(() => {
+        if (showSearchControl) {
+            const searchControlHeight = '3rem'
+            return `calc(${effectiveListHeight} - ${searchControlHeight})`
+        }
+        return effectiveListHeight
+    }, [showSearchControl, effectiveListHeight])
 
     return (
         <div className='flex w-full flex-col gap-6 md:flex-row'>
-            <div style={{ height: mapHeight }} className='w-full md:w-1/2'>
+            <div
+                style={{ height: effectiveMapHeight }}
+                className='w-full md:w-1/2'
+            >
                 <Map
                     key={mapKey}
                     center={mapCenter}
@@ -194,7 +218,7 @@ export function FilmingLocationsContent({
                 />
             </div>
             <div
-                style={{ height: mapHeight }}
+                style={{ height: effectiveMapHeight }}
                 className='flex w-full flex-col pr-2 md:w-1/2 md:pr-4'
             >
                 {showSearchControl && onSearchHandler && (
@@ -204,11 +228,7 @@ export function FilmingLocationsContent({
                     />
                 )}
                 <ScrollArea
-                    style={{
-                        height: showSearchControl
-                            ? actualListHeight
-                            : listHeight,
-                    }}
+                    style={{ height: actualListHeight }}
                     className={`flex-grow ${showSearchControl ? 'mt-2' : 'mt-0'}`}
                 >
                     <div className='space-y-4' ref={scrollAreaRef}>

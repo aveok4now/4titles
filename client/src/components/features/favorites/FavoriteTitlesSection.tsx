@@ -52,7 +52,11 @@ export function FavoriteTitlesSection({
                 .filter(fav => fav.title)
                 .map(fav => fav.title as Title)
 
-            setFavoriteTitles(titles)
+            const uniqueTitles = Array.from(
+                new Map(titles.map(title => [title.id, title])).values(),
+            )
+
+            setFavoriteTitles(uniqueTitles)
             setHasMore(titles.length === TITLES_PER_PAGE)
         }
     }, [data])
@@ -76,7 +80,13 @@ export function FavoriteTitlesSection({
                 .map(fav => fav.title as Title)
 
             if (newTitles.length > 0) {
-                setFavoriteTitles(prev => [...prev, ...newTitles])
+                setFavoriteTitles(prev => {
+                    const existingIds = new Set(prev.map(title => title.id))
+                    const uniqueNewTitles = newTitles.filter(
+                        title => !existingIds.has(title.id),
+                    )
+                    return [...prev, ...uniqueNewTitles]
+                })
                 setHasMore(newTitles.length === TITLES_PER_PAGE)
             } else {
                 setHasMore(false)

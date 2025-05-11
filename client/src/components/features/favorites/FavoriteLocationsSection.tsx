@@ -68,50 +68,52 @@ export function FavoriteLocationsSection() {
         useMemo(() => {
             if (allFavoriteLocations.length === 0) return []
 
+            const uniqueLocationMap = new Map<
+                string,
+                ProcessedFilmingLocation
+            >()
+
+            const processLocation = (fav: any) => {
+                if (!fav.filmingLocation) return null
+
+                const resolvedDescription = resolveLocationDescription(
+                    fav.filmingLocation as FilmingLocation,
+                )
+
+                const locationId = fav.filmingLocation.id
+                const titleId = fav.filmingLocationTitle?.id || 'unknown'
+                const compositeKey = `${locationId}-${titleId}`
+
+                const processed = {
+                    originalItem: fav,
+                    processedFilmingLocation: {
+                        ...fav.filmingLocation,
+                        description: resolvedDescription,
+                    },
+                    titleForListItem: fav.filmingLocationTitle as Title,
+                }
+
+                uniqueLocationMap.set(compositeKey, processed)
+                return processed
+            }
+
             if (searchResults && searchResults.length > 0) {
                 const searchResultIds = new Set(
                     searchResults.map(loc => loc.id),
                 )
 
-                return allFavoriteLocations
+                allFavoriteLocations
                     .filter(
                         fav =>
                             fav.filmingLocation &&
                             searchResultIds.has(fav.filmingLocation.id),
                     )
-                    .map(fav => {
-                        if (!fav.filmingLocation) return null
-                        const resolvedDescription = resolveLocationDescription(
-                            fav.filmingLocation as FilmingLocation,
-                        )
-                        return {
-                            originalItem: fav,
-                            processedFilmingLocation: {
-                                ...fav.filmingLocation,
-                                description: resolvedDescription,
-                            },
-                            titleForListItem: fav.filmingLocationTitle as Title,
-                        }
-                    })
-                    .filter(Boolean) as ProcessedFilmingLocation[]
+                    .forEach(processLocation)
+            } else {
+                allFavoriteLocations.forEach(processLocation)
             }
 
-            return allFavoriteLocations
-                .map(fav => {
-                    if (!fav.filmingLocation) return null
-                    const resolvedDescription = resolveLocationDescription(
-                        fav.filmingLocation as FilmingLocation,
-                    )
-                    return {
-                        originalItem: fav,
-                        processedFilmingLocation: {
-                            ...fav.filmingLocation,
-                            description: resolvedDescription,
-                        },
-                        titleForListItem: fav.filmingLocationTitle as Title,
-                    }
-                })
-                .filter(Boolean) as ProcessedFilmingLocation[]
+            return Array.from(uniqueLocationMap.values())
         }, [allFavoriteLocations, searchResults, resolveLocationDescription])
 
     const locationIds = useMemo(
@@ -208,6 +210,8 @@ export function FavoriteLocationsSection() {
             allFavoriteLocations,
             searchLocationsByIdsMutation,
             handleLocationClick,
+            locationItemRefs,
+            scrollAreaRef,
         ],
     )
 
@@ -240,8 +244,8 @@ export function FavoriteLocationsSection() {
                 onLocationListItemClick={handleLocationClick}
                 onMapMarkerClick={handleMarkerClick}
                 onSearchHandler={handleSearch}
-                mapHeight='30rem'
-                listHeight='calc(30rem - 1rem)'
+                // mapHeight='30rem'
+                // listHeight='calc(30rem - 1rem)'
                 showSearchControl
                 baseClusterSourceId={clusterSourceId}
                 mapContextKey={mapContextKey}
