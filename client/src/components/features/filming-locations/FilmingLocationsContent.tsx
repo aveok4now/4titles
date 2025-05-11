@@ -13,7 +13,7 @@ import { ReferenceMapStyle } from '@maptiler/sdk'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TitleFilmingLocationsListItem } from '../titles/details/filming-locations/TitleFilmingLocationsListItem'
 import { TitleFilmingLocationsListSkeletons } from '../titles/details/filming-locations/TitleFilmingLocationsListItemSkeleton'
-import { TitleFilmingLocationsSearch } from '../titles/details/filming-locations/TitleFilmingLocationsSearch'
+import { FilmingLocationsSearch } from './FilmingLocationsSearch'
 
 export interface ProcessedFilmingLocation {
     originalItem: FindUserFavoritesQuery['findMyFavorites'][number]
@@ -82,6 +82,14 @@ export function FilmingLocationsContent({
         large: 'hsl(var(--secondary))',
         text: 'hsl(var(--primary-foreground))',
     })
+
+    const stableClusterSourceId = useMemo(() => {
+        return `${baseClusterSourceId}-${mapContextKey.replace(/\s+/g, '-').toLowerCase()}`
+    }, [baseClusterSourceId, mapContextKey])
+
+    const mapKey = useMemo(() => {
+        return `map-${mapContextKey}-${Date.now()}`
+    }, [mapContextKey])
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -154,7 +162,6 @@ export function FilmingLocationsContent({
         return [0, 0] as [number, number]
     }, [locationsToDisplay, selectedLocationId])
 
-    const computedClusterSourceId = `${baseClusterSourceId}-${mapContextKey}`
     const actualListHeight =
         showSearchControl && mapHeight === '25rem' && listHeight === '22rem'
             ? 'calc(25rem - 3rem - 1rem)'
@@ -164,7 +171,7 @@ export function FilmingLocationsContent({
         <div className='flex w-full flex-col gap-6 md:flex-row'>
             <div style={{ height: mapHeight }} className='w-full md:w-1/2'>
                 <Map
-                    key={mapContextKey}
+                    key={mapKey}
                     center={mapCenter}
                     zoom={defaultZoom}
                     markers={markers}
@@ -177,7 +184,7 @@ export function FilmingLocationsContent({
                     enableClustering={
                         shouldEnableClustering ?? locationsToDisplay.length > 5
                     }
-                    clusterSourceId={computedClusterSourceId}
+                    clusterSourceId={stableClusterSourceId}
                     clusterOptions={{
                         maxZoom: 14,
                         radius: 40,
@@ -191,7 +198,7 @@ export function FilmingLocationsContent({
                 className='flex w-full flex-col pr-2 md:w-1/2 md:pr-4'
             >
                 {showSearchControl && onSearchHandler && (
-                    <TitleFilmingLocationsSearch
+                    <FilmingLocationsSearch
                         onSearch={onSearchHandler}
                         isLoading={isSearchingInput}
                     />

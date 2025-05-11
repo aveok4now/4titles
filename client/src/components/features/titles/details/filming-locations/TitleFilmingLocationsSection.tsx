@@ -168,7 +168,15 @@ export function TitleFilmingLocationsSection({
         setIsAddLocationDialogOpen(true)
     }
 
-    const mapContextKey = title.tmdbId ? title.tmdbId.toString() : title.id
+    const mapContextKey = useMemo(() => {
+        return title.tmdbId
+            ? `title-${title.tmdbId}`
+            : `title-${title.id.substring(0, 8)}`
+    }, [title.id, title.tmdbId])
+
+    const clusterSourceId = useMemo(() => {
+        return 'title-locations'
+    }, [])
 
     if (
         initialFilmingLocations.length === 0 &&
@@ -208,7 +216,7 @@ export function TitleFilmingLocationsSection({
                 searchQuery={searchQuery}
                 onSearchHandler={handleSearch}
                 isSearchingInput={isSearching}
-                baseClusterSourceId='title-locations'
+                baseClusterSourceId={clusterSourceId}
                 mapContextKey={mapContextKey}
                 searchNoResultsText={t('search.noResults')}
                 scrollAreaRef={scrollAreaRef}

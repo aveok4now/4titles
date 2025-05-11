@@ -8,17 +8,17 @@ import { Search, X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useCallback, useRef, useState } from 'react'
 
-interface TitleFilmingLocationsSearchProps {
+interface FilmingLocationsSearchProps {
     onSearch: (query: string) => void
     isLoading?: boolean
     minSearchLength?: number
 }
 
-export function TitleFilmingLocationsSearch({
+export function FilmingLocationsSearch({
     onSearch,
     isLoading = false,
     minSearchLength = 3,
-}: TitleFilmingLocationsSearchProps) {
+}: FilmingLocationsSearchProps) {
     const t = useTranslations('titleDetails.filmingLocations.search')
     const [searchValue, setSearchValue] = useState('')
     const inputRef = useRef<HTMLInputElement>(null)
