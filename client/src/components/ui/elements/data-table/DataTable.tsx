@@ -124,12 +124,12 @@ export function DataTable<TData, TValue>({
                         placeholder={searchPlaceholder || t('search')}
                         value={globalFilter}
                         onChange={event => setGlobalFilter(event.target.value)}
-                        className='max-w-md'
+                        className='max-w-md bg-background dark:bg-muted/30'
                     />
                 )}
                 <DataTableViewOptions table={table} />
             </div>
-            <div className='rounded-md border'>
+            <div className='rounded-md border bg-background dark:bg-transparent'>
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map(headerGroup => (
