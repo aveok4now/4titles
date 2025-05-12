@@ -4,6 +4,7 @@ import { cn } from '@/utils/tw-merge'
 import { Card } from '../common/card'
 import { BorderBeam } from '../custom/content/border-beam'
 import { MagicCard } from '../custom/content/magic-card'
+import { AccentSpotlight } from './AccentSpotlight'
 
 interface BeamAnimatedCardProps {
     children: React.ReactNode
@@ -34,6 +35,7 @@ export const BeamAnimatedCard = ({
                 className='from-transparent via-primary to-transparent opacity-15'
                 reverse
             />
+            <AccentSpotlight size={150} />
         </Card>
     )
 }

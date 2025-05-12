@@ -1,4 +1,3 @@
-import { cn } from '@/utils/tw-merge'
 import type { PropsWithChildren } from 'react'
 import { CardContent, CardHeader, CardTitle } from '../common/card'
 import { BeamAnimatedCard } from './BeamAnimatedCard'

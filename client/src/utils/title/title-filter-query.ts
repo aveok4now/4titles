@@ -80,6 +80,10 @@ export function serializeFilterToQuery(
         result.sort = filter.sortBy
     }
 
+    if (filter.imdbId) {
+        result.imdbId = filter.imdbId
+    }
+
     return result
 }
 
@@ -165,6 +169,11 @@ export function parseQueryToFilter(
         result.sortBy = searchParams.get(
             'sort',
         ) as TitleFilterSchemaType['sortBy']
+    }
+    if (searchParams.has('imdbId')) {
+        result.imdbId = searchParams.get(
+            'imdbId',
+        ) as TitleFilterSchemaType['imdbId']
     }
 
     return result

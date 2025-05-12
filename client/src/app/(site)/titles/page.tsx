@@ -11,7 +11,7 @@ import {
     TitleFilterInput,
 } from '@/graphql/generated/output'
 import { APP_URL, SERVER_URL } from '@/libs/constants/url.constants'
-import { parseQueryToFilter } from '@/utils/filter-query'
+import { parseQueryToFilter } from '@/utils/title/title-filter-query'
 import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 

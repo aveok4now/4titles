@@ -37,6 +37,7 @@ const optionalFilterSchema = z.object({
     originalLanguageIsos: z.array(z.string()).optional(),
     voteAverageRange: numberRangeSchema.optional(),
     statuses: z.array(z.nativeEnum(TitleStatus)).optional(),
+    imdbId: z.string().optional(),
 })
 
 export const titleFilterSchema = baseFilterSchema.merge(optionalFilterSchema)

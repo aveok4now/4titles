@@ -116,11 +116,12 @@ export function ResponsiveCombobox({
                 <PopoverTrigger asChild>
                     <Button
                         variant={variant}
+                        size='default'
                         role='combobox'
                         aria-expanded={open}
-                        className='w-full justify-between'
+                        className='h-10 w-full justify-between'
                     >
-                        <div className='flex items-center gap-1 truncate'>
+                        <div className='flex items-center truncate'>
                             {value.length > 0 && displayValues ? (
                                 displayLabels.map((label, i) => (
                                     <span key={i} className='truncate text-sm'>
@@ -133,6 +134,7 @@ export function ResponsiveCombobox({
                                 </span>
                             )}
                         </div>
+
                         <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
                     </Button>
                 </PopoverTrigger>

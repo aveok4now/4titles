@@ -37,7 +37,7 @@ import {
 import {
     parseQueryToFilter,
     serializeFilterToQuery,
-} from '@/utils/filter-query'
+} from '@/utils/title/title-filter-query'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Filter, Trash2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -236,7 +236,7 @@ export function TitleFiltersForm({
                                         placeholder={t('name.placeholder')}
                                         {...field}
                                         value={field.value || ''}
-                                        className='bg-popover'
+                                        className='bg-background'
                                     />
                                 </FormItem>
                             )}
@@ -362,6 +362,22 @@ export function TitleFiltersForm({
 
                         <FormField
                             control={form.control}
+                            name='imdbId'
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>{t('imdbId.label')}</FormLabel>
+                                    <Input
+                                        placeholder={t('imdbId.placeholder')}
+                                        {...field}
+                                        value={field.value || ''}
+                                        className='bg-background'
+                                    />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
                             name='runtimeRange'
                             render={({ field }) => (
                                 <FormItem>
@@ -370,7 +386,7 @@ export function TitleFiltersForm({
                                             unit: t('runtime.unit'),
                                         })}
                                     </FormLabel>
-                                    <div className='px-3 pb-6 pt-2'>
+                                    <div className='pb-6 pt-1'>
                                         <DualRangeSlider
                                             min={0}
                                             max={300}
@@ -403,7 +419,7 @@ export function TitleFiltersForm({
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>{t('rating.label')}</FormLabel>
-                                    <div className='px-3 pb-6 pt-2'>
+                                    <div className='pb-6 pt-1'>
                                         <DualRangeSlider
                                             min={0}
                                             max={10}
@@ -472,7 +488,7 @@ export function TitleFiltersForm({
                         />
                     </div>
 
-                    <div className='flex flex-col items-end justify-between gap-y-4 pt-0 md:flex-row md:pt-4'>
+                    <div className='flex flex-col items-end justify-between gap-y-4 pt-0 md:flex-row md:items-center md:pt-4'>
                         <FormField
                             control={form.control}
                             name='withFilmingLocations'
