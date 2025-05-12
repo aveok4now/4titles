@@ -25,7 +25,7 @@ async function findTitles(filter: TitleFilterInput) {
                 variables: {
                     filter: {
                         withFilmingLocations: true,
-                        limit: 20,
+                        take: 20,
                         ...filter,
                     },
                 },
@@ -97,22 +97,22 @@ export default async function HomePage() {
         <div className='space-y-12'>
             <AboutGrid />
 
-            {movies && (
+            {movies && movies.length > 0 && (
                 <ContentCarouselSection
                     heading={t('movies.heading')}
                     description={t('movies.description')}
-                    viewAllHref='/titles?type=movie'
+                    viewAllHref='/titles?type=MOVIE'
                     viewAllLabel={t('viewAll')}
                 >
                     <TitlesCarousel titles={movies} />
                 </ContentCarouselSection>
             )}
 
-            {series && (
+            {series && series.length > 0 && (
                 <ContentCarouselSection
                     heading={t('series.heading')}
                     description={t('series.description')}
-                    viewAllHref='/titles?type=tv'
+                    viewAllHref='/titles?type=TV'
                     viewAllLabel={t('viewAll')}
                 >
                     <TitlesCarousel titles={series} />

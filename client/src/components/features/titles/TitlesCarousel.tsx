@@ -71,14 +71,14 @@ export function TitlesCarousel({ titles, className }: TitlesCarouselProps) {
     }, [api, carouselOptions])
 
     const titlesItems = useMemo(() => {
-        if (!titles?.items?.length) return []
+        if (!titles?.length) return []
 
-        return titles.items.filter(title =>
+        return titles.filter(title =>
             getTitleBackdropUrl(title as Title, locale),
         ) as Title[]
-    }, [titles?.items, locale])
+    }, [titles, locale])
 
-    if (!titles?.items?.length || titlesItems.length === 0) return null
+    if (!titles?.length || titlesItems.length === 0) return null
 
     return (
         <div className={cn('w-full overflow-hidden', className)}>

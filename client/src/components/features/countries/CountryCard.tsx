@@ -48,9 +48,7 @@ export function CountryCard({ country }: { country: CountryStatistics }) {
     return (
         <Hint label={t('goToCountry')} side='bottom' align='center'>
             <figure
-                onClick={() =>
-                    router.push(`/titles?country=${country.iso.toLowerCase()}`)
-                }
+                onClick={() => router.push(`/titles?countries=${country.iso}`)}
                 className={cn(
                     'relative h-full w-64 cursor-pointer overflow-hidden rounded-xl border p-4',
                     'border-border/[50] bg-primary/[.01] hover:bg-primary/[.05]',

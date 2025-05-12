@@ -190,94 +190,110 @@ export function FilmingLocationsContent({
 
     return (
         <div className='flex w-full flex-col gap-6 md:flex-row'>
-            <div
-                style={{ height: effectiveMapHeight }}
-                className='w-full md:w-1/2'
-            >
-                <Map
-                    key={mapKey}
-                    center={mapCenter}
-                    zoom={defaultZoom}
-                    markers={markers}
-                    height='100%'
-                    width='100%'
-                    style={mapStyle}
-                    onMarkerClick={onMapMarkerClick}
-                    terrain={enableMapTerrain}
-                    projection={enableMapProjection}
-                    enableClustering={
-                        shouldEnableClustering ?? locationsToDisplay.length > 5
-                    }
-                    clusterSourceId={stableClusterSourceId}
-                    clusterOptions={{
-                        maxZoom: 14,
-                        radius: 40,
-                        colors: themeColors,
-                    }}
-                    selectedMarkerId={selectedLocationId || undefined}
-                />
-            </div>
-            <div
-                style={{ height: effectiveMapHeight }}
-                className='flex w-full flex-col pr-2 md:w-1/2 md:pr-4'
-            >
-                {showSearchControl && onSearchHandler && (
-                    <FilmingLocationsSearch
-                        onSearch={onSearchHandler}
-                        isLoading={isSearchingInput}
-                    />
-                )}
-                <ScrollArea
-                    style={{ height: actualListHeight }}
-                    className={`flex-grow ${showSearchControl ? 'mt-2' : 'mt-0'}`}
-                >
-                    <div className='space-y-4' ref={scrollAreaRef}>
-                        {isLoading ? (
-                            <TitleFilmingLocationsListSkeletons count={3} />
-                        ) : locationsToDisplay.length > 0 ? (
-                            locationsToDisplay.map((item, index) => (
-                                <TitleFilmingLocationsListItem
-                                    key={`${item.processedFilmingLocation.id}-${index}`}
-                                    location={item.processedFilmingLocation}
-                                    isSelected={
-                                        selectedLocationId ===
-                                        item.processedFilmingLocation.id
-                                    }
-                                    onClick={() =>
-                                        onLocationListItemClick(
-                                            item.processedFilmingLocation.id,
-                                        )
-                                    }
-                                    title={
-                                        item.titleForListItem || titleContext!
-                                    }
-                                    ref={(el: HTMLDivElement | null) => {
-                                        if (el) {
-                                            locationItemRefs.current[
-                                                item.processedFilmingLocation.id
-                                            ] = el
-                                        }
-                                    }}
-                                    {...listItemProps}
-                                    {...(t && { t: listItemProps?.t || t })}
-                                />
-                            ))
-                        ) : searchQuery &&
-                          showSearchControl &&
-                          searchNoResultsText ? (
-                            <div className='py-4 text-center text-muted-foreground'>
-                                {searchNoResultsText}
-                            </div>
-                        ) : noResultsText &&
-                          !showSearchControl &&
-                          !isLoading ? (
-                            <div className='py-4 text-center text-muted-foreground'>
-                                {noResultsText}
-                            </div>
-                        ) : null}
+            {locationsToDisplay.length > 0 ? (
+                <>
+                    <div
+                        style={{ height: effectiveMapHeight }}
+                        className='w-full md:w-1/2'
+                    >
+                        <Map
+                            key={mapKey}
+                            center={mapCenter}
+                            zoom={defaultZoom}
+                            markers={markers}
+                            height='100%'
+                            width='100%'
+                            style={mapStyle}
+                            onMarkerClick={onMapMarkerClick}
+                            terrain={enableMapTerrain}
+                            projection={enableMapProjection}
+                            enableClustering={
+                                shouldEnableClustering ??
+                                locationsToDisplay.length > 5
+                            }
+                            clusterSourceId={stableClusterSourceId}
+                            clusterOptions={{
+                                maxZoom: 14,
+                                radius: 40,
+                                colors: themeColors,
+                            }}
+                            selectedMarkerId={selectedLocationId || undefined}
+                        />
                     </div>
-                </ScrollArea>
-            </div>
+                    <div
+                        style={{ height: effectiveMapHeight }}
+                        className='flex w-full flex-col pr-2 md:w-1/2 md:pr-4'
+                    >
+                        {showSearchControl && onSearchHandler && (
+                            <FilmingLocationsSearch
+                                onSearch={onSearchHandler}
+                                isLoading={isSearchingInput}
+                            />
+                        )}
+                        <ScrollArea
+                            style={{ height: actualListHeight }}
+                            className={`flex-grow ${showSearchControl ? 'mt-2' : 'mt-0'}`}
+                        >
+                            <div className='space-y-4' ref={scrollAreaRef}>
+                                {isLoading ? (
+                                    <TitleFilmingLocationsListSkeletons
+                                        count={3}
+                                    />
+                                ) : locationsToDisplay.length > 0 ? (
+                                    locationsToDisplay.map((item, index) => (
+                                        <TitleFilmingLocationsListItem
+                                            key={`${item.processedFilmingLocation.id}-${index}`}
+                                            location={
+                                                item.processedFilmingLocation
+                                            }
+                                            isSelected={
+                                                selectedLocationId ===
+                                                item.processedFilmingLocation.id
+                                            }
+                                            onClick={() =>
+                                                onLocationListItemClick(
+                                                    item
+                                                        .processedFilmingLocation
+                                                        .id,
+                                                )
+                                            }
+                                            title={
+                                                item.titleForListItem ||
+                                                titleContext!
+                                            }
+                                            ref={(
+                                                el: HTMLDivElement | null,
+                                            ) => {
+                                                if (el) {
+                                                    locationItemRefs.current[
+                                                        item.processedFilmingLocation.id
+                                                    ] = el
+                                                }
+                                            }}
+                                            {...listItemProps}
+                                            {...(t && {
+                                                t: listItemProps?.t || t,
+                                            })}
+                                        />
+                                    ))
+                                ) : searchQuery &&
+                                  showSearchControl &&
+                                  searchNoResultsText ? (
+                                    <div className='py-4 text-center text-muted-foreground'>
+                                        {searchNoResultsText}
+                                    </div>
+                                ) : noResultsText &&
+                                  !showSearchControl &&
+                                  !isLoading ? (
+                                    <div className='py-4 text-center text-muted-foreground'>
+                                        {noResultsText}
+                                    </div>
+                                ) : null}
+                            </div>
+                        </ScrollArea>
+                    </div>
+                </>
+            ) : null}
         </div>
     )
 }

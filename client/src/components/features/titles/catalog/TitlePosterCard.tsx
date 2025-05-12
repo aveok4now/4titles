@@ -7,20 +7,22 @@ import { Hint } from '@/components/ui/elements/Hint'
 import { LogoImage } from '@/components/ui/elements/LogoImage'
 import { FavoriteType, Title } from '@/graphql/generated/output'
 import { cn } from '@/utils/tw-merge'
-import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import NextLink from 'next/link'
-import { FavoriteButton } from '../favorites/FavoriteButton'
-import { useTitleBasicInfo } from './hooks'
+import { FavoriteButton } from '../../favorites/FavoriteButton'
+import { useTitleBasicInfo } from '../hooks'
 
 interface TitlePosterCardProps {
     title: Title
     className?: string
+    initialIsFavorite?: boolean
 }
 
-export function TitlePosterCard({ title, className }: TitlePosterCardProps) {
-    const t = useTranslations('favorites.titleCard')
-
+export function TitlePosterCard({
+    title,
+    className,
+    initialIsFavorite,
+}: TitlePosterCardProps) {
     const { name, posterUrl, releaseYear, productionCountry } =
         useTitleBasicInfo(title)
 
@@ -44,9 +46,9 @@ export function TitlePosterCard({ title, className }: TitlePosterCardProps) {
                     <FavoriteButton
                         entityId={title.id}
                         entityType={FavoriteType.Title}
-                        initialIsFavorite={true}
                         variant='outline'
                         size='icon'
+                        initialIsFavorite={initialIsFavorite}
                     />
                 </div>
 
@@ -62,7 +64,7 @@ export function TitlePosterCard({ title, className }: TitlePosterCardProps) {
                                         src={posterUrl}
                                         alt={name}
                                         fill
-                                        className='object-cover transition-transform duration-300 group-hover:scale-105'
+                                        className='select-none object-cover transition-transform duration-300 group-hover:scale-105'
                                         sizes='(max-width: 640px) 50vw, (max-width: 1024px) 33vw, (max-width: 1600px) 25vw, 20vw'
                                         priority
                                         onError={e => {

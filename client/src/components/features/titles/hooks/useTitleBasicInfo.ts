@@ -1,5 +1,5 @@
 import { CountryRelation, Title } from '@/graphql/generated/output'
-import { parseReleaseDate } from '@/utils/title/parse-release-date'
+import { parseReleaseDate } from '@/utils/title/parse-title-release-date'
 import {
     getLocalizedTitleName,
     getTitleBackdropUrl,

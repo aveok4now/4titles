@@ -178,21 +178,21 @@ export function TitleFilmingLocationsSection({
         return 'title-locations'
     }, [])
 
-    if (
-        initialFilmingLocations.length === 0 &&
-        !isLoadingSearch &&
-        !searchQuery
-    )
-        return null
-
     return (
         <TitleSectionContainer
             delay={300}
             className='relative'
             title={t('heading')}
-            description={t('description', {
-                title: getLocalizedTitleName(title, locale),
-            })}
+            description={
+                initialFilmingLocations.length > 0
+                    ? t('description', {
+                          title: getLocalizedTitleName(title, locale),
+                      })
+                    : t('emptyDescription', {
+                          type: title.type,
+                          title: getLocalizedTitleName(title, locale),
+                      })
+            }
             action={
                 <Button
                     onClick={handleAddLocationClick}

@@ -1,5 +1,5 @@
 import { CountryRelation, Title } from '@/graphql/generated/output'
-import { parseReleaseDate } from '@/utils/title/parse-release-date'
+import { parseReleaseDate } from '@/utils/title/parse-title-release-date'
 import { getLocalizedTitleData } from '@/utils/title/title-localization'
 import { useLocale } from 'next-intl'
 import { useMemo } from 'react'
