@@ -14,12 +14,14 @@ export function useFavoriteToggle(
     entityRelationId?: string,
 ) {
     const { isAuthenticated } = useAuth()
-    const [isFavorite, setIsFavorite] = useState(initialIsFavorite ?? false)
-    const [isLoading, setIsLoading] = useState(false)
+    const [isFavorite, setIsFavorite] = useState<boolean | undefined>(
+        initialIsFavorite,
+    )
+    const [isLoadingCombined, setIsLoadingCombined] = useState(false)
 
     const {
         data: isFavoriteData,
-        loading: isStatusLoading,
+        loading: isFetchingInitialStatus,
         refetch,
     } = useIsEntityFavoriteQuery({
         variables: {
@@ -41,21 +43,32 @@ export function useFavoriteToggle(
         useRemoveFromFavoritesMutation()
 
     useEffect(() => {
-        if (isFavoriteData) setIsFavorite(true)
-    }, [isFavoriteData])
+        if (initialIsFavorite === undefined && isFavoriteData !== undefined) {
+            setIsFavorite(!!isFavoriteData?.isEntityFavorite)
+        }
+    }, [isFavoriteData, initialIsFavorite])
 
     useEffect(() => {
-        setIsLoading(isStatusLoading || isAdding || isRemoving)
-    }, [isStatusLoading, isAdding, isRemoving])
+        const currentIsFetchingInitial =
+            initialIsFavorite === undefined && isFetchingInitialStatus
+        setIsLoadingCombined(currentIsFetchingInitial || isAdding || isRemoving)
+    }, [isFetchingInitialStatus, isAdding, isRemoving, initialIsFavorite])
+
+    const finalIsFavorite =
+        initialIsFavorite === undefined && isFetchingInitialStatus
+            ? undefined
+            : isFavorite
 
     return {
-        isFavorite,
-        isLoading,
+        isFavorite: finalIsFavorite,
+        isLoading: isLoadingCombined,
+        isFetchingInitialStatus:
+            initialIsFavorite === undefined && isFetchingInitialStatus,
         refetch,
         addToFavorites,
         removeFromFavorites,
         setIsFavorite,
-        setIsLoading,
+        setIsLoading: setIsLoadingCombined,
         isAuthenticated,
     }
 }

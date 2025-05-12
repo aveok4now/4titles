@@ -7,9 +7,14 @@ import { TitlePosterCard } from './TitlePosterCard'
 interface TitlesListProps {
     titles: Title[]
     className?: string
+    isFavoriteOverride?: boolean
 }
 
-export function TitlesList({ titles, className }: TitlesListProps) {
+export function TitlesList({
+    titles,
+    className,
+    isFavoriteOverride,
+}: TitlesListProps) {
     if (!titles || titles.length === 0) {
         return null
     }
@@ -22,7 +27,11 @@ export function TitlesList({ titles, className }: TitlesListProps) {
             )}
         >
             {titles.map(title => (
-                <TitlePosterCard key={title.id} title={title} />
+                <TitlePosterCard
+                    key={title.id}
+                    title={title}
+                    initialIsFavorite={isFavoriteOverride}
+                />
             ))}
         </div>
     )

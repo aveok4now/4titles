@@ -11,8 +11,8 @@ import {
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { TitlePosterCardSkeleton } from '../titles/TitlePosterCard'
-import { TitlesList } from '../titles/TitlesList'
+import { TitlesList } from '../titles/catalog'
+import { TitlePosterCardSkeleton } from '../titles/catalog/TitlePosterCard'
 
 const TITLES_PER_PAGE = 12
 const FETCH_DELAY_MS = 400
@@ -119,7 +119,7 @@ export function FavoriteTitlesSection({
                     </div>
                 }
             >
-                <TitlesList titles={favoriteTitles} />
+                <TitlesList titles={favoriteTitles} isFavoriteOverride={true} />
             </InfiniteScroll>
         </div>
     )

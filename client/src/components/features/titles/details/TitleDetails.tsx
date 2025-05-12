@@ -60,13 +60,11 @@ export function TitleDetails({ title }: TitleDetailsProps) {
                     />
                 )}
 
-                {hasLocations && (
-                    <TitleFilmingLocationsSection
-                        filmingLocations={filmingLocations}
-                        title={title as Title}
-                        locale={locale}
-                    />
-                )}
+                <TitleFilmingLocationsSection
+                    filmingLocations={filmingLocations}
+                    title={title as Title}
+                    locale={locale}
+                />
             </div>
         </div>
     )

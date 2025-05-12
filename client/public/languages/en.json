@@ -194,6 +194,16 @@
         },
         "viewAll": "View all"
     },
+    "titles": {
+        "heading": "Catalog",
+        "description": "Explore thousands of movies and TV series, discover real filming locations.",
+        "searchHeading": "Search results for",
+        "tabs": {
+            "all": "All",
+            "movies": "Movies",
+            "series": "Series"
+        }
+    },
     "faq": {
         "heading": "Frequently Asked Questions",
         "description": "Here you'll find answers to common questions about our service.",
@@ -767,6 +777,7 @@
         "filmingLocations": {
             "heading": "Filming Locations",
             "description": "This map features most of the locations where '{title}' was filmed. You can see the exact position of each site, read descriptions, and discover which scenes were shot there. Click on the markers or select from the list to get more information.",
+            "emptyDescription": "No filming locations available for {type, select, TV {series} MOVIE {movie} other {title}} «{title}» yet. You can contribute by clicking 'Add Location' and submitting the form. We'll notify you about moderation results.",
             "search": {
                 "placeholder": "Search locations...",
                 "noResults": "No locations found"
