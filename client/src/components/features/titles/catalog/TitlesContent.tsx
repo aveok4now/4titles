@@ -189,7 +189,14 @@ export function TitlesContent({
                     hasMore={hasMore}
                     loader={<LoaderSkeleton />}
                 >
-                    <TitlesList titles={titles} />
+                    <TitlesList
+                        titles={titles}
+                        emptyMessage={
+                            searchTerm
+                                ? t('list.emptySearchMessage')
+                                : t('list.emptyMessage')
+                        }
+                    />
                 </InfiniteScroll>
             </div>
         </>

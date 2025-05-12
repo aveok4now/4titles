@@ -35,7 +35,7 @@
                 "home": "Home",
                 "titles": "Catalog",
                 "routes": "Thematic Routes",
-                "feed": "News Feed",
+                "favorites": "Favorites",
                 "faq": "FAQ"
             },
             "popularTitleSearches": {
@@ -196,12 +196,115 @@
     },
     "titles": {
         "heading": "Catalog",
-        "description": "Explore thousands of movies and TV series, discover real filming locations.",
-        "searchHeading": "Search results for",
+        "description": "Discover movies and series from around the world",
+        "searchHeading": "Search results for: \"{query}\"",
         "tabs": {
             "all": "All",
             "movies": "Movies",
             "series": "Series"
+        },
+        "filters": {
+            "title": "Filters",
+            "type": {
+                "label": "Type",
+                "placeholder": "Select type",
+                "all": "Movies and series",
+                "movie": "Movie",
+                "tv": "Series"
+            },
+            "category": {
+                "label": "Category",
+                "placeholder": "Select category",
+                "all": "All categories",
+                "popular": "Popular",
+                "top_rated": "Top rated",
+                "trending": "Trending",
+                "upcoming": "Upcoming",
+                "airing": "Airing",
+                "regular": "Regular"
+            },
+            "name": {
+                "label": "Title",
+                "placeholder": "Movie or series title. For example: 'You', 'Breaking Bad', ..."
+            },
+            "releaseDate": {
+                "label": "Release date",
+                "placeholder": "Select date range"
+            },
+            "genres": {
+                "label": "Genres",
+                "placeholder": "Select genres",
+                "title": "Genres",
+                "search": "Search genres",
+                "empty": "No genres found"
+            },
+            "countries": {
+                "label": "Production countries",
+                "placeholder": "Select countries",
+                "title": "Production countries",
+                "search": "Search countries",
+                "empty": "No countries found"
+            },
+            "language": {
+                "label": "Original language",
+                "placeholder": "Select language",
+                "title": "Original language",
+                "search": "Search languages",
+                "empty": "No languages found"
+            },
+            "runtime": {
+                "label": "Runtime ({unit})",
+                "unit": "min."
+            },
+            "rating": {
+                "label": "Rating"
+            },
+            "status": {
+                "label": "Status",
+                "placeholder": "Select statuses",
+                "title": "Statuses",
+                "search": "Search statuses",
+                "empty": "No statuses found",
+                "rumored": "Rumored",
+                "planned": "Planned",
+                "in_production": "In production",
+                "post_production": "Post-production",
+                "released": "Released",
+                "canceled": "Canceled",
+                "airing": "Airing"
+            },
+            "locations": {
+                "label": "Only with filming locations"
+            },
+            "imdbId": {
+                "label": "IMDB ID",
+                "placeholder": "Movie or series identifier on IMDB (www.imdb.com)"
+            },
+            "sort": {
+                "label": "Sort",
+                "placeholder": "Select order",
+                "default": "Default",
+                "popularity_desc": "Popularity (descending)",
+                "popularity_asc": "Popularity (ascending)",
+                "vote_average_desc": "Rating (descending)",
+                "vote_average_asc": "Rating (ascending)",
+                "locations_count_desc": "Locations (descending)",
+                "locations_count_asc": "Locations (ascending)",
+                "release_date_desc": "Release date (newest)",
+                "release_date_asc": "Release date (oldest)",
+                "name_asc": "Original title (A-Z)",
+                "name_desc": "Original title (Z-A)",
+                "last_synced_desc": "Last updated (descending)",
+                "last_synced_asc": "Last updated (ascending)"
+            },
+            "actions": {
+                "apply": "Apply",
+                "reset": "Reset"
+            }
+        },
+        "list": {
+            "emptyMessage": "No results found for the selected filters.",
+            "emptySearchMessage": "Nothing found for your query. Try using advanced filters on the Catalog page."
         }
     },
     "faq": {
@@ -304,6 +407,33 @@
                 "question": "How do I update my profile picture?",
                 "answer": "Update your avatar in 'Dashboard' → 'Settings' → 'Profile' → 'Profile Picture'. Click 'Update Profile Image' and select a new image (JPG, JPEG, PNG, WEBP or GIF up to 10MB)."
             }
+        }
+    },
+    "favorites": {
+        "heading": "Favorites",
+        "description": "All your favorite titles and filming locations are gathered here",
+        "tabs": {
+            "titles": "Titles",
+            "locations": "Filming Locations"
+        },
+        "locations": {
+            "noLocations": {
+                "heading": "You don't have any favorite filming locations yet",
+                "description": "Add interesting filming locations to your favorites to quickly revisit them later"
+            },
+            "search": {
+                "noResults": "Nothing found. Try changing your query"
+            }
+        },
+        "titles": {
+            "noTitles": {
+                "heading": "You don't have any favorite titles yet",
+                "description": "Add interesting movies and series to your favorites to quickly revisit them later"
+            },
+            "endOfList": "You've viewed all your favorite titles"
+        },
+        "titleCard": {
+            "noPoster": "Image unavailable"
         }
     },
     "dashboard": {
