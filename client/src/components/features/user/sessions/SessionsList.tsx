@@ -44,7 +44,7 @@ export function SessionsList() {
                       <ToggleCardSkeleton key={index} />
                   ))
                 : activeSessions.length > 0 &&
-                  sessions.map((session, index) => (
+                  activeSessions.map((session, index) => (
                       <SessionItem key={index} session={session} />
                   ))}
         </div>
