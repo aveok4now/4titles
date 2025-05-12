@@ -7,18 +7,15 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/common/popover'
+import { getDateFnsLocale } from '@/utils/date/date-localization'
 import { cn } from '@/utils/tw-merge'
 import { format } from 'date-fns'
-import { ru } from 'date-fns/locale'
 import { CalendarIcon } from 'lucide-react'
+import { useLocale, useTranslations } from 'next-intl'
 import * as React from 'react'
+import { type DateRange } from 'react-day-picker'
 
-export type DateRange = {
-    from?: Date
-    to?: Date
-}
-
-interface DateRangePickerProps {
+export interface DateRangePickerProps {
     value: DateRange
     onChange: (value: DateRange) => void
     placeholder?: string
@@ -28,10 +25,23 @@ interface DateRangePickerProps {
 export function DateRangePicker({
     value,
     onChange,
-    placeholder = 'Выберите даты',
+    placeholder,
     className,
 }: DateRangePickerProps) {
+    const t = useTranslations('components.dateRangePicker')
+    const locale = useLocale()
+    const dateFnsLocale = getDateFnsLocale(locale)
     const [isOpen, setIsOpen] = React.useState(false)
+
+    const formatDate = React.useCallback(
+        (date?: Date) => {
+            if (!date) return ''
+            return format(date, 'dd.MM.yyyy', {
+                locale: dateFnsLocale,
+            })
+        },
+        [dateFnsLocale],
+    )
 
     return (
         <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -40,32 +50,28 @@ export function DateRangePicker({
                     variant='outline'
                     className={cn(
                         'h-10 w-full justify-start text-left font-normal',
+                        !value.from && 'text-muted-foreground',
                         className,
                     )}
                 >
-                    <CalendarIcon className='mr-2 h-4 w-4' />
+                    <CalendarIcon className='mr-2 size-4' />
                     {value.from ? (
                         value.to ? (
                             <>
-                                {format(value.from, 'dd.MM.yyyy', {
-                                    locale: ru,
-                                })}{' '}
-                                -{' '}
-                                {format(value.to, 'dd.MM.yyyy', { locale: ru })}
+                                {formatDate(value.from)} -{' '}
+                                {formatDate(value.to)}
                             </>
                         ) : (
-                            format(value.from, 'dd.MM.yyyy', { locale: ru })
+                            formatDate(value.from)
                         )
                     ) : (
-                        <span className='text-muted-foreground'>
-                            {placeholder}
-                        </span>
+                        <span>{placeholder || t('placeholder')}</span>
                     )}
                 </Button>
             </PopoverTrigger>
             <PopoverContent className='w-auto p-0' align='start'>
                 <Calendar
-                    initialFocus
+                    autoFocus
                     mode='range'
                     defaultMonth={value.from}
                     selected={{ from: value.from, to: value.to }}
@@ -76,7 +82,7 @@ export function DateRangePicker({
                         })
                     }}
                     numberOfMonths={1}
-                    locale={ru}
+                    locale={dateFnsLocale}
                 />
                 <div className='flex items-center justify-between border-t p-2'>
                     <Button
@@ -87,14 +93,14 @@ export function DateRangePicker({
                         }}
                         className='text-xs'
                     >
-                        Очистить
+                        {t('clear')}
                     </Button>
                     <Button
                         size='sm'
                         className='text-xs'
                         onClick={() => setIsOpen(false)}
                     >
-                        Готово
+                        {t('done')}
                     </Button>
                 </div>
             </PopoverContent>

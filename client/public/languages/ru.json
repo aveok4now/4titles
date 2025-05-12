@@ -786,78 +786,6 @@
             }
         }
     },
-    "components": {
-        "confirmDialog": {
-            "cancel": "Отмена",
-            "continue": "Продолжить"
-        },
-        "favoriteButton": {
-            "addToFavorites": "Добавить в избранное",
-            "removeFromFavorites": "Удалить из избранного",
-            "titleAdded": "Тайтл добавлен в избранное",
-            "locationAdded": "Локация добавлена в избранное",
-            "titleRemoved": "Тайтл удален из избранного",
-            "locationRemoved": "Локация удалена из избранного",
-            "loginRequired": "Для добавления в избранное необходимо войти в аккаунт",
-            "error": "Произошла ошибка при изменении избранного"
-        },
-        "map": {
-            "error": {
-                "title": "Ошибка инициализации",
-                "description": "Карта не может быть загружена. Повторите попытку позже."
-            }
-        },
-        "dataTable": {
-            "notFound": "Записи не найдены",
-            "search": "Поиск...",
-            "pagination": {
-                "showing": "Показано",
-                "from": "с",
-                "to": "по",
-                "of": "из",
-                "entries": "записей",
-                "rowsPerPage": "Записей на странице",
-                "page": "Страница",
-                "firstPage": "Первая страница",
-                "previousPage": "Предыдущая",
-                "nextPage": "Следующая",
-                "lastPage": "Последняя страница"
-            },
-            "viewOptions": {
-                "view": "Вид",
-                "columns": "Столбцы"
-            },
-            "columnHeader": {
-                "sortAscending": "Сортировать по возрастанию",
-                "sortDescending": "Сортировать по убыванию",
-                "hideColumn": "Скрыть колонку"
-            }
-        },
-        "contentSection": {
-            "viewAll": "Смотреть все"
-        },
-        "hint": {
-            "default": "Перейти"
-        }
-    },
-    "utils": {
-        "formatDate": {
-            "months": {
-                "january": "января",
-                "february": "февраля",
-                "march": "марта",
-                "april": "апреля",
-                "may": "мая",
-                "june": "июня",
-                "july": "июля",
-                "august": "августа",
-                "september": "сентября",
-                "october": "октября",
-                "november": "ноября",
-                "december": "декабря"
-            }
-        }
-    },
     "countries": {
         "goToCountry": "Исследовать",
         "statistics": {
@@ -1013,5 +941,82 @@
     "notFound": {
         "description": "Страница, которую Вы ищете, куда-то пропала. Но не волнуйтесь! Давайте вернём вас в нужное место.",
         "backToHome": "на главную"
+    },
+    "components": {
+        "confirmDialog": {
+            "cancel": "Отмена",
+            "continue": "Продолжить"
+        },
+        "favoriteButton": {
+            "addToFavorites": "Добавить в избранное",
+            "removeFromFavorites": "Удалить из избранного",
+            "titleAdded": "Тайтл добавлен в избранное",
+            "locationAdded": "Локация добавлена в избранное",
+            "titleRemoved": "Тайтл удален из избранного",
+            "locationRemoved": "Локация удалена из избранного",
+            "loginRequired": "Для добавления в избранное необходимо войти в аккаунт",
+            "error": "Произошла ошибка при изменении избранного"
+        },
+        "map": {
+            "error": {
+                "title": "Ошибка инициализации",
+                "description": "Карта не может быть загружена. Повторите попытку позже."
+            }
+        },
+        "dataTable": {
+            "notFound": "Записи не найдены",
+            "search": "Поиск...",
+            "pagination": {
+                "showing": "Показано",
+                "from": "с",
+                "to": "по",
+                "of": "из",
+                "entries": "записей",
+                "rowsPerPage": "Записей на странице",
+                "page": "Страница",
+                "firstPage": "Первая страница",
+                "previousPage": "Предыдущая",
+                "nextPage": "Следующая",
+                "lastPage": "Последняя страница"
+            },
+            "viewOptions": {
+                "view": "Вид",
+                "columns": "Столбцы"
+            },
+            "columnHeader": {
+                "sortAscending": "Сортировать по возрастанию",
+                "sortDescending": "Сортировать по убыванию",
+                "hideColumn": "Скрыть колонку"
+            }
+        },
+        "contentSection": {
+            "viewAll": "Смотреть все"
+        },
+        "hint": {
+            "default": "Перейти"
+        },
+        "dateRangePicker": {
+            "placeholder": "Выберите диапазон дат",
+            "clear": "Очистить",
+            "done": "Готово"
+        }
+    },
+    "utils": {
+        "formatDate": {
+            "months": {
+                "january": "января",
+                "february": "февраля",
+                "march": "марта",
+                "april": "апреля",
+                "may": "мая",
+                "june": "июня",
+                "july": "июля",
+                "august": "августа",
+                "september": "сентября",
+                "october": "октября",
+                "november": "ноября",
+                "december": "декабря"
+            }
+        }
     }
 }

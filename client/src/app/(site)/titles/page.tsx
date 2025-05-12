@@ -81,7 +81,6 @@ async function findGenres(): Promise<
         }
 
         const data = await response.json()
-        console.log(data)
         return data.data.findAllGenres as FindAllGenresQuery['findAllGenres']
     } catch (error) {
         console.error('Error fetching genres:', error)
@@ -110,7 +109,6 @@ async function findCountries(): Promise<
         }
 
         const data = await response.json()
-        console.log(data)
         return data.data
             .findAllCountries as FindAllCountriesQuery['findAllCountries']
     } catch (error) {

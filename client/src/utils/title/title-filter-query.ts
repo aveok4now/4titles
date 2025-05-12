@@ -1,4 +1,7 @@
-import { TitleFilterSchemaType } from '@/schemas/titles-filter.schema'
+import {
+    TitleFilterSchemaType,
+    defaultFilterValues,
+} from '@/schemas/titles-filter.schema'
 
 export function serializeFilterToQuery(
     filter: TitleFilterSchemaType,
@@ -17,7 +20,7 @@ export function serializeFilterToQuery(
         result.withFilmingLocations = 'true'
     }
 
-    if (filter.name) {
+    if (filter.name && filter.name.trim() !== '') {
         result.name = filter.name
     }
 
@@ -76,11 +79,11 @@ export function serializeFilterToQuery(
         result.statuses = filter.statuses.join(',')
     }
 
-    if (filter.sortBy) {
+    if (filter.sortBy && filter.sortBy !== defaultFilterValues.sortBy) {
         result.sort = filter.sortBy
     }
 
-    if (filter.imdbId) {
+    if (filter.imdbId && filter.imdbId.trim() !== '') {
         result.imdbId = filter.imdbId
     }
 
@@ -98,13 +101,17 @@ export function parseQueryToFilter(
     const result: Partial<TitleFilterSchemaType> = {}
 
     if (searchParams.has('type')) {
-        result.type = searchParams.get('type') as TitleFilterSchemaType['type']
+        const typeValue = searchParams.get('type')
+        if (typeValue) {
+            result.type = typeValue as TitleFilterSchemaType['type']
+        }
     }
 
     if (searchParams.has('category')) {
-        result.category = searchParams.get(
-            'category',
-        ) as TitleFilterSchemaType['category']
+        const categoryValue = searchParams.get('category')
+        if (categoryValue) {
+            result.category = categoryValue as TitleFilterSchemaType['category']
+        }
     }
 
     if (searchParams.has('withFilmingLocations')) {
@@ -113,7 +120,10 @@ export function parseQueryToFilter(
     }
 
     if (searchParams.has('name')) {
-        result.name = searchParams.get('name') || undefined
+        const nameValue = searchParams.get('name')
+        if (nameValue && nameValue.trim() !== '') {
+            result.name = nameValue || undefined
+        }
     }
 
     const dateFrom = searchParams.get('dateFrom')
@@ -126,13 +136,13 @@ export function parseQueryToFilter(
     }
 
     const genres = searchParams.get('genres')
-    if (genres) {
-        result.genreIds = genres.split(',')
+    if (genres && genres.trim() !== '') {
+        result.genreIds = genres.split(',').filter(Boolean)
     }
 
     const countries = searchParams.get('countries')
-    if (countries) {
-        result.countryIsos = countries.split(',')
+    if (countries && countries.trim() !== '') {
+        result.countryIsos = countries.split(',').filter(Boolean)
     }
 
     const runtimeFrom = searchParams.get('runtimeFrom')
@@ -145,7 +155,7 @@ export function parseQueryToFilter(
     }
 
     const language = searchParams.get('language')
-    if (language) {
+    if (language && language.trim() !== '') {
         result.originalLanguageIsos = [language]
     }
 
@@ -159,21 +169,24 @@ export function parseQueryToFilter(
     }
 
     const statuses = searchParams.get('statuses')
-    if (statuses) {
-        result.statuses = statuses.split(
-            ',',
-        ) as TitleFilterSchemaType['statuses']
+    if (statuses && statuses.trim() !== '') {
+        result.statuses = statuses
+            .split(',')
+            .filter(Boolean) as TitleFilterSchemaType['statuses']
     }
 
     if (searchParams.has('sort')) {
-        result.sortBy = searchParams.get(
-            'sort',
-        ) as TitleFilterSchemaType['sortBy']
+        const sortValue = searchParams.get('sort')
+        if (sortValue && sortValue !== defaultFilterValues.sortBy) {
+            result.sortBy = sortValue as TitleFilterSchemaType['sortBy']
+        }
     }
+
     if (searchParams.has('imdbId')) {
-        result.imdbId = searchParams.get(
-            'imdbId',
-        ) as TitleFilterSchemaType['imdbId']
+        const imdbIdValue = searchParams.get('imdbId')
+        if (imdbIdValue && imdbIdValue.trim() !== '') {
+            result.imdbId = imdbIdValue as TitleFilterSchemaType['imdbId']
+        }
     }
 
     return result

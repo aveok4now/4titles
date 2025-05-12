@@ -789,78 +789,6 @@
             }
         }
     },
-    "components": {
-        "confirmDialog": {
-            "cancel": "Cancel",
-            "continue": "Confirm"
-        },
-        "favoriteButton": {
-            "addToFavorites": "Add to favorites",
-            "removeFromFavorites": "Remove from favorites",
-            "titleAdded": "Title added to favorites",
-            "locationAdded": "Location added to favorites",
-            "titleRemoved": "Title removed from favorites",
-            "locationRemoved": "Location removed from favorites",
-            "loginRequired": "You need to log in to manage favorites",
-            "error": "An error occurred while changing favorites"
-        },
-        "dataTable": {
-            "notFound": "No records found",
-            "search": "Search...",
-            "pagination": {
-                "showing": "Showing",
-                "from": "from",
-                "to": "to",
-                "of": "of",
-                "entries": "entries",
-                "rowsPerPage": "Rows per page",
-                "page": "Page",
-                "firstPage": "First page",
-                "previousPage": "Previous page",
-                "nextPage": "Next page",
-                "lastPage": "Last page"
-            },
-            "viewOptions": {
-                "view": "View",
-                "columns": "Columns"
-            },
-            "columnHeader": {
-                "sortAscending": "Sort ascending",
-                "sortDescending": "Sort descending",
-                "hideColumn": "Hide column"
-            }
-        },
-        "map": {
-            "error": {
-                "title": "Initialization Error",
-                "description": "Failed to load map. Please try again later."
-            }
-        },
-        "contentSection": {
-            "viewAll": "View all"
-        },
-        "hint": {
-            "default": "Go to"
-        }
-    },
-    "utils": {
-        "formatDate": {
-            "months": {
-                "january": "January",
-                "february": "February",
-                "march": "March",
-                "april": "April",
-                "may": "May",
-                "june": "June",
-                "july": "July",
-                "august": "August",
-                "september": "September",
-                "october": "October",
-                "november": "November",
-                "december": "December"
-            }
-        }
-    },
     "countries": {
         "goToCountry": "Explore",
         "statistics": {
@@ -1027,5 +955,82 @@
     "notFound": {
         "description": "The page you're looking for has wandered off, but don't worry! Let's get you back on track.",
         "backToHome": "Take Me Home"
+    },
+    "components": {
+        "confirmDialog": {
+            "cancel": "Cancel",
+            "continue": "Confirm"
+        },
+        "favoriteButton": {
+            "addToFavorites": "Add to favorites",
+            "removeFromFavorites": "Remove from favorites",
+            "titleAdded": "Title added to favorites",
+            "locationAdded": "Location added to favorites",
+            "titleRemoved": "Title removed from favorites",
+            "locationRemoved": "Location removed from favorites",
+            "loginRequired": "You need to log in to manage favorites",
+            "error": "An error occurred while changing favorites"
+        },
+        "dataTable": {
+            "notFound": "No records found",
+            "search": "Search...",
+            "pagination": {
+                "showing": "Showing",
+                "from": "from",
+                "to": "to",
+                "of": "of",
+                "entries": "entries",
+                "rowsPerPage": "Rows per page",
+                "page": "Page",
+                "firstPage": "First page",
+                "previousPage": "Previous page",
+                "nextPage": "Next page",
+                "lastPage": "Last page"
+            },
+            "viewOptions": {
+                "view": "View",
+                "columns": "Columns"
+            },
+            "columnHeader": {
+                "sortAscending": "Sort ascending",
+                "sortDescending": "Sort descending",
+                "hideColumn": "Hide column"
+            }
+        },
+        "map": {
+            "error": {
+                "title": "Initialization Error",
+                "description": "Failed to load map. Please try again later."
+            }
+        },
+        "contentSection": {
+            "viewAll": "View all"
+        },
+        "hint": {
+            "default": "Go to"
+        },
+        "dateRangePicker": {
+            "placeholder": "Select date range",
+            "clear": "Clear",
+            "done": "Done"
+        }
+    },
+    "utils": {
+        "formatDate": {
+            "months": {
+                "january": "January",
+                "february": "February",
+                "march": "March",
+                "april": "April",
+                "may": "May",
+                "june": "June",
+                "july": "July",
+                "august": "August",
+                "september": "September",
+                "october": "October",
+                "november": "November",
+                "december": "December"
+            }
+        }
     }
 }

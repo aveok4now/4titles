@@ -29,6 +29,7 @@ import {
     TitleStatus,
     TitleType,
 } from '@/graphql/generated/output'
+import { useDebounce } from '@/hooks/useDebounce'
 import {
     TitleFilterSchemaType,
     defaultFilterValues,
@@ -39,10 +40,10 @@ import {
     serializeFilterToQuery,
 } from '@/utils/title/title-filter-query'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Filter, Trash2 } from 'lucide-react'
+import { Filter, Loader2, Trash2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { FieldValues, useForm } from 'react-hook-form'
 
 interface TitleFiltersFormProps {
@@ -63,6 +64,7 @@ export function TitleFiltersForm({
     const t = useTranslations('titles.filters')
     const router = useRouter()
     const searchParams = useSearchParams()
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     const form = useForm({
         resolver: zodResolver(titleFilterSchema),
@@ -85,33 +87,8 @@ export function TitleFiltersForm({
         }
     }, [searchParams, setValue])
 
-    const onSubmit = useCallback(
-        (data: FieldValues) => {
-            const queryParams = serializeFilterToQuery(
-                data as TitleFilterSchemaType,
-            )
-            const url = new URL(window.location.href)
-
-            url.searchParams.delete('page')
-            url.searchParams.delete('search')
-
-            Object.entries(queryParams).forEach(([key, value]) => {
-                if (value !== undefined && value !== null && value !== '') {
-                    url.searchParams.set(key, value as string)
-                } else {
-                    url.searchParams.delete(key)
-                }
-            })
-
-            router.replace(url.pathname + url.search, { scroll: false })
-            onFilter(data as TitleFilterSchemaType)
-        },
-        [router, onFilter],
-    )
-
-    const handleReset = useCallback(() => {
-        reset(defaultFilterValues)
-
+    const updateUrlAndFilter = useDebounce((data: TitleFilterSchemaType) => {
+        const queryParams = serializeFilterToQuery(data)
         const url = new URL(window.location.href)
 
         const search = url.searchParams.get('search')
@@ -125,8 +102,43 @@ export function TitleFiltersForm({
             url.searchParams.set('search', search)
         }
 
+        Object.entries(queryParams).forEach(([key, value]) => {
+            if (value !== undefined && value !== null && value !== '') {
+                url.searchParams.set(key, value as string)
+            }
+        })
+
+        router.replace(url.pathname + url.search, { scroll: false })
+        onFilter(data)
+        setIsSubmitting(false)
+    }, 300)
+
+    const onSubmit = useCallback(
+        (data: FieldValues) => {
+            setIsSubmitting(true)
+            updateUrlAndFilter(data as TitleFilterSchemaType)
+        },
+        [updateUrlAndFilter],
+    )
+
+    const handleReset = useCallback(() => {
+        setIsSubmitting(true)
+
+        reset(defaultFilterValues)
+
+        const url = new URL(window.location.href)
+        const search = url.searchParams.get('search')
+
+        const params = Array.from(url.searchParams.keys())
+        params.forEach(param => {
+            url.searchParams.delete(param)
+        })
+
+        if (search) url.searchParams.set('search', search)
+
         router.replace(url.pathname + url.search, { scroll: false })
         onFilter(defaultFilterValues)
+        setIsSubmitting(false)
     }, [reset, router, onFilter])
 
     const statusOptions = Object.values(TitleStatus).map(status => ({
@@ -396,10 +408,19 @@ export function TitleFiltersForm({
                                                 field.value?.to ?? 300,
                                             ]}
                                             onValueChange={value => {
-                                                field.onChange({
-                                                    from: value[0],
-                                                    to: value[1],
-                                                })
+                                                const defaultFrom = 0
+                                                const defaultTo = 300
+                                                if (
+                                                    value[0] === defaultFrom &&
+                                                    value[1] === defaultTo
+                                                ) {
+                                                    field.onChange({})
+                                                } else {
+                                                    field.onChange({
+                                                        from: value[0],
+                                                        to: value[1],
+                                                    })
+                                                }
                                             }}
                                             label={value => (
                                                 <span className='text-center text-sm'>
@@ -429,10 +450,19 @@ export function TitleFiltersForm({
                                                 field.value?.to ?? 10,
                                             ]}
                                             onValueChange={value => {
-                                                field.onChange({
-                                                    from: value[0],
-                                                    to: value[1],
-                                                })
+                                                const defaultFrom = 0
+                                                const defaultTo = 10
+                                                if (
+                                                    value[0] === defaultFrom &&
+                                                    value[1] === defaultTo
+                                                ) {
+                                                    field.onChange({})
+                                                } else {
+                                                    field.onChange({
+                                                        from: value[0],
+                                                        to: value[1],
+                                                    })
+                                                }
                                             }}
                                             label={value => `${value}`}
                                             labelPosition='bottom'
@@ -515,12 +545,21 @@ export function TitleFiltersForm({
                                 size='icon'
                                 variant='outline'
                                 onClick={handleReset}
+                                disabled={isSubmitting}
                             >
-                                <Trash2 className='size-4' />
+                                {isSubmitting ? (
+                                    <Loader2 className='size-4 animate-spin' />
+                                ) : (
+                                    <Trash2 className='size-4' />
+                                )}
                             </Button>
 
-                            <Button type='submit'>
-                                <Filter className='size-4' />
+                            <Button type='submit' disabled={isSubmitting}>
+                                {isSubmitting ? (
+                                    <Loader2 className='mr-2 size-4 animate-spin' />
+                                ) : (
+                                    <Filter className='mr-2 size-4' />
+                                )}
                                 <span>{t('actions.apply')}</span>
                             </Button>
                         </div>

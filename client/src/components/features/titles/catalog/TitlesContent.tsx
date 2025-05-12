@@ -1,17 +1,19 @@
 'use client'
 
-import { Heading } from '@/components/ui/elements/Heading'
-import type { Title as TitleType } from '@/graphql/generated/output'
+import type { ComboboxOption } from '@/components/ui/common/responsive-combobox'
 import {
-    FindAllCountriesQuery,
-    FindAllGenresQuery,
-    FindAllLanguagesQuery,
-    FindTitlesQuery,
-    Title,
-    TitleFilterInput,
     useFindTitlesQuery,
+    type FindAllCountriesQuery,
+    type FindAllGenresQuery,
+    type FindAllLanguagesQuery,
+    type FindTitlesQuery,
+    type Title,
+    type TitleFilterInput,
+    type Title as TitleType,
 } from '@/graphql/generated/output'
-import { TitleFilterSchemaType } from '@/schemas/titles-filter.schema'
+import type { TitleFilterSchemaType } from '@/schemas/titles-filter.schema'
+
+import { Heading } from '@/components/ui/elements/Heading'
 import { getLocalizedCountryName } from '@/utils/country/country-localization'
 import { getLocalizedGenreName } from '@/utils/genre/genre-localization'
 import { getLocalizedLanguageName } from '@/utils/language/language-localization'
@@ -20,7 +22,6 @@ import { useLocale, useTranslations } from 'next-intl'
 import { useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { ComboboxOption } from '../../../ui/common/responsive-combobox'
 import { TitleFiltersForm } from './TitleFiltersForm'
 import { TitlePosterCardSkeleton } from './TitlePosterCard'
 import { TitlesList } from './TitlesList'
@@ -52,6 +53,7 @@ export function TitlesContent({
     )
     const [hasMore, setHasMore] = useState(initialData.length >= initialCount)
     const [loadedCount, setLoadedCount] = useState(initialData.length)
+    const [isReloading, setIsReloading] = useState(false)
 
     const genreOptions: ComboboxOption[] = useMemo(() => {
         return metaData.genres.map(genre => ({
@@ -80,7 +82,7 @@ export function TitlesContent({
         return parseQueryToFilter(searchParams)
     }, [searchParams])
 
-    const { fetchMore } = useFindTitlesQuery({
+    const { fetchMore, refetch } = useFindTitlesQuery({
         variables: {
             filter: {
                 take: titlesPerPage,
@@ -97,6 +99,7 @@ export function TitlesContent({
         setTitles(initialData as TitleType[])
         setHasMore(initialData.length >= initialCount)
         setLoadedCount(initialData.length)
+        setIsReloading(false)
     }, [initialData, initialCount, searchParams])
 
     const filterUniqueNewTitles = (
@@ -110,7 +113,7 @@ export function TitlesContent({
     }
 
     const fetchMoreTitles = async () => {
-        if (!hasMore) return
+        if (!hasMore || isReloading) return
 
         try {
             const { data: newData } = await fetchMore({
@@ -143,8 +146,31 @@ export function TitlesContent({
     }
 
     const handleFilterChange = useCallback(
-        (values: TitleFilterSchemaType) => {},
-        [],
+        async (values: TitleFilterSchemaType) => {
+            setIsReloading(true)
+
+            try {
+                const { data } = await refetch({
+                    filter: {
+                        searchTerm,
+                        ...values,
+                        take: initialCount,
+                        skip: 0,
+                    } as TitleFilterInput,
+                })
+
+                if (data?.findTitles) {
+                    setTitles(data.findTitles as TitleType[])
+                    setLoadedCount(data.findTitles.length)
+                    setHasMore(data.findTitles.length >= initialCount)
+                }
+            } catch (error) {
+                console.error('Error applying filters:', error)
+            } finally {
+                setIsReloading(false)
+            }
+        },
+        [refetch, searchTerm, initialCount],
     )
 
     const renderTitle = () => {
@@ -186,17 +212,21 @@ export function TitlesContent({
                 <InfiniteScroll
                     dataLength={titles.length}
                     next={fetchMoreTitles}
-                    hasMore={hasMore}
+                    hasMore={hasMore && !isReloading}
                     loader={<LoaderSkeleton />}
                 >
-                    <TitlesList
-                        titles={titles}
-                        emptyMessage={
-                            searchTerm
-                                ? t('list.emptySearchMessage')
-                                : t('list.emptyMessage')
-                        }
-                    />
+                    {isReloading ? (
+                        <LoaderSkeleton />
+                    ) : (
+                        <TitlesList
+                            titles={titles}
+                            emptyMessage={
+                                searchTerm
+                                    ? t('list.emptySearchMessage')
+                                    : t('list.emptyMessage')
+                            }
+                        />
+                    )}
                 </InfiniteScroll>
             </div>
         </>
