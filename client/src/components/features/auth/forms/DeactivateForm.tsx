@@ -85,7 +85,6 @@ export function DeactivateForm() {
 
     const onSubmit = useCallback(
         (data: DeactivateAccountSchemaType) => {
-            console.log('called onSubmit')
             if (isFormValid) {
                 deactivate({ variables: { data } })
             }

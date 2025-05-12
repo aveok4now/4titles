@@ -1,0 +1,8 @@
+query FindAllLanguages {
+    findAllLanguages {
+        id
+        iso
+        nativeName
+        englishName
+    }
+}

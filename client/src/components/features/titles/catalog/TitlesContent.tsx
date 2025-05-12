@@ -1,255 +1,151 @@
 'use client'
 
-import {
-    Tabs,
-    TabsContent,
-    TabsList,
-    TabsTrigger,
-} from '@/components/ui/common/tabs'
 import { Heading } from '@/components/ui/elements/Heading'
+import type { Title as TitleType } from '@/graphql/generated/output'
 import {
+    FindAllCountriesQuery,
+    FindAllGenresQuery,
+    FindAllLanguagesQuery,
     FindTitlesQuery,
     Title,
     TitleFilterInput,
-    TitleType,
     useFindTitlesQuery,
 } from '@/graphql/generated/output'
-import { useTranslations } from 'next-intl'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
+import { TitleFilterSchemaType } from '@/schemas/titles-filter.schema'
+import { getLocalizedCountryName } from '@/utils/country/country-localization'
+import { parseQueryToFilter } from '@/utils/filter-query'
+import { getLocalizedGenreName } from '@/utils/genre/genre-localization'
+import { getLocalizedLanguageName } from '@/utils/language/language-localization'
+import { useLocale, useTranslations } from 'next-intl'
+import { useSearchParams } from 'next/navigation'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { TabConfig, TabState, TabType } from '../types'
+import { ComboboxOption } from '../../../ui/common/responsive-combobox'
+import { TitleFiltersForm } from './TitleFiltersForm'
 import { TitlePosterCardSkeleton } from './TitlePosterCard'
 import { TitlesList } from './TitlesList'
 
 export interface TitlesContentProps {
-    initialData: {
-        all: FindTitlesQuery['findTitles']
-        movies: FindTitlesQuery['findTitles']
-        series: FindTitlesQuery['findTitles']
+    initialData: FindTitlesQuery['findTitles']
+    metaData: {
+        genres: FindAllGenresQuery['findAllGenres']
+        countries: FindAllCountriesQuery['findAllCountries']
+        languages: FindAllLanguagesQuery['findAllLanguages']
     }
-    defaultTab?: string
     titlesPerPage?: number
     initialCount?: number
 }
 
 export function TitlesContent({
     initialData,
-    defaultTab = 'all',
+    metaData,
     titlesPerPage = 12,
     initialCount = 24,
 }: TitlesContentProps) {
     const t = useTranslations('titles')
-    const router = useRouter()
-    const pathname = usePathname()
+    const locale = useLocale()
     const searchParams = useSearchParams()
     const searchTerm = searchParams.get('search')
 
-    const [activeTab, setActiveTab] = useState<TabType>(defaultTab as TabType)
-
-    const [tabStates, setTabStates] = useState<Record<TabType, TabState>>({
-        all: {
-            titles: initialData.all || [],
-            hasMore: (initialData.all || []).length >= initialCount,
-            loadedCount: (initialData.all || []).length,
-            isInitialDataLoaded: (initialData.all || []).length > 0,
-        },
-        movies: {
-            titles: initialData.movies || [],
-            hasMore: (initialData.movies || []).length >= initialCount,
-            loadedCount: (initialData.movies || []).length,
-            isInitialDataLoaded: (initialData.movies || []).length > 0,
-        },
-        series: {
-            titles: initialData.series || [],
-            hasMore: (initialData.series || []).length >= initialCount,
-            loadedCount: (initialData.series || []).length,
-            isInitialDataLoaded: (initialData.series || []).length > 0,
-        },
-    })
-
-    const updateTabState = useCallback(
-        (tabKey: TabType, newState: Partial<TabState>) => {
-            setTabStates(prev => ({
-                ...prev,
-                [tabKey]: {
-                    ...prev[tabKey],
-                    ...newState,
-                },
-            }))
-        },
-        [],
+    const [titles, setTitles] = useState<TitleType[]>(
+        initialData as TitleType[],
     )
+    const [hasMore, setHasMore] = useState(initialData.length >= initialCount)
+    const [loadedCount, setLoadedCount] = useState(initialData.length)
 
-    const handleQueryCompleted = useCallback(
-        (data: any, tabKey: TabType) => {
-            if (data?.findTitles && !tabStates[tabKey].isInitialDataLoaded) {
-                updateTabState(tabKey, {
-                    titles: data.findTitles,
-                    hasMore: data.findTitles.length === titlesPerPage,
-                    loadedCount: data.findTitles.length,
-                    isInitialDataLoaded: true,
-                })
-            }
-        },
-        [tabStates, titlesPerPage, updateTabState],
-    )
+    const genreOptions: ComboboxOption[] = useMemo(() => {
+        return metaData.genres.map(genre => ({
+            value: genre.tmdbId,
+            label:
+                getLocalizedGenreName(genre, locale).charAt(0).toUpperCase() +
+                getLocalizedGenreName(genre, locale).slice(1),
+        }))
+    }, [metaData.genres])
 
-    const { fetchMore: fetchMoreAll } = useFindTitlesQuery({
+    const countryOptions: ComboboxOption[] = useMemo(() => {
+        return metaData.countries.map(country => ({
+            value: country.iso,
+            label: getLocalizedCountryName(country, locale),
+        }))
+    }, [metaData.countries])
+
+    const languageOptions: ComboboxOption[] = useMemo(() => {
+        return metaData.languages.map(language => ({
+            value: language.iso,
+            label: getLocalizedLanguageName(language, locale),
+        }))
+    }, [metaData.languages])
+
+    const currentFilter = useMemo(() => {
+        return parseQueryToFilter(searchParams)
+    }, [searchParams])
+
+    const { fetchMore } = useFindTitlesQuery({
         variables: {
             filter: {
-                searchTerm,
                 take: titlesPerPage,
                 skip: 0,
+                searchTerm,
+                ...currentFilter,
             } as TitleFilterInput,
         },
         fetchPolicy: 'cache-and-network',
-        skip: !searchTerm && tabStates.all.isInitialDataLoaded,
-        onCompleted: data => handleQueryCompleted(data, 'all'),
+        skip: true,
     })
-
-    const { fetchMore: fetchMoreMovies } = useFindTitlesQuery({
-        variables: {
-            filter: {
-                type: TitleType.Movie,
-                searchTerm,
-                take: titlesPerPage,
-                skip: 0,
-            } as TitleFilterInput,
-        },
-        fetchPolicy: 'cache-and-network',
-        skip: !searchTerm && tabStates.movies.isInitialDataLoaded,
-        onCompleted: data => handleQueryCompleted(data, 'movies'),
-    })
-
-    const { fetchMore: fetchMoreSeries } = useFindTitlesQuery({
-        variables: {
-            filter: {
-                type: TitleType.Tv,
-                searchTerm,
-                take: titlesPerPage,
-                skip: 0,
-            } as TitleFilterInput,
-        },
-        fetchPolicy: 'cache-and-network',
-        skip: !searchTerm && tabStates.series.isInitialDataLoaded,
-        onCompleted: data => handleQueryCompleted(data, 'series'),
-    })
-
-    const tabConfigs: Record<TabType, TabConfig> = {
-        all: {
-            stateKey: 'all',
-            fetchMore: fetchMoreAll,
-        },
-        movies: {
-            type: TitleType.Movie,
-            stateKey: 'movies',
-            fetchMore: fetchMoreMovies,
-        },
-        series: {
-            type: TitleType.Tv,
-            stateKey: 'series',
-            fetchMore: fetchMoreSeries,
-        },
-    }
 
     useEffect(() => {
-        const resetStates = () => {
-            const newStates: Record<TabType, TabState> = {} as Record<
-                TabType,
-                TabState
-            >
+        setTitles(initialData as TitleType[])
+        setHasMore(initialData.length >= initialCount)
+        setLoadedCount(initialData.length)
+    }, [initialData, initialCount, searchParams])
 
-            Object.keys(tabStates).forEach(key => {
-                const tabKey = key as TabType
-
-                if (searchTerm !== null) {
-                    newStates[tabKey] = {
-                        titles: [],
-                        hasMore: true,
-                        loadedCount: 0,
-                        isInitialDataLoaded: false,
-                    }
-                } else {
-                    const initialDataKey =
-                        tabKey === 'all'
-                            ? 'all'
-                            : tabKey === 'movies'
-                              ? 'movies'
-                              : 'series'
-                    const initialItems = initialData[initialDataKey] || []
-
-                    newStates[tabKey] = {
-                        titles: initialItems,
-                        hasMore: initialItems.length >= initialCount,
-                        loadedCount: initialItems.length,
-                        isInitialDataLoaded: initialItems.length > 0,
-                    }
-                }
-            })
-
-            setTabStates(newStates)
-        }
-
-        resetStates()
-    }, [searchTerm, initialData, initialCount])
-
-    const handleTabChange = (value: string) => {
-        setActiveTab(value as TabType)
-
-        const params = new URLSearchParams(searchParams.toString())
-
-        if (value === 'all') {
-            params.delete('type')
-        } else if (value === 'movies') {
-            params.set('type', 'movies')
-        } else if (value === 'series') {
-            params.set('type', 'series')
-        }
-
-        router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+    const filterUniqueNewTitles = (
+        newTitles: Title[],
+        existingTitles: Title[],
+    ): Title[] => {
+        return newTitles.filter(
+            newTitle =>
+                !existingTitles.some(existing => existing.id === newTitle.id),
+        )
     }
 
-    const fetchMoreTitles = async (tabKey: TabType) => {
-        const tabConfig = tabConfigs[tabKey]
-        const tabState = tabStates[tabKey]
-
-        if (!tabState.hasMore) return
+    const fetchMoreTitles = async () => {
+        if (!hasMore) return
 
         try {
-            const { data: newData } = await tabConfig.fetchMore({
+            const { data: newData } = await fetchMore({
                 variables: {
                     filter: {
-                        ...(tabConfig.type && { type: tabConfig.type }),
-                        searchTerm,
                         take: titlesPerPage,
-                        skip: tabState.loadedCount,
-                    },
+                        skip: loadedCount,
+                        searchTerm,
+                        ...currentFilter,
+                    } as TitleFilterInput,
                 },
             })
 
             if (newData?.findTitles.length > 0) {
-                const uniqueNewTitles = newData.findTitles.filter(
-                    (newTitle: Title) =>
-                        !tabState.titles.some(
-                            existingTitle => existingTitle.id === newTitle.id,
-                        ),
+                const uniqueNewTitles = filterUniqueNewTitles(
+                    newData.findTitles as Title[],
+                    titles,
                 )
 
-                updateTabState(tabKey, {
-                    titles: [...tabState.titles, ...uniqueNewTitles],
-                    loadedCount:
-                        tabState.loadedCount + newData.findTitles.length,
-                    hasMore: newData.findTitles.length === titlesPerPage,
-                })
+                setTitles([...titles, ...uniqueNewTitles])
+                setLoadedCount(prev => prev + newData.findTitles.length)
+                setHasMore(newData.findTitles.length === titlesPerPage)
             } else {
-                updateTabState(tabKey, { hasMore: false })
+                setHasMore(false)
             }
         } catch (error) {
-            console.error(`Error fetching more ${tabKey} titles:`, error)
-            updateTabState(tabKey, { hasMore: false })
+            console.error('Error fetching more titles:', error)
+            setHasMore(false)
         }
     }
+
+    const handleFilterChange = useCallback(
+        (values: TitleFilterSchemaType) => {},
+        [],
+    )
 
     const renderTitle = () => {
         if (searchTerm) {
@@ -266,17 +162,6 @@ export function TitlesContent({
         </div>
     )
 
-    const TitlesScrollList = ({ tabKey }: { tabKey: TabType }) => (
-        <InfiniteScroll
-            dataLength={tabStates[tabKey].titles.length}
-            next={() => fetchMoreTitles(tabKey)}
-            hasMore={tabStates[tabKey].hasMore}
-            loader={<LoaderSkeleton />}
-        >
-            <TitlesList titles={tabStates[tabKey].titles as Title[]} />
-        </InfiniteScroll>
-    )
-
     return (
         <>
             <Heading
@@ -286,54 +171,27 @@ export function TitlesContent({
             />
 
             {!searchTerm && (
-                <Tabs
-                    defaultValue={defaultTab}
-                    className='my-4 w-full'
-                    value={activeTab}
-                    onValueChange={handleTabChange}
-                >
-                    <div className='flex w-full items-center justify-between md:max-w-3xl'>
-                        <TabsList className='w-full'>
-                            <TabsTrigger
-                                value='all'
-                                className='flex-1 text-center'
-                            >
-                                {t('tabs.all')}
-                            </TabsTrigger>
-                            <TabsTrigger
-                                value='movies'
-                                className='flex-1 text-center'
-                            >
-                                {t('tabs.movies')}
-                            </TabsTrigger>
-                            <TabsTrigger
-                                value='series'
-                                className='flex-1 text-center'
-                            >
-                                {t('tabs.series')}
-                            </TabsTrigger>
-                        </TabsList>
-                    </div>
-
-                    <TabsContent value='all' className='mt-5 space-y-6'>
-                        <TitlesScrollList tabKey='all' />
-                    </TabsContent>
-
-                    <TabsContent value='movies' className='mt-5 space-y-6'>
-                        <TitlesScrollList tabKey='movies' />
-                    </TabsContent>
-
-                    <TabsContent value='series' className='mt-5 space-y-6'>
-                        <TitlesScrollList tabKey='series' />
-                    </TabsContent>
-                </Tabs>
-            )}
-
-            {searchTerm && (
-                <div className='mt-5 space-y-6'>
-                    <TitlesScrollList tabKey='all' />
+                <div className='my-4'>
+                    <TitleFiltersForm
+                        genres={genreOptions}
+                        countries={countryOptions}
+                        languages={languageOptions}
+                        onFilter={handleFilterChange}
+                        initialFilter={currentFilter}
+                    />
                 </div>
             )}
+
+            <div className='mt-5 space-y-6'>
+                <InfiniteScroll
+                    dataLength={titles.length}
+                    next={fetchMoreTitles}
+                    hasMore={hasMore}
+                    loader={<LoaderSkeleton />}
+                >
+                    <TitlesList titles={titles} />
+                </InfiniteScroll>
+            </div>
         </>
     )
 }

@@ -101,7 +101,7 @@ export default async function HomePage() {
                 <ContentCarouselSection
                     heading={t('movies.heading')}
                     description={t('movies.description')}
-                    viewAllHref='/titles?type=movies'
+                    viewAllHref='/titles?type=MOVIE'
                     viewAllLabel={t('viewAll')}
                 >
                     <TitlesCarousel titles={movies} />
@@ -112,7 +112,7 @@ export default async function HomePage() {
                 <ContentCarouselSection
                     heading={t('series.heading')}
                     description={t('series.description')}
-                    viewAllHref='/titles?type=series'
+                    viewAllHref='/titles?type=TV'
                     viewAllLabel={t('viewAll')}
                 >
                     <TitlesCarousel titles={series} />

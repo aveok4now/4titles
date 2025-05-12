@@ -1,11 +1,17 @@
 import { TitlesContent } from '@/components/features/titles/catalog/TitlesContent'
 import {
+    FindAllCountriesDocument,
+    FindAllCountriesQuery,
+    FindAllGenresDocument,
+    FindAllGenresQuery,
+    FindAllLanguagesDocument,
+    FindAllLanguagesQuery,
     FindTitlesDocument,
     FindTitlesQuery,
     TitleFilterInput,
-    TitleType,
 } from '@/graphql/generated/output'
-import { SERVER_URL } from '@/libs/constants/url.constants'
+import { APP_URL, SERVER_URL } from '@/libs/constants/url.constants'
+import { parseQueryToFilter } from '@/utils/filter-query'
 import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 
@@ -54,6 +60,94 @@ async function findTitles(
     }
 }
 
+async function findGenres(): Promise<
+    FindAllGenresQuery['findAllGenres'] | null
+> {
+    try {
+        const query = FindAllGenresDocument.loc?.source.body
+
+        const response = await fetch(SERVER_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                query,
+            }),
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error fetching genres: ${response.statusText}`)
+        }
+
+        const data = await response.json()
+        console.log(data)
+        return data.data.findAllGenres as FindAllGenresQuery['findAllGenres']
+    } catch (error) {
+        console.error('Error fetching genres:', error)
+        return null
+    }
+}
+
+async function findCountries(): Promise<
+    FindAllCountriesQuery['findAllCountries'] | null
+> {
+    try {
+        const query = FindAllCountriesDocument.loc?.source.body
+
+        const response = await fetch(SERVER_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                query,
+            }),
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error fetching countries: ${response.statusText}`)
+        }
+
+        const data = await response.json()
+        console.log(data)
+        return data.data
+            .findAllCountries as FindAllCountriesQuery['findAllCountries']
+    } catch (error) {
+        console.error('Error fetching countries:', error)
+        return null
+    }
+}
+
+async function findLanguages(): Promise<
+    FindAllLanguagesQuery['findAllLanguages'] | null
+> {
+    try {
+        const query = FindAllLanguagesDocument.loc?.source.body
+
+        const response = await fetch(SERVER_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                query,
+            }),
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error fetching languages: ${response.statusText}`)
+        }
+
+        const data = await response.json()
+        return data.data
+            .findAllLanguages as FindAllLanguagesQuery['findAllLanguages']
+    } catch (error) {
+        console.error('Error fetching languages:', error)
+        return null
+    }
+}
+
 async function resolveSearchParams<T>(searchParams: T): Promise<T> {
     return searchParams
 }
@@ -72,43 +166,46 @@ export async function generateMetadata(props: {
         description: t('description'),
     }
 }
+
 export default async function TitlesPage({
     searchParams,
 }: {
-    searchParams: { search?: string; type?: string }
+    searchParams: Record<string, string | string[] | undefined>
 }) {
-    const resolvedParams = await resolveSearchParams(searchParams)
-    const searchTerm = resolvedParams.search
-    const tabType = resolvedParams.type
+    const resolvedSearchParams = await resolveSearchParams(searchParams)
+    const searchTerm = resolvedSearchParams.search as string | undefined
 
-    const [allTitles, movieTitles, seriesTitles] = await Promise.all([
-        findTitles({
-            searchTerm,
-        }),
-        findTitles({
-            searchTerm,
-            type: TitleType.Movie,
-        }),
-        findTitles({
-            searchTerm,
-            type: TitleType.Tv,
-        }),
+    const safeParams: Record<string, string> = {}
+
+    Object.entries(resolvedSearchParams).forEach(([key, value]) => {
+        if (typeof value === 'string') {
+            safeParams[key] = value
+        } else if (Array.isArray(value)) {
+            safeParams[key] = value.join(',')
+        }
+    })
+
+    const parsedFilter = parseQueryToFilter(
+        new URL(`${APP_URL}?${new URLSearchParams(safeParams)}`).searchParams,
+    ) as TitleFilterInput
+
+    if (searchTerm) parsedFilter.searchTerm = searchTerm
+
+    const [titles, genres, countries, languages] = await Promise.all([
+        findTitles(parsedFilter),
+        findGenres(),
+        findCountries(),
+        findLanguages(),
     ])
-
-    const initialData = {
-        all: allTitles || [],
-        movies: movieTitles || [],
-        series: seriesTitles || [],
-    }
-
-    let defaultTab = 'all'
-    if (tabType === 'movies') defaultTab = 'movies'
-    if (tabType === 'series') defaultTab = 'series'
 
     return (
         <TitlesContent
-            initialData={initialData}
-            defaultTab={defaultTab}
+            initialData={titles || []}
+            metaData={{
+                genres: genres || [],
+                countries: countries || [],
+                languages: languages || [],
+            }}
             titlesPerPage={TITLES_PER_PAGE}
             initialCount={INITIAL_TITLES_COUNT}
         />
