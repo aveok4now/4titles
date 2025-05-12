@@ -11,6 +11,10 @@ import {
     TitleFilterInput,
 } from '@/graphql/generated/output'
 import { APP_URL, SERVER_URL } from '@/libs/constants/url.constants'
+import {
+    normalizeSearchParams,
+    resolveSearchParams,
+} from '@/utils/search-params.utils'
 import { parseQueryToFilter } from '@/utils/title/title-filter-query'
 import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
@@ -146,10 +150,6 @@ async function findLanguages(): Promise<
     }
 }
 
-async function resolveSearchParams<T>(searchParams: T): Promise<T> {
-    return searchParams
-}
-
 export async function generateMetadata(props: {
     searchParams: { search?: string }
 }): Promise<Metadata> {
@@ -171,22 +171,13 @@ export default async function TitlesPage({
     searchParams: Record<string, string | string[] | undefined>
 }) {
     const resolvedSearchParams = await resolveSearchParams(searchParams)
-    const searchTerm = resolvedSearchParams.search as string | undefined
-
-    const safeParams: Record<string, string> = {}
-
-    Object.entries(resolvedSearchParams).forEach(([key, value]) => {
-        if (typeof value === 'string') {
-            safeParams[key] = value
-        } else if (Array.isArray(value)) {
-            safeParams[key] = value.join(',')
-        }
-    })
+    const safeParams = normalizeSearchParams(resolvedSearchParams)
 
     const parsedFilter = parseQueryToFilter(
         new URL(`${APP_URL}?${new URLSearchParams(safeParams)}`).searchParams,
     ) as TitleFilterInput
 
+    const searchTerm = resolvedSearchParams.search as string | undefined
     if (searchTerm) parsedFilter.searchTerm = searchTerm
 
     const [titles, genres, countries, languages] = await Promise.all([
