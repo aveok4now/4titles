@@ -3,7 +3,7 @@
 import FadeContent from '@/components/ui/custom/content/fade-content'
 import { Heading } from '@/components/ui/elements/Heading'
 import {
-    FavoriteType,
+    FavorableType,
     FindUserFavoritesQuery,
     Title,
     useFindUserFavoritesQuery,
@@ -38,7 +38,7 @@ export function FavoriteTitlesSection({
     } = useFindUserFavoritesQuery({
         variables: {
             filters: {
-                type: FavoriteType.Title,
+                favorableType: FavorableType.Title,
                 take: TITLES_PER_PAGE,
                 skip: 0,
             },
@@ -68,7 +68,7 @@ export function FavoriteTitlesSection({
             const { data: newData } = await fetchMore({
                 variables: {
                     filters: {
-                        type: FavoriteType.Title,
+                        favorableType: FavorableType.Title,
                         take: TITLES_PER_PAGE,
                         skip: favoriteTitles.length,
                     },

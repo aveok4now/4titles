@@ -1,0 +1,16 @@
+fragment CommentFields on Comment {
+    id
+    commentableId
+    commentableType
+    message
+    createdAt
+    updatedAt
+    likeCount
+    likedByMe
+    totalReplies
+    user {
+        id
+        username
+        avatar
+    }
+}

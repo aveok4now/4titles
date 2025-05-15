@@ -1,0 +1,30 @@
+# import "../fragments/CommentFragment.graphql"
+
+query FindComments($filter: CommentFilterInput!) {
+    findComments(filter: $filter) {
+        ...CommentFields
+        parent {
+            ...CommentFields
+        }
+        replies {
+            ...CommentFields
+            replies {
+                ...CommentFields
+                replies {
+                    ...CommentFields
+                    replies {
+                        ...CommentFields
+                        replies {
+                            ...CommentFields
+                            # Если на 5 уровне есть replies, то следует загрузить их отдельно
+                            totalReplies
+                        }
+                    }
+                }
+            }
+        }
+        title {
+            id
+        }
+    }
+}

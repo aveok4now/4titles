@@ -1,7 +1,7 @@
 query FindUserFavorites($filters: FindFavoritesInput!) {
     findMyFavorites(filters: $filters) {
         id
-        type
+        favorableType
         createdAt
         title {
             id
@@ -71,7 +71,7 @@ query FindUserFavorites($filters: FindFavoritesInput!) {
             createdAt
             updatedAt
         }
-        filmingLocationTitle {
+        contextTitle {
             id
             type
             slug

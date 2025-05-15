@@ -5,7 +5,7 @@ import { Tilt } from '@/components/ui/custom/content/tilt'
 import { AccentSpotlight } from '@/components/ui/elements/AccentSpotlight'
 import { Hint } from '@/components/ui/elements/Hint'
 import { LogoImage } from '@/components/ui/elements/LogoImage'
-import { FavoriteType, Title } from '@/graphql/generated/output'
+import { FavorableType, Title } from '@/graphql/generated/output'
 import { cn } from '@/utils/tw-merge'
 import Image from 'next/image'
 import NextLink from 'next/link'
@@ -44,8 +44,8 @@ export function TitlePosterCard({
 
                 <div className='absolute right-2 top-2 z-20'>
                     <FavoriteButton
-                        entityId={title.id}
-                        entityType={FavoriteType.Title}
+                        favorableId={title.id}
+                        favorableType={FavorableType.Title}
                         variant='outline'
                         size='icon'
                         initialIsFavorite={initialIsFavorite}

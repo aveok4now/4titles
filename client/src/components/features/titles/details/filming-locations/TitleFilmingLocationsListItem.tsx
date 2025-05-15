@@ -19,10 +19,7 @@ import { Hint } from '@/components/ui/elements/Hint'
 import { Link } from '@/components/ui/elements/Link'
 import { ProfileAvatar } from '@/components/ui/elements/ProfileAvatar'
 import type { FilmingLocation, Title } from '@/graphql/generated/output'
-import {
-    FavoriteType,
-    useIsEntityFavoriteQuery,
-} from '@/graphql/generated/output'
+import { FavorableType, useIsFavoriteQuery } from '@/graphql/generated/output'
 import { useAuth } from '@/hooks/useAuth'
 import { createMapUrls, type MapService } from '@/utils/map-services'
 import { cn } from '@/utils/tw-merge'
@@ -60,17 +57,17 @@ export const TitleFilmingLocationsListItem = forwardRef<
     const [isShareDialogOpen, setIsShareDialogOpen] = useState(false)
 
     const { data: favoriteData, loading: isLoadingFavorite } =
-        useIsEntityFavoriteQuery({
+        useIsFavoriteQuery({
             variables: {
                 input: {
-                    entityId: location.id,
-                    locationTitleId: title.id,
-                    type: FavoriteType.Location,
+                    favorableId: location.id,
+                    contextId: title.id,
+                    favorableType: FavorableType.Location,
                 },
             },
             fetchPolicy: 'cache-and-network',
         })
-    const initialIsFavorite = favoriteData?.isEntityFavorite
+    const initialIsFavorite = favoriteData?.isFavorite
 
     const hasCoordinates = !!(
         location.coordinates?.x && location.coordinates?.y
@@ -177,9 +174,9 @@ export const TitleFilmingLocationsListItem = forwardRef<
                             <Skeleton className='size-9 rounded-md' />
                         ) : (
                             <FavoriteButton
-                                entityId={location.id}
-                                entityRelationId={title.id}
-                                entityType={FavoriteType.Location}
+                                favorableId={location.id}
+                                favorableContextId={title.id}
+                                favorableType={FavorableType.Location}
                                 initialIsFavorite={initialIsFavorite}
                                 size='icon'
                                 variant='ghost'

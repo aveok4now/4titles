@@ -1,17 +1,17 @@
 import {
-    FavoriteType,
+    FavorableType,
     useAddToFavoritesMutation,
-    useIsEntityFavoriteQuery,
+    useIsFavoriteQuery,
     useRemoveFromFavoritesMutation,
 } from '@/graphql/generated/output'
 import { useAuth } from '@/hooks/useAuth'
 import { useEffect, useState } from 'react'
 
 export function useFavoriteToggle(
-    entityId: string,
-    entityType: FavoriteType,
+    favorableId: string,
+    favorableType: FavorableType,
+    favorableContextId?: string,
     initialIsFavorite?: boolean,
-    entityRelationId?: string,
 ) {
     const { isAuthenticated } = useAuth()
     const [isFavorite, setIsFavorite] = useState<boolean | undefined>(
@@ -23,14 +23,14 @@ export function useFavoriteToggle(
         data: isFavoriteData,
         loading: isFetchingInitialStatus,
         refetch,
-    } = useIsEntityFavoriteQuery({
+    } = useIsFavoriteQuery({
         variables: {
             input: {
-                type: entityType,
-                entityId,
-                locationTitleId:
-                    entityType === FavoriteType.Location
-                        ? entityRelationId
+                favorableType,
+                favorableId,
+                contextId:
+                    favorableType === FavorableType.Location
+                        ? favorableContextId
                         : null,
             },
         },
@@ -44,7 +44,7 @@ export function useFavoriteToggle(
 
     useEffect(() => {
         if (initialIsFavorite === undefined && isFavoriteData !== undefined) {
-            setIsFavorite(!!isFavoriteData?.isEntityFavorite)
+            setIsFavorite(!!isFavoriteData?.isFavorite)
         }
     }, [isFavoriteData, initialIsFavorite])
 

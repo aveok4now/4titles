@@ -7,7 +7,7 @@ import {
 import FadeContent from '@/components/ui/custom/content/fade-content'
 import { Heading } from '@/components/ui/elements/Heading'
 import {
-    FavoriteType,
+    FavorableType,
     FilmingLocation,
     Title,
     useFindUserFavoritesQuery,
@@ -34,7 +34,7 @@ export function FavoriteLocationsSection() {
         useFindUserFavoritesQuery({
             variables: {
                 filters: {
-                    type: FavoriteType.Location,
+                    favorableType: FavorableType.Location,
                 },
             },
             fetchPolicy: 'cache-and-network',
@@ -58,9 +58,9 @@ export function FavoriteLocationsSection() {
         if (!favoritesData?.findMyFavorites) return []
         return favoritesData.findMyFavorites.filter(
             fav =>
-                fav.type === FavoriteType.Location &&
+                fav.favorableType === FavorableType.Location &&
                 fav.filmingLocation &&
-                fav.filmingLocationTitle,
+                fav.contextTitle,
         )
     }, [favoritesData])
 
@@ -81,7 +81,7 @@ export function FavoriteLocationsSection() {
                 )
 
                 const locationId = fav.filmingLocation.id
-                const titleId = fav.filmingLocationTitle?.id || 'unknown'
+                const titleId = fav.contextTitle?.id || 'unknown'
                 const compositeKey = `${locationId}-${titleId}`
 
                 const processed = {
@@ -90,7 +90,7 @@ export function FavoriteLocationsSection() {
                         ...fav.filmingLocation,
                         description: resolvedDescription,
                     },
-                    titleForListItem: fav.filmingLocationTitle as Title,
+                    titleForListItem: fav.contextTitle as Title,
                 }
 
                 uniqueLocationMap.set(compositeKey, processed)

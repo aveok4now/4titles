@@ -1,9 +1,6 @@
 'use client'
 
-import {
-    FavoriteType,
-    useIsEntityFavoriteQuery,
-} from '@/graphql/generated/output'
+import { FavorableType, useIsFavoriteQuery } from '@/graphql/generated/output'
 import { useLocale, useTranslations } from 'next-intl'
 
 import { FavoriteButton } from '@/components/features/favorites/FavoriteButton'
@@ -45,14 +42,17 @@ export function TitleHeroSection({ details }: TitleHeroSectionProps) {
     } = details
 
     const { data: favoriteData, loading: isLoadingFavorite } =
-        useIsEntityFavoriteQuery({
+        useIsFavoriteQuery({
             variables: {
-                input: { entityId: titleId, type: FavoriteType.Title },
+                input: {
+                    favorableId: titleId,
+                    favorableType: FavorableType.Title,
+                },
             },
             fetchPolicy: 'cache-and-network',
         })
 
-    const initialIsFavorite = favoriteData?.isEntityFavorite
+    const initialIsFavorite = favoriteData?.isFavorite
 
     return (
         <FadeContent blur>
@@ -73,8 +73,8 @@ export function TitleHeroSection({ details }: TitleHeroSectionProps) {
                                     <Skeleton className='size-9 rounded-md' />
                                 ) : (
                                     <FavoriteButton
-                                        entityId={titleId}
-                                        entityType={FavoriteType.Title}
+                                        favorableId={titleId}
+                                        favorableType={FavorableType.Title}
                                         initialIsFavorite={initialIsFavorite}
                                         variant='outline'
                                         size='icon'
