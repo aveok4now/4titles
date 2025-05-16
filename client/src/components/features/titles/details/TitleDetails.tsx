@@ -2,10 +2,10 @@
 
 import { FindTitleBySlugQuery, Title } from '@/graphql/generated/output'
 import { useLocale } from 'next-intl'
-import { useSortedCast } from '../hooks/useSortedCast'
-
 import { useTitleDetailedInfo } from '../hooks'
+import { useSortedCast } from '../hooks/useSortedCast'
 import { TitleCastCarouselSection } from './cast/TitleCastCarouselSection'
+import { TitleCommentsSection } from './comments'
 import { TitleFilmingLocationsSection } from './filming-locations'
 import { TitleHeroSection } from './hero/TitleHeroSection'
 import { TitleImagesSection } from './images/TitleImagesSection'
@@ -25,8 +25,6 @@ export function TitleDetails({ title }: TitleDetailsProps) {
     const sortedCast = useSortedCast(cast)
 
     const filmingLocations = originalTitle?.filmingLocations || []
-    const hasLocations =
-        originalTitle?.hasLocations || filmingLocations.length > 0
 
     const productionCompanies = originalTitle?.productionCompanies || []
 
@@ -65,6 +63,8 @@ export function TitleDetails({ title }: TitleDetailsProps) {
                     title={title as Title}
                     locale={locale}
                 />
+
+                <TitleCommentsSection title={title as Title} locale={locale} />
             </div>
         </div>
     )

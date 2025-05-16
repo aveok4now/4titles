@@ -1,8 +1,8 @@
 'use client'
 
+import { EmptySearchState } from '@/components/ui/elements/EmptySearchState'
 import { Title } from '@/graphql/generated/output'
 import { cn } from '@/utils/tw-merge'
-import { SearchX } from 'lucide-react'
 import { TitlePosterCard } from './TitlePosterCard'
 
 interface TitlesListProps {
@@ -10,6 +10,7 @@ interface TitlesListProps {
     className?: string
     isFavoriteOverride?: boolean
     emptyMessage?: string
+    onFavoriteChange?: (titleId: string, isFavorite: boolean) => void
 }
 
 export function TitlesList({
@@ -17,6 +18,7 @@ export function TitlesList({
     className,
     isFavoriteOverride,
     emptyMessage,
+    onFavoriteChange,
 }: TitlesListProps) {
     return titles.length > 0 ? (
         <div
@@ -30,15 +32,16 @@ export function TitlesList({
                     key={title.id}
                     title={title}
                     initialIsFavorite={isFavoriteOverride}
+                    onFavoriteChange={
+                        onFavoriteChange
+                            ? isFavorite =>
+                                  onFavoriteChange(title.id, isFavorite)
+                            : undefined
+                    }
                 />
             ))}
         </div>
-    ) : (
-        emptyMessage && (
-            <div className='flex flex-row items-center gap-x-2'>
-                <SearchX className='size-4 text-muted-foreground' />
-                <span className='text-muted-foreground'>{emptyMessage}</span>
-            </div>
-        )
-    )
+    ) : emptyMessage ? (
+        <EmptySearchState emptyMessage={emptyMessage} />
+    ) : null
 }

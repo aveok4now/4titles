@@ -7,7 +7,7 @@ import {
 import FadeContent from '@/components/ui/custom/content/fade-content'
 import { Heading } from '@/components/ui/elements/Heading'
 import {
-    FavoriteType,
+    FavorableType,
     FilmingLocation,
     Title,
     useFindUserFavoritesQuery,
@@ -30,15 +30,38 @@ export function FavoriteLocationsSection() {
         FilmingLocation[] | null
     >(null)
 
-    const { data: favoritesData, loading: isLoadingFavorites } =
-        useFindUserFavoritesQuery({
-            variables: {
-                filters: {
-                    type: FavoriteType.Location,
-                },
+    const {
+        data: favoritesData,
+        loading: isLoadingFavorites,
+        refetch,
+    } = useFindUserFavoritesQuery({
+        variables: {
+            filters: {
+                favorableType: FavorableType.Location,
             },
-            fetchPolicy: 'cache-and-network',
-        })
+        },
+        fetchPolicy: 'cache-and-network',
+    })
+
+    const handleFavoriteChange = useCallback(
+        async (locationId: string, titleId: string, isFavorite: boolean) => {
+            if (!isFavorite) {
+                await refetch()
+
+                if (searchResults && searchResults.length > 0) {
+                    setSearchResults(null)
+                }
+            }
+        },
+        [refetch, searchResults],
+    )
+
+    const listItemProps = useMemo(
+        () => ({
+            onFavoriteChange: handleFavoriteChange,
+        }),
+        [handleFavoriteChange],
+    )
 
     const [searchLocationsByIdsMutation] =
         useSearchFilmingLocationsByIdsLazyQuery()
@@ -58,9 +81,9 @@ export function FavoriteLocationsSection() {
         if (!favoritesData?.findMyFavorites) return []
         return favoritesData.findMyFavorites.filter(
             fav =>
-                fav.type === FavoriteType.Location &&
+                fav.favorableType === FavorableType.Location &&
                 fav.filmingLocation &&
-                fav.filmingLocationTitle,
+                fav.contextTitle,
         )
     }, [favoritesData])
 
@@ -81,7 +104,7 @@ export function FavoriteLocationsSection() {
                 )
 
                 const locationId = fav.filmingLocation.id
-                const titleId = fav.filmingLocationTitle?.id || 'unknown'
+                const titleId = fav.contextTitle?.id || 'unknown'
                 const compositeKey = `${locationId}-${titleId}`
 
                 const processed = {
@@ -90,7 +113,8 @@ export function FavoriteLocationsSection() {
                         ...fav.filmingLocation,
                         description: resolvedDescription,
                     },
-                    titleForListItem: fav.filmingLocationTitle as Title,
+                    titleForListItem: fav.contextTitle as Title,
+                    initialIsFavorite: true,
                 }
 
                 uniqueLocationMap.set(compositeKey, processed)
@@ -244,8 +268,6 @@ export function FavoriteLocationsSection() {
                 onLocationListItemClick={handleLocationClick}
                 onMapMarkerClick={handleMarkerClick}
                 onSearchHandler={handleSearch}
-                // mapHeight='30rem'
-                // listHeight='calc(30rem - 1rem)'
                 showSearchControl
                 baseClusterSourceId={clusterSourceId}
                 mapContextKey={mapContextKey}
@@ -256,6 +278,7 @@ export function FavoriteLocationsSection() {
                 enableMapProjection
                 searchNoResultsText={commonT('search.noResults')}
                 t={commonT}
+                listItemProps={listItemProps}
             />
         </div>
     )

@@ -1,0 +1,3 @@
+mutation ToggleLikeComment($input: ToggleLikeCommentInput!) {
+    toggleLikeComment(input: $input)
+}

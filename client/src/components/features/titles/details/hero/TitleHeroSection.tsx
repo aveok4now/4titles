@@ -1,15 +1,13 @@
 'use client'
 
-import {
-    FavoriteType,
-    useIsEntityFavoriteQuery,
-} from '@/graphql/generated/output'
+import { FavorableType, useIsFavoriteQuery } from '@/graphql/generated/output'
 import { useLocale, useTranslations } from 'next-intl'
 
 import { FavoriteButton } from '@/components/features/favorites/FavoriteButton'
 import { Skeleton } from '@/components/ui/common/skeleton'
 import FadeContent from '@/components/ui/custom/content/fade-content'
 
+import { useEffect, useState } from 'react'
 import { TitleDetailedInfo } from '../../types'
 import { TitleCountries } from './TitleCountries'
 import { TitleGenres } from './TitleGenres'
@@ -45,14 +43,29 @@ export function TitleHeroSection({ details }: TitleHeroSectionProps) {
     } = details
 
     const { data: favoriteData, loading: isLoadingFavorite } =
-        useIsEntityFavoriteQuery({
+        useIsFavoriteQuery({
             variables: {
-                input: { entityId: titleId, type: FavoriteType.Title },
+                input: {
+                    favorableId: titleId,
+                    favorableType: FavorableType.Title,
+                },
             },
-            fetchPolicy: 'cache-and-network',
+            fetchPolicy: 'cache-first',
         })
 
-    const initialIsFavorite = favoriteData?.isEntityFavorite
+    const [isFavorite, setIsFavorite] = useState<boolean | undefined>(
+        favoriteData?.isFavorite,
+    )
+
+    useEffect(() => {
+        if (favoriteData !== undefined) {
+            setIsFavorite(favoriteData.isFavorite)
+        }
+    }, [favoriteData])
+
+    const handleFavoriteChange = (newStatus: boolean) => {
+        setIsFavorite(newStatus)
+    }
 
     return (
         <FadeContent blur>
@@ -73,9 +86,10 @@ export function TitleHeroSection({ details }: TitleHeroSectionProps) {
                                     <Skeleton className='size-9 rounded-md' />
                                 ) : (
                                     <FavoriteButton
-                                        entityId={titleId}
-                                        entityType={FavoriteType.Title}
-                                        initialIsFavorite={initialIsFavorite}
+                                        favorableId={titleId}
+                                        favorableType={FavorableType.Title}
+                                        initialIsFavorite={isFavorite}
+                                        onSuccess={handleFavoriteChange}
                                         variant='outline'
                                         size='icon'
                                         className='w-10 md:w-9'

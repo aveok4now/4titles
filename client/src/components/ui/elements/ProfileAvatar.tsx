@@ -8,6 +8,7 @@ import { BorderBeam } from '../custom/content/border-beam'
 const avatarSizes = cva('', {
     variants: {
         size: {
+            xs: 'size-6',
             sm: 'size-7',
             default: 'size-9',
             lg: 'size-14',

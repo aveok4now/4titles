@@ -2,7 +2,7 @@
 
 import { Button, ButtonProps } from '@/components/ui/common/button'
 import FadeContent from '@/components/ui/custom/content/fade-content'
-import { FavoriteType } from '@/graphql/generated/output'
+import { FavorableType } from '@/graphql/generated/output'
 import { cn } from '@/utils/tw-merge'
 import { Star } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -11,23 +11,25 @@ import { toast } from 'sonner'
 import { useFavoriteToggle } from './hooks/useFavoriteToggle'
 
 interface FavoriteButtonProps extends Omit<ButtonProps, 'onClick'> {
-    entityId: string
-    entityRelationId?: string
-    entityType: FavoriteType
+    favorableId: string
+    favorableType: FavorableType
+    favorableContextId?: string
     initialIsFavorite?: boolean
     onSuccess?: (isFavorite: boolean) => void
+    optimisticResponse?: boolean
 }
 
 export const FavoriteButton = memo(
     ({
-        entityId,
-        entityRelationId,
-        entityType,
+        favorableId,
+        favorableType,
+        favorableContextId,
         initialIsFavorite,
         className,
         size = 'icon',
         variant = 'ghost',
         onSuccess,
+        optimisticResponse = true,
     }: FavoriteButtonProps) => {
         const t = useTranslations('components.favoriteButton')
         const {
@@ -35,16 +37,15 @@ export const FavoriteButton = memo(
             isLoading,
             isFetchingInitialStatus,
             isAuthenticated,
-            refetch,
             addToFavorites,
             removeFromFavorites,
             setIsFavorite,
             setIsLoading,
         } = useFavoriteToggle(
-            entityId,
-            entityType,
+            favorableId,
+            favorableType,
+            favorableContextId,
             initialIsFavorite,
-            entityRelationId,
         )
 
         const handleToggleFavorite = useCallback(async () => {
@@ -53,23 +54,26 @@ export const FavoriteButton = memo(
                 return
             }
 
-            if (isFavorite === undefined) return
+            const currentFavoriteState = isFavorite ?? false
 
             setIsLoading(true)
-            const newState = !isFavorite
-            setIsFavorite(newState)
-            onSuccess?.(newState)
+
+            if (optimisticResponse) {
+                const newState = !currentFavoriteState
+                setIsFavorite(newState)
+                onSuccess?.(newState)
+            }
 
             try {
-                if (isFavorite) {
+                if (currentFavoriteState) {
                     const { data } = await removeFromFavorites({
                         variables: {
                             input: {
-                                type: entityType,
-                                entityId,
-                                locationTitleId:
-                                    entityType === FavoriteType.Location
-                                        ? entityRelationId
+                                favorableType,
+                                favorableId,
+                                contextId:
+                                    favorableType === FavorableType.Location
+                                        ? favorableContextId
                                         : null,
                             },
                         },
@@ -77,22 +81,26 @@ export const FavoriteButton = memo(
                     if (data?.removeFromFavorites) {
                         toast.success(
                             t(
-                                entityType === FavoriteType.Title
+                                favorableType === FavorableType.Title
                                     ? 'titleRemoved'
                                     : 'locationRemoved',
                             ),
                         )
-                        refetch?.()
+
+                        if (!optimisticResponse) {
+                            setIsFavorite(false)
+                            onSuccess?.(false)
+                        }
                     }
                 } else {
                     const { data } = await addToFavorites({
                         variables: {
                             input: {
-                                type: entityType,
-                                entityId,
-                                locationTitleId:
-                                    entityType === FavoriteType.Location
-                                        ? entityRelationId
+                                favorableType,
+                                favorableId,
+                                contextId:
+                                    favorableType === FavorableType.Location
+                                        ? favorableContextId
                                         : null,
                             },
                         },
@@ -100,15 +108,23 @@ export const FavoriteButton = memo(
                     if (data?.addToFavorites) {
                         toast.success(
                             t(
-                                entityType === FavoriteType.Title
+                                favorableType === FavorableType.Title
                                     ? 'titleAdded'
                                     : 'locationAdded',
                             ),
                         )
-                        refetch?.()
+
+                        if (!optimisticResponse) {
+                            setIsFavorite(true)
+                            onSuccess?.(true)
+                        }
                     }
                 }
-            } catch {
+            } catch (error) {
+                if (optimisticResponse) {
+                    setIsFavorite(currentFavoriteState)
+                    onSuccess?.(currentFavoriteState)
+                }
                 toast.error(t('error'))
             } finally {
                 setIsLoading(false)
@@ -116,16 +132,19 @@ export const FavoriteButton = memo(
         }, [
             isAuthenticated,
             isFavorite,
-            entityId,
-            entityType,
+            favorableId,
+            favorableType,
+            favorableContextId,
             t,
             onSuccess,
             addToFavorites,
             removeFromFavorites,
-            refetch,
+            optimisticResponse,
+            setIsFavorite,
+            setIsLoading,
         ])
 
-        const isDisabled = isLoading || isFavorite === undefined
+        const isDisabled = isLoading
 
         return (
             <Button
@@ -157,5 +176,3 @@ export const FavoriteButton = memo(
         )
     },
 )
-
-FavoriteButton.displayName = 'FavoriteButton'
