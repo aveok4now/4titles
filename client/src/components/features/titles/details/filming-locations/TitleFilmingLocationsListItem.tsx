@@ -1,6 +1,7 @@
 'use client'
 
 import { FavoriteButton } from '@/components/features/favorites/FavoriteButton'
+import { FilmingLocationCommentsDrawer } from '@/components/features/filming-locations/FilmingLocationCommentsDrawer'
 import { Button } from '@/components/ui/common/button'
 import {
     DropdownMenu,
@@ -18,12 +19,25 @@ import ShinyText from '@/components/ui/custom/text/shiny-text'
 import { Hint } from '@/components/ui/elements/Hint'
 import { Link } from '@/components/ui/elements/Link'
 import { ProfileAvatar } from '@/components/ui/elements/ProfileAvatar'
-import type { FilmingLocation, Title } from '@/graphql/generated/output'
-import { FavorableType, useIsFavoriteQuery } from '@/graphql/generated/output'
+import {
+    CommentableType,
+    FavorableType,
+    useGetCommentCountQuery,
+    useIsFavoriteQuery,
+    type FilmingLocation,
+    type Title,
+} from '@/graphql/generated/output'
 import { useAuth } from '@/hooks/useAuth'
 import { createMapUrls, type MapService } from '@/utils/map-services'
 import { cn } from '@/utils/tw-merge'
-import { Edit, Flag, Map, MoreHorizontal, Share2 } from 'lucide-react'
+import {
+    Edit,
+    Flag,
+    Map,
+    MessageCircle,
+    MoreHorizontal,
+    Share2,
+} from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import NextLink from 'next/link'
 import { forwardRef, useState } from 'react'
@@ -55,6 +69,7 @@ export const TitleFilmingLocationsListItem = forwardRef<
     const [isReportDialogOpen, setIsReportDialogOpen] = useState(false)
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
     const [isShareDialogOpen, setIsShareDialogOpen] = useState(false)
+    const [isCommentsDrawerOpen, setIsCommentsDrawerOpen] = useState(false)
 
     const { data: favoriteData, loading: isLoadingFavorite } =
         useIsFavoriteQuery({
@@ -67,7 +82,20 @@ export const TitleFilmingLocationsListItem = forwardRef<
             },
             fetchPolicy: 'cache-and-network',
         })
+
     const initialIsFavorite = favoriteData?.isFavorite
+
+    const { data: commentCountData } = useGetCommentCountQuery({
+        variables: {
+            input: {
+                commentableId: location.id,
+                commentableType: CommentableType.Location,
+            },
+        },
+        fetchPolicy: 'cache-first',
+    })
+
+    const commentCount = commentCountData?.getCommentCount
 
     const hasCoordinates = !!(
         location.coordinates?.x && location.coordinates?.y
@@ -147,6 +175,11 @@ export const TitleFilmingLocationsListItem = forwardRef<
         }
 
         setIsShareDialogOpen(true)
+    }
+
+    const handleCommentsClick = (e: React.MouseEvent) => {
+        handleStopPropagation(e)
+        setIsCommentsDrawerOpen(true)
     }
 
     return (
@@ -280,34 +313,65 @@ export const TitleFilmingLocationsListItem = forwardRef<
                             {location.city}
                         </p>
                     )}
-                    {location.user && (
-                        <div
-                            className='absolute bottom-2 right-2 flex items-center gap-2'
-                            onClick={handleStopPropagation}
+                    <div
+                        className='absolute bottom-2 right-2 flex items-center gap-2'
+                        onClick={handleStopPropagation}
+                    >
+                        <Hint
+                            label={flItemT('comments.hint')}
+                            side='left'
+                            align='end'
                         >
-                            <span className='text-xs text-muted-foreground'>
-                                {flItemT('items.author.heading')}:{' '}
-                                <Link href={'/' + location.user.username}>
-                                    {location.user.username}
-                                </Link>
-                            </span>
-                            <Hint
-                                label={flItemT('items.author.openProfile')}
-                                side='right'
-                                align='end'
+                            <Button
+                                onClick={handleCommentsClick}
+                                size='icon'
+                                variant='ghost'
+                                className={cn(
+                                    'px-1',
+                                    commentCount && commentCount > 0
+                                        ? 'w-10 px-4'
+                                        : '',
+                                )}
                             >
-                                <NextLink href={'/' + location.user.username}>
-                                    <ProfileAvatar
-                                        profile={{
-                                            username: location.user.username,
-                                            avatar: location.user.avatar,
-                                        }}
-                                        size='sm'
-                                    />
-                                </NextLink>
-                            </Hint>
-                        </div>
-                    )}
+                                <MessageCircle className='size-4' />
+                                {commentCount && commentCount > 0 ? (
+                                    <span className='text-xs'>
+                                        {commentCount >= 9
+                                            ? '9+'
+                                            : commentCount}
+                                    </span>
+                                ) : null}
+                            </Button>
+                        </Hint>
+                        {location.user && (
+                            <>
+                                <span className='text-xs text-muted-foreground'>
+                                    {flItemT('items.author.heading')}:{' '}
+                                    <Link href={'/' + location.user.username}>
+                                        {location.user.username}
+                                    </Link>
+                                </span>
+                                <Hint
+                                    label={flItemT('items.author.openProfile')}
+                                    side='right'
+                                    align='end'
+                                >
+                                    <NextLink
+                                        href={'/' + location.user.username}
+                                    >
+                                        <ProfileAvatar
+                                            profile={{
+                                                username:
+                                                    location.user.username,
+                                                avatar: location.user.avatar,
+                                            }}
+                                            size='sm'
+                                        />
+                                    </NextLink>
+                                </Hint>
+                            </>
+                        )}
+                    </div>
                 </div>
             </div>
 
@@ -327,6 +391,13 @@ export const TitleFilmingLocationsListItem = forwardRef<
             <ShareLocationDialog
                 isOpen={isShareDialogOpen}
                 onClose={() => setIsShareDialogOpen(false)}
+                location={location}
+                title={title}
+            />
+
+            <FilmingLocationCommentsDrawer
+                isOpen={isCommentsDrawerOpen}
+                onClose={() => setIsCommentsDrawerOpen(false)}
                 location={location}
                 title={title}
             />

@@ -3,6 +3,7 @@
 import {
     CommentableType,
     CommentSortOption,
+    GetCommentCountDocument,
     useCreateCommentMutation,
     useDeleteCommentMutation,
     useFindCommentsQuery,
@@ -31,6 +32,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useCurrent } from '@/hooks/useCurrent'
 import { AUTH_ROUTES } from '@/libs/constants/auth.constants'
 import { DEFAULT_LANGUAGE } from '@/libs/i18n/config'
+import { ApolloCache } from '@apollo/client'
 import { Search } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useSearchParams } from 'next/navigation'
@@ -265,6 +267,42 @@ export function CommentsSection({
         onError: () => {
             toast.error(t('notifications.createError'))
         },
+        update: (cache: ApolloCache<any>, { data }) => {
+            if (data?.createComment) {
+                try {
+                    const cacheData: { getCommentCount: number } | null =
+                        cache.readQuery({
+                            query: GetCommentCountDocument,
+                            variables: {
+                                input: {
+                                    commentableId,
+                                    commentableType,
+                                },
+                            },
+                        })
+
+                    const newCount =
+                        cacheData?.getCommentCount !== undefined
+                            ? cacheData.getCommentCount + 1
+                            : 1
+
+                    cache.writeQuery({
+                        query: GetCommentCountDocument,
+                        variables: {
+                            input: {
+                                commentableId,
+                                commentableType,
+                            },
+                        },
+                        data: {
+                            getCommentCount: newCount,
+                        },
+                    })
+                } catch (e) {
+                    console.error('Error updating comment count cache:', e)
+                }
+            }
+        },
     })
 
     const [updateComment] = useUpdateCommentMutation({
@@ -284,6 +322,45 @@ export function CommentsSection({
         },
         onError: () => {
             toast.error(t('notifications.deleteError'))
+        },
+        update: (cache: ApolloCache<any>, { data }) => {
+            if (data?.deleteComment) {
+                try {
+                    const cacheData: { getCommentCount: number } | null =
+                        cache.readQuery({
+                            query: GetCommentCountDocument,
+                            variables: {
+                                input: {
+                                    commentableId,
+                                    commentableType,
+                                },
+                            },
+                        })
+
+                    if (
+                        cacheData?.getCommentCount &&
+                        cacheData.getCommentCount > 0
+                    ) {
+                        cache.writeQuery({
+                            query: GetCommentCountDocument,
+                            variables: {
+                                input: {
+                                    commentableId,
+                                    commentableType,
+                                },
+                            },
+                            data: {
+                                getCommentCount: cacheData.getCommentCount - 1,
+                            },
+                        })
+                    }
+                } catch (e) {
+                    console.error(
+                        'Error updating comment count cache on delete:',
+                        e,
+                    )
+                }
+            }
         },
     })
 
@@ -596,10 +673,6 @@ export function CommentsSection({
         [searchQuery],
     )
 
-    const handleSearchButtonClick = useCallback(() => {
-        setCurrentSearch(searchQuery.trim())
-    }, [searchQuery])
-
     const memoizedCommentsList = useMemo(() => {
         return (
             <CommentsList
@@ -655,51 +728,55 @@ export function CommentsSection({
                         <LoaderSpinner />
                     ) : (
                         <div className='w-full space-y-4'>
-                            <div className='mb-4 flex flex-col items-center justify-between gap-2 sm:flex-row'>
-                                <div className='relative w-full sm:w-64'>
-                                    <Input
-                                        placeholder={t('search.placeholder')}
-                                        value={searchQuery}
-                                        onChange={handleSearchChange}
-                                        onKeyDown={handleSearchSubmit}
-                                        className='bg-background pl-8 pr-10'
-                                    />
-                                    <div className='absolute left-2 top-1/2 -translate-y-1/2'>
-                                        <Search className='size-4 text-muted-foreground' />
-                                    </div>
-                                </div>
+                            {comments.length > 1 && (
+                                <>
+                                    <div className='mb-4 flex flex-col items-center justify-between gap-2 sm:flex-row'>
+                                        <div className='relative w-full sm:w-64'>
+                                            <Input
+                                                placeholder={t(
+                                                    'search.placeholder',
+                                                )}
+                                                value={searchQuery}
+                                                onChange={handleSearchChange}
+                                                onKeyDown={handleSearchSubmit}
+                                                className='bg-background pl-8 pr-10'
+                                            />
+                                            <div className='absolute left-2 top-1/2 -translate-y-1/2'>
+                                                <Search className='size-4 text-muted-foreground' />
+                                            </div>
+                                        </div>
 
-                                {comments.length > 1 && (
-                                    <div className='w-full sm:w-48'>
-                                        <Select
-                                            value={sortOption}
-                                            onValueChange={handleSortChange}
-                                        >
-                                            <SelectTrigger>
-                                                <SelectValue
-                                                    placeholder={t(
-                                                        'sort.placeholder',
-                                                    )}
-                                                />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {Object.values(
-                                                    CommentSortOption,
-                                                ).map(option => (
-                                                    <SelectItem
-                                                        key={option}
-                                                        value={option}
-                                                    >
-                                                        {t(
-                                                            `sort.${option.toLowerCase()}`,
+                                        <div className='w-full sm:w-48'>
+                                            <Select
+                                                value={sortOption}
+                                                onValueChange={handleSortChange}
+                                            >
+                                                <SelectTrigger>
+                                                    <SelectValue
+                                                        placeholder={t(
+                                                            'sort.placeholder',
                                                         )}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
+                                                    />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {Object.values(
+                                                        CommentSortOption,
+                                                    ).map(option => (
+                                                        <SelectItem
+                                                            key={option}
+                                                            value={option}
+                                                        >
+                                                            {t(
+                                                                `sort.${option.toLowerCase()}`,
+                                                            )}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
                                     </div>
-                                )}
-                            </div>
+                                </>
+                            )}
 
                             {isLoading && !comments.length ? (
                                 <LoaderSpinner />

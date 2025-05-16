@@ -878,6 +878,12 @@
                     "openProfile": "Open profile"
                 }
             },
+            "comments": {
+                "heading": "Comments for {location}",
+                "hint": "Comments",
+                "empty": "No comments yet. Be the first to leave one!",
+                "authRequired": "You need to log in to view and post comments"
+            },
             "reportDialog": {
                 "heading": "Report location",
                 "messageLabel": "Issue description",
