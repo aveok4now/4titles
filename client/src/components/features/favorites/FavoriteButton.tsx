@@ -16,6 +16,7 @@ interface FavoriteButtonProps extends Omit<ButtonProps, 'onClick'> {
     favorableContextId?: string
     initialIsFavorite?: boolean
     onSuccess?: (isFavorite: boolean) => void
+    optimisticResponse?: boolean
 }
 
 export const FavoriteButton = memo(
@@ -28,6 +29,7 @@ export const FavoriteButton = memo(
         size = 'icon',
         variant = 'ghost',
         onSuccess,
+        optimisticResponse = true,
     }: FavoriteButtonProps) => {
         const t = useTranslations('components.favoriteButton')
         const {
@@ -35,7 +37,6 @@ export const FavoriteButton = memo(
             isLoading,
             isFetchingInitialStatus,
             isAuthenticated,
-            refetch,
             addToFavorites,
             removeFromFavorites,
             setIsFavorite,
@@ -53,15 +54,18 @@ export const FavoriteButton = memo(
                 return
             }
 
-            if (isFavorite === undefined) return
+            const currentFavoriteState = isFavorite ?? false
 
             setIsLoading(true)
-            const newState = !isFavorite
-            setIsFavorite(newState)
-            onSuccess?.(newState)
+
+            if (optimisticResponse) {
+                const newState = !currentFavoriteState
+                setIsFavorite(newState)
+                onSuccess?.(newState)
+            }
 
             try {
-                if (isFavorite) {
+                if (currentFavoriteState) {
                     const { data } = await removeFromFavorites({
                         variables: {
                             input: {
@@ -82,7 +86,11 @@ export const FavoriteButton = memo(
                                     : 'locationRemoved',
                             ),
                         )
-                        refetch?.()
+
+                        if (!optimisticResponse) {
+                            setIsFavorite(false)
+                            onSuccess?.(false)
+                        }
                     }
                 } else {
                     const { data } = await addToFavorites({
@@ -105,10 +113,18 @@ export const FavoriteButton = memo(
                                     : 'locationAdded',
                             ),
                         )
-                        refetch?.()
+
+                        if (!optimisticResponse) {
+                            setIsFavorite(true)
+                            onSuccess?.(true)
+                        }
                     }
                 }
-            } catch {
+            } catch (error) {
+                if (optimisticResponse) {
+                    setIsFavorite(currentFavoriteState)
+                    onSuccess?.(currentFavoriteState)
+                }
                 toast.error(t('error'))
             } finally {
                 setIsLoading(false)
@@ -118,14 +134,17 @@ export const FavoriteButton = memo(
             isFavorite,
             favorableId,
             favorableType,
+            favorableContextId,
             t,
             onSuccess,
             addToFavorites,
             removeFromFavorites,
-            refetch,
+            optimisticResponse,
+            setIsFavorite,
+            setIsLoading,
         ])
 
-        const isDisabled = isLoading || isFavorite === undefined
+        const isDisabled = isLoading
 
         return (
             <Button

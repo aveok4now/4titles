@@ -20,6 +20,7 @@ export interface ProcessedFilmingLocation {
     originalItem: FindUserFavoritesQuery['findMyFavorites'][number]
     processedFilmingLocation: FilmingLocation & { description: string }
     titleForListItem?: Title
+    initialIsFavorite?: boolean
 }
 
 interface FilmingLocationsContentProps {
@@ -260,6 +261,9 @@ export function FilmingLocationsContent({
                                             title={
                                                 item.titleForListItem ||
                                                 titleContext!
+                                            }
+                                            initialIsFavorite={
+                                                item.initialIsFavorite
                                             }
                                             ref={(
                                                 el: HTMLDivElement | null,

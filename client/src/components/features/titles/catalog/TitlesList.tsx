@@ -10,6 +10,7 @@ interface TitlesListProps {
     className?: string
     isFavoriteOverride?: boolean
     emptyMessage?: string
+    onFavoriteChange?: (titleId: string, isFavorite: boolean) => void
 }
 
 export function TitlesList({
@@ -17,6 +18,7 @@ export function TitlesList({
     className,
     isFavoriteOverride,
     emptyMessage,
+    onFavoriteChange,
 }: TitlesListProps) {
     return titles.length > 0 ? (
         <div
@@ -30,6 +32,12 @@ export function TitlesList({
                     key={title.id}
                     title={title}
                     initialIsFavorite={isFavoriteOverride}
+                    onFavoriteChange={
+                        onFavoriteChange
+                            ? isFavorite =>
+                                  onFavoriteChange(title.id, isFavorite)
+                            : undefined
+                    }
                 />
             ))}
         </div>

@@ -30,15 +30,38 @@ export function FavoriteLocationsSection() {
         FilmingLocation[] | null
     >(null)
 
-    const { data: favoritesData, loading: isLoadingFavorites } =
-        useFindUserFavoritesQuery({
-            variables: {
-                filters: {
-                    favorableType: FavorableType.Location,
-                },
+    const {
+        data: favoritesData,
+        loading: isLoadingFavorites,
+        refetch,
+    } = useFindUserFavoritesQuery({
+        variables: {
+            filters: {
+                favorableType: FavorableType.Location,
             },
-            fetchPolicy: 'cache-and-network',
-        })
+        },
+        fetchPolicy: 'cache-and-network',
+    })
+
+    const handleFavoriteChange = useCallback(
+        async (locationId: string, titleId: string, isFavorite: boolean) => {
+            if (!isFavorite) {
+                await refetch()
+
+                if (searchResults && searchResults.length > 0) {
+                    setSearchResults(null)
+                }
+            }
+        },
+        [refetch, searchResults],
+    )
+
+    const listItemProps = useMemo(
+        () => ({
+            onFavoriteChange: handleFavoriteChange,
+        }),
+        [handleFavoriteChange],
+    )
 
     const [searchLocationsByIdsMutation] =
         useSearchFilmingLocationsByIdsLazyQuery()
@@ -91,6 +114,7 @@ export function FavoriteLocationsSection() {
                         description: resolvedDescription,
                     },
                     titleForListItem: fav.contextTitle as Title,
+                    initialIsFavorite: true,
                 }
 
                 uniqueLocationMap.set(compositeKey, processed)
@@ -244,8 +268,6 @@ export function FavoriteLocationsSection() {
                 onLocationListItemClick={handleLocationClick}
                 onMapMarkerClick={handleMarkerClick}
                 onSearchHandler={handleSearch}
-                // mapHeight='30rem'
-                // listHeight='calc(30rem - 1rem)'
                 showSearchControl
                 baseClusterSourceId={clusterSourceId}
                 mapContextKey={mapContextKey}
@@ -256,6 +278,7 @@ export function FavoriteLocationsSection() {
                 enableMapProjection
                 searchNoResultsText={commonT('search.noResults')}
                 t={commonT}
+                listItemProps={listItemProps}
             />
         </div>
     )

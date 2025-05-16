@@ -1,10 +1,12 @@
 import {
     FavorableType,
+    IsFavoriteDocument,
     useAddToFavoritesMutation,
     useIsFavoriteQuery,
     useRemoveFromFavoritesMutation,
 } from '@/graphql/generated/output'
 import { useAuth } from '@/hooks/useAuth'
+import { ApolloCache } from '@apollo/client'
 import { useEffect, useState } from 'react'
 
 export function useFavoriteToggle(
@@ -14,10 +16,19 @@ export function useFavoriteToggle(
     initialIsFavorite?: boolean,
 ) {
     const { isAuthenticated } = useAuth()
-    const [isFavorite, setIsFavorite] = useState<boolean | undefined>(
-        initialIsFavorite,
+    const [isFavorite, setIsFavorite] = useState<boolean>(
+        initialIsFavorite ?? false,
     )
     const [isLoadingCombined, setIsLoadingCombined] = useState(false)
+
+    const queryInput = {
+        favorableType,
+        favorableId,
+        contextId:
+            favorableType === FavorableType.Location
+                ? favorableContextId
+                : null,
+    }
 
     const {
         data: isFavoriteData,
@@ -25,22 +36,39 @@ export function useFavoriteToggle(
         refetch,
     } = useIsFavoriteQuery({
         variables: {
-            input: {
-                favorableType,
-                favorableId,
-                contextId:
-                    favorableType === FavorableType.Location
-                        ? favorableContextId
-                        : null,
-            },
+            input: queryInput,
         },
         skip: !isAuthenticated || initialIsFavorite !== undefined,
-        fetchPolicy: 'cache-and-network',
+        fetchPolicy: 'cache-first',
     })
 
-    const [addToFavorites, { loading: isAdding }] = useAddToFavoritesMutation()
+    const updateIsFavoriteCache = (
+        cache: ApolloCache<any>,
+        isFavorite: boolean,
+    ) => {
+        cache.writeQuery({
+            query: IsFavoriteDocument,
+            variables: { input: queryInput },
+            data: { isFavorite },
+        })
+    }
+
+    const [addToFavorites, { loading: isAdding }] = useAddToFavoritesMutation({
+        update(cache, { data }) {
+            if (data?.addToFavorites) {
+                updateIsFavoriteCache(cache, true)
+            }
+        },
+    })
+
     const [removeFromFavorites, { loading: isRemoving }] =
-        useRemoveFromFavoritesMutation()
+        useRemoveFromFavoritesMutation({
+            update(cache, { data }) {
+                if (data?.removeFromFavorites) {
+                    updateIsFavoriteCache(cache, false)
+                }
+            },
+        })
 
     useEffect(() => {
         if (initialIsFavorite === undefined && isFavoriteData !== undefined) {
@@ -55,9 +83,9 @@ export function useFavoriteToggle(
     }, [isFetchingInitialStatus, isAdding, isRemoving, initialIsFavorite])
 
     const finalIsFavorite =
-        initialIsFavorite === undefined && isFetchingInitialStatus
-            ? undefined
-            : isFavorite
+        initialIsFavorite !== undefined
+            ? initialIsFavorite
+            : (isFavoriteData?.isFavorite ?? isFavorite)
 
     return {
         isFavorite: finalIsFavorite,

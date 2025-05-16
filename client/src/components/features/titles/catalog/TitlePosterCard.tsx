@@ -5,10 +5,16 @@ import { Tilt } from '@/components/ui/custom/content/tilt'
 import { AccentSpotlight } from '@/components/ui/elements/AccentSpotlight'
 import { Hint } from '@/components/ui/elements/Hint'
 import { LogoImage } from '@/components/ui/elements/LogoImage'
-import { FavorableType, Title } from '@/graphql/generated/output'
+import {
+    FavorableType,
+    Title,
+    useIsFavoriteQuery,
+} from '@/graphql/generated/output'
+import { useAuth } from '@/hooks/useAuth'
 import { cn } from '@/utils/tw-merge'
 import Image from 'next/image'
 import NextLink from 'next/link'
+import { useEffect, useState } from 'react'
 import { FavoriteButton } from '../../favorites/FavoriteButton'
 import { useTitleBasicInfo } from '../hooks'
 
@@ -16,15 +22,53 @@ interface TitlePosterCardProps {
     title: Title
     className?: string
     initialIsFavorite?: boolean
+    onFavoriteChange?: (isFavorite: boolean) => void
 }
 
 export function TitlePosterCard({
     title,
     className,
     initialIsFavorite,
+    onFavoriteChange,
 }: TitlePosterCardProps) {
     const { name, posterUrl, releaseYear, productionCountry } =
         useTitleBasicInfo(title)
+    const { isAuthenticated } = useAuth()
+
+    const [localIsFavorite, setLocalIsFavorite] = useState<boolean | undefined>(
+        initialIsFavorite,
+    )
+
+    const { data: favoriteData, loading: isLoadingFavorite } =
+        useIsFavoriteQuery({
+            variables: {
+                input: {
+                    favorableId: title.id,
+                    favorableType: FavorableType.Title,
+                    contextId: null,
+                },
+            },
+            skip: !isAuthenticated || initialIsFavorite !== undefined,
+            fetchPolicy: 'cache-first',
+        })
+
+    useEffect(() => {
+        if (initialIsFavorite !== undefined) {
+            setLocalIsFavorite(initialIsFavorite)
+        } else if (favoriteData?.isFavorite !== undefined) {
+            setLocalIsFavorite(favoriteData.isFavorite)
+        }
+    }, [favoriteData, initialIsFavorite])
+
+    const isFavorite = localIsFavorite ?? false
+
+    const handleFavoriteChange = (newStatus: boolean) => {
+        setLocalIsFavorite(newStatus)
+
+        if (onFavoriteChange) {
+            onFavoriteChange(newStatus)
+        }
+    }
 
     return (
         <div className={cn('group relative w-full', className)}>
@@ -48,7 +92,8 @@ export function TitlePosterCard({
                         favorableType={FavorableType.Title}
                         variant='outline'
                         size='icon'
-                        initialIsFavorite={initialIsFavorite}
+                        initialIsFavorite={isFavorite}
+                        onSuccess={handleFavoriteChange}
                     />
                 </div>
 
