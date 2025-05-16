@@ -299,6 +299,7 @@ export const TitleFilmingLocationsListItem = forwardRef<
                         className='mb-1 w-4/5 font-semibold text-foreground/90'
                         text={location.address}
                     />
+
                     {location.formattedAddress && (
                         <p className='mb-2 text-sm text-muted-foreground'>
                             {location.formattedAddress}
@@ -313,8 +314,33 @@ export const TitleFilmingLocationsListItem = forwardRef<
                             {location.city}
                         </p>
                     )}
+                    {location.user && (
+                        <div className='mt-2 flex items-end gap-2'>
+                            <span className='text-xs text-muted-foreground'>
+                                {flItemT('items.author.heading')}:{' '}
+                                <Link href={'/' + location.user.username}>
+                                    {location.user.username}
+                                </Link>
+                            </span>
+                            <Hint
+                                label={flItemT('items.author.openProfile')}
+                                side='right'
+                                align='end'
+                            >
+                                <NextLink href={'/' + location.user.username}>
+                                    <ProfileAvatar
+                                        profile={{
+                                            username: location.user.username,
+                                            avatar: location.user.avatar,
+                                        }}
+                                        size='sm'
+                                    />
+                                </NextLink>
+                            </Hint>
+                        </div>
+                    )}
                     <div
-                        className='absolute bottom-2 right-2 flex items-center gap-2'
+                        className='absolute bottom-2 right-2 flex items-center gap-1'
                         onClick={handleStopPropagation}
                     >
                         <Hint
@@ -343,34 +369,6 @@ export const TitleFilmingLocationsListItem = forwardRef<
                                 ) : null}
                             </Button>
                         </Hint>
-                        {location.user && (
-                            <>
-                                <span className='text-xs text-muted-foreground'>
-                                    {flItemT('items.author.heading')}:{' '}
-                                    <Link href={'/' + location.user.username}>
-                                        {location.user.username}
-                                    </Link>
-                                </span>
-                                <Hint
-                                    label={flItemT('items.author.openProfile')}
-                                    side='right'
-                                    align='end'
-                                >
-                                    <NextLink
-                                        href={'/' + location.user.username}
-                                    >
-                                        <ProfileAvatar
-                                            profile={{
-                                                username:
-                                                    location.user.username,
-                                                avatar: location.user.avatar,
-                                            }}
-                                            size='sm'
-                                        />
-                                    </NextLink>
-                                </Hint>
-                            </>
-                        )}
                     </div>
                 </div>
             </div>
