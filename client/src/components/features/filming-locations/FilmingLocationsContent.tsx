@@ -271,7 +271,7 @@ export function FilmingLocationsContent({
                                 isRoutingEnabled && markers.length > 1
                             }
                             routeOptions={{
-                                color: themeColors.base,
+                                color: themeColors.medium,
                                 width: 5,
                                 opacity: 1,
                                 animate: true,
