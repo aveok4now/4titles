@@ -2,6 +2,7 @@
 
 import '@maptiler/geocoding-control/style.css'
 import '@maptiler/sdk/dist/maptiler-sdk.css'
+import './styles/map-controls.css'
 
 import * as maptilersdk from '@maptiler/sdk'
 import type { MapProps } from './types'
