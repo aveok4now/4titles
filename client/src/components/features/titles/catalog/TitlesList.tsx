@@ -1,8 +1,8 @@
 'use client'
 
+import { EmptySearchState } from '@/components/ui/elements/EmptySearchState'
 import { Title } from '@/graphql/generated/output'
 import { cn } from '@/utils/tw-merge'
-import { SearchX } from 'lucide-react'
 import { TitlePosterCard } from './TitlePosterCard'
 
 interface TitlesListProps {
@@ -33,12 +33,7 @@ export function TitlesList({
                 />
             ))}
         </div>
-    ) : (
-        emptyMessage && (
-            <div className='flex flex-row items-center gap-x-2'>
-                <SearchX className='size-4 text-muted-foreground' />
-                <span className='text-muted-foreground'>{emptyMessage}</span>
-            </div>
-        )
-    )
+    ) : emptyMessage ? (
+        <EmptySearchState emptyMessage={emptyMessage} />
+    ) : null
 }

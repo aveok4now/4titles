@@ -16,8 +16,10 @@ query FindComments($filter: CommentFilterInput!) {
                         ...CommentFields
                         replies {
                             ...CommentFields
-                            # Если на 5 уровне есть replies, то следует загрузить их отдельно
-                            totalReplies
+                            replies {
+                                ...CommentFields
+                                totalReplies
+                            }
                         }
                     }
                 }

@@ -2,6 +2,7 @@
 
 import {
     CommentableType,
+    CommentSortOption,
     useCreateCommentMutation,
     useDeleteCommentMutation,
     useFindCommentsQuery,
@@ -13,7 +14,16 @@ import {
 
 import { ReportCommentDialog } from '@/components/features/comments/ReportCommentDialog'
 import { Button } from '@/components/ui/common/button'
+import { Input } from '@/components/ui/common/input'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/common/select'
 import { Separator } from '@/components/ui/common/separator'
+import { EmptySearchState } from '@/components/ui/elements/EmptySearchState'
 import { Heading } from '@/components/ui/elements/Heading'
 import { Link } from '@/components/ui/elements/Link'
 import { Spinner } from '@/components/ui/elements/Spinner'
@@ -21,9 +31,11 @@ import { useAuth } from '@/hooks/useAuth'
 import { useCurrent } from '@/hooks/useCurrent'
 import { AUTH_ROUTES } from '@/libs/constants/auth.constants'
 import { DEFAULT_LANGUAGE } from '@/libs/i18n/config'
+import { Search } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useSearchParams } from 'next/navigation'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import { toast } from 'sonner'
 import { CommentForm } from './CommentForm'
 import { CommentsList } from './CommentsList'
@@ -40,7 +52,7 @@ interface CommentsSectionProps {
     }>
 }
 
-const COMMENTS_PER_PAGE = 24
+const COMMENTS_PER_PAGE = 10
 
 export function CommentsSection({
     commentableId,
@@ -60,8 +72,14 @@ export function CommentsSection({
     const [hasMore, setHasMore] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
     const [newCommentIds, setNewCommentIds] = useState<Set<string>>(new Set())
+    const [sortOption, setSortOption] = useState<CommentSortOption>(
+        CommentSortOption.DateDesc,
+    )
+    const [searchQuery, setSearchQuery] = useState('')
+    const [currentSearch, setCurrentSearch] = useState('')
 
     const commentRefsMap = useRef(new Map<string, HTMLDivElement>())
+    const commentsSectionRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         if (commentId) {
@@ -102,6 +120,8 @@ export function CommentsSection({
                 commentableType,
                 take: COMMENTS_PER_PAGE,
                 skip: 0,
+                sortBy: sortOption,
+                search: currentSearch || undefined,
             },
         },
         fetchPolicy: 'network-only',
@@ -120,6 +140,41 @@ export function CommentsSection({
         },
     })
 
+    useEffect(() => {
+        setIsLoading(true)
+        setComments([])
+        setLoadedCount(0)
+        setHasMore(true)
+
+        refetch({
+            filter: {
+                commentableId,
+                commentableType,
+                take: COMMENTS_PER_PAGE,
+                skip: 0,
+                sortBy: sortOption,
+                search: currentSearch || undefined,
+            },
+        })
+            .then(({ data }) => {
+                if (data?.findComments) {
+                    const receivedComments = data.findComments as Comment[]
+                    setComments(receivedComments)
+                    setLoadedCount(receivedComments.length)
+                    setHasMore(receivedComments.length === COMMENTS_PER_PAGE)
+                } else {
+                    setHasMore(false)
+                }
+            })
+            .catch(error => {
+                toast.error(t('notifications.refreshError'))
+                setHasMore(false)
+            })
+            .finally(() => {
+                setIsLoading(false)
+            })
+    }, [commentableId, commentableType, refetch, sortOption, currentSearch, t])
+
     const removeCommentFromTree = useCallback(
         (commentsArray: Comment[], commentIdToRemove: string): Comment[] => {
             return commentsArray
@@ -136,42 +191,6 @@ export function CommentsSection({
                     }
                     return comment
                 })
-        },
-        [],
-    )
-
-    const addCommentToTree = useCallback(
-        (
-            commentsArray: Comment[],
-            newComment: Comment,
-            parentId?: string,
-        ): Comment[] => {
-            if (!parentId) {
-                return [newComment, ...commentsArray]
-            }
-
-            return commentsArray.map(comment => {
-                if (comment.id === parentId) {
-                    const currentReplies = comment.replies || []
-                    return {
-                        ...comment,
-                        replies: [newComment, ...(currentReplies as Comment[])],
-                    }
-                }
-
-                if (comment.replies?.length) {
-                    return {
-                        ...comment,
-                        replies: addCommentToTree(
-                            comment.replies as Comment[],
-                            newComment,
-                            parentId,
-                        ),
-                    }
-                }
-
-                return comment
-            })
         },
         [],
     )
@@ -204,6 +223,40 @@ export function CommentsSection({
         [],
     )
 
+    const updateCommentsWithLike = useCallback(
+        (
+            commentsArray: Comment[],
+            commentId: string,
+            liked: boolean,
+            count: number,
+        ): Comment[] => {
+            return commentsArray.map(comment => {
+                if (comment.id === commentId) {
+                    return {
+                        ...comment,
+                        likedByMe: liked,
+                        likeCount: count,
+                    }
+                }
+
+                if (comment.replies?.length) {
+                    return {
+                        ...comment,
+                        replies: updateCommentsWithLike(
+                            comment.replies as Comment[],
+                            commentId,
+                            liked,
+                            count,
+                        ),
+                    }
+                }
+
+                return comment
+            })
+        },
+        [],
+    )
+
     const [createComment] = useCreateCommentMutation({
         onCompleted: () => {
             toast.success(t('notifications.createSuccess'))
@@ -213,30 +266,6 @@ export function CommentsSection({
             toast.error(t('notifications.createError'))
         },
     })
-
-    const refetchCommentsAndUpdate = useCallback(async () => {
-        try {
-            setIsLoading(true)
-            const { data } = await refetch({
-                filter: {
-                    commentableId,
-                    commentableType,
-                    take: COMMENTS_PER_PAGE,
-                    skip: 0,
-                },
-            })
-
-            if (data?.findComments) {
-                setComments(data.findComments as Comment[])
-                setLoadedCount(data.findComments.length)
-                setHasMore(data.findComments.length === COMMENTS_PER_PAGE)
-            }
-        } catch (error) {
-            toast.error(t('notifications.refreshError'))
-        } finally {
-            setIsLoading(false)
-        }
-    }, [commentableId, commentableType, refetch, t])
 
     const [updateComment] = useUpdateCommentMutation({
         onCompleted: () => {
@@ -282,10 +311,37 @@ export function CommentsSection({
         likeCount: number
     } | null>(null)
 
+    const refetchCommentsAndUpdate = useCallback(async () => {
+        try {
+            setIsLoading(true)
+            const { data } = await refetch({
+                filter: {
+                    commentableId,
+                    commentableType,
+                    take: COMMENTS_PER_PAGE,
+                    skip: 0,
+                    sortBy: sortOption,
+                    search: currentSearch || undefined,
+                },
+            })
+
+            if (data?.findComments) {
+                setComments(data.findComments as Comment[])
+                setLoadedCount(data.findComments.length)
+                setHasMore(data.findComments.length === COMMENTS_PER_PAGE)
+            }
+        } catch (error) {
+            toast.error(t('notifications.refreshError'))
+        } finally {
+            setIsLoading(false)
+        }
+    }, [commentableId, commentableType, refetch, sortOption, currentSearch, t])
+
     const handleLoadMoreComments = useCallback(async () => {
         if (isLoading || !hasMore) return
 
         setIsLoading(true)
+        const nextPage = loadedCount
 
         try {
             const { data } = await fetchMore({
@@ -294,101 +350,49 @@ export function CommentsSection({
                         commentableId,
                         commentableType,
                         take: COMMENTS_PER_PAGE,
-                        skip: loadedCount,
+                        skip: nextPage,
+                        sortBy: sortOption,
+                        search: currentSearch || undefined,
                     },
                 },
             })
 
-            if (data?.findComments && data.findComments.length > 0) {
-                const newComments = data.findComments as Comment[]
+            if (data?.findComments?.length) {
+                const receivedComments = data.findComments as Comment[]
 
-                const existingIdsMap = new Map(comments.map(c => [c.id, true]))
-
-                const uniqueNewComments = newComments.filter(
-                    newComment => !existingIdsMap.has(newComment.id),
+                const existingIds = new Set(comments.map(c => c.id))
+                const newComments = receivedComments.filter(
+                    c => !existingIds.has(c.id),
                 )
 
-                if (uniqueNewComments.length > 0) {
-                    const newIds = new Set(uniqueNewComments.map(c => c.id))
-                    setNewCommentIds(newIds)
-
-                    setComments(prevComments => {
-                        const updatedComments = [
-                            ...prevComments,
-                            ...uniqueNewComments,
-                        ]
-                        return updatedComments
-                    })
-
-                    setLoadedCount(prev => {
-                        const newCount = prev + uniqueNewComments.length
-                        return newCount
-                    })
-
-                    setHasMore(newComments.length === COMMENTS_PER_PAGE)
-
-                    toast.success(
-                        t('notifications.loadedNewComments', {
-                            count: uniqueNewComments.length,
-                        }),
-                    )
+                if (newComments.length > 0) {
+                    setComments(prev => [...prev, ...newComments])
+                    setLoadedCount(prev => prev + newComments.length)
+                    setHasMore(receivedComments.length === COMMENTS_PER_PAGE)
                 } else {
                     setHasMore(false)
-                    toast.info(t('notifications.noMoreComments'))
                 }
             } else {
                 setHasMore(false)
-                toast.info(t('notifications.noMoreComments'))
             }
         } catch (error) {
             toast.error(t('notifications.loadMoreError'))
+            setHasMore(false)
         } finally {
             setIsLoading(false)
         }
     }, [
         commentableId,
         commentableType,
-        loadedCount,
-        isLoading,
-        hasMore,
-        fetchMore,
         comments,
+        currentSearch,
+        fetchMore,
+        hasMore,
+        isLoading,
+        loadedCount,
+        sortOption,
         t,
     ])
-
-    const updateCommentsWithLike = useCallback(
-        (
-            commentsArray: Comment[],
-            commentId: string,
-            liked: boolean,
-            count: number,
-        ): Comment[] => {
-            return commentsArray.map(comment => {
-                if (comment.id === commentId) {
-                    return {
-                        ...comment,
-                        likedByMe: liked,
-                        likeCount: count,
-                    }
-                }
-
-                if (comment.replies?.length) {
-                    return {
-                        ...comment,
-                        replies: updateCommentsWithLike(
-                            comment.replies as Comment[],
-                            commentId,
-                            liked,
-                            count,
-                        ),
-                    }
-                }
-
-                return comment
-            })
-        },
-        [],
-    )
 
     const handleCreateComment = useCallback(
         (message: string, parentId?: string) => {
@@ -566,8 +570,76 @@ export function CommentsSection({
         return findCommentById(reportCommentId, comments)
     }, [comments, reportCommentId])
 
+    const handleSortChange = useCallback(
+        (value: string) => {
+            const newSortOption = value as CommentSortOption
+            if (newSortOption === sortOption) return
+            setSortOption(newSortOption)
+        },
+        [sortOption],
+    )
+
+    const handleSearchChange = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            setSearchQuery(e.target.value)
+        },
+        [],
+    )
+
+    const handleSearchSubmit = useCallback(
+        (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === 'Enter') {
+                e.preventDefault()
+                setCurrentSearch(searchQuery.trim())
+            }
+        },
+        [searchQuery],
+    )
+
+    const handleSearchButtonClick = useCallback(() => {
+        setCurrentSearch(searchQuery.trim())
+    }, [searchQuery])
+
+    const memoizedCommentsList = useMemo(() => {
+        return (
+            <CommentsList
+                comments={comments}
+                currentUserId={userId}
+                locale={locale}
+                onEdit={handleUpdateComment}
+                onDelete={handleDeleteComment}
+                onToggleLike={handleToggleLike}
+                onReport={setReportCommentId}
+                onReply={handleCreateComment}
+                onShare={handleShareComment}
+                setCommentRef={setCommentRef}
+                newCommentIds={newCommentIds}
+            />
+        )
+    }, [
+        comments,
+        userId,
+        handleCreateComment,
+        handleDeleteComment,
+        handleToggleLike,
+        handleUpdateComment,
+        locale,
+        newCommentIds,
+        setCommentRef,
+        setReportCommentId,
+        handleShareComment,
+    ])
+
+    const LoaderSpinner = () => {
+        return (
+            <div className='flex h-[40vh] items-center justify-center'>
+                <Spinner color='border-primary' size='lg' />
+            </div>
+        )
+    }
+
     return (
-        <>
+        <div ref={commentsSectionRef}>
             {isAuthenticated ? (
                 <>
                     {profile && (
@@ -580,47 +652,88 @@ export function CommentsSection({
                     <Separator className='my-4' />
 
                     {isLoadingComments && !comments.length ? (
-                        <div className='py-8 text-center'>
-                            <p>{t('loading')}</p>
-                        </div>
-                    ) : comments.length > 0 ? (
+                        <LoaderSpinner />
+                    ) : (
                         <div className='w-full space-y-4'>
-                            <div className='w-full overflow-hidden'>
-                                <CommentsList
-                                    comments={comments}
-                                    currentUserId={userId}
-                                    locale={locale}
-                                    onEdit={handleUpdateComment}
-                                    onDelete={handleDeleteComment}
-                                    onToggleLike={handleToggleLike}
-                                    onReport={setReportCommentId}
-                                    onReply={handleCreateComment}
-                                    onShare={handleShareComment}
-                                    setCommentRef={setCommentRef}
-                                    newCommentIds={newCommentIds}
-                                />
+                            <div className='mb-4 flex flex-col items-center justify-between gap-2 sm:flex-row'>
+                                <div className='relative w-full sm:w-64'>
+                                    <Input
+                                        placeholder={t('search.placeholder')}
+                                        value={searchQuery}
+                                        onChange={handleSearchChange}
+                                        onKeyDown={handleSearchSubmit}
+                                        className='bg-background pl-8 pr-10'
+                                    />
+                                    <div className='absolute left-2 top-1/2 -translate-y-1/2'>
+                                        <Search className='size-4 text-muted-foreground' />
+                                    </div>
+                                </div>
+
+                                {comments.length > 1 && (
+                                    <div className='w-full sm:w-48'>
+                                        <Select
+                                            value={sortOption}
+                                            onValueChange={handleSortChange}
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue
+                                                    placeholder={t(
+                                                        'sort.placeholder',
+                                                    )}
+                                                />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {Object.values(
+                                                    CommentSortOption,
+                                                ).map(option => (
+                                                    <SelectItem
+                                                        key={option}
+                                                        value={option}
+                                                    >
+                                                        {t(
+                                                            `sort.${option.toLowerCase()}`,
+                                                        )}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                )}
                             </div>
 
-                            {hasMore && (
-                                <div className='mt-4 text-center'>
-                                    <Button
-                                        variant='outline'
-                                        onClick={handleLoadMoreComments}
-                                        disabled={isLoading}
-                                        className='min-w-32'
+                            {isLoading && !comments.length ? (
+                                <LoaderSpinner />
+                            ) : comments.length > 0 ? (
+                                <div className='w-full overflow-visible'>
+                                    <InfiniteScroll
+                                        dataLength={comments.length}
+                                        next={handleLoadMoreComments}
+                                        hasMore={hasMore}
+                                        loader={
+                                            <div className='my-4 flex justify-center'>
+                                                <Spinner color='border-primary' />
+                                            </div>
+                                        }
+                                        endMessage={
+                                            comments.length > 0 && (
+                                                <div className='my-4 text-center text-sm text-muted-foreground'>
+                                                    {t('endOfComments')}
+                                                </div>
+                                            )
+                                        }
                                     >
-                                        {isLoading ? (
-                                            <Spinner />
-                                        ) : (
-                                            t('loadMore')
-                                        )}
-                                    </Button>
+                                        {memoizedCommentsList}
+                                    </InfiniteScroll>
+                                </div>
+                            ) : currentSearch ? (
+                                <EmptySearchState
+                                    emptyMessage={t('search.noResults')}
+                                />
+                            ) : (
+                                <div className='py-8 text-center'>
+                                    <p>{t('empty')}</p>
                                 </div>
                             )}
-                        </div>
-                    ) : (
-                        <div className='py-8 text-center'>
-                            <p>{t('empty')}</p>
                         </div>
                     )}
                 </>
@@ -647,6 +760,6 @@ export function CommentsSection({
                     onReport={handleReportComment}
                 />
             )}
-        </>
+        </div>
     )
 }

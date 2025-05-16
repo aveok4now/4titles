@@ -959,18 +959,19 @@
     "components": {
         "comments": {
             "loading": "Loading comments...",
-            "loadMoreReplies": "Load more replies",
+            "loadMoreReplies": "More replies",
             "loadingMoreReplies": "...",
-            "empty": "No comments yet. Yours could be the first!",
+            "empty": "There are no comments yet. Yours can be the first!",
+            "loadMore": "Load more",
             "form": {
                 "placeholder": "Share your thoughts...",
                 "replyPlaceholder": "Write a reply...",
                 "submit": "Comment",
                 "reply": "Reply",
                 "cancel": "Cancel",
-                "hint": "Hint",
+                "hint": "Tip",
                 "hintUse": "Use",
-                "hintForWhat": "to submit",
+                "hintForWhat": "to send",
                 "tooLong": "Comment is too long."
             },
             "reply": {
@@ -985,6 +986,15 @@
                 "edit": "Edit",
                 "delete": "Delete",
                 "report": "Report"
+            },
+            "sort": {
+                "placeholder": "Sort by",
+                "date_desc": "Newest first",
+                "date_asc": "Oldest first",
+                "likes_desc": "Most liked",
+                "likes_asc": "Least liked",
+                "replies_desc": "Most replies",
+                "replies_asc": "Least replies"
             },
             "deleteDialog": {
                 "heading": "Delete comment",
