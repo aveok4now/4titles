@@ -260,9 +260,13 @@ export function CommentsSection({
     )
 
     const [createComment] = useCreateCommentMutation({
-        onCompleted: () => {
-            toast.success(t('notifications.createSuccess'))
-            refetchCommentsAndUpdate()
+        onCompleted: data => {
+            if (data.createComment) {
+                toast.success(t('notifications.createSuccess'))
+                refetchCommentsAndUpdate()
+            } else {
+                toast.error(t('notifications.createError'))
+            }
         },
         onError: () => {
             toast.error(t('notifications.createError'))
@@ -306,9 +310,13 @@ export function CommentsSection({
     })
 
     const [updateComment] = useUpdateCommentMutation({
-        onCompleted: () => {
-            toast.success(t('notifications.updateSuccess'))
-            refetchCommentsAndUpdate()
+        onCompleted: data => {
+            if (data.updateComment) {
+                toast.success(t('notifications.updateSuccess'))
+                refetchCommentsAndUpdate()
+            } else {
+                toast.error(t('notifications.updateError'))
+            }
         },
         onError: () => {
             toast.error(t('notifications.updateError'))
