@@ -442,3 +442,82 @@ export const removeClusterLayers = (map: maptilersdk.Map, sourceId: string) => {
         map.removeSource(sourceId)
     }
 }
+
+export const calculateDistance = (
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number,
+): number => {
+    const R = 6371
+    const dLat = ((lat2 - lat1) * Math.PI) / 180
+    const dLon = ((lon2 - lon1) * Math.PI) / 180
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos((lat1 * Math.PI) / 180) *
+            Math.cos((lat2 * Math.PI) / 180) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2)
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    return R * c
+}
+
+export const calculateOptimalRoute = (
+    points: [number, number][],
+    startIndex = 0,
+): number[] => {
+    if (points.length <= 2) {
+        return Array.from({ length: points.length }, (_, i) => i)
+    }
+
+    const visited = new Array(points.length).fill(false)
+    const route: number[] = [startIndex]
+    visited[startIndex] = true
+
+    for (let i = 1; i < points.length; i++) {
+        let lastPoint = points[route[route.length - 1]]
+        let nearestIndex = -1
+        let minDistance = Infinity
+
+        for (let j = 0; j < points.length; j++) {
+            if (!visited[j]) {
+                const distance = calculateDistance(
+                    lastPoint[1],
+                    lastPoint[0],
+                    points[j][1],
+                    points[j][0],
+                )
+                if (distance < minDistance) {
+                    minDistance = distance
+                    nearestIndex = j
+                }
+            }
+        }
+
+        if (nearestIndex !== -1) {
+            route.push(nearestIndex)
+            visited[nearestIndex] = true
+        }
+    }
+
+    return route
+}
+
+export const assignSequenceNumbersToMarkers = <
+    T extends { coordinates: [number, number]; id: string },
+>(
+    markers: T[],
+    startIndex = 0,
+): (T & { sequenceNumber: number })[] => {
+    if (markers.length === 0) {
+        return []
+    }
+
+    const coordinates = markers.map(marker => marker.coordinates)
+    const optimalRoute = calculateOptimalRoute(coordinates, startIndex)
+
+    return markers.map((marker, i) => ({
+        ...marker,
+        sequenceNumber: optimalRoute.indexOf(i) + 1,
+    }))
+}

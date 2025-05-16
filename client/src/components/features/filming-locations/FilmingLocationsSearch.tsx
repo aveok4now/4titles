@@ -41,9 +41,7 @@ export function FilmingLocationsSearch({
     const handleClearSearch = useCallback(() => {
         setSearchValue('')
         onSearch('')
-        if (inputRef.current) {
-            inputRef.current.focus()
-        }
+        if (inputRef.current) inputRef.current.focus()
     }, [onSearch])
 
     return (

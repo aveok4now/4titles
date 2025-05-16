@@ -228,6 +228,7 @@ export function TitleFilmingLocationsSection({
                 titleContext={title}
                 t={t}
             />
+
             <AddFilmingLocationDialog
                 isOpen={isAddLocationDialogOpen}
                 onClose={() => setIsAddLocationDialogOpen(false)}

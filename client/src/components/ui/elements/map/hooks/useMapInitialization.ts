@@ -54,9 +54,7 @@ export const useMapInitialization: CustomHook<
 
                 setMapLoaded(true)
 
-                if (onMapLoaded) {
-                    onMapLoaded(newMap)
-                }
+                if (onMapLoaded) onMapLoaded(newMap)
             })
 
             mapRef.current = newMap

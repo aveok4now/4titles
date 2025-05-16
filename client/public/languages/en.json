@@ -1089,6 +1089,9 @@
             }
         },
         "map": {
+            "routingButton": {
+                "title": "Build route"
+            },
             "error": {
                 "title": "Initialization Error",
                 "description": "Failed to load map. Please try again later."

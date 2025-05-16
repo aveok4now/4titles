@@ -3,4 +3,5 @@ export { useGlobeProjectionErrorHandler } from './useGlobeProjectionErrorHandler
 export { useMapInitialization } from './useMapInitialization'
 export { useMapLocationSearch } from './useMapLocationSearch'
 export { useMapMarkers } from './useMapMarkers'
+export { useMapRouting } from './useMapRouting'
 export { useSelectedMarkerFocus } from './useSelectedMarkerFocus'
