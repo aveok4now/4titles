@@ -16,6 +16,7 @@ export const useMapMarkers: CustomHook<
             marker: MapMarker,
             mapInstance: maptilersdk.Map,
         ) => maptilersdk.Marker
+        updateMarkersWithSequenceNumbers: (enableRouting: boolean) => void
     }
 > = (mapRef, options) => {
     const {
@@ -33,6 +34,61 @@ export const useMapMarkers: CustomHook<
     }
     const markerRefs = useRef<maptilersdk.Marker[]>([])
     const themeColors = getMapColors()
+
+    const updateMarkersWithSequenceNumbers = useCallback(
+        (enableRouting: boolean) => {
+            document
+                .querySelectorAll('.marker-sequence-number')
+                .forEach(element => {
+                    element.remove()
+                })
+
+            if (!enableRouting) return
+
+            const markerElements = document.querySelectorAll('[data-marker-id]')
+
+            const sequenceMap = new Map()
+            markers.forEach(marker => {
+                if (marker.sequenceNumber) {
+                    sequenceMap.set(marker.id, marker.sequenceNumber)
+                }
+            })
+
+            markerElements.forEach(markerElement => {
+                const markerId = markerElement.getAttribute('data-marker-id')
+                if (!markerId) return
+
+                const sequenceNumber = sequenceMap.get(markerId)
+                if (!sequenceNumber) return
+
+                const sequenceNumberElement = document.createElement('div')
+                sequenceNumberElement.className = 'marker-sequence-number'
+                sequenceNumberElement.textContent = sequenceNumber.toString()
+
+                Object.assign(sequenceNumberElement.style, {
+                    position: 'absolute',
+                    top: '9px',
+                    left: '0',
+                    width: '100%',
+                    height: '11px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: 'bold',
+                    fontSize: '12px',
+                    fontFamily: 'var(--font-geist-sans)',
+                    lineHeight: '1',
+                    color: '#000',
+                    zIndex: '10',
+                    pointerEvents: 'none',
+                    userSelect: 'none',
+                })
+
+                markerElement.appendChild(sequenceNumberElement)
+            })
+        },
+        [markers],
+    )
 
     const createStandardMarker = useCallback(
         (marker: MapMarker, mapInstance: maptilersdk.Map) => {
@@ -98,7 +154,7 @@ export const useMapMarkers: CustomHook<
             if (marker.popupContent || marker.title) {
                 const popupContent =
                     marker.popupContent ||
-                    (marker.title ? <p>${marker.title}</p> : null)
+                    (marker.title ? `<p>${marker.title}</p>` : null)
 
                 if (popupContent) {
                     newMarker.getElement().addEventListener('click', () => {
@@ -116,6 +172,11 @@ export const useMapMarkers: CustomHook<
                         }
                     })
                 }
+            }
+
+            const markerElement = newMarker.getElement()
+            if (markerElement) {
+                markerElement.setAttribute('data-marker-id', marker.id)
             }
 
             return newMarker
@@ -144,5 +205,10 @@ export const useMapMarkers: CustomHook<
         }
     }, [])
 
-    return { markerRefs, addStandardMarkers, createStandardMarker }
+    return {
+        markerRefs,
+        addStandardMarkers,
+        createStandardMarker,
+        updateMarkersWithSequenceNumbers,
+    }
 }

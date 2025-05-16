@@ -2,6 +2,7 @@
 
 import '@maptiler/geocoding-control/style.css'
 import '@maptiler/sdk/dist/maptiler-sdk.css'
+import './styles/map-controls.css'
 
 import * as maptilersdk from '@maptiler/sdk'
 import type { MapProps } from './types'
@@ -16,6 +17,7 @@ import {
     useMapInitialization,
     useMapLocationSearch,
     useMapMarkers,
+    useMapRouting,
     useSelectedMarkerFocus,
 } from './hooks'
 
@@ -49,6 +51,9 @@ function MapComponent({
     enableDraggableMarker = false,
     onLocationChange,
     initialAddress,
+    enableRouting = false,
+    routeOptions,
+    sequenceLabels = true,
 }: MapProps) {
     const locale = useLocale()
     const mapContainer = useRef<HTMLDivElement>(null)
@@ -66,14 +71,18 @@ function MapComponent({
         },
     )
 
-    const { markerRefs, addStandardMarkers, createStandardMarker } =
-        useMapMarkers(mapRef, {
-            markers,
-            mapLoaded,
-            selectedMarkerId,
-            onMarkerClick,
-            clusterOptions,
-        })
+    const {
+        markerRefs,
+        addStandardMarkers,
+        createStandardMarker,
+        updateMarkersWithSequenceNumbers,
+    } = useMapMarkers(mapRef, {
+        markers,
+        mapLoaded,
+        selectedMarkerId,
+        onMarkerClick,
+        clusterOptions,
+    })
 
     useClusterization(mapRef, {
         mapLoaded,
@@ -107,13 +116,28 @@ function MapComponent({
         initialCoordinates: center,
     })
 
+    useMapRouting(mapRef, {
+        mapLoaded,
+        enableRouting,
+        markers,
+        routeOptions,
+        sequenceLabels,
+        updateMarkersWithSequenceNumbers,
+    })
+
     useEffect(() => {
         if (!mapLoaded || !mapRef.current) return
 
-        if (!enableClustering && !enableDraggableMarker) {
+        if (!enableClustering && !enableDraggableMarker && !enableRouting) {
             addStandardMarkers()
         }
-    }, [mapLoaded, enableClustering, enableDraggableMarker, addStandardMarkers])
+    }, [
+        mapLoaded,
+        enableClustering,
+        enableDraggableMarker,
+        enableRouting,
+        addStandardMarkers,
+    ])
 
     return (
         <>

@@ -1,8 +1,13 @@
 'use client'
 
 import { ScrollArea } from '@/components/ui/common/scroll-area'
-import { getMapColors, MapMarker } from '@/components/ui/elements/map'
+import {
+    getMapColors,
+    MapMarker,
+    MapRoutingToggleButton,
+} from '@/components/ui/elements/map'
 import { Map, MAP_DEFAULT_ZOOM } from '@/components/ui/elements/map/Map'
+import { assignSequenceNumbersToMarkers } from '@/components/ui/elements/map/utils'
 import type {
     FilmingLocation,
     FindUserFavoritesQuery,
@@ -49,6 +54,11 @@ interface FilmingLocationsContentProps {
     listItemProps?: Record<string, any>
     titleContext?: Title
     t?: (key: string, params?: any) => string
+    enableMapRouting?: boolean
+    routeStartLocationId?: string | null
+    onRoutingToggle?: (isEnabled: boolean) => void
+    routingButtonTitle?: string
+    routingButtonHint?: string
 }
 
 export function FilmingLocationsContent({
@@ -77,8 +87,14 @@ export function FilmingLocationsContent({
     listItemProps = {},
     titleContext,
     t,
+    enableMapRouting = false,
+    routeStartLocationId = null,
+    onRoutingToggle,
+    routingButtonTitle,
+    routingButtonHint,
 }: FilmingLocationsContentProps) {
     const { isMobile, isTablet } = useDeviceSize()
+    const [isRoutingEnabled, setIsRoutingEnabled] = useState(enableMapRouting)
 
     const defaultMapHeight = useMemo(() => {
         if (isMobile) return '25rem'
@@ -107,7 +123,7 @@ export function FilmingLocationsContent({
     }, [baseClusterSourceId, mapContextKey])
 
     const mapKey = useMemo(() => {
-        return `map-${mapContextKey}-${Date.now()}`
+        return `map-${mapContextKey.replace(/\s+/g, '-').toLowerCase()}`
     }, [mapContextKey])
 
     useEffect(() => {
@@ -122,8 +138,18 @@ export function FilmingLocationsContent({
         }
     }, [])
 
+    useEffect(() => {
+        setIsRoutingEnabled(enableMapRouting)
+    }, [enableMapRouting])
+
+    const handleRoutingToggle = () => {
+        const newState = !isRoutingEnabled
+        setIsRoutingEnabled(newState)
+        onRoutingToggle?.(newState)
+    }
+
     const markers: MapMarker[] = useMemo(() => {
-        return locationsToDisplay
+        const baseMarkers = locationsToDisplay
             .filter(item => item.processedFilmingLocation?.coordinates)
             .map(item => {
                 const location = item.processedFilmingLocation
@@ -148,7 +174,29 @@ export function FilmingLocationsContent({
                     className: 'cursor-pointer',
                 }
             })
-    }, [locationsToDisplay, selectedLocationId, themeColors])
+
+        if (isRoutingEnabled && baseMarkers.length > 1) {
+            let startIndex = 0
+            if (routeStartLocationId) {
+                const startIdx = baseMarkers.findIndex(
+                    m => m.id === routeStartLocationId,
+                )
+                if (startIdx !== -1) {
+                    startIndex = startIdx
+                }
+            }
+
+            return assignSequenceNumbersToMarkers(baseMarkers, startIndex)
+        }
+
+        return baseMarkers
+    }, [
+        locationsToDisplay,
+        selectedLocationId,
+        themeColors,
+        isRoutingEnabled,
+        routeStartLocationId,
+    ])
 
     const mapCenter = useMemo(() => {
         if (selectedLocationId) {
@@ -195,7 +243,7 @@ export function FilmingLocationsContent({
                 <>
                     <div
                         style={{ height: effectiveMapHeight }}
-                        className='w-full md:w-1/2'
+                        className='relative w-full md:w-1/2'
                     >
                         <Map
                             key={mapKey}
@@ -219,7 +267,26 @@ export function FilmingLocationsContent({
                                 colors: themeColors,
                             }}
                             selectedMarkerId={selectedLocationId || undefined}
+                            enableRouting={
+                                isRoutingEnabled && markers.length > 1
+                            }
+                            routeOptions={{
+                                color: themeColors.medium,
+                                width: 5,
+                                opacity: 1,
+                                animate: true,
+                            }}
+                            sequenceLabels={true}
                         />
+
+                        {markers.length > 1 && (
+                            <div className='absolute left-2 top-2 z-10'>
+                                <MapRoutingToggleButton
+                                    isRouteEnabled={isRoutingEnabled}
+                                    onToggle={handleRoutingToggle}
+                                />
+                            </div>
+                        )}
                     </div>
                     <div
                         style={{ height: effectiveMapHeight }}
