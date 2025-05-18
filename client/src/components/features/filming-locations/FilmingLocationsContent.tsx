@@ -150,10 +150,27 @@ export function FilmingLocationsContent({
 
     const markers: MapMarker[] = useMemo(() => {
         const baseMarkers = locationsToDisplay
-            .filter(item => item.processedFilmingLocation?.coordinates)
+            .filter(
+                item =>
+                    item.processedFilmingLocation?.coordinates &&
+                    typeof item.processedFilmingLocation.coordinates.x ===
+                        'number' &&
+                    typeof item.processedFilmingLocation.coordinates.y ===
+                        'number',
+            )
             .map(item => {
                 const location = item.processedFilmingLocation
-                const coordinates = location.coordinates!
+                if (!location || !location.coordinates) return null
+
+                const coordinates = location.coordinates
+                if (
+                    !coordinates ||
+                    typeof coordinates.x !== 'number' ||
+                    typeof coordinates.y !== 'number'
+                ) {
+                    return null
+                }
+
                 return {
                     coordinates: [coordinates.x, coordinates.y] as [
                         number,
@@ -174,12 +191,13 @@ export function FilmingLocationsContent({
                     className: 'cursor-pointer',
                 }
             })
+            .filter(Boolean) as MapMarker[]
 
         if (isRoutingEnabled && baseMarkers.length > 1) {
             let startIndex = 0
             if (routeStartLocationId) {
                 const startIdx = baseMarkers.findIndex(
-                    m => m.id === routeStartLocationId,
+                    m => m && m.id === routeStartLocationId,
                 )
                 if (startIdx !== -1) {
                     startIndex = startIdx
@@ -327,7 +345,14 @@ export function FilmingLocationsContent({
                                             }
                                             title={
                                                 item.titleForListItem ||
-                                                titleContext!
+                                                titleContext ||
+                                                ({
+                                                    id: 'default-title-id',
+                                                    slug: '',
+                                                    originalName:
+                                                        'Локация без контекста',
+                                                    type: 'MOVIE',
+                                                } as Title)
                                             }
                                             initialIsFavorite={
                                                 item.initialIsFavorite

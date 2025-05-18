@@ -184,7 +184,7 @@ export function SocialLinkItem({ socialLink, provided }: SocialLinkItemProps) {
                         </form>
                     </Form>
                 ) : (
-                    <>
+                    <div className='select-none'>
                         <ShinyText
                             text={socialLink.title}
                             className='text-xs font-bold text-foreground/85 lg:text-lg'
@@ -193,7 +193,7 @@ export function SocialLinkItem({ socialLink, provided }: SocialLinkItemProps) {
                         <p className='lg:text-md text-xs text-muted-foreground'>
                             {socialLink.url}
                         </p>
-                    </>
+                    </div>
                 )}
             </div>
             <div className='ml-auto flex flex-col items-center gap-x-1 pr-0 lg:flex-row lg:pr-4'>

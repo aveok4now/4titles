@@ -2,7 +2,7 @@
 
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { cn } from '@/utils/tw-merge'
-import { Check, ChevronsUpDown, X } from 'lucide-react'
+import { Check, ChevronsUpDown, Search, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { Badge } from './badge'
 import { Button } from './button'
@@ -34,6 +34,7 @@ type ResponsiveComboboxProps = {
     options: ComboboxOption[]
     value: string[]
     onChange: (value: string[]) => void
+    onSearch?: (searchTerm: string) => void
     placeholder?: string
     emptyPlaceholder?: string
     multiple?: boolean
@@ -50,6 +51,7 @@ export function ResponsiveCombobox({
     options,
     value,
     onChange,
+    onSearch,
     placeholder = 'Выберите значения',
     emptyPlaceholder = 'Нет доступных значений',
     multiple = true,
@@ -107,7 +109,19 @@ export function ResponsiveCombobox({
     }
 
     useEffect(() => {
-        setSearch('')
+        if (onSearch && search.trim().length > 0) {
+            const delayDebounce = setTimeout(() => {
+                onSearch(search.trim())
+            }, 500)
+
+            return () => clearTimeout(delayDebounce)
+        }
+    }, [search, onSearch])
+
+    useEffect(() => {
+        if (!open) {
+            setSearch('')
+        }
     }, [open])
 
     if (isDesktop) {

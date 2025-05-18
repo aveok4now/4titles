@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/common/tabs'
 import { Heading } from '@/components/ui/elements/Heading'
 import { useTranslations } from 'next-intl'
+import { FavoriteCollectionsSection } from './FavoriteCollectionsSection'
 import { FavoriteLocationsSection } from './FavoriteLocationsSection'
 import { FavoriteTitlesSection } from './FavoriteTitlesSection'
 
@@ -37,11 +38,21 @@ export function FavoritesContent() {
                         >
                             {t('tabs.locations')}
                         </TabsTrigger>
+                        <TabsTrigger
+                            value='collections'
+                            className='flex-1 text-center'
+                        >
+                            {t('tabs.collections')}
+                        </TabsTrigger>
                     </TabsList>
                 </div>
 
                 <TabsContent value='titles' className='mt-5 space-y-6'>
                     <FavoriteTitlesSection />
+                </TabsContent>
+
+                <TabsContent value='collections' className='mt-5 space-y-6'>
+                    <FavoriteCollectionsSection />
                 </TabsContent>
 
                 <TabsContent value='locations' className='mt-5 space-y-6'>

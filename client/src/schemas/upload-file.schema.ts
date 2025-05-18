@@ -10,4 +10,5 @@ export const uploadFileSchema = z.object({
         ])
         .optional(),
 })
+
 export type UploadFileSchemaType = z.infer<typeof uploadFileSchema>

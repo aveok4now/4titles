@@ -1,0 +1,7 @@
+mutation UpdateCollection($input: UpdateCollectionInput!, $coverImage: Upload) {
+    updateCollection(input: $input, coverImage: $coverImage) {
+        id
+        slug
+        title
+    }
+}

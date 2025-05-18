@@ -1,0 +1,3 @@
+mutation RemoveCollectionCoverImage($removeCollectionCoverImageId: String!) {
+    removeCollectionCoverImage(id: $removeCollectionCoverImageId)
+}

@@ -1,0 +1,3 @@
+mutation RemoveCollectionItem($input: RemoveCollectionItemInput!) {
+    removeCollectionItem(input: $input)
+}

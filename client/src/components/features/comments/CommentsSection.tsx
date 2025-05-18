@@ -46,12 +46,6 @@ interface CommentsSectionProps {
     commentableId: string
     commentableType: CommentableType
     locale?: string
-    containerComponent?: React.ComponentType<{
-        delay?: number
-        title: string
-        description?: string
-        children: React.ReactNode
-    }>
 }
 
 const COMMENTS_PER_PAGE = 10
@@ -736,55 +730,49 @@ export function CommentsSection({
                         <LoaderSpinner />
                     ) : (
                         <div className='w-full space-y-4'>
-                            {comments.length > 1 && (
-                                <>
-                                    <div className='mb-4 flex flex-col items-center justify-between gap-2 sm:flex-row'>
-                                        <div className='relative w-full sm:w-64'>
-                                            <Input
-                                                placeholder={t(
-                                                    'search.placeholder',
-                                                )}
-                                                value={searchQuery}
-                                                onChange={handleSearchChange}
-                                                onKeyDown={handleSearchSubmit}
-                                                className='bg-background pl-8 pr-10'
-                                            />
-                                            <div className='absolute left-2 top-1/2 -translate-y-1/2'>
-                                                <Search className='size-4 text-muted-foreground' />
-                                            </div>
-                                        </div>
-
-                                        <div className='w-full sm:w-48'>
-                                            <Select
-                                                value={sortOption}
-                                                onValueChange={handleSortChange}
-                                            >
-                                                <SelectTrigger>
-                                                    <SelectValue
-                                                        placeholder={t(
-                                                            'sort.placeholder',
-                                                        )}
-                                                    />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    {Object.values(
-                                                        CommentSortOption,
-                                                    ).map(option => (
-                                                        <SelectItem
-                                                            key={option}
-                                                            value={option}
-                                                        >
-                                                            {t(
-                                                                `sort.${option.toLowerCase()}`,
-                                                            )}
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectContent>
-                                            </Select>
-                                        </div>
+                            <div className='mb-4 flex flex-col items-center justify-between gap-2 sm:flex-row'>
+                                <div className='relative w-full sm:w-64'>
+                                    <Input
+                                        placeholder={t('search.placeholder')}
+                                        value={searchQuery}
+                                        onChange={handleSearchChange}
+                                        onKeyDown={handleSearchSubmit}
+                                        className='bg-background pl-8 pr-10'
+                                    />
+                                    <div className='absolute left-2 top-1/2 -translate-y-1/2'>
+                                        <Search className='size-4 text-muted-foreground' />
                                     </div>
-                                </>
-                            )}
+                                </div>
+
+                                <div className='w-full sm:w-48'>
+                                    <Select
+                                        value={sortOption}
+                                        onValueChange={handleSortChange}
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue
+                                                placeholder={t(
+                                                    'sort.placeholder',
+                                                )}
+                                            />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {Object.values(
+                                                CommentSortOption,
+                                            ).map(option => (
+                                                <SelectItem
+                                                    key={option}
+                                                    value={option}
+                                                >
+                                                    {t(
+                                                        `sort.${option.toLowerCase()}`,
+                                                    )}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                            </div>
 
                             {isLoading && !comments.length ? (
                                 <LoaderSpinner />
