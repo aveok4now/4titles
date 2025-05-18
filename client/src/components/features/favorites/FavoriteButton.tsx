@@ -83,7 +83,9 @@ export const FavoriteButton = memo(
                             t(
                                 favorableType === FavorableType.Title
                                     ? 'titleRemoved'
-                                    : 'locationRemoved',
+                                    : favorableType === FavorableType.Collection
+                                      ? 'collectionRemoved'
+                                      : 'locationRemoved',
                             ),
                         )
 
@@ -110,7 +112,9 @@ export const FavoriteButton = memo(
                             t(
                                 favorableType === FavorableType.Title
                                     ? 'titleAdded'
-                                    : 'locationAdded',
+                                    : favorableType === FavorableType.Collection
+                                      ? 'collectionAdded'
+                                      : 'locationAdded',
                             ),
                         )
 

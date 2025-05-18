@@ -89,5 +89,24 @@ query FindUserFavorites($filters: FindFavoritesInput!) {
                 }
             }
         }
+        collection {
+            id
+            title
+            description
+            slug
+            coverImage
+            isFavorite
+            isPrivate
+            itemsCount
+            type
+            commentsCount
+            favoritesCount
+            user {
+                id
+                username
+                avatar
+            }
+            createdAt
+        }
     }
 }

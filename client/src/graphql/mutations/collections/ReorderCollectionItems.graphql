@@ -1,0 +1,3 @@
+mutation ReorderCollectionItems($list: [CollectionItemOrderInput!]!) {
+    reorderCollectionItems(list: $list)
+}

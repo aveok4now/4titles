@@ -1,14 +1,7 @@
 'use client'
 
 import { Separator } from '@/components/ui/common/separator'
-import {
-    CircleHelp,
-    Compass,
-    Home,
-    Newspaper,
-    Route as RouteIcon,
-    Star,
-} from 'lucide-react'
+import { CircleHelp, Compass, Home, Shapes, Star } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Route } from '../types/sidebar.types'
 import { SidebarItem } from '../ui/SidebarItem'
@@ -29,9 +22,9 @@ export function UserNav() {
             icon: Compass,
         },
         {
-            label: t('routes'),
-            href: '/routes',
-            icon: RouteIcon,
+            label: t('collections'),
+            href: '/collections',
+            icon: Shapes,
         },
         {
             label: t('favorites'),

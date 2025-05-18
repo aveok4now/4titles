@@ -1,0 +1,96 @@
+# import "../fragments/CommentFragment.graphql"
+
+query FindCollectionBySlug($slug: String!) {
+    findCollectionBySlug(slug: $slug) {
+        id
+        coverImage
+        title
+        description
+        type
+        user {
+            id
+            username
+            avatar
+        }
+        isFavorite
+        isPrivate
+        favoritesCount
+        itemsCount
+        commentsCount
+        createdAt
+        updatedAt
+        comments {
+            ...CommentFields
+        }
+        titleItems {
+            id
+            position
+            title {
+                id
+                slug
+                images {
+                    posters {
+                        iso_639_1
+                        file_path
+                    }
+                    backdrops {
+                        iso_639_1
+                        file_path
+                    }
+                }
+                translations {
+                    title
+                    overview
+                    language {
+                        id
+                        iso
+                        nativeName
+                        englishName
+                    }
+                }
+            }
+        }
+        locationItems {
+            id
+            position
+            locationId
+            location {
+                id
+                address
+                formattedAddress
+                city
+                coordinates {
+                    x
+                    y
+                }
+                country {
+                    englishName
+                    flagUrl
+                    iso
+                    name
+                }
+                user {
+                    username
+                    avatar
+                }
+                titleFilmingLocations {
+                    title {
+                        id
+                        slug
+                        translations {
+                            title
+                            language {
+                                id
+                                iso
+                                nativeName
+                                englishName
+                            }
+                        }
+                    }
+                }
+                createdAt
+                updatedAt
+            }
+        }
+    }
+}

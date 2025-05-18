@@ -34,7 +34,7 @@
             "userNav": {
                 "home": "Home",
                 "titles": "Catalog",
-                "routes": "Thematic Routes",
+                "collections": "Collections",
                 "favorites": "Favorites",
                 "faq": "FAQ"
             },
@@ -409,12 +409,251 @@
             }
         }
     },
+    "collections": {
+        "heading": "Collections",
+        "description": "Collections are sets of titles or filming locations that you can create and edit yourself to save for future viewing or visiting places, as well as share your preferences with the community.",
+        "tabs": {
+            "all": "All",
+            "titles": "Titles",
+            "locations": "Filming Locations"
+        },
+        "form": {
+            "create": {
+                "heading": "Create Collection",
+                "description": "Create a new collection of titles or filming locations."
+            },
+            "edit": {
+                "heading": "Edit Collection \"{title}\"",
+                "description": "Edit information about the collection and items in it."
+            },
+            "actions": {
+                "back": "Back",
+                "save": "Save",
+                "create": "Create"
+            },
+            "fields": {
+                "type": {
+                    "label": "Collection Type",
+                    "placeholder": "Select collection type",
+                    "title": "Titles",
+                    "location": "Filming Locations",
+                    "description": "The type determines what this collection will contain - movies/TV series or their filming locations."
+                },
+                "title": {
+                    "label": "Title",
+                    "placeholder": "For example: \"Famous castles filmed in movies\"",
+                    "description": "Short and concise name for your collection.",
+                    "errors": {
+                        "minLength": "Title must contain at least 3 characters",
+                        "maxLength": "Title must not exceed 255 characters"
+                    }
+                },
+                "description": {
+                    "label": "Description",
+                    "placeholder": "Tell us what makes this collection special...",
+                    "description": "Optional description that helps other users understand what this collection represents.",
+                    "errors": {
+                        "maxLength": "Description must not exceed 500 characters"
+                    }
+                },
+                "coverImage": {
+                    "label": "Cover Image",
+                    "preview": "Image preview",
+                    "description": "Upload an image that will be the cover of the collection. Supported formats: JPG, JPEG, PNG, WEBP, GIF (max 10 MB).",
+                    "errors": {
+                        "invalidType": "Unsupported file format. Please use JPG, JPEG, PNG, WEBP or GIF.",
+                        "invalidSize": "File size exceeds 10 MB"
+                    }
+                },
+                "isPrivate": {
+                    "label": "Private Collection",
+                    "description": "If enabled, the collection will only be visible to you."
+                }
+            },
+            "items": {
+                "search": "Search and add items",
+                "loading": "Loading...",
+                "title": {
+                    "heading": "Title collection items",
+                    "description": "Find and add movies or TV series to the collection",
+                    "searchPlaceholder": "Search titles",
+                    "searchInputPlaceholder": "Start typing a movie or TV series title...",
+                    "selectTitle": "Select titles",
+                    "selected": "{count, plural, one {# title selected} other {# titles selected}}",
+                    "noResults": "No titles found",
+                    "empty": {
+                        "heading": "No titles in the collection yet",
+                        "description": "Use the search above to find and add movies or TV series"
+                    }
+                },
+                "location": {
+                    "heading": "Filming location collection items",
+                    "description": "Find and add filming locations to the collection",
+                    "searchPlaceholder": "Search locations",
+                    "searchInputPlaceholder": "Start typing an address or location description...",
+                    "selectTitle": "Select locations",
+                    "selected": "{count, plural, one {# location selected} other {# locations selected}}",
+                    "noResults": "No locations found",
+                    "empty": {
+                        "heading": "No locations in the collection yet",
+                        "description": "Use the search above to find and add filming locations"
+                    }
+                }
+            },
+            "messages": {
+                "createSuccess": "Collection created successfully",
+                "createError": "Error creating collection",
+                "updateSuccess": "Collection updated successfully",
+                "updateError": "Error updating collection",
+                "removeItemSuccess": "Item removed from collection successfully",
+                "removeItemError": "Error removing item",
+                "reorderSuccess": "Item order changed",
+                "reorderError": "Error changing item order"
+            },
+            "validationMessages": {
+                "title": {
+                    "minLength": "Title must contain at least 5 characters",
+                    "maxLength": "Title must not exceed 255 characters"
+                },
+                "description": {
+                    "maxLength": "Description must not exceed 500 characters"
+                }
+            }
+        },
+        "filters": {
+            "search": {
+                "label": "Search",
+                "placeholder": "Search by collection title and description"
+            },
+            "type": {
+                "label": "Type",
+                "placeholder": "Select collection type",
+                "all": "All",
+                "title": "Titles",
+                "location": "Filming Locations"
+            },
+            "title": "Title",
+            "description": "Description",
+            "createdAt": "Creation date",
+            "actions": {
+                "apply": "Apply",
+                "clear": "Reset"
+            },
+            "sort": {
+                "label": "Sort",
+                "placeholder": "Select order",
+                "default": "Default",
+                "top_rated": "Top rated",
+                "most_popular_year": "Popular this year",
+                "most_popular_season": "Popular this season",
+                "most_popular_week": "Popular this week",
+                "recently_added": "Recently added",
+                "random": "Random"
+            },
+            "mine": {
+                "label": "My collections"
+            }
+        },
+        "card": {
+            "badge": {
+                "title": "Title",
+                "location": "Filming Location"
+            }
+        },
+        "list": {
+            "emptySearchMessage": "Nothing found. Try changing your query",
+            "emptyMessage": "No results found for the selected filters."
+        },
+        "createNew": "Create Collection",
+        "details": {
+            "title": "Collection \"{title}\"",
+            "search": {
+                "noResults": "No locations found"
+            },
+            "noDescription": "No description yet",
+            "lastUpdate": "Last updated: {date}",
+            "badge": {
+                "title": "Title",
+                "location": "Filming Location"
+            },
+            "edit": "Edit",
+            "delete": "Delete",
+            "deleteSuccess": "Collection deleted successfully",
+            "deleteError": "Error deleting collection",
+            "deleteErrorDescription": "Try again or try again later",
+            "confirmDelete": {
+                "heading": "Delete Collection",
+                "message": "Are you sure you want to delete the collection \"{title}\"? This action cannot be undone."
+            },
+            "report": "Report",
+            "reportDialog": {
+                "heading": "Report Collection",
+                "messagePlaceholder": "Describe the reason for reporting collection \"{title}\"...",
+                "submitButton": "Submit Report",
+                "successMessage": "Collection report submitted successfully",
+                "errorMessage": "Error submitting collection report",
+                "validationMessages": {
+                    "messageRequired": "Please provide a reason for reporting",
+                    "messageMinLength": "Report must contain at least 10 characters",
+                    "messageMaxLength": "Report must not exceed 500 characters"
+                },
+                "limitExceededMessage": "Limit exceeded",
+                "limitExceededMessageDescription": "You can report collections no more than 10 times per day"
+            },
+            "titleCollection": {
+                "heading": "Collection titles",
+                "description": "{count}"
+            },
+            "locationCollection": {
+                "heading": "Collection filming locations",
+                "description": "{count}"
+            },
+            "comments": {
+                "heading": "Comments",
+                "description": "Here you can view and add comments to the collection"
+            },
+            "empty": {
+                "heading": "This collection doesn't have any items yet",
+                "addItems": "Add items"
+            }
+        },
+        "edit": {
+            "heading": "Edit Collection \"{title}\"",
+            "description": "Here you can completely edit the collection's basic information",
+            "actions": {
+                "cancel": "Cancel",
+                "save": "Save"
+            },
+            "fields": {
+                "title": {
+                    "label": "Title",
+                    "placeholder": "Specify collection title, e.g.: \"Films shot in Russia\"",
+                    "description": "Collection title should be unique and contain no more than 30 characters."
+                },
+                "description": {
+                    "label": "Description",
+                    "placeholder": "Specify collection description",
+                    "description": "Collection description should be unique and contain no more than 300 characters."
+                },
+                "coverImage": {
+                    "label": "Collection Cover",
+                    "placeholder": "Specify collection cover",
+                    "description": "Supported formats: JPG, JPEG, PNG, WEBP or GIF (max 10 MB)"
+                },
+                "isPrivate": {
+                    "label": "Privacy",
+                    "description": "If you want to make the collection private, check this box"
+                }
+            }
+        }
+    },
     "favorites": {
         "heading": "Favorites",
         "description": "All your favorite titles and filming locations are gathered here",
         "tabs": {
             "titles": "Titles",
-            "locations": "Filming Locations"
+            "locations": "Filming Locations",
+            "collections": "Collections"
         },
         "locations": {
             "noLocations": {
@@ -431,6 +670,12 @@
                 "description": "Add interesting movies and series to your favorites to quickly revisit them later"
             },
             "endOfList": "You've viewed all your favorite titles"
+        },
+        "collections": {
+            "noCollections": {
+                "heading": "You don't have any favorite collections yet",
+                "description": "Add interesting collections to your favorites to quickly revisit them later"
+            }
         },
         "titleCard": {
             "noPoster": "Image unavailable"
@@ -835,6 +1080,7 @@
         "filmingLocations": {
             "heading": "Filming Locations",
             "description": "This map features most of the locations where '{title}' was filmed. You can see the exact position of each site, read descriptions, and discover which scenes were shot there. Click on the markers or select from the list to get more information.",
+            "filmingTitles": "Filmed here: {titles}",
             "emptyDescription": "No filming locations available for {type, select, TV {series} MOVIE {movie} other {title}} «{title}» yet. You can contribute by clicking 'Add Location' and submitting the form. We'll notify you about moderation results.",
             "search": {
                 "placeholder": "Search locations...",
@@ -848,7 +1094,8 @@
                 "closeButton": "Close",
                 "linkCopied": "Link copied to clipboard",
                 "shareTitle": "Filming Location for '{title}': {location}",
-                "shareDescription": "Learn more about '{location}', a filming location for {type, select, TV {show} MOVIE {movie} other {title}} '{title}' on 4Titles website"
+                "shareDescription": "Learn more about '{location}', a filming location for {type, select, TV {show} MOVIE {movie} other {title}} '{title}' on 4Titles website",
+                "authRequiredMessage": "You need to log in to share locations"
             },
             "addLocation": {
                 "heading": "Add Filming Location",
@@ -1060,6 +1307,8 @@
             "titleRemoved": "Title removed from favorites",
             "locationRemoved": "Location removed from favorites",
             "loginRequired": "You need to log in to manage favorites",
+            "collectionAdded": "Collection added to favorites",
+            "collectionRemoved": "Collection removed from favorites",
             "error": "An error occurred while changing favorites"
         },
         "dataTable": {
