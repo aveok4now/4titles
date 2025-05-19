@@ -14,7 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
-import { PasswordField } from '../../../ui/elements/form-fields'
+import { PasswordField } from '../../../../ui/elements/form-fields'
 
 export function ChangePasswordForm() {
     const t = useTranslations('dashboard.settings.account.password')

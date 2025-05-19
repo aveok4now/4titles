@@ -16,7 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
-import { EmailField } from '../../../ui/elements/form-fields'
+import { EmailField } from '../../../../ui/elements/form-fields'
 
 export function ChangeEmailForm() {
     const t = useTranslations('dashboard.settings.account.email')
