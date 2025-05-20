@@ -378,7 +378,9 @@ export const TitleFilmingLocationsListItem = forwardRef<
                             <div className='mt-2 flex items-end gap-2'>
                                 <span className='text-xs text-muted-foreground'>
                                     {flItemT('items.author.heading')}:{' '}
-                                    <Link href={'/' + location.user.username}>
+                                    <Link
+                                        href={`/profile/${location.user.username}`}
+                                    >
                                         {location.user.username}
                                     </Link>
                                 </span>
@@ -388,7 +390,7 @@ export const TitleFilmingLocationsListItem = forwardRef<
                                     align='end'
                                 >
                                     <NextLink
-                                        href={'/' + location.user.username}
+                                        href={`/profile/${location.user.username}`}
                                     >
                                         <ProfileAvatar
                                             profile={{

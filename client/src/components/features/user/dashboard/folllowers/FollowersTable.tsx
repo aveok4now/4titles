@@ -126,7 +126,7 @@ export function FollowersTable() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent side='right'>
                         <Link
-                            href={`/${row.original.follower?.username}`}
+                            href={`/profile/${row.original.follower?.username}`}
                             target='_blank'
                         >
                             <DropdownMenuItem>

@@ -23,7 +23,6 @@ async function findProfileByUsername(params: { username: string }) {
         })
 
         const data = await response.json()
-        console.log(data)
 
         return {
             profile: data.data
