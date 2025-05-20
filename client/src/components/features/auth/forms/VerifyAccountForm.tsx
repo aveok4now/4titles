@@ -58,7 +58,7 @@ export function VerifyAccountForm() {
     }, [token, verify, handleVerifyError])
 
     return (
-        <AuthWrapper heading={t('heading')}>
+        <AuthWrapper heading={t('heading')} showChildrenAnimation={false}>
             <div className='flex items-center justify-center'>
                 <Spinner size='xl' color='border-primary' />
             </div>

@@ -194,6 +194,43 @@
         },
         "viewAll": "View all"
     },
+    "profile": {
+        "info": {
+            "follow": "Follow",
+            "unfollow": "Unfollow",
+            "memberSince": "Member since {date}",
+            "followSuccess": "Successfully followed",
+            "followSuccessDescription": "You are now following {username}",
+            "followError": "Follow error",
+            "unfollowSuccess": "Successfully unfollowed",
+            "unfollowSuccessDescription": "You are no longer following {username}",
+            "unfollowError": "Unfollow error"
+        },
+        "socials": {
+            "heading": "Social Networks"
+        },
+        "statistics": {
+            "heading": "Statistics",
+            "locationsAdded": "{count, plural, one {location added} other {locations added}}",
+            "collectionsAdded": "{count, plural, one {collection created} other {collections created}}",
+            "commentsCreated": "{count, plural, one {comment posted} other {comments posted}}",
+            "follow": {
+                "followers": "{count, plural, one {follower} other {followers}}",
+                "following": "{count, plural, one {following} other {following}}"
+            }
+        },
+        "activity": {
+            "heading": "Activity",
+            "noActivity": "No activity yet",
+            "createdCollection": "Created collection",
+            "addedLocation": "Added location",
+            "itemsCount": "{count, plural, one {# item} other {# items}}"
+        },
+        "bio": {
+            "heading": "About",
+            "noBio": "User hasn't provided any bio"
+        }
+    },
     "titles": {
         "heading": "Catalog",
         "description": "Discover movies and series from around the world",

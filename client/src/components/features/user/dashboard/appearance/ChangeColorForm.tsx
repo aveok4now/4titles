@@ -23,7 +23,6 @@ export function ChangeColorForm() {
                             <button
                                 key={index}
                                 onClick={() => config.setTheme(theme.name)}
-                                // className='flex items-center justify-center'
                                 style={
                                     {
                                         '--theme-primary': `hsl(${theme.color})`,

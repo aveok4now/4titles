@@ -1,6 +1,7 @@
 'use client'
 
 import { BentoCard, BentoGrid } from '@/components/ui/custom/content/bento-grid'
+import { CollectionType } from '@/graphql/generated/output'
 import { BellIcon, MapPinnedIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { FilmingLocationsGlobe } from '../filming-locations/FilmingLocationsGlobe'
@@ -14,7 +15,7 @@ export function AboutGrid() {
             Icon: MapPinnedIcon,
             name: t('filmingLocations.heading'),
             description: t('filmingLocations.description'),
-            href: '/filming-locations',
+            href: `/collections?type=${CollectionType.Location}`,
             cta: t('filmingLocations.cta'),
             className: 'col-span-3 lg:col-span-2',
             background: <FilmingLocationsGlobe locations={[]} />,

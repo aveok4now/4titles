@@ -219,7 +219,7 @@ export function CollectionDetails({
 
                         <div className='absolute left-4 top-4'>
                             <div className='flex items-center gap-4'>
-                                <Link href={`/${user?.username}`}>
+                                <Link href={`/profile/${user?.username}`}>
                                     <ProfileAvatar profile={user} size='sm' />
                                 </Link>
                                 <div className='flex flex-col'>

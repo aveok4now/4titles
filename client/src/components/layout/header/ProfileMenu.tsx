@@ -57,10 +57,9 @@ export function ProfileMenu() {
                         />
                     </div>
                     <DropdownMenuSeparator />
-                    <Link href={`/${profile.username}`}>
+                    <Link href={`/profile/${profile.username}`}>
                         <DropdownMenuItem>
-                            <User className='mr-2 size-2' />
-                            {t('me')}
+                            <User className='mr-2 size-2' /> {t('me')}
                         </DropdownMenuItem>
                     </Link>
                     <Link href={`/dashboard/settings`}>

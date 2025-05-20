@@ -280,8 +280,8 @@ export function CommentItem({
         >
             <div className='flex gap-2 overflow-hidden'>
                 <div className='flex-shrink-0 self-start pt-1'>
-                    <Link href={`/${comment.user?.username}`}>
-                        <ProfileAvatar profile={comment.user} size='sm' />
+                    <Link href={`/profile/${comment.user?.username}`}>
+                        <ProfileAvatar profile={comment.user} size='sm' />{' '}
                     </Link>
                 </div>
 
@@ -289,7 +289,7 @@ export function CommentItem({
                     <div className='flex flex-wrap items-center justify-between gap-1 sm:flex-nowrap'>
                         <div className='flex max-w-[calc(100%-40px)] flex-wrap items-center gap-1 sm:gap-2'>
                             <Link
-                                href={`/${comment.user?.username}`}
+                                href={`/profile/${comment.user?.username}`}
                                 className='max-w-[120px] truncate text-sm font-semibold hover:underline sm:max-w-none'
                             >
                                 {comment.user?.username}
