@@ -184,16 +184,15 @@ export function ProfileView({ profile }: ProfileViewProps) {
                                 />
                             </CardTitle>
                             <div className='flex items-center text-muted-foreground'>
-                                <User className='mr-1 size-4 flex-shrink-0' />
                                 <span className='truncate'>
                                     @{profile.username}
                                 </span>
                             </div>
                             <div className='flex items-center text-muted-foreground'>
-                                <Mail className='mr-1 size-4 flex-shrink-0' />
+                                <Mail className='mr-1 size-4 flex-shrink-0 text-primary' />
                                 <Link
                                     href={`mailto:${profile.email}`}
-                                    className='truncate'
+                                    className='text-md truncate'
                                 >
                                     {profile.email}
                                 </Link>
@@ -234,11 +233,10 @@ export function ProfileView({ profile }: ProfileViewProps) {
                             <div className='mt-4 flex flex-col gap-4 sm:flex-row'>
                                 <div className='flex flex-1 flex-col items-center rounded-lg border border-border p-4 text-center'>
                                     <MapPin className='mb-2 size-5 text-primary' />
-                                    <span className='text-xl font-bold'>
+                                    <span className='text-2xl font-bold'>
                                         <CountUp
                                             to={profile.locationsAdded || 0}
                                             duration={1}
-                                            className='text-xl'
                                         />
                                     </span>
                                     <span className='text-center text-xs text-muted-foreground'>
@@ -250,7 +248,7 @@ export function ProfileView({ profile }: ProfileViewProps) {
 
                                 <div className='flex flex-1 flex-col items-center rounded-lg border border-border p-4'>
                                     <Bookmark className='mb-2 size-5 text-primary' />
-                                    <span className='text-xl font-bold'>
+                                    <span className='text-2xl font-bold'>
                                         <CountUp
                                             to={profile.collectionsAdded || 0}
                                             duration={1}
@@ -266,7 +264,7 @@ export function ProfileView({ profile }: ProfileViewProps) {
 
                                 <div className='flex flex-1 flex-col items-center rounded-lg border border-border p-4 text-center'>
                                     <MessageSquare className='mb-2 size-5 text-primary' />
-                                    <span className='text-lg font-bold'>
+                                    <span className='text-2xl font-bold'>
                                         <CountUp
                                             to={profile.commentsCreated || 0}
                                             duration={1}
@@ -285,7 +283,7 @@ export function ProfileView({ profile }: ProfileViewProps) {
                                     <h3 className='text-sm font-medium'>
                                         {t('followers')}
                                     </h3>
-                                    <span className='text-lg font-bold'>
+                                    <span className='text-2xl font-bold'>
                                         <CountUp
                                             to={profile.followers?.length || 0}
                                             duration={1}
@@ -297,7 +295,7 @@ export function ProfileView({ profile }: ProfileViewProps) {
                                     <h3 className='text-sm font-medium'>
                                         {t('following')}
                                     </h3>
-                                    <span className='text-lg font-bold'>
+                                    <span className='text-2xl font-bold'>
                                         <CountUp
                                             to={profile.followings?.length || 0}
                                             duration={1}

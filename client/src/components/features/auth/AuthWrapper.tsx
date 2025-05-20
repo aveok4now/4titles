@@ -14,6 +14,7 @@ interface AuthWrapperProps {
     backButtonLabel?: string
     backButtonHref?: string
     backButtonQuestion?: string
+    showChildrenAnimation?: boolean
 }
 
 export const AuthWrapper = memo(function AuthWrapper({
@@ -22,6 +23,7 @@ export const AuthWrapper = memo(function AuthWrapper({
     backButtonLabel,
     backButtonHref,
     backButtonQuestion,
+    showChildrenAnimation = true,
 }: PropsWithChildren<AuthWrapperProps>) {
     const { setBackgroundType } = useBackground()
 
@@ -54,12 +56,16 @@ export const AuthWrapper = memo(function AuthWrapper({
             <Card className='relative w-full max-w-[450px] overflow-hidden border-border/50 bg-background/60 shadow-md backdrop-blur-sm'>
                 <MagicCard className='p-0'>
                     <CardContent className='px-6 pt-6 sm:px-8'>
-                        <AnimatedContent
-                            distance={100}
-                            config={{ tension: 80, friction: 15 }}
-                        >
-                            {children}
-                        </AnimatedContent>
+                        {showChildrenAnimation ? (
+                            <AnimatedContent
+                                distance={100}
+                                config={{ tension: 80, friction: 15 }}
+                            >
+                                {children}
+                            </AnimatedContent>
+                        ) : (
+                            children
+                        )}
                     </CardContent>
 
                     {showBackButton && (
