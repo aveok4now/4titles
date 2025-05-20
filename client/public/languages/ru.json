@@ -195,32 +195,41 @@
         "viewAll": "Смотреть все"
     },
     "profile": {
-        "memberSince": "Участник с {date}",
-        "followers": "Подписчиков",
-        "following": "Подписок",
-        "follow": "Подписаться",
-        "unfollow": "Отписаться",
-        "followSuccess": "Подписка оформлена",
-        "followSuccessDescription": "Вы подписались на {username}",
-        "unfollowSuccess": "Подписка отменена",
-        "unfollowSuccessDescription": "Вы отписались от {username}",
-        "followError": "Ошибка при подписке",
-        "unfollowError": "Ошибка при отписке",
-        "socialLinks": "Социальные сети",
-        "statistics": "Статистика",
-        "locationsAdded": "{count, plural, one {локация добавлена} few {локации добавлены} many {локаций добавлено} other {локаций добавлено}}",
-        "collectionsAdded": "{count, plural, one {коллекция создана} few {коллекции созданы} many {коллекций создано} other {коллекций создано}}",
-        "commentsCreated": "{count, plural, one {комментарий оставлен} few {комментария оставлены} many {комментариев оставлено} other {комментариев оставлено}}",
-        "activity": "Активность",
-        "recentActivity": "Недавняя активность",
-        "noActivity": "Активности пока нет",
-        "createdCollection": "Создал коллекцию",
-        "itemsCount": "{count, plural, one {# элемент} few {# элемента} many {# элементов} other {# элементов}}",
-        "addedLocation": "Добавил локацию",
-        "bio": "О себе",
-        "noBio": "Информации о себе пока нет",
-        "followersCount": "{count, plural, one {подписчик} few {подписчика} many {подписчиков} other {подписчиков}}",
-        "followingCount": "{count, plural, one {подписка} few {подписки} many {подписок} other {подписок}}"
+        "info": {
+            "follow": "Подписаться",
+            "unfollow": "Отписаться",
+            "memberSince": "Участник с {date}",
+            "followSuccess": "Подписка оформлена",
+            "followSuccessDescription": "Вы подписались на {username}",
+            "followError": "Ошибка при подписке",
+            "unfollowSuccess": "Подписка отменена",
+            "unfollowSuccessDescription": "Вы отписались от {username}",
+            "unfollowError": "Ошибка при отписке"
+        },
+        "socials": {
+            "heading": "Социальные сети"
+        },
+        "statistics": {
+            "heading": "Статистика",
+            "locationsAdded": "{count, plural, one {локация добавлена} few {локации добавлены} many {локаций добавлено} other {локаций добавлено}}",
+            "collectionsAdded": "{count, plural, one {коллекция создана} few {коллекции созданы} many {коллекций создано} other {коллекций создано}}",
+            "commentsCreated": "{count, plural, one {комментарий оставлен} few {комментария оставлены} many {комментариев оставлено} other {комментариев оставлено}}",
+            "follow": {
+                "followersCount": "{count, plural, one {подписчик} few {подписчика} many {подписчиков} other {подписчиков}}",
+                "followingCount": "{count, plural, one {подписка} few {подписки} many {подписок} other {подписок}}"
+            }
+        },
+        "activity": {
+            "heading": "Активность",
+            "noActivity": "Активности пока нет",
+            "createdCollection": "Создал коллекцию",
+            "addedLocation": "Добавил локацию",
+            "itemsCount": "{count, plural, one {# элемент} few {# элемента} many {# элементов} other {# элементов}}"
+        },
+        "bio": {
+            "heading": "О себе",
+            "noBio": "Информации о себе пока нет"
+        }
     },
     "titles": {
         "heading": "Каталог",
