@@ -1,13 +1,14 @@
-import { ContentCarouselSection } from '@/components/features/common/ContentCarouselSection'
-import { AboutGrid } from '@/components/features/home/AboutGrid'
-import { HomeCountriesMarquee } from '@/components/features/home/HomeCountriesMarquee'
-import { TitlesCarousel } from '@/components/features/titles/TitlesCarousel'
 import {
     FindTitlesDocument,
     GetCountriesStatisticsDocument,
-    TitleFilterInput,
+    type TitleFilterInput,
     TitleType,
 } from '@/graphql/generated/output'
+
+import { ContentCarouselSection } from '@/components/features/common/ContentCarouselSection'
+import { HomeAboutGrid } from '@/components/features/home/HomeAboutGrid'
+import { HomeCountriesMarquee } from '@/components/features/home/HomeCountriesMarquee'
+import { TitlesCarousel } from '@/components/features/titles/TitlesCarousel'
 import { SERVER_URL } from '@/libs/constants/url.constants'
 import { getTranslations } from 'next-intl/server'
 
@@ -93,9 +94,11 @@ export default async function HomePage() {
         getCountriesStatistics(),
     ])
 
+    const allTitles = [...(movies || []), ...(series || [])].slice(0, 30)
+
     return (
         <div className='space-y-12'>
-            <AboutGrid />
+            <HomeAboutGrid titles={allTitles} />
 
             {movies && movies.length > 0 && (
                 <ContentCarouselSection
