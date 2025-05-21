@@ -178,6 +178,118 @@
                         "time": "Just now"
                     }
                 }
+            },
+            "titles": {
+                "heading": "Titles",
+                "description": "Detailed information about movies and TV series, complemented with filming locations.",
+                "cta": "Browse"
+            },
+            "collections": {
+                "heading": "Collections",
+                "description": "Create collections of movies, TV series or filming locations. Build routes through interesting places.",
+                "cta": "Create",
+                "showcase": {
+                    "europeAdventure": {
+                        "title": "European Adventures",
+                        "description": "Collection of locations from films shot in the most picturesque corners of Europe"
+                    },
+                    "best2023": {
+                        "title": "Best Movies of 2025",
+                        "description": "Selection of films that received high ratings from critics and audiences"
+                    },
+                    "newYorkIcons": {
+                        "title": "Iconic New York Locations",
+                        "description": "Most recognizable locations from films shot in New York"
+                    },
+                    "netflixSeries": {
+                        "title": "Netflix Series",
+                        "description": "Popular Netflix series with interesting filming locations"
+                    },
+                    "historicalDramas": {
+                        "title": "Historical Dramas",
+                        "description": "Collection of historical films with authentic filming locations"
+                    },
+                    "sciFiWonders": {
+                        "title": "Science Fiction",
+                        "description": "Futuristic and unusual filming locations from sci-fi movies"
+                    },
+                    "asianCinema": {
+                        "title": "Asian Cinema",
+                        "description": "Unique locations from popular Asian films and TV series"
+                    },
+                    "crimeThriller": {
+                        "title": "Crime Thrillers",
+                        "description": "Atmospheric filming locations from the best crime thrillers"
+                    },
+                    "familyAdventures": {
+                        "title": "Family Adventures",
+                        "description": "Interesting locations from family-friendly films"
+                    },
+                    "medievalFantasy": {
+                        "title": "Medieval Fantasy",
+                        "description": "Castles and natural locations from popular fantasy sagas"
+                    },
+                    "iconicFilms": {
+                        "title": "Iconic Films of All Time",
+                        "description": "Locations from films that became cultural phenomena of their era"
+                    },
+                    "hiddenGems": {
+                        "title": "Hidden Cinematic Gems",
+                        "description": "Little-known but stunning filming locations from independent cinema"
+                    },
+                    "awardWinners": {
+                        "title": "Award-Winning Films",
+                        "description": "Locations from films awarded with prestigious film prizes"
+                    },
+                    "cultMovies": {
+                        "title": "Cult Movies",
+                        "description": "Filming locations from movies with devoted fan bases"
+                    },
+                    "winterMovies": {
+                        "title": "Perfect Winter Movies",
+                        "description": "Snowy and atmospheric locations from winter films"
+                    },
+                    "summerBlockbusters": {
+                        "title": "Summer Blockbusters",
+                        "description": "Bright and impressive filming locations from summer hits"
+                    },
+                    "holidayFavorites": {
+                        "title": "Holiday Season Favorites",
+                        "description": "Cozy and festive locations to create a special mood"
+                    },
+                    "christmasClassics": {
+                        "title": "Christmas Classics",
+                        "description": "Magical places from beloved Christmas movies"
+                    },
+                    "horrorMarathon": {
+                        "title": "Halloween Horror Marathon",
+                        "description": "Creepy and mysterious locations from classic horror films"
+                    },
+                    "autumnMovies": {
+                        "title": "Movies with Autumn Atmosphere",
+                        "description": "Locations with mesmerizing autumn landscapes"
+                    },
+                    "italianCinema": {
+                        "title": "Films Shot in Italy",
+                        "description": "Picturesque Italian locations from famous films"
+                    },
+                    "parisFilms": {
+                        "title": "Films Shot in Paris",
+                        "description": "Romantic and historical places of the French capital"
+                    },
+                    "scandinavianNoir": {
+                        "title": "Scandinavian Noir Series",
+                        "description": "Atmospheric Nordic locations from crime dramas"
+                    },
+                    "londonFilms": {
+                        "title": "Films Shot in London",
+                        "description": "Iconic places of the British capital in cinema"
+                    },
+                    "japaneseFilms": {
+                        "title": "Best Examples of Japanese Cinema",
+                        "description": "Unique Japanese locations from cult films"
+                    }
+                }
             }
         },
         "movies": {

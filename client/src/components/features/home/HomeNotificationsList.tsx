@@ -49,7 +49,11 @@ const Notification = ({ name, description, icon, color, time }: Item) => {
     )
 }
 
-export function HomeNotificationsList({ className }: { className?: string }) {
+export function HomeNotificationsList({
+    className = 'absolute right-2 top-1 h-[300px] w-full scale-75 border-none transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_10%,#000_100%)] group-hover:scale-90',
+}: {
+    className?: string
+}) {
     const t = useTranslations('home.about.notifications.list')
 
     let notifications = [

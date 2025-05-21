@@ -2,13 +2,13 @@ import { Globe } from '@/components/ui/custom/content/globe'
 import { FilmingLocation } from '@/graphql/generated/output'
 import type { Marker } from 'cobe'
 
-interface FilmingLocationsGlobeProps {
+interface HomeFilmingLocationsGlobeProps {
     locations: FilmingLocation[]
 }
 
-export function FilmingLocationsGlobe({
+export function HomeFilmingLocationsGlobe({
     locations,
-}: FilmingLocationsGlobeProps) {
+}: HomeFilmingLocationsGlobeProps) {
     const markers: Marker[] = locations.map(location => ({
         location: [location.coordinates?.x!, location.coordinates?.y!] as [
             number,
