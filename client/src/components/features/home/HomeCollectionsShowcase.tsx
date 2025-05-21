@@ -19,8 +19,8 @@ export function HomeCollectionsShowcase() {
         },
         {
             id: 2,
-            title: t('best2023.title'),
-            description: t('best2023.description'),
+            title: t('best2025.title'),
+            description: t('best2025.description'),
             color: '#2196F3',
             emoji: '🏆',
         },
