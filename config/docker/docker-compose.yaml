@@ -340,7 +340,7 @@ services:
         GID: ${GID:-1000}
     container_name: titles-admin-php
     volumes:
-      - ./admin:/var/www/admin
+      - ../../admin:/var/www/admin:cached
       - ./admin/php/php.ini:/usr/local/etc/php/php.ini:ro
     environment:
       <<: *common-variables
@@ -363,13 +363,14 @@ services:
     deploy:
       resources:
         limits:
-          memory: 512M
+          memory: 1G
+          cpus: "2.0"
 
   admin-nginx:
     image: nginx:stable
     container_name: titles-admin-nginx
     volumes:
-      - ./admin:/var/www/admin
+      - ../../admin:/var/www/admin
       - ./admin/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
       - "${ADMIN_PORT:-8000}:80"
