@@ -1,0 +1,11 @@
+server.name: kibana
+server.host: "0.0.0.0"
+
+elasticsearch.hosts: ["http://elasticsearch:9200"]
+elasticsearch.serviceAccountToken: "${KIBANA_SERVICE_TOKEN}"
+
+xpack.encryptedSavedObjects.encryptionKey: "fhjskloppd678ehkdfdlliverpoolfcr"
+xpack.reporting.encryptionKey: "pnagqtxxnhrzfmvnjbcwquuvbhpkohdc"
+xpack.security.encryptionKey: "kplhnacmlpqweiruytgsvlcbnmqpdkfj"
+
+telemetry.enabled: false
