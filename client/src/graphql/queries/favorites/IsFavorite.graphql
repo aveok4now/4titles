@@ -1,0 +1,3 @@
+query IsFavorite($input: IsEntityFavoriteInput!) {
+    isFavorite(input: $input)
+}

@@ -1,0 +1,7 @@
+mutation CreateCollection($input: CreateCollectionInput!, $coverImage: Upload) {
+    createCollection(input: $input, coverImage: $coverImage) {
+        id
+        title
+        slug
+    }
+}

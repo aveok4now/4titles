@@ -1,0 +1,47 @@
+query FindTitles($filter: TitleFilterInput) {
+    findTitles(filter: $filter) {
+        id
+        tmdbId
+        originalName
+        slug
+        type
+        category
+        hasLocations
+        releaseDate
+        translations {
+            title
+            language {
+                iso
+            }
+        }
+        countries {
+            type
+            country {
+                englishName
+                flagUrl
+                iso
+                name
+            }
+        }
+        images {
+            backdrops {
+                aspect_ratio
+                height
+                width
+                iso_639_1
+                file_path
+                vote_average
+                vote_count
+            }
+            posters {
+                aspect_ratio
+                height
+                width
+                iso_639_1
+                file_path
+                vote_average
+                vote_count
+            }
+        }
+    }
+}

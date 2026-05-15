@@ -1,0 +1,3 @@
+mutation AddCollectionItem($input: AddCollectionItemInput!) {
+    addCollectionItem(input: $input)
+}

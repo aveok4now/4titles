@@ -1,0 +1,3 @@
+mutation DeleteCollection($deleteCollectionId: String!) {
+    deleteCollection(id: $deleteCollectionId)
+}

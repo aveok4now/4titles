@@ -1,0 +1,45 @@
+query FindProfileByUsername($username: String!) {
+    findProfileByUsername(username: $username) {
+        id
+        email
+        displayName
+        avatar
+        bio
+        username
+        createdAt
+        socialLinks {
+            position
+            title
+            url
+        }
+        followers {
+            follower {
+                avatar
+                username
+            }
+        }
+        followings {
+            following {
+                avatar
+                username
+            }
+        }
+        locationsAdded
+        collectionsAdded
+        commentsCreated
+        activity {
+            periodStart
+            periodEnd
+            filmingLocations {
+                formattedAddress
+                address
+                createdAt
+            }
+            collections {
+                title
+                createdAt
+                itemsCount
+            }
+        }
+    }
+}

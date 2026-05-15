@@ -1,0 +1,1 @@
+export { ProfileBioSection } from './ProfileBioSection'

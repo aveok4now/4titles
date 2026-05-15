@@ -1,0 +1,28 @@
+query FindPopularTitles($limit: Int) {
+    findPopularTitles(limit: $limit) {
+        id
+        originalName
+        slug
+        type
+        category
+        popularity
+        images {
+            posters {
+                aspect_ratio
+                height
+                width
+                iso_639_1
+                file_path
+                vote_average
+                vote_count
+            }
+        }
+        translations {
+            id
+            title
+            language {
+                iso
+            }
+        }
+    }
+}

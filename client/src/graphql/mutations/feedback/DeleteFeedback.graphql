@@ -1,0 +1,3 @@
+mutation DeleteFeedback($deleteFeedbackId: String!) {
+    deleteFeedback(id: $deleteFeedbackId)
+}

@@ -1,0 +1,21 @@
+query FindFilmingLocations($input: FindFilmingLocationsInput!) {
+    findFilmingLocations(input: $input) {
+        id
+        address
+        formattedAddress
+        city
+        titleFilmingLocations {
+            title {
+                translations {
+                    title
+                    language {
+                        id
+                        iso
+                        nativeName
+                        englishName
+                    }
+                }
+            }
+        }
+    }
+}

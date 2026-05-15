@@ -1,0 +1,13 @@
+mutation SubmitFeedback($data: CreateFeedbackInput!) {
+    submitFeedback(data: $data) {
+        success
+        message
+        feedback {
+            id
+            message
+            responseMessage
+            status
+            type
+        }
+    }
+}

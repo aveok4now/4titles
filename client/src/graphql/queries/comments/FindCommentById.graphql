@@ -1,0 +1,29 @@
+# import "../fragments/CommentFragment.graphql"
+
+query FindCommentById($id: String!) {
+    findCommentById(id: $id) {
+        ...CommentFields
+        parent {
+            ...CommentFields
+        }
+        replies {
+            ...CommentFields
+            replies {
+                ...CommentFields
+                replies {
+                    ...CommentFields
+                    replies {
+                        ...CommentFields
+                        replies {
+                            ...CommentFields
+                            totalReplies
+                        }
+                    }
+                }
+            }
+        }
+        title {
+            id
+        }
+    }
+}

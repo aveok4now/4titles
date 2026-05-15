@@ -1,0 +1,1532 @@
+{
+    "layout": {
+        "header": {
+            "logo": {
+                "description": "Filming Locations"
+            },
+            "search": {
+                "placeholder": "Search movies, series, locations..."
+            },
+            "menu": {
+                "login": "Sign In",
+                "register": "Sign Up",
+                "profile": {
+                    "notifications": {
+                        "heading": "Notifications",
+                        "loading": "Loading...",
+                        "empty": "No new notifications",
+                        "disabled": "Notifications are disabled"
+                    },
+                    "me": "Profile",
+                    "successMessage": "Successfully signed out",
+                    "errorMessage": "Sign out error",
+                    "dashboard": "Dashboard",
+                    "logout": "Log Out"
+                }
+            }
+        },
+        "sidebar": {
+            "header": {
+                "expand": "Expand",
+                "collapse": "Collapse",
+                "navigation": "Navigation"
+            },
+            "userNav": {
+                "home": "Home",
+                "titles": "Catalog",
+                "collections": "Collections",
+                "favorites": "Favorites",
+                "faq": "FAQ"
+            },
+            "popularTitleSearches": {
+                "title": "Popular searches"
+            },
+            "dashboardNav": {
+                "settings": "Personal Settings",
+                "followers": "Followers",
+                "filmingLocationProposals": "Filming Location Proposals",
+                "feedbacks": "Feedbacks"
+            }
+        }
+    },
+    "auth": {
+        "register": {
+            "heading": "Create Account",
+            "backButtonLabel": "Sign In",
+            "backButtonQuestion": "Already registered?",
+            "usernameLabel": "Username",
+            "usernameMinLengthValidationError": "Minimum 5 characters",
+            "usernameInvalidCharactersValidationError": "Invalid characters in username",
+            "emailLabel": "Email",
+            "emailValidationError": "Invalid email format",
+            "passwordLabel": "Password",
+            "passwordMinLengthValidationError": "Minimum 8 characters",
+            "passwordWeaknessError": "Requires at least 1 uppercase letter and number",
+            "submitButton": "Create Account",
+            "serverErrorMessage": "Request processing error. Check data or try later",
+            "successAlertTitle": "Registration Confirmation",
+            "successAlertDescription": "Verification email sent. Check spam folder if not received."
+        },
+        "verify": {
+            "heading": "Account Verification",
+            "successMessage": "Account successfully activated",
+            "errorMessage": "Verification Error",
+            "errorMessageDescription": "Link invalid or expired. Contact support."
+        },
+        "login": {
+            "heading": "Authentication",
+            "backButtonLabel": "Sign Up",
+            "backButtonQuestion": "No account?",
+            "loginLabel": "Login",
+            "passwordLabel": "Password",
+            "pinLabel": "Verification Code",
+            "pinDescription": "Enter 6-digit code from authenticator app",
+            "forgotPassword": "Recover Access",
+            "submitButton": "Continue",
+            "totpValidationError": "Invalid security code",
+            "totpValidationErrorDescription": "Verify code or request new one",
+            "credentialsValidationError": "Invalid credentials",
+            "credentialsValidatonErrorDescription": "Check login and password",
+            "serverErrorMessage": "Authorization error. Try again later",
+            "successMessage": "Successfully authenticated"
+        },
+        "recovery": {
+            "resetPassword": {
+                "heading": "Password Recovery",
+                "backButtonLabel": "Sign In",
+                "backButtonQuestion": "Remember password?",
+                "emailLabel": "Email",
+                "emailValidationError": "Valid email required",
+                "emailFieldDescription": "Email used for registration",
+                "submitButton": "Reset Password",
+                "successAlertTitle": "Instructions Sent",
+                "successAlertDescription": "Check email to complete reset procedure",
+                "errorMessage": "Recovery Error",
+                "errorMessageDescription": "Verify email or retry later"
+            },
+            "newPassword": {
+                "heading": "Create New Password",
+                "backButtonLabel": "Cancel",
+                "backButtonQuestion": "Cancel recovery?",
+                "passwordLabel": "New Password",
+                "passwordRepeatLabel": "Confirm Password",
+                "submitButton": "Update Password",
+                "successMessage": "Password changed successfully",
+                "errorMessage": "Password Update Error",
+                "errorMessageDescription": "Use current link from email",
+                "passwordMinLengthValidationError": "Minimum 8 characters",
+                "passwordWeaknessError": "Requires uppercase letter and number",
+                "passwordRepeatError": "Passwords don't match"
+            }
+        },
+        "deactivate": {
+            "heading": "Account Deactivation",
+            "backButtonLabel": "Go to Dashboard",
+            "emailLabel": "Email",
+            "emailDescription": "Your registration email",
+            "passwordLabel": "Password",
+            "passwordDescription": "Your registration password",
+            "pinLabel": "6-digit Code",
+            "pinDescription": "Code sent to your email. Also available via Telegram notifications.",
+            "submitButton": "Deactivate",
+            "successMessage": "Account deactivated successfully",
+            "errorMessage": "Deactivation Error",
+            "confirmationCodeError": "Invalid deactivation code",
+            "confirmationCodeErrorDescription": "Verify code or retry later",
+            "credentialsValidationError": "Invalid email or password",
+            "credentialsValidatonErrorDescription": "Check input data or retry later"
+        }
+    },
+    "home": {
+        "about": {
+            "filmingLocations": {
+                "heading": "Filming Locations",
+                "description": "Over 10,000 filming locations updated hourly.",
+                "cta": "Explore"
+            },
+            "notifications": {
+                "heading": "Notifications",
+                "description": "Receive website or Telegram notifications about changes to your favorite movies, series and locations.",
+                "cta": "Configure",
+                "list": {
+                    "newTitleLocations": {
+                        "name": "New locations for «YOU»",
+                        "time": "14m ago"
+                    },
+                    "favTitleUpdated": {
+                        "name": "Favorite title updated",
+                        "time": "1h ago"
+                    },
+                    "newFollower": {
+                        "name": "New follower",
+                        "time": "10m ago"
+                    },
+                    "siteUpdate": {
+                        "name": "Site update",
+                        "time": "2h ago"
+                    },
+                    "feedbackResponse": {
+                        "name": "Thanks for your feedback!",
+                        "time": "34m ago"
+                    },
+                    "commentReply": {
+                        "name": "Someone replied to your comment",
+                        "time": "5m ago"
+                    },
+                    "totpEnabled": {
+                        "name": "TOTP enabled",
+                        "time": "Just now"
+                    }
+                }
+            },
+            "titles": {
+                "heading": "Titles",
+                "description": "Detailed information about movies and TV series, complemented with filming locations.",
+                "cta": "Browse"
+            },
+            "collections": {
+                "heading": "Collections",
+                "description": "Create collections of movies, TV series or filming locations. Build routes through interesting places.",
+                "cta": "Create",
+                "showcase": {
+                    "europeAdventure": {
+                        "title": "European Adventures",
+                        "description": "Collection of locations from films shot in the most picturesque corners of Europe"
+                    },
+                    "best2025": {
+                        "title": "Best Movies of 2025",
+                        "description": "Selection of films that received high ratings from critics and audiences"
+                    },
+                    "newYorkIcons": {
+                        "title": "Iconic New York Locations",
+                        "description": "Most recognizable locations from films shot in New York"
+                    },
+                    "netflixSeries": {
+                        "title": "Netflix Series",
+                        "description": "Popular Netflix series with interesting filming locations"
+                    },
+                    "historicalDramas": {
+                        "title": "Historical Dramas",
+                        "description": "Collection of historical films with authentic filming locations"
+                    },
+                    "sciFiWonders": {
+                        "title": "Science Fiction",
+                        "description": "Futuristic and unusual filming locations from sci-fi movies"
+                    },
+                    "asianCinema": {
+                        "title": "Asian Cinema",
+                        "description": "Unique locations from popular Asian films and TV series"
+                    },
+                    "crimeThriller": {
+                        "title": "Crime Thrillers",
+                        "description": "Atmospheric filming locations from the best crime thrillers"
+                    },
+                    "familyAdventures": {
+                        "title": "Family Adventures",
+                        "description": "Interesting locations from family-friendly films"
+                    },
+                    "medievalFantasy": {
+                        "title": "Medieval Fantasy",
+                        "description": "Castles and natural locations from popular fantasy sagas"
+                    },
+                    "iconicFilms": {
+                        "title": "Iconic Films of All Time",
+                        "description": "Locations from films that became cultural phenomena of their era"
+                    },
+                    "hiddenGems": {
+                        "title": "Hidden Cinematic Gems",
+                        "description": "Little-known but stunning filming locations from independent cinema"
+                    },
+                    "awardWinners": {
+                        "title": "Award-Winning Films",
+                        "description": "Locations from films awarded with prestigious film prizes"
+                    },
+                    "cultMovies": {
+                        "title": "Cult Movies",
+                        "description": "Filming locations from movies with devoted fan bases"
+                    },
+                    "winterMovies": {
+                        "title": "Perfect Winter Movies",
+                        "description": "Snowy and atmospheric locations from winter films"
+                    },
+                    "summerBlockbusters": {
+                        "title": "Summer Blockbusters",
+                        "description": "Bright and impressive filming locations from summer hits"
+                    },
+                    "holidayFavorites": {
+                        "title": "Holiday Season Favorites",
+                        "description": "Cozy and festive locations to create a special mood"
+                    },
+                    "christmasClassics": {
+                        "title": "Christmas Classics",
+                        "description": "Magical places from beloved Christmas movies"
+                    },
+                    "horrorMarathon": {
+                        "title": "Halloween Horror Marathon",
+                        "description": "Creepy and mysterious locations from classic horror films"
+                    },
+                    "autumnMovies": {
+                        "title": "Movies with Autumn Atmosphere",
+                        "description": "Locations with mesmerizing autumn landscapes"
+                    },
+                    "italianCinema": {
+                        "title": "Films Shot in Italy",
+                        "description": "Picturesque Italian locations from famous films"
+                    },
+                    "parisFilms": {
+                        "title": "Films Shot in Paris",
+                        "description": "Romantic and historical places of the French capital"
+                    },
+                    "scandinavianNoir": {
+                        "title": "Scandinavian Noir Series",
+                        "description": "Atmospheric Nordic locations from crime dramas"
+                    },
+                    "londonFilms": {
+                        "title": "Films Shot in London",
+                        "description": "Iconic places of the British capital in cinema"
+                    },
+                    "japaneseFilms": {
+                        "title": "Best Examples of Japanese Cinema",
+                        "description": "Unique Japanese locations from cult films"
+                    }
+                }
+            }
+        },
+        "movies": {
+            "heading": "Movies",
+            "description": "Do you know where 'The Shawshank Redemption' or 'Interstellar' were filmed? Explore these and thousands of other locations, add your own discoveries and share your experiences!"
+        },
+        "series": {
+            "heading": "TV Series",
+            "description": "From King's Landing in 'Game of Thrones' to Albuquerque in 'Breaking Bad' - explore real places where the events of your favorite TV series took place."
+        },
+        "countries": {
+            "heading": "Countries",
+            "description": "Explore filming locations by geography. Find out which countries were used for filming your favorite movies and TV shows."
+        },
+        "viewAll": "View all"
+    },
+    "profile": {
+        "info": {
+            "follow": "Follow",
+            "unfollow": "Unfollow",
+            "memberSince": "Member since {date}",
+            "followSuccess": "Successfully followed",
+            "followSuccessDescription": "You are now following {username}",
+            "followError": "Follow error",
+            "unfollowSuccess": "Successfully unfollowed",
+            "unfollowSuccessDescription": "You are no longer following {username}",
+            "unfollowError": "Unfollow error"
+        },
+        "socials": {
+            "heading": "Social Networks"
+        },
+        "statistics": {
+            "heading": "Statistics",
+            "locationsAdded": "{count, plural, one {location added} other {locations added}}",
+            "collectionsAdded": "{count, plural, one {collection created} other {collections created}}",
+            "commentsCreated": "{count, plural, one {comment posted} other {comments posted}}",
+            "follow": {
+                "followers": "{count, plural, one {follower} other {followers}}",
+                "following": "{count, plural, one {following} other {following}}"
+            }
+        },
+        "activity": {
+            "heading": "Activity",
+            "noActivity": "No activity yet",
+            "createdCollection": "Created collection",
+            "addedLocation": "Added location",
+            "itemsCount": "{count, plural, one {# item} other {# items}}"
+        },
+        "bio": {
+            "heading": "About",
+            "noBio": "User hasn't provided any bio"
+        }
+    },
+    "titles": {
+        "heading": "Catalog",
+        "description": "Discover movies and series from around the world",
+        "searchHeading": "Search results for: \"{query}\"",
+        "tabs": {
+            "all": "All",
+            "movies": "Movies",
+            "series": "Series"
+        },
+        "filters": {
+            "title": "Filters",
+            "type": {
+                "label": "Type",
+                "placeholder": "Select type",
+                "all": "Movies and series",
+                "movie": "Movie",
+                "tv": "Series"
+            },
+            "category": {
+                "label": "Category",
+                "placeholder": "Select category",
+                "all": "All categories",
+                "popular": "Popular",
+                "top_rated": "Top rated",
+                "trending": "Trending",
+                "upcoming": "Upcoming",
+                "airing": "Airing",
+                "regular": "Regular"
+            },
+            "name": {
+                "label": "Title",
+                "placeholder": "Movie or series title. For example: 'You', 'Breaking Bad', ..."
+            },
+            "releaseDate": {
+                "label": "Release date",
+                "placeholder": "Select date range"
+            },
+            "genres": {
+                "label": "Genres",
+                "placeholder": "Select genres",
+                "title": "Genres",
+                "search": "Search genres",
+                "empty": "No genres found"
+            },
+            "countries": {
+                "label": "Production countries",
+                "placeholder": "Select countries",
+                "title": "Production countries",
+                "search": "Search countries",
+                "empty": "No countries found"
+            },
+            "language": {
+                "label": "Original language",
+                "placeholder": "Select language",
+                "title": "Original language",
+                "search": "Search languages",
+                "empty": "No languages found"
+            },
+            "runtime": {
+                "label": "Runtime ({unit})",
+                "unit": "min."
+            },
+            "rating": {
+                "label": "Rating"
+            },
+            "status": {
+                "label": "Status",
+                "placeholder": "Select statuses",
+                "title": "Statuses",
+                "search": "Search statuses",
+                "empty": "No statuses found",
+                "rumored": "Rumored",
+                "planned": "Planned",
+                "in_production": "In production",
+                "post_production": "Post-production",
+                "released": "Released",
+                "canceled": "Canceled",
+                "airing": "Airing"
+            },
+            "locations": {
+                "label": "Only with filming locations"
+            },
+            "imdbId": {
+                "label": "IMDB ID",
+                "placeholder": "Movie or series identifier on IMDB (www.imdb.com)"
+            },
+            "sort": {
+                "label": "Sort",
+                "placeholder": "Select order",
+                "default": "Default",
+                "popularity_desc": "Popularity (descending)",
+                "popularity_asc": "Popularity (ascending)",
+                "vote_average_desc": "Rating (descending)",
+                "vote_average_asc": "Rating (ascending)",
+                "locations_count_desc": "Locations (descending)",
+                "locations_count_asc": "Locations (ascending)",
+                "release_date_desc": "Release date (newest)",
+                "release_date_asc": "Release date (oldest)",
+                "name_asc": "Original title (A-Z)",
+                "name_desc": "Original title (Z-A)",
+                "last_synced_desc": "Last updated (descending)",
+                "last_synced_asc": "Last updated (ascending)"
+            },
+            "actions": {
+                "apply": "Apply",
+                "reset": "Reset"
+            }
+        },
+        "list": {
+            "emptyMessage": "No results found for the selected filters.",
+            "emptySearchMessage": "Nothing found for your query. Try using advanced filters on the Catalog page."
+        }
+    },
+    "faq": {
+        "heading": "Frequently Asked Questions",
+        "description": "Here you'll find answers to common questions about our service.",
+        "questions": {
+            "whatIs4Titles": {
+                "question": "What is 4Titles?",
+                "answer": "4Titles is a web-GIS application serving as a database of filming locations for movies and TV shows. Our service allows users to explore where their favorite films and series were shot, view locations on a map, suggest new locations, and more."
+            },
+            "howToUse": {
+                "question": "How do I use the website?",
+                "answer": "Simply go to the 'Catalog' section and select a movie or TV show you're interested in. On the title page, you'll find a map with marked filming locations along with information about each location. For full access to all features, we recommend registering an account."
+            },
+            "howToAddLocation": {
+                "question": "How can I add a new location?",
+                "answer": "Log in to your account, open the page of the relevant movie or TV show, and click the 'Add Location' button. Fill out the form with the exact address, description, and reason for adding. Your submission will be reviewed by moderators shortly."
+            },
+            "canEditLocations": {
+                "question": "Can I edit existing locations?",
+                "answer": "Yes, you can suggest edits to existing locations. Open the relevant movie or TV show page, scroll to the locations list, select the 'Edit' option for the desired location, and make your changes. Your proposal will be reviewed by moderators."
+            },
+            "howToTrackProposals": {
+                "question": "How can I track the status of my submissions?",
+                "answer": "All your location submissions and edit proposals are available in the 'Dashboard' → 'Proposals' section. There you can see each proposal's status: under review, approved, declined, or in progress."
+            },
+            "canSaveToFavorites": {
+                "question": "Can I save locations to favorites?",
+                "answer": "Yes, registered users can add locations and titles to favorites. Click the star icon next to a location or title to save it. All saved items are available on your 'Favorites' page."
+            },
+            "howToGetNotifications": {
+                "question": "How do I get updates about new content?",
+                "answer": "In 'Dashboard' → 'Settings' → 'Notifications', you can configure website or Telegram notifications. You'll receive alerts about new locations for favorite titles, updates, and other important events."
+            },
+            "canShareLocation": {
+                "question": "Can I share locations I find?",
+                "answer": "Yes, each location has a 'Share' option. You can copy a direct link to the location or share it on social media platforms."
+            },
+            "whatIfFoundError": {
+                "question": "What should I do if I find an error on the site?",
+                "answer": "We appreciate error reports. You can submit feedback through the form in 'Dashboard' → 'Feedback' or by clicking the 'Report' button on location pages."
+            },
+            "dataProtection": {
+                "question": "How is my personal data protected?",
+                "answer": "We take data security seriously. Passwords are stored encrypted, and personal information is only used for service functionality. You can enable two-factor authentication for additional security."
+            },
+            "whatIsFilmTourism": {
+                "question": "What is film tourism?",
+                "answer": "Film tourism involves visiting locations where famous movies and TV shows were filmed. 4Titles helps plan such trips by providing accurate information about filming locations."
+            },
+            "plansForRoutes": {
+                "question": "Are you planning to create film location routes?",
+                "answer": "Yes, we're developing features to create collections and routes for film tourism. You'll be able to make custom routes or use pre-made ones."
+            },
+            "howOftenUpdated": {
+                "question": "How often is the location database updated?",
+                "answer": "The database updates daily. We add new titles and locations while processing user submissions. Major updates typically follow new popular film and TV releases."
+            },
+            "canUseInfoCommercially": {
+                "question": "Can I use site information for commercial projects?",
+                "answer": "Location information is provided for personal use. Commercial use or publication requires permission - please contact us through the feedback form."
+            },
+            "isMobileAppAvailable": {
+                "question": "Is there a 4Titles mobile app?",
+                "answer": "We're currently developing iOS and Android apps. Meanwhile, you can use the responsive website on mobile devices by adding it to your home screen. We'll announce app releases through site notifications and Telegram."
+            },
+            "howToChangeTheme": {
+                "question": "How do I change the site theme?",
+                "answer": "Change the theme (light, dark, or system) in 'Dashboard' → 'Settings' → 'Appearance'. You can also customize the accent color for a more personalized experience."
+            },
+            "availableLanguages": {
+                "question": "What languages does the site support?",
+                "answer": "The site currently supports Russian and English. Select your preferred language in 'Dashboard' → 'Settings' → 'Appearance' → 'Site Language'. Additional languages are planned."
+            },
+            "howToChangePassword": {
+                "question": "How do I change my account password?",
+                "answer": "Go to 'Dashboard' → 'Settings' → 'Account' → 'Password'. Enter your current password, then your new password twice. New passwords require at least 8 characters, including 1 capital letter and 1 number."
+            },
+            "howToRestorePassword": {
+                "question": "What if I forgot my password?",
+                "answer": "Click 'Forgot password?' on the login page. Enter your email to receive a reset link. If you have Telegram notifications enabled, you'll also receive the link there."
+            },
+            "howTo2FA": {
+                "question": "How do I set up two-factor authentication?",
+                "answer": "Go to 'Dashboard' → 'Settings' → 'Account' → 'TOTP Authentication'. Click 'Enable', scan the QR code with an authenticator app (like Google Authenticator), then enter the 6-digit code to confirm."
+            },
+            "howToDeactivateAccount": {
+                "question": "How do I deactivate my account?",
+                "answer": "In 'Dashboard' → 'Settings' → 'Account' → 'Deactivation', click 'Deactivate'. Confirm with your email and password. After deactivation, you can't log in, and all data will be permanently deleted after 7 days."
+            },
+            "howToManageSessions": {
+                "question": "How do I view and manage active sessions?",
+                "answer": "View all active sessions in 'Dashboard' → 'Settings' → 'Sessions'. This shows all devices logged into your account. You can view session details and terminate any except the current one."
+            },
+            "howToAddSocialLinks": {
+                "question": "How do I add social media links to my profile?",
+                "answer": "Add social links in 'Dashboard' → 'Settings' → 'Profile' → 'Social Media'. Enter the platform name and full profile URL. You can add, edit, remove, and reorder social media links displayed on your profile."
+            },
+            "howToUpdateAvatar": {
+                "question": "How do I update my profile picture?",
+                "answer": "Update your avatar in 'Dashboard' → 'Settings' → 'Profile' → 'Profile Picture'. Click 'Update Profile Image' and select a new image (JPG, JPEG, PNG, WEBP or GIF up to 10MB)."
+            }
+        }
+    },
+    "collections": {
+        "heading": "Collections",
+        "description": "Collections are sets of titles or filming locations that you can create and edit yourself to save for future viewing or visiting places, as well as share your preferences with the community.",
+        "tabs": {
+            "all": "All",
+            "titles": "Titles",
+            "locations": "Filming Locations"
+        },
+        "form": {
+            "create": {
+                "heading": "Create Collection",
+                "description": "Create a new collection of titles or filming locations."
+            },
+            "edit": {
+                "heading": "Edit Collection \"{title}\"",
+                "description": "Edit information about the collection and items in it."
+            },
+            "actions": {
+                "back": "Back",
+                "save": "Save",
+                "create": "Create"
+            },
+            "fields": {
+                "type": {
+                    "label": "Collection Type",
+                    "placeholder": "Select collection type",
+                    "title": "Titles",
+                    "location": "Filming Locations",
+                    "description": "The type determines what this collection will contain - movies/TV series or their filming locations."
+                },
+                "title": {
+                    "label": "Title",
+                    "placeholder": "For example: \"Famous castles filmed in movies\"",
+                    "description": "Short and concise name for your collection.",
+                    "errors": {
+                        "minLength": "Title must contain at least 3 characters",
+                        "maxLength": "Title must not exceed 255 characters"
+                    }
+                },
+                "description": {
+                    "label": "Description",
+                    "placeholder": "Tell us what makes this collection special...",
+                    "description": "Optional description that helps other users understand what this collection represents.",
+                    "errors": {
+                        "maxLength": "Description must not exceed 500 characters"
+                    }
+                },
+                "coverImage": {
+                    "label": "Cover Image",
+                    "preview": "Image preview",
+                    "description": "Upload an image that will be the cover of the collection. Supported formats: JPG, JPEG, PNG, WEBP, GIF (max 10 MB).",
+                    "errors": {
+                        "invalidType": "Unsupported file format. Please use JPG, JPEG, PNG, WEBP or GIF.",
+                        "invalidSize": "File size exceeds 10 MB"
+                    }
+                },
+                "isPrivate": {
+                    "label": "Private Collection",
+                    "description": "If enabled, the collection will only be visible to you."
+                }
+            },
+            "items": {
+                "search": "Search and add items",
+                "loading": "Loading...",
+                "title": {
+                    "heading": "Title collection items",
+                    "description": "Find and add movies or TV series to the collection",
+                    "searchPlaceholder": "Search titles",
+                    "searchInputPlaceholder": "Start typing a movie or TV series title...",
+                    "selectTitle": "Select titles",
+                    "selected": "{count, plural, one {# title selected} other {# titles selected}}",
+                    "noResults": "No titles found",
+                    "empty": {
+                        "heading": "No titles in the collection yet",
+                        "description": "Use the search above to find and add movies or TV series"
+                    }
+                },
+                "location": {
+                    "heading": "Filming location collection items",
+                    "description": "Find and add filming locations to the collection",
+                    "searchPlaceholder": "Search locations",
+                    "searchInputPlaceholder": "Start typing an address or location description...",
+                    "selectTitle": "Select locations",
+                    "selected": "{count, plural, one {# location selected} other {# locations selected}}",
+                    "noResults": "No locations found",
+                    "empty": {
+                        "heading": "No locations in the collection yet",
+                        "description": "Use the search above to find and add filming locations"
+                    }
+                }
+            },
+            "messages": {
+                "createSuccess": "Collection created successfully",
+                "createError": "Error creating collection",
+                "updateSuccess": "Collection updated successfully",
+                "updateError": "Error updating collection",
+                "removeItemSuccess": "Item removed from collection successfully",
+                "removeItemError": "Error removing item",
+                "reorderSuccess": "Item order changed",
+                "reorderError": "Error changing item order"
+            },
+            "validationMessages": {
+                "title": {
+                    "minLength": "Title must contain at least 5 characters",
+                    "maxLength": "Title must not exceed 255 characters"
+                },
+                "description": {
+                    "maxLength": "Description must not exceed 500 characters"
+                }
+            }
+        },
+        "filters": {
+            "search": {
+                "label": "Search",
+                "placeholder": "Search by collection title and description"
+            },
+            "type": {
+                "label": "Type",
+                "placeholder": "Select collection type",
+                "all": "All",
+                "title": "Titles",
+                "location": "Filming Locations"
+            },
+            "title": "Title",
+            "description": "Description",
+            "createdAt": "Creation date",
+            "actions": {
+                "apply": "Apply",
+                "clear": "Reset"
+            },
+            "sort": {
+                "label": "Sort",
+                "placeholder": "Select order",
+                "default": "Default",
+                "top_rated": "Top rated",
+                "most_popular_year": "Popular this year",
+                "most_popular_season": "Popular this season",
+                "most_popular_week": "Popular this week",
+                "recently_added": "Recently added",
+                "random": "Random"
+            },
+            "mine": {
+                "label": "My collections"
+            }
+        },
+        "card": {
+            "badge": {
+                "title": "Title",
+                "location": "Filming Location"
+            }
+        },
+        "list": {
+            "emptySearchMessage": "Nothing found. Try changing your query",
+            "emptyMessage": "No results found for the selected filters."
+        },
+        "createNew": "Create Collection",
+        "details": {
+            "title": "Collection \"{title}\"",
+            "search": {
+                "noResults": "No locations found"
+            },
+            "noDescription": "No description yet",
+            "lastUpdate": "Last updated: {date}",
+            "badge": {
+                "title": "Title",
+                "location": "Filming Location"
+            },
+            "edit": "Edit",
+            "delete": "Delete",
+            "deleteSuccess": "Collection deleted successfully",
+            "deleteError": "Error deleting collection",
+            "deleteErrorDescription": "Try again or try again later",
+            "confirmDelete": {
+                "heading": "Delete Collection",
+                "message": "Are you sure you want to delete the collection \"{title}\"? This action cannot be undone."
+            },
+            "report": "Report",
+            "reportDialog": {
+                "heading": "Report Collection",
+                "messagePlaceholder": "Describe the reason for reporting collection \"{title}\"...",
+                "submitButton": "Submit Report",
+                "successMessage": "Collection report submitted successfully",
+                "errorMessage": "Error submitting collection report",
+                "validationMessages": {
+                    "messageRequired": "Please provide a reason for reporting",
+                    "messageMinLength": "Report must contain at least 10 characters",
+                    "messageMaxLength": "Report must not exceed 500 characters"
+                },
+                "limitExceededMessage": "Limit exceeded",
+                "limitExceededMessageDescription": "You can report collections no more than 10 times per day"
+            },
+            "titleCollection": {
+                "heading": "Collection titles",
+                "description": "{count}"
+            },
+            "locationCollection": {
+                "heading": "Collection filming locations",
+                "description": "{count}"
+            },
+            "comments": {
+                "heading": "Comments",
+                "description": "Here you can view and add comments to the collection"
+            },
+            "empty": {
+                "heading": "This collection doesn't have any items yet",
+                "addItems": "Add items"
+            }
+        },
+        "edit": {
+            "heading": "Edit Collection \"{title}\"",
+            "description": "Here you can completely edit the collection's basic information",
+            "actions": {
+                "cancel": "Cancel",
+                "save": "Save"
+            },
+            "fields": {
+                "title": {
+                    "label": "Title",
+                    "placeholder": "Specify collection title, e.g.: \"Films shot in Russia\"",
+                    "description": "Collection title should be unique and contain no more than 30 characters."
+                },
+                "description": {
+                    "label": "Description",
+                    "placeholder": "Specify collection description",
+                    "description": "Collection description should be unique and contain no more than 300 characters."
+                },
+                "coverImage": {
+                    "label": "Collection Cover",
+                    "placeholder": "Specify collection cover",
+                    "description": "Supported formats: JPG, JPEG, PNG, WEBP or GIF (max 10 MB)"
+                },
+                "isPrivate": {
+                    "label": "Privacy",
+                    "description": "If you want to make the collection private, check this box"
+                }
+            }
+        }
+    },
+    "favorites": {
+        "heading": "Favorites",
+        "description": "All your favorite titles and filming locations are gathered here",
+        "tabs": {
+            "titles": "Titles",
+            "locations": "Filming Locations",
+            "collections": "Collections"
+        },
+        "locations": {
+            "noLocations": {
+                "heading": "You don't have any favorite filming locations yet",
+                "description": "Add interesting filming locations to your favorites to quickly revisit them later"
+            },
+            "search": {
+                "noResults": "Nothing found. Try changing your query"
+            }
+        },
+        "titles": {
+            "noTitles": {
+                "heading": "You don't have any favorite titles yet",
+                "description": "Add interesting movies and series to your favorites to quickly revisit them later"
+            },
+            "endOfList": "You've viewed all your favorite titles"
+        },
+        "collections": {
+            "noCollections": {
+                "heading": "You don't have any favorite collections yet",
+                "description": "Add interesting collections to your favorites to quickly revisit them later"
+            }
+        },
+        "titleCard": {
+            "noPoster": "Image unavailable"
+        }
+    },
+    "dashboard": {
+        "settings": {
+            "header": {
+                "heading": "Profile Management",
+                "description": "Account personalization and settings",
+                "profile": "Public Profile",
+                "account": "Security",
+                "appearance": "Interface",
+                "notifications": "Notifications",
+                "sessions": "Active Sessions"
+            },
+            "profile": {
+                "header": {
+                    "heading": "Edit Profile",
+                    "description": "Manage personal information and public data"
+                },
+                "avatar": {
+                    "heading": "Profile Avatar",
+                    "updateButton": "Change Image",
+                    "smallUpdateButton": "Update Photo",
+                    "deleteButton": "Delete Avatar",
+                    "confirmDialog": {
+                        "heading": "Deletion Confirmation",
+                        "message": "Confirm avatar deletion?"
+                    },
+                    "info": "Supported formats: JPG, PNG, WEBP (max 10MB)",
+                    "successUpdateMessage": "Image updated successfully",
+                    "errorUpdateMessage": "Upload Error",
+                    "errorUpdateMessageDescription": "Check file format and size",
+                    "successRemoveMessage": "Avatar removed",
+                    "errorRemoveMessage": "Deletion Error",
+                    "errorRemoveMessageDescription": "Try again later"
+                },
+                "info": {
+                    "heading": "Personal Data",
+                    "usernameLabel": "System Login",
+                    "usernamePlaceholder": "Enter unique ID",
+                    "usernameDescription": "Used for system access",
+                    "displayNameLabel": "Public Name",
+                    "displayNamePlaceholder": "Enter display name",
+                    "displayNameDescription": "Visible to other users",
+                    "bioLabel": "Personal Description",
+                    "bioPlaceholder": "Tell about yourself",
+                    "bioDescription": "Max 200 characters",
+                    "submitButton": "Save Changes",
+                    "successMessage": "Data updated successfully",
+                    "errorMessage": "Save Error",
+                    "errorMessageDescription": "Verify input data"
+                },
+                "socialLinks": {
+                    "createForm": {
+                        "heading": "Social Networks",
+                        "titleLabel": "Platform Name",
+                        "titlePlaceholder": "Example: YouTube, Instagram",
+                        "titleDescription": "Social network name",
+                        "urlLabel": "Profile URL",
+                        "urlPlaceholder": "https://example.com/your-profile",
+                        "urlDescription": "Full profile URL",
+                        "submitButton": "Add Link",
+                        "successMessage": "Link added",
+                        "errorMessage": "Addition Error"
+                    },
+                    "editForm": {
+                        "cancelButton": "Discard Changes",
+                        "submitButton": "Update Data",
+                        "successUpdateMessage": "Changes saved",
+                        "errorUpdateMessage": "Update Error",
+                        "successRemoveMessage": "Link removed",
+                        "errorRemoveMessage": "Deletion Error",
+                        "editButton": "Edit",
+                        "deleteButton": "Remove Link"
+                    },
+                    "successReorderMessage": "Display order changed",
+                    "errorReorderMessage": "Sorting Error"
+                }
+            },
+            "account": {
+                "header": {
+                    "heading": "Account Settings",
+                    "description": "Manage account security and access",
+                    "securityHeading": "Security Settings",
+                    "securityDescription": "Configure two-factor authentication",
+                    "deactivationHeading": "Account Deactivation",
+                    "deactivationDescription": "Temporary or permanent account suspension"
+                },
+                "email": {
+                    "heading": "Email Address",
+                    "emailLabel": "Email",
+                    "emailDescription": "Enter new email address",
+                    "submitButton": "Save",
+                    "successMessage": "Email updated",
+                    "errorMessage": "Update Error"
+                },
+                "password": {
+                    "heading": "Account Password",
+                    "oldPasswordLabel": "Current Password",
+                    "oldPasswordDescription": "Verify identity for password change",
+                    "newPasswordLabel": "New Password",
+                    "newPasswordDescription": "8+ characters with uppercase and number",
+                    "submitButton": "Save",
+                    "successMessage": "Password updated",
+                    "errorMessage": "Update Error",
+                    "errorMessageDescription": "Invalid data format"
+                },
+                "twoFactor": {
+                    "heading": "TOTP Authentication",
+                    "description": "Enable two-factor security",
+                    "enable": {
+                        "trigger": "Enable",
+                        "heading": "Enable TOTP",
+                        "qrInstructions": "Scan QR code to add TOTP",
+                        "secretCodeLabel": "Secret Code: ",
+                        "pinLabel": "PIN Code",
+                        "pinDescription": "Enter 6-digit code from authenticator",
+                        "submitButton": "Confirm",
+                        "successMessage": "TOTP enabled",
+                        "errorMessage": "Verification Error",
+                        "errorMessageDescription": "Invalid code"
+                    },
+                    "disable": {
+                        "trigger": "Disable",
+                        "heading": "Disable TOTP?",
+                        "message": "This reduces account security",
+                        "successMessage": "TOTP disabled",
+                        "errorMessage": "Deactivation Error"
+                    }
+                },
+                "deactivation": {
+                    "heading": "Account Deactivation",
+                    "description": "Full data deletion after 7 days",
+                    "confirmModal": {
+                        "heading": "Deactivation Confirmation",
+                        "message": "Account recovery possible within 7 days"
+                    },
+                    "button": "Deactivate"
+                }
+            },
+            "appearance": {
+                "header": {
+                    "heading": "Interface Customization",
+                    "description": "Personalize site appearance"
+                },
+                "theme": {
+                    "heading": "Theme",
+                    "description": "Select preferred theme mode",
+                    "successMessage": "Theme changed",
+                    "toggle": "Toggle Theme",
+                    "light": "Light",
+                    "dark": "Dark",
+                    "system": "System"
+                },
+                "language": {
+                    "heading": "Site Language",
+                    "description": "Select interface language",
+                    "selectPlaceholder": "Choose language",
+                    "successMessage": "Language changed"
+                },
+                "color": {
+                    "heading": "Accent Color",
+                    "description": "Choose interface accent color"
+                }
+            },
+            "notifications": {
+                "header": {
+                    "heading": "Notifications",
+                    "description": "Configure how you want to receive notifications about title changes, followed locations and new followers."
+                },
+                "siteNotifications": {
+                    "heading": "Site Notifications",
+                    "description": "Disabling will stop all in-site notifications about title changes and followers activity."
+                },
+                "telegramNotifications": {
+                    "heading": "Telegram Notifications",
+                    "description": "Enabling will connect your 4Titles account to Telegram for event notifications."
+                },
+                "successMessage": "Notification settings updated",
+                "errorMessage": "Error updating notification settings"
+            },
+            "sessions": {
+                "header": {
+                    "heading": "Active Sessions",
+                    "description": "All currently authorized sessions and connections to your account."
+                },
+                "info": {
+                    "current": "Current Session",
+                    "active": "Active Connections",
+                    "notFound": "No active sessions found"
+                },
+                "sessionItem": {
+                    "deleteButton": "Terminate",
+                    "detailsButton": "Details",
+                    "confirmDialog": {
+                        "heading": "Confirmation",
+                        "message": "Terminating session will immediately disconnect all associated devices."
+                    },
+                    "successMessage": "Session terminated",
+                    "errorMessage": "Error terminating session"
+                },
+                "sessionModal": {
+                    "heading": "Session Details",
+                    "device": "Device:",
+                    "location": "Location:",
+                    "ipAddress": "IP Address:",
+                    "createdAt": "Created At:"
+                }
+            }
+        },
+        "followers": {
+            "header": {
+                "heading": "Followers",
+                "description": "List of all your followers"
+            },
+            "search": {
+                "placeholder": "Search followers..."
+            },
+            "columns": {
+                "date": "Subscription Date",
+                "user": "User",
+                "actions": {
+                    "header": "Actions",
+                    "viewProfile": "View Profile",
+                    "removeFollower": "Remove Follower",
+                    "copyUsername": "Copy username"
+                }
+            },
+            "messages": {
+                "followerRemovedMessage": "Follower removed successfully",
+                "followerRemoveErrorMessage": "Error removing follower",
+                "followerRemoveErrorMessageDescription": "Please try again later",
+                "followerUsernameCopied": "The username has been copied to the clipboard"
+            },
+            "removeFollowerConfirmDialog": {
+                "heading": "Remove follower?",
+                "message": "4Titles will not notify this user about your action"
+            }
+        },
+        "filmingLocationProposals": {
+            "header": {
+                "heading": "Filming Location Proposals",
+                "description": "Track all your filming location submissions and edit proposals in one place."
+            },
+            "search": {
+                "placeholder": "Search by title, address..."
+            },
+            "columns": {
+                "date": "Submitted",
+                "type": {
+                    "heading": "Type",
+                    "values": {
+                        "add": "New Location",
+                        "edit": "Location Edit"
+                    }
+                },
+                "status": {
+                    "heading": "Status",
+                    "values": {
+                        "pending": "Under Review",
+                        "approved": "Approved",
+                        "rejected": "Declined",
+                        "inProgress": "In Progress"
+                    }
+                },
+                "title": "Media Title",
+                "address": "Filming Address",
+                "description": "Description",
+                "reason": "Submission Reason",
+                "reviewMessage": "Moderator Response",
+                "actions": {
+                    "header": "Actions",
+                    "viewTitle": "View Title Page",
+                    "copy": {
+                        "heading": "Copy",
+                        "copyAddress": "Address",
+                        "copyDescription": "Description",
+                        "copyReason": "Reason",
+                        "copyReviewMessage": "Moderator Response"
+                    },
+                    "deleteProposal": "Retract Proposal"
+                }
+            },
+            "deleteProposalConfirmDialog": {
+                "heading": "Delete Proposal?",
+                "message": "This action cannot be undone. The proposal will be permanently deleted."
+            },
+            "messages": {
+                "addressCopied": "Address copied to clipboard",
+                "descriptionCopied": "Description copied to clipboard",
+                "reasonCopied": "Reason copied to clipboard",
+                "reviewMessageCopied": "Moderator response copied to clipboard",
+                "proposalDeletedSuccess": "Proposal deleted successfully",
+                "proposalDeletedError": "Deletion error. Please try again or contact support"
+            }
+        },
+        "feedbacks": {
+            "header": {
+                "heading": "Feedbacks",
+                "description": "View all your submitted feedback and responses"
+            },
+            "search": {
+                "placeholder": "Search for feedbacks..."
+            },
+            "noResponse": "No response yet",
+            "columns": {
+                "date": "Submission Date",
+                "type": "Type",
+                "status": "Status",
+                "source": "Source",
+                "message": "Message",
+                "responseMessage": "Response",
+                "respondedAt": "Response Date",
+                "actions": {
+                    "header": "Actions",
+                    "options": "Options",
+                    "copy": "Copy",
+                    "copyMessage": "Copy Message",
+                    "copyResponse": "Copy Response",
+                    "delete": "Delete"
+                }
+            },
+            "type": {
+                "general": "General",
+                "bug_report": "Bug Report",
+                "feature_request": "Feature Request",
+                "content_issue": "Content Issue",
+                "other": "Other"
+            },
+            "status": {
+                "new": "New",
+                "in_progress": "In Progress",
+                "resolved": "Resolved",
+                "closed": "Closed",
+                "rejected": "Rejected"
+            },
+            "source": {
+                "website": "Website",
+                "telegram": "Telegram",
+                "email": "Email",
+                "other": "Other"
+            },
+            "messages": {
+                "feedbackDeletedMessage": "Feedback deleted successfully",
+                "feedbackDeleteErrorMessage": "Failed to delete feedback",
+                "feedbackDeleteErrorMessageDescription": "Please try again later",
+                "messageCopied": "Message copied to clipboard",
+                "responseCopied": "Response copied to clipboard",
+                "copyErrorMessage": "Failed to copy content"
+            },
+            "deleteConfirmDialog": {
+                "heading": "Delete Feedback?",
+                "message": "This action cannot be undone. The feedback will be permanently deleted."
+            }
+        }
+    },
+    "countries": {
+        "goToCountry": "Explore",
+        "statistics": {
+            "movies": "{count, plural, one {# movie} other {# movies}}",
+            "series": "{count, plural, one {# TV series} other {# TV series}}",
+            "locations": "{count, plural, one {# filming location} other {# filming locations}}",
+            "and": "and",
+            "noData": "No Data"
+        }
+    },
+    "titleDetails": {
+        "hero": {
+            "overview": "Overview",
+            "releaseDate": "Release Date",
+            "runtime": "Runtime",
+            "userScore": "User Score",
+            "popularity": "Popularity",
+            "popularityPoints": "popularity points",
+            "productionCountry": "Production Country",
+            "genres": "Genres",
+            "min": "min",
+            "minutes": "minutes",
+            "voteAverage": "Rating",
+            "noOverview": "No description available"
+        },
+        "images": {
+            "heading": "Images",
+            "backdrops": "Backdrops",
+            "posters": "Posters",
+            "logos": "Logos",
+            "imageAlt": "Image",
+            "clickToView": "Click to view"
+        },
+        "cast": {
+            "heading": "Cast",
+            "viewDialog": {
+                "triggerHint": "Open",
+                "character": "Character"
+            }
+        },
+        "productionCompanies": {
+            "heading": "Production Companies"
+        },
+        "filmingLocations": {
+            "heading": "Filming Locations",
+            "description": "This map features most of the locations where '{title}' was filmed. You can see the exact position of each site, read descriptions, and discover which scenes were shot there. Click on the markers or select from the list to get more information.",
+            "filmingTitles": "Filmed here: {titles}",
+            "emptyDescription": "No filming locations available for {type, select, TV {series} MOVIE {movie} other {title}} «{title}» yet. You can contribute by clicking 'Add Location' and submitting the form. We'll notify you about moderation results.",
+            "search": {
+                "placeholder": "Search locations...",
+                "noResults": "No locations found"
+            },
+            "shareDialog": {
+                "heading": "Share Location",
+                "social": "Social Media",
+                "details": "Details",
+                "locationInfo": "Location Information",
+                "closeButton": "Close",
+                "linkCopied": "Link copied to clipboard",
+                "shareTitle": "Filming Location for '{title}': {location}",
+                "shareDescription": "Learn more about '{location}', a filming location for {type, select, TV {show} MOVIE {movie} other {title}} '{title}' on 4Titles website",
+                "authRequiredMessage": "You need to log in to share locations"
+            },
+            "addLocation": {
+                "heading": "Add Filming Location",
+                "authRequiredMessage": "Authentication required to submit filming locations"
+            },
+            "items": {
+                "options": {
+                    "heading": "Options",
+                    "toFavoritesHeading": "Add To Favorites",
+                    "actionsHeading": "Actions",
+                    "viewIn": "Open in",
+                    "viewInGMaps": "Google Maps",
+                    "viewInYaMaps": "Yandex Maps",
+                    "viewInAppleMaps": "Apple Maps",
+                    "viewIn2GisMaps": "2GIS",
+                    "viewInBingMaps": "Bing Maps",
+                    "viewInVkMaps": "VK Карты",
+                    "editLocation": "Edit",
+                    "reportLocation": "Report",
+                    "shareLocation": "Share"
+                },
+                "description": {
+                    "empty": "No description yet."
+                },
+                "author": {
+                    "heading": "Author",
+                    "openProfile": "Open profile"
+                }
+            },
+            "comments": {
+                "heading": "Comments for {location}",
+                "hint": "Comments",
+                "empty": "No comments yet. Be the first to leave one!",
+                "authRequired": "You need to log in to view and post comments"
+            },
+            "reportDialog": {
+                "heading": "Report location",
+                "messageLabel": "Issue description",
+                "messagePlaceholder": "Please describe in as much detail as possible what problems you've noticed with this location...",
+                "cancelButton": "Cancel",
+                "submitButton": "Submit",
+                "successMessage": "Thank you for your feedback! Your report will be reviewed by moderators shortly.",
+                "errorMessage": "Failed to submit report",
+                "errorMessageDescription": "Please check your input or try again later.",
+                "limitExceededMessage": "You've exceeded the daily feedback limit",
+                "limitExceededMessageDescription": "Please try again tomorrow.",
+                "validationMessages": {
+                    "messageMinLength": "Message must contain at least 10 characters",
+                    "messageMaxLength": "Message must not exceed 1000 characters"
+                }
+            },
+            "editDialog": {
+                "heading": "Suggest location changes",
+                "description": "If you've noticed any inaccuracies, discrepancies, or would like to improve the content quality, please make your changes in the form below",
+                "addressLabel": "Address",
+                "descriptionLabel": "Description",
+                "descriptionPlaceholder": "Detailed description of this location including which scenes were filmed here, possibly historical and other interesting facts...",
+                "reasonLabel": "Reason for change",
+                "reasonPlaceholder": "Why do you think the location information should be changed?",
+                "cancelButton": "Cancel",
+                "submitButton": "Submit",
+                "successMessage": "Thank you for your suggestion! Your changes will be reviewed by moderators shortly.",
+                "errorMessage": "Failed to submit suggestion",
+                "errorMessageDescription": "Please check your input or try again later.",
+                "limitExceededMessage": "You've exceeded the daily feedback limit",
+                "limitExceededMessageDescription": "Please try again tomorrow.",
+                "authRequiredMessage": "You need to log in to edit locations",
+                "validationMessages": {
+                    "addressMinLength": "Address must contain at least 3 characters",
+                    "addressMaxLength": "Address must not exceed 200 characters",
+                    "descriptionMinLength": "Description must contain at least 10 characters",
+                    "descriptionMaxLength": "Description must not exceed 1000 characters",
+                    "reasonMinLength": "Reason for change must contain at least 10 characters",
+                    "reasonMaxLength": "Reason for change must not exceed 500 characters",
+                    "atLeastOneThingShouldBeChanged": "At least one field must be changed: address or description"
+                }
+            },
+            "addDialog": {
+                "heading": "Add Filming Location",
+                "description": "Suggest a missing filming location for {type, select, TV {TV series} MOVIE {movie} other {title}} «{title}». You can track the review status in your dashboard. Thank you for your contribution!",
+                "authRequiredMessage": "You need to log in to submit filming locations"
+            },
+            "proposalForm": {
+                "descriptionLabel": "Description",
+                "descriptionPlaceholder": "Detailed description of this location, including which scenes were filmed here, historical context, and other interesting facts...",
+                "submitButton": "Submit",
+                "successMessage": "Thank you for your suggestion! Your location will be reviewed by moderators shortly.",
+                "errorMessage": "Failed to submit proposal",
+                "errorMessageDescription": "Please check your input or try again later.",
+                "add": {
+                    "reasonLabel": "Reason for adding",
+                    "reasonPlaceholder": "Why do you think this location should be added?"
+                },
+                "edit": {
+                    "reasonLabel": "Reason for editing",
+                    "reasonPlaceholder": "Why do you think the location information needs to be updated?"
+                },
+                "validationMessages": {
+                    "addressMinLength": "Address must be at least 5 characters",
+                    "addressMaxLength": "Address cannot exceed 255 characters",
+                    "descriptionMinLength": "Description must be at least 10 characters",
+                    "descriptionMaxLength": "Description cannot exceed 1000 characters",
+                    "reasonRequired": "Please provide a reason for adding the location",
+                    "reasonMinLength": "Reason must be at least 10 characters",
+                    "reasonMaxLength": "Reason cannot exceed 500 characters"
+                }
+            }
+        },
+        "comments": {
+            "heading": "Comments",
+            "description": "Share your thoughts about {type, select, TV {TV series} MOVIE {movie} other {title}} «{title}» or discuss its filming locations."
+        }
+    },
+    "components": {
+        "comments": {
+            "loading": "Loading comments...",
+            "loadMoreReplies": "More replies",
+            "loadingMoreReplies": "...",
+            "empty": "There are no comments yet. Yours can be the first!",
+            "loadMore": "Load more",
+            "form": {
+                "placeholder": "Share your thoughts...",
+                "replyPlaceholder": "Write a reply...",
+                "submit": "Comment",
+                "reply": "Reply",
+                "cancel": "Cancel",
+                "hint": "Tip",
+                "hintUse": "Use",
+                "hintForWhat": "to send",
+                "tooLong": "Comment is too long."
+            },
+            "reply": {
+                "title": "Reply",
+                "replyingTo": "Replying to"
+            },
+            "edit": {
+                "save": "Save",
+                "cancel": "Cancel"
+            },
+            "options": {
+                "edit": "Edit",
+                "delete": "Delete",
+                "report": "Report"
+            },
+            "sort": {
+                "placeholder": "Sort by",
+                "date_desc": "Newest first",
+                "date_asc": "Oldest first",
+                "likes_desc": "Most liked",
+                "likes_asc": "Least liked",
+                "replies_desc": "Most replies",
+                "replies_asc": "Least replies"
+            },
+            "deleteDialog": {
+                "heading": "Delete comment",
+                "message": "Are you sure you want to delete this comment? This action cannot be undone."
+            },
+            "reportDialog": {
+                "heading": "Report comment",
+                "messagePlaceholder": "Describe the reason for reporting...",
+                "cancelButton": "Cancel",
+                "submitButton": "Submit",
+                "successMessage": "Report submitted. Thank you for your feedback!",
+                "errorMessage": "Failed to submit report, please try again later.",
+                "limitExceededMessage": "You've exceeded the daily feedback limit",
+                "limitExceededMessageDescription": "Please try again tomorrow.",
+                "validationMessages": {
+                    "messageRequired": "Please specify the reason for reporting",
+                    "messageMinLength": "Message must contain at least 10 characters",
+                    "messageMaxLength": "Message must not exceed 500 characters"
+                }
+            },
+            "like": {
+                "toggle": "Like",
+                "authRequired": "You need to log in to like comments"
+            },
+            "authRequired": {
+                "title": "Authorization required",
+                "description": "You need to log in to view and post comments",
+                "loginButton": "Log in"
+            },
+            "notifications": {
+                "createSuccess": "Comment successfully added",
+                "createError": "Error adding comment",
+                "updateSuccess": "Comment successfully updated",
+                "updateError": "Error updating comment",
+                "deleteSuccess": "Comment successfully deleted",
+                "deleteError": "Error deleting comment",
+                "likeError": "Error updating like"
+            },
+            "share": "Share",
+            "shareSuccess": "Comment link copied",
+            "toggleReplies": {
+                "show": "Show replies ({count})",
+                "hide": "Hide replies"
+            },
+            "loadingMore": "Loading more comments...",
+            "endOfComments": "You've reached the end of comments"
+        },
+        "confirmDialog": {
+            "cancel": "Cancel",
+            "continue": "Confirm"
+        },
+        "favoriteButton": {
+            "addToFavorites": "Add to favorites",
+            "removeFromFavorites": "Remove from favorites",
+            "titleAdded": "Title added to favorites",
+            "locationAdded": "Location added to favorites",
+            "titleRemoved": "Title removed from favorites",
+            "locationRemoved": "Location removed from favorites",
+            "loginRequired": "You need to log in to manage favorites",
+            "collectionAdded": "Collection added to favorites",
+            "collectionRemoved": "Collection removed from favorites",
+            "error": "An error occurred while changing favorites"
+        },
+        "dataTable": {
+            "notFound": "No records found",
+            "search": "Search...",
+            "pagination": {
+                "showing": "Showing",
+                "from": "from",
+                "to": "to",
+                "of": "of",
+                "entries": "entries",
+                "rowsPerPage": "Rows per page",
+                "page": "Page",
+                "firstPage": "First page",
+                "previousPage": "Previous page",
+                "nextPage": "Next page",
+                "lastPage": "Last page"
+            },
+            "viewOptions": {
+                "view": "View",
+                "columns": "Columns"
+            },
+            "columnHeader": {
+                "sortAscending": "Sort ascending",
+                "sortDescending": "Sort descending",
+                "hideColumn": "Hide column"
+            }
+        },
+        "map": {
+            "routingButton": {
+                "title": "Build route"
+            },
+            "error": {
+                "title": "Initialization Error",
+                "description": "Failed to load map. Please try again later."
+            }
+        },
+        "contentSection": {
+            "viewAll": "View all"
+        },
+        "hint": {
+            "default": "Go to"
+        },
+        "dateRangePicker": {
+            "placeholder": "Select date range",
+            "clear": "Clear",
+            "done": "Done"
+        }
+    },
+    "utils": {
+        "formatDate": {
+            "months": {
+                "january": "January",
+                "february": "February",
+                "march": "March",
+                "april": "April",
+                "may": "May",
+                "june": "June",
+                "july": "July",
+                "august": "August",
+                "september": "September",
+                "october": "October",
+                "november": "November",
+                "december": "December"
+            }
+        }
+    },
+    "notFound": {
+        "description": "The page you're looking for has wandered off, but don't worry! Let's get you back on track.",
+        "backToHome": "Take Me Home"
+    }
+}

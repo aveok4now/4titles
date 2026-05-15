@@ -1,0 +1,9 @@
+query FindAllCountries {
+    findAllCountries {
+        id
+        iso
+        name
+        englishName
+        flagUrl
+    }
+}

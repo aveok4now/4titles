@@ -1,0 +1,8 @@
+query FindAllGenres {
+    findAllGenres {
+        id
+        name
+        englishName
+        tmdbId
+    }
+}

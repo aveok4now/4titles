@@ -1,0 +1,32 @@
+# import "../fragments/CommentFragment.graphql"
+
+query FindComments($filter: CommentFilterInput!) {
+    findComments(filter: $filter) {
+        ...CommentFields
+        parent {
+            ...CommentFields
+        }
+        replies {
+            ...CommentFields
+            replies {
+                ...CommentFields
+                replies {
+                    ...CommentFields
+                    replies {
+                        ...CommentFields
+                        replies {
+                            ...CommentFields
+                            replies {
+                                ...CommentFields
+                                totalReplies
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        title {
+            id
+        }
+    }
+}
