@@ -8,7 +8,9 @@
 
 ---
 
-A pet project. Two former repos (client, server) merged here as an archive - application code only; the deployment side (Docker Compose, Nginx, ELK) isn't included.
+A pet project, built as a learning exercise around NestJS, GraphQL, BullMQ, content-sync algorithms, Elasticsearch, the ELK logging stack, and the rest of the Node backend ecosystem.
+
+Two former repos (client, server) merged here as an archive - application code only; the deployment side (Docker Compose, Nginx, ELK) isn't included.
 
 ## Stack
 
@@ -40,7 +42,7 @@ For each title, the worker fetches the detail record from TMDb (with `external_i
 
 Raw addresses go through Geoapify, are deduped by `placeId`, and land as `point(xy)` rows with an FK to `countries` and a row in the M:N join. New locations without descriptions trigger a description job.
 
-`title-location-description-sync` asks DeepSeek (via OpenRouter, using the `openai` SDK with an overridden `baseURL`) for a short paragraph per supported language. There's a pool of up to 16 keys (`OPEN_ROUTER_API_KEY` and `_1..15`), each with its own state: a 429 parks the key with exponential backoff (60 s → 1 h cap) and tries the next, a 401 blocks it permanently. A sliding-window rate limiter (10 req / 10 s) gates each call. After at least one language succeeds, the description rows are written and the title is reindexed.
+`title-location-description-sync` asks DeepSeek (via OpenRouter, using the `openai` SDK with an overridden `baseURL`) for a short paragraph per supported language. There's a pool of up to 16 keys (`OPEN_ROUTER_API_KEY` and `_1..15`), each with its own state: a 429 parks the key with exponential backoff (60 s -> 1 h cap) and tries the next, a 401 blocks it permanently. A sliding-window rate limiter (10 req / 10 s) gates each call. After at least one language succeeds, the description rows are written and the title is reindexed.
 
 BullMQ job ids do the deduplication: `category-${cat}-page-${n}`, `title-${type}-${tmdbId}`, `location-${titleId}`. Re-enqueueing the same job in flight is a no-op. Retries are `attempts: 3` with exponential backoff.
 
