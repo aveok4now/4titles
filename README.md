@@ -8,7 +8,7 @@
 
 ---
 
-A pet project. Three former repos (client, server) merged here as an archive - application code only; the deployment side (Docker Compose, Nginx, ELK) isn't included.
+A pet project. Two former repos (client, server) merged here as an archive - application code only; the deployment side (Docker Compose, Nginx, ELK) isn't included.
 
 ## Stack
 
