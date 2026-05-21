@@ -24,7 +24,7 @@ NestJS 10 on Fastify. GraphQL code-first via Apollo. Drizzle ORM on Postgres 14 
 
 ## Content sync
 
-Catalog data is pulled in from external sources through three BullMQ queues:
+The algorithm lives in `server/src/modules/content/title/services/sync/`. Catalog data is pulled in from external sources through three BullMQ queues:
 
 | Queue                             | Concurrency | Rate limit |
 | --------------------------------- | ----------- | ---------- |
@@ -68,17 +68,8 @@ Built on `nestjs-telegraf`. Account linking through signed deeplink tokens, a fe
 
 Pages use a hybrid SSR + Apollo strategy: `page.tsx` files call the GraphQL server with a plain `fetch(SERVER_URL)` plus `next: { revalidate: N }` for ISR (no Apollo on the server); the same documents drive client-side Apollo for infinite scroll and cache writes.
 
+The MapTiler wrapper lives in `client/src/components/ui/elements/map/`, split into hooks for clustering, routing, geocoding, marker focus, globe-projection error handling, language detection, and location search.
+
 Theming is two-layered - light / dark via `next-themes`, multiplied by eight accent colors. Accents are CSS variables on `.theme-*` classes; map cluster colors hang off the same variables and follow the active accent.
 
 PWA via Workbox with `StaleWhileRevalidate` for static assets and `NetworkFirst` for HTML.
-
-## Layout
-
-```
-4titles/
-├── client/    Next.js app
-├── server/    NestJS backend; sync algorithm in src/modules/content/title/services/sync/
-└── .github/
-```
-
-The client side's map wrapper around MapTiler lives in `client/src/components/ui/elements/map/`, split into hooks for clustering, routing, geocoding, marker focus, globe-projection error handling, language detection, and location search.
