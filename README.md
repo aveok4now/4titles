@@ -56,13 +56,21 @@ About 30 tables. Coordinates use the native Postgres `point` type. Comments, fav
 
 The GraphQL surface is about 130 endpoints across 21 resolvers, schema generated code-first. Uploads go through `mercurius-upload` with `graphql-upload` providing the scalar. No federation, no subscriptions.
 
+Elasticsearch is set up with strict dynamic mapping and three custom analyzers: Russian (stop words + stemmer), English (same), and an autocomplete one with edge n-grams of 2-20 characters. There's also a coordinate-based query (`searchTitlesByCoordinates`) for "what was filmed near here" lookups.
+
 ## Moderation
 
 Text goes through `@2toad/profanity` (ru / en / fr) on signup usernames, comments, and feedback. Images go through `sharp` to 224×224, then `nsfwjs` on `@tensorflow/tfjs-node` with per-category thresholds.
 
+User-submitted location proposals go through their own moderation workflow with statuses `PENDING` / `IN_PROGRESS` / `APPROVED` / `REJECTED`. Approved proposals become regular rows in `filming_locations` and are indexed in Elasticsearch alongside the scraper's output.
+
 ## Telegram bot
 
 Built on `nestjs-telegraf`. Account linking through signed deeplink tokens, a feedback wizard with per-chat state, outbound notifications (password reset, deactivation, new follower), and forwarding of `fatal` / `warn` log records to a channel.
+
+## Logging
+
+Winston runs three transports in parallel: console, a daily-rotated JSON file (`logs/backend-%DATE%.log`, 20 MB chunks, 14-day retention, gzipped), and TCP to Logstash. `@nestjs/terminus` exposes `/health/liveness` and `/health/readiness` covering Postgres, Redis, and the GraphQL endpoint.
 
 ## Frontend specifics
 
